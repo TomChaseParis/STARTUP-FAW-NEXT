@@ -5,7 +5,7 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <>
-      <footer
+      {/* <footer
         className="wow fadeInUp dark:bg-gray-dark relative z-10 bg-white pt-16 md:pt-20 lg:pt-24"
         data-wow-delay=".1s"
       >
@@ -397,7 +397,7 @@ const Footer = () => {
             </defs>
           </svg>
         </div>
-      </footer>
+      </footer> */}
     </>
   );
 };

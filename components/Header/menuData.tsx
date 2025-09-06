@@ -16,26 +16,26 @@ const menuData: Menu[] = [
     {
     id: 2,
     title: "PRICING",
-    path: "/courses",
+    path: "/",
     newTab: false,
   },
    {
     id: 2,
     title: "ABOUT",
-    path: "/about",
+    path: "/",
     newTab: false,
   },
 
   {
     id: 3,
     title: "CONTACT",
-    path: "/contact",
+    path: "/",
     newTab: false,
   },
   {
     id: 33,
     title: "FAQ",
-    path: "/blog",
+    path: "/",
     newTab: false,
   },
   

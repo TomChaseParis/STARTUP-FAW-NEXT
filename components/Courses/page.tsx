@@ -2,8 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import ImgTeacher1 from "../../public/images/courses/proffemme.png";
 
-const CoursesSectionBeginner = () => {
-  return (
+
+const CoursesCards = () => {
+   return (
     <section className="py-16 md:py-20 lg:py-28">
       <div className="container">
         <div className="-mx-4 flex flex-wrap items-center">
@@ -51,7 +52,7 @@ const CoursesSectionBeginner = () => {
                 </h3>
                 <ul className="ml-4 list-disc space-y-1 text-base font-medium text-body-color">
                   <li>
-                    <Link href="activity/activityone/exercice1">Exercice 1</Link>
+                    <Link href="Beginner/Activity1/Activity1">Exercice 1</Link>
                   </li>
                 </ul>
               </div>
@@ -62,24 +63,19 @@ const CoursesSectionBeginner = () => {
                   <Link href="/activite2">Activité 2</Link>
                   <ul className="ml-4 list-disc space-y-1 text-base font-medium text-body-color">
                     <li>
-                      <Link href="activity/activitytwo/exercice2">Exercice 1</Link>
+                      <Link href="Beginner/Activity2/Activity2">Exercice 1</Link>
                     </li>
                   </ul>
                 </h3>
               </div>
 
-              {/* Activité 3 */}
-              <div>
-                <h3 className="text-xl font-bold text-black sm:text-2xl lg:text-xl xl:text-2xl">
-                  <Link href="/activite3">Activité 3</Link>
-                </h3>
-              </div>
+           
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
+}
 
-export default CoursesSectionBeginner;
+export default CoursesCards

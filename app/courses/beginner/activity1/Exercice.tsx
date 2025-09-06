@@ -78,7 +78,7 @@ const wrongResponses2 = [
   "Ce n’est toujours pas ça, réessaie.",
 ];
 
-const TestTwo = () => {
+const Exercice = () => {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [feedbacks, setFeedbacks] = useState<string[][]>(
     categories.map((cat) => cat.items.map(() => ""))
@@ -265,4 +265,4 @@ const TestTwo = () => {
   );
 };
 
-export default TestTwo;
+export default Exercice;

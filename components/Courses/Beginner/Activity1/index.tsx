@@ -2,10 +2,9 @@
 
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import TestTwo from "./TestTwo";
 
 // --- Test principal avec verbes ---
-const Test: React.FC = () => {
+const ActivityOnePage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [videoPlaying, setVideoPlaying] = useState(false);
 
@@ -148,7 +147,6 @@ const Test: React.FC = () => {
 
       {/* On insère TestTwo en bas */}
       <div className="mt-20 w-full">
-        <TestTwo />
       </div>
     </section>
     
@@ -156,4 +154,4 @@ const Test: React.FC = () => {
   );
 };
 
-export default Test;
+export default ActivityOnePage;
