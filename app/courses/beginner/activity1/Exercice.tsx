@@ -203,7 +203,7 @@ const Exercice = () => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-10 pb-10 text-black">
+    <div className="flex flex-col items-center space-y-10 pt-[120px] text-black">
       {/* Première ligne : ÊTRE et AVOIR */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20">
         {[0, 1].map((catIndex) => (
