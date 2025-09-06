@@ -32,7 +32,7 @@ const AdvancedCard = () => {
               {/* Texte centré sur l'image */}
               <div className="absolute inset-0 flex mt-3 justify-center">
                 <span className="text-black text-3xl font-bold uppercase">
-                  ADVANCED
+                  AVANCE
                 </span>
               </div>
             </div>
