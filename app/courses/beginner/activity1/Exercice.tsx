@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // --- Données d'exercices ---
 const categories = [
@@ -78,7 +78,7 @@ const wrongResponses2 = [
   "Ce n’est toujours pas ça, réessaie.",
 ];
 
-const Exercice = () => {
+const Exercice: React.FC = () => {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [feedbacks, setFeedbacks] = useState<string[][]>(
     categories.map((cat) => cat.items.map(() => ""))
@@ -87,20 +87,15 @@ const Exercice = () => {
     categories.map((cat) => cat.items.map(() => 0))
   );
 
-  // Charger les voix (client only)
   useEffect(() => {
     if (typeof window === "undefined") return;
-
     const synth = window.speechSynthesis;
-
     const loadVoices = () => {
       const availableVoices = synth.getVoices();
       if (availableVoices.length > 0) setVoices(availableVoices);
     };
-
     loadVoices();
     synth.onvoiceschanged = loadVoices;
-
     return () => {
       synth.onvoiceschanged = null;
     };
@@ -203,65 +198,70 @@ const Exercice = () => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-10 pt-[120px] text-black">
-      {/* Première ligne : ÊTRE et AVOIR */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20">
-        {[0, 1].map((catIndex) => (
-          <div key={catIndex}>
-            <h4 className="font-bold mb-4 text-[20px]">
-              {categories[catIndex].title}
-            </h4>
-            <ul className="list-disc list-inside space-y-1 text-lg">
-              {categories[catIndex].items.map((item, itemIndex) => (
-                <li key={itemIndex} className="flex items-start space-x-2">
-                  <button
-                    className="bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-600"
-                    onClick={() => startRecognition(catIndex, itemIndex)}
-                  >
-                    🎤
-                  </button>
-                  <div>
-                    {item.phrase}
-                    <div className="text-sm text-gray-600">
-                      {feedbacks[catIndex][itemIndex]}
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+    <section className="bg-white">
+      <div className="container pt-16">
+        <div className="mx-auto max-w-5xl text-center">
+          <span className="inline-block text-[30px] rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-black">
+            Exercice
+          </span>
+          <h2 className="mt-3 text-[30px] text-black">
+            Exercice 1 — Complète et parle
+          </h2>
+          <p className="mx-auto mt-3 max-w-3xl text-base text-black/70 sm:text-lg">
+            Lis chaque phrase, puis appuie sur le micro pour dire le mot manquant.
+            Tu auras un retour audio immédiat et la correction si besoin.
+          </p>
+        </div>
       </div>
 
-      {/* Deuxième ligne : FAIRE et ALLER */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20">
-        {[2, 3].map((catIndex) => (
-          <div key={catIndex}>
-            <h4 className="font-bold mb-4 text-[20px]">
-              {categories[catIndex].title}
-            </h4>
-            <ul className="list-disc list-inside space-y-1 text-lg">
-              {categories[catIndex].items.map((item, itemIndex) => (
-                <li key={itemIndex} className="flex items-start space-x-2">
-                  <button
-                    className="bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-600"
-                    onClick={() => startRecognition(catIndex, itemIndex)}
-                  >
-                    🎤
-                  </button>
-                  <div>
-                    {item.phrase}
-                    <div className="text-sm text-gray-600">
-                      {feedbacks[catIndex][itemIndex]}
+      <div className="container mt-10 pb-20">
+        <div className="grid gap-6 sm:grid-cols-2">
+          {categories.map((cat, catIndex) => (
+            <div
+              key={cat.title}
+              className="relative w-full overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5"
+            >
+              <div className="flex items-center justify-between border-b border-black/5 px-5 py-4">
+                <h3 className="text-[18px] font-semibold text-black">
+                  {cat.title}
+                </h3>
+                <span className="rounded-md bg-amber-400 px-2 py-1 text-xs font-semibold text-black shadow">
+                  Parle &amp; vérifie
+                </span>
+              </div>
+
+              <ul className="divide-y divide-black/5">
+                {cat.items.map((item, itemIndex) => (
+                  <li key={itemIndex} className="px-5 py-4">
+                    <div className="flex items-start gap-3">
+                      <button
+                        type="button"
+                        onClick={() => startRecognition(catIndex, itemIndex)}
+                        aria-label={`Parler pour la phrase ${itemIndex + 1} de ${cat.title}`}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500 text-black shadow hover:bg-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                      >
+                        🎤
+                      </button>
+
+                      <div className="min-w-0">
+                        <p className="text-[16px] text-black">{item.phrase}</p>
+                        <p className="mt-1 text-sm text-black/60">
+                          {feedbacks[catIndex][itemIndex]}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
+                Reconnaissance vocale
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

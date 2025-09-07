@@ -1,104 +1,213 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useState } from "react";
 
-type ExerciseItem = {
-  phrase: string; // ex: "Qui ....... étudiant ?"
-  word: string;   // ex: "est"
-};
-
-type ExerciseCategory = {
-  title: string;      // ex: "1. ÊTRE"
-  items: ExerciseItem[];
-};
+type ExerciseItem = { phrase: string; word: string };
+type ExerciseCategory = { title: string; items: ExerciseItem[] };
 
 type Props = {
-  title: string;                 // ex: "Exercice 1 — Complète et écoute"
-  subtitle?: string;             // ex: "Choisis la bonne forme du verbe"
-  categories: ExerciseCategory[]; 
+  categories: ExerciseCategory[];
 };
 
-const ExerciseSection: React.FC<Props> = ({ title, subtitle, categories }) => {
-  // Lecteur audio unique
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const ensureAudio = () => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-      audioRef.current.preload = "none";
-    }
-    return audioRef.current!;
+const correctResponses = [
+  "Très bien, c'est correct !",
+  "Bravo, tu as trouvé la bonne réponse !",
+  "Parfait, on continue comme ça !",
+  "Exactement, c’est la bonne phrase !",
+  "Super, tu progresses !",
+];
+
+const wrongResponses1 = [
+  "Ce n’est pas ça, essaie encore.",
+  "Mauvaise réponse, essaye à nouveau.",
+  "Non, écoute bien et recommence.",
+  "Raté, essaie encore une fois.",
+  "Pas correct, refais un essai.",
+];
+
+const wrongResponses2 = [
+  "Toujours incorrect, concentre-toi.",
+  "Non, ce n’est pas encore juste.",
+  "Pas encore bon, essaie à nouveau.",
+  "Faux, continue de chercher.",
+  "Ce n’est toujours pas ça, réessaie.",
+];
+
+const ExerciseSection: React.FC<Props> = ({ categories }) => {
+  const [feedbacks, setFeedbacks] = useState<string[][]>(() =>
+    categories.map((c) => c.items.map(() => "")),
+  );
+  const [attempts, setAttempts] = useState<number[][]>(() =>
+    categories.map((c) => c.items.map(() => 0)),
+  );
+
+  const speak = (text: string) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "fr-FR";
+    u.rate = 0.95;
+    u.pitch = 1;
+    window.speechSynthesis.speak(u);
   };
 
-  // TTS simple pour lire la phrase correcte (sans micro, uniquement écoute)
-  const speak = async (text: string) => {
-    // Option 1 (simple, sans dépendances): SpeechSynthesis si dispo
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = "fr-FR";
-      u.rate = 0.95;
-      u.pitch = 1;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(u);
+  const startRecognition = (catIndex: number, itemIndex: number) => {
+    if (typeof window === "undefined") return;
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert("⚠️ Votre navigateur ne supporte pas la reconnaissance vocale.");
       return;
     }
-    // Option 2: si tu as des fichiers audio par item, tu peux jouer un mp3 ici:
-    // const audio = ensureAudio();
-    // audio.src = "/audios/mon-fichier.mp3";
-    // await audio.play();
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "fr-FR";
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+
+    let finalTranscript = "";
+
+    recognition.onstart = () => {
+      setFeedbacks((prev) => {
+        const next = prev.map((c) => [...c]);
+        next[catIndex][itemIndex] = "🎤 Parlez maintenant...";
+        return next;
+      });
+    };
+
+    recognition.onresult = (event: any) => {
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          finalTranscript += " " + event.results[i][0].transcript;
+        }
+      }
+    };
+
+    recognition.onend = () => {
+      const transcriptNormalized = finalTranscript.toLowerCase().trim();
+      const { phrase, word } = categories[catIndex].items[itemIndex];
+      const full = phrase.replace(".......", word);
+      const target = word.toLowerCase();
+
+      setAttempts((prevA) => {
+        const nextA = prevA.map((c) => [...c]);
+        const ok = transcriptNormalized.includes(target);
+
+        if (ok) {
+          const msg = correctResponses[Math.floor(Math.random() * correctResponses.length)];
+          setFeedbacks((prevF) => {
+            const n = prevF.map((c) => [...c]);
+            n[catIndex][itemIndex] = `✅ ${msg}`;
+            return n;
+          });
+          speak(msg);
+          nextA[catIndex][itemIndex] = 0;
+        } else {
+          nextA[catIndex][itemIndex] += 1;
+          const nAttempts = nextA[catIndex][itemIndex];
+
+          if (nAttempts === 1) {
+            const msg = wrongResponses1[Math.floor(Math.random() * wrongResponses1.length)];
+            setFeedbacks((prevF) => {
+              const n = prevF.map((c) => [...c]);
+              n[catIndex][itemIndex] = msg;
+              return n;
+            });
+            speak(`${msg} Répète après moi : ${full}`);
+          } else if (nAttempts === 2) {
+            const msg = wrongResponses2[Math.floor(Math.random() * wrongResponses2.length)];
+            setFeedbacks((prevF) => {
+              const n = prevF.map((c) => [...c]);
+              n[catIndex][itemIndex] = msg;
+              return n;
+            });
+            speak(msg);
+          } else {
+            setFeedbacks((prevF) => {
+              const n = prevF.map((c) => [...c]);
+              n[catIndex][itemIndex] = `❌ Mauvaise réponse. La phrase correcte était : "${full}".`;
+              return n;
+            });
+            speak(`La phrase correcte était : ${full}`);
+            nextA[catIndex][itemIndex] = 0;
+          }
+        }
+        return nextA;
+      });
+    };
+
+    recognition.onerror = (event: any) => {
+      setFeedbacks((prev) => {
+        const next = prev.map((c) => [...c]);
+        next[catIndex][itemIndex] = `Erreur : ${event.error}`;
+        return next;
+      });
+    };
+
+    recognition.start();
   };
 
   return (
-    <section className="rounded-2xl bg-white/80 py-8 shadow-lg ring-1 ring-black/5">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-6 text-center">
-          <h3 className="text-2xl font-bold text-black">{title}</h3>
-          {subtitle && (
-            <p className="mt-1 text-black/70">{subtitle}</p>
-          )}
-        </div>
-
-        {/* Grille des catégories : 2 colonnes sur ≥ sm */}
-        <div className="grid gap-6 sm:grid-cols-2">
-          {categories.map((cat, ci) => (
-            <div
-              key={ci}
-              className="rounded-xl bg-white/90 shadow ring-1 ring-black/5"
-            >
-              <div className="flex items-center justify-between rounded-t-xl bg-red-200 px-5 py-3">
-                <h4 className="text-lg font-semibold text-black">{cat.title}</h4>
-              </div>
-
-              <ul className="space-y-3 px-5 py-5">
-                {cat.items.map((it, ii) => {
-                  const full = it.phrase.replace(".......", it.word);
-                  return (
-                    <li
-                      key={ii}
-                      className="flex items-start justify-between gap-3 rounded-lg bg-white px-3 py-2 ring-1 ring-black/5"
-                    >
-                      <div className="text-black">
-                        {it.phrase}
-                      </div>
-                      <button
-                        onClick={() => speak(full)}
-                        className="shrink-0 rounded-md bg-amber-400 px-3 py-1.5 text-sm font-semibold text-black transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-                        aria-label="Écouter la phrase complète"
-                        title="Écouter la phrase complète"
-                      >
-                        🔊 Écouter
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
-        </div>
+    <div className="flex flex-col items-center space-y-10 pt-[120px] text-black">
+      {/* Première ligne : ÊTRE et AVOIR */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20">
+        {[0, 1].map((catIndex) => (
+          <div key={catIndex}>
+            <h4 className="font-bold mb-4 text-[20px]">
+              {categories[catIndex]?.title}
+            </h4>
+            <ul className="list-disc list-inside space-y-1 text-lg">
+              {categories[catIndex]?.items.map((item, itemIndex) => (
+                <li key={itemIndex} className="flex items-start space-x-2">
+                  <button
+                    className="bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-600"
+                    onClick={() => startRecognition(catIndex, itemIndex)}
+                  >
+                    🎤
+                  </button>
+                  <div>
+                    {item.phrase}
+                    <div className="text-sm text-gray-600">
+                      {feedbacks[catIndex][itemIndex]}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
 
-      {/* Lecteur audio unique si tu veux jouer des mp3 à la place du TTS */}
-      <audio ref={audioRef} />
-    </section>
+      {/* Deuxième ligne : FAIRE et ALLER */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20">
+        {[2, 3].map((catIndex) => (
+          <div key={catIndex}>
+            <h4 className="font-bold mb-4 text-[20px]">
+              {categories[catIndex]?.title}
+            </h4>
+            <ul className="list-disc list-inside space-y-1 text-lg">
+              {categories[catIndex]?.items.map((item, itemIndex) => (
+                <li key={itemIndex} className="flex items-start space-x-2">
+                  <button
+                    className="bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-600"
+                    onClick={() => startRecognition(catIndex, itemIndex)}
+                  >
+                    🎤
+                  </button>
+                  <div>
+                    {item.phrase}
+                    <div className="text-sm text-gray-600">
+                      {feedbacks[catIndex][itemIndex]}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
