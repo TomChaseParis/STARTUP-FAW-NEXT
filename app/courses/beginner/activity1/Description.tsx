@@ -3,7 +3,6 @@
   import React, { useRef, useState } from "react";
   import Image from "next/image";
   import VerbCard from "@/components/Courses/Activity/VerbCard";
-  import ExerciseSection from "@/components/Courses/Activity/ExerciseSection";
 
   const Description: React.FC = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -169,66 +168,6 @@
             />
           </div>
         </div>
-
-        {/* Zone pour tes exercices (ex: <TestTwo />) */}
-       {/* --- NOUVEL EXERCICE (remplace l’ancien) --- */}
-       {/*  <div className="container mt-16 pb-20">
-          <ExerciseSection
-            title="Exercice 1 — Complète et écoute"
-            subtitle="Lis chaque phrase, puis appuie sur « Écouter » pour entendre la version correcte."
-            categories={[
-              {
-                title: "1. ÊTRE",
-                items: [
-                  { phrase: "Qui ....... étudiant ? Qui travaille ?", word: "est" },
-                  { phrase: "Où ....... les toilettes ?", word: "sont" },
-                  { phrase: "Je ne ....... pas français", word: "suis" },
-                  { phrase: "Tu ....... fatigué ?", word: "es" },
-                  { phrase: "Nous ....... étrangers", word: "sommes" },
-                  { phrase: "Merci, vous ....... bien aimables", word: "êtes" },
-                  { phrase: "On ....... en retard. Excusez-nous", word: "est" },
-                ],
-              },
-              {
-                title: "2. AVOIR",
-                items: [
-                  { phrase: "Tu ....... quel âge ?", word: "as" },
-                  { phrase: "Excusez-moi, je n'....... pas le temps", word: "ai" },
-                  { phrase: "Ils n'....... pas d'argent", word: "ont" },
-                  { phrase: "Pardon, vous ....... l'heure ?", word: "avez" },
-                  { phrase: "Nous ....... un problème", word: "avons" },
-                  { phrase: "Elle ....... 15 ans", word: "a" },
-                  { phrase: "Vous ....... une minute s'il vous plaît ?", word: "avez" },
-                  { phrase: "On ....... faim et soif", word: "a" },
-                ],
-              },
-              {
-                title: "3. FAIRE",
-                items: [
-                  { phrase: "Qu'est-ce qu'elle ....... comme études ?", word: "fait" },
-                  { phrase: "Vous ....... du sport ?", word: "faites" },
-                  { phrase: "Elles ....... un voyage en Asie", word: "font" },
-                  { phrase: "Je vous ....... un café ?", word: "fais" },
-                  { phrase: "Il ....... froid aujourd'hui ?", word: "fait" },
-                  { phrase: "Nous ....... des études en France", word: "faisons" },
-                  { phrase: "Qu'est-ce que tu ....... ce soir ?", word: "fais" },
-                ],
-              },
-              {
-                title: "4. ALLER",
-                items: [
-                  { phrase: "Vous ....... bien ?", word: "allez" },
-                  { phrase: "Elle ....... où ?", word: "va" },
-                  { phrase: "On ....... au cinéma ?", word: "va" },
-                  { phrase: "Tu ....... téléphoner ?", word: "vas" },
-                  { phrase: "Mes parents ne ....... pas bien", word: "vont" },
-                  { phrase: "Je ....... avec toi", word: "vais" },
-                  { phrase: "Nous ....... à la banque", word: "allons" },
-                ],
-              },
-            ]}
-          />
-        </div> */}
       </section>
     );
   };
