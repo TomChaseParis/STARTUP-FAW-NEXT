@@ -5,7 +5,7 @@ import Image from "next/image";
 import Exercice from "@/app/courses/beginner/activity2/Exercice";
 
 /**
- * Description (Activité 2) — Cohérente avec l'activité 1
+ * Description (Actaivité 2) — Cohérente avec l'activité 1
  * - Header avec badge amber, titre noir, sous-titre gris
  * - Carte vidéo avec overlay Play (custom), chip “Tutoriel vidéo”
  * - Carte image avec chip amber
