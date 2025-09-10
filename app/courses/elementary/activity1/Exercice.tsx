@@ -153,13 +153,19 @@ const Exercice: React.FC = () => {
     const synth = window.speechSynthesis;
     synth.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
+
     utterance.lang = "fr-FR";
-    utterance.rate = 0.95;
+    utterance.rate = 0.93; // vitesse naturelle
+    utterance.pitch = 1.05; // ton un peu plus agréable
+
     const voices = synth.getVoices();
-    const frenchVoice = voices.find((v) =>
-      v.lang.toLowerCase().startsWith("fr")
+    const preferred = voices.find((v) =>
+      v.name.toLowerCase().includes("google français")
     );
+    const frenchVoice =
+      preferred || voices.find((v) => v.lang.toLowerCase().startsWith("fr"));
     if (frenchVoice) utterance.voice = frenchVoice;
+
     synth.speak(utterance);
   };
 
