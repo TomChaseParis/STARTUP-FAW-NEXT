@@ -5,7 +5,7 @@ import ImgTeacher1 from "../../../public/images/courses/teacher/jean.jpg";
 const ElementaryCard = () => {
   return (
     <section className="">
-      <div className="container pt-[90px]">
+      <div className="container">
         <div className="-mx-4 flex flex-wrap items-center">
           {/* Partie image */}
           <div className="w-full px-4 lg:w-1/2">

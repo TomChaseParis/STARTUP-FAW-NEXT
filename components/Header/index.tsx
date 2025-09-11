@@ -17,6 +17,9 @@ const Header = () => {
   };
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
+    return () => {
+      window.removeEventListener("scroll", handleStickyNavbar);
+    };
   }, []);
 
   // submenu handler
@@ -26,6 +29,12 @@ const Header = () => {
   };
 
   const pathname = usePathname();
+
+  // 🔑 ferme automatiquement le menu quand le pathname change
+  useEffect(() => {
+    setNavbarOpen(false);
+    setOpenIndex(-1); // facultatif : ferme aussi les sous-menus
+  }, [pathname]);
 
   return (
     <header
