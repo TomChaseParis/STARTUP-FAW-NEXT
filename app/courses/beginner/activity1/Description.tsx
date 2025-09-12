@@ -67,13 +67,13 @@
             {/* Vidéo */}
             <div className="flex justify-center">
               <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
-                <video
-                  ref={videoRef}
-                  src="/videos/videoexo.mp4"
-                  className="h-full w-full object-cover"
-                  controls={false}
-                  poster="/images/courses/video-poster.jpg" // optionnel si tu as un poster
-                />
+              <video
+  ref={videoRef}
+  src="/videos/videoexo.mp4"
+  className="h-full w-full object-contain bg-black"
+  controls={false}
+  poster="/images/courses/teacher/proffemme.png"
+/>
                 {!videoPlaying && (
                   <button
                     onClick={playVideo}

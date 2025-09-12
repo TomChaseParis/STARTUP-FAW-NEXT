@@ -38,29 +38,25 @@ const Description: React.FC = () => {
           <div className="flex justify-center">
             <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
               <video
-                ref={videoRef}
-                className="h-full w-full object-cover"
-                controls={false}
-                poster="/images/courses/video-poster.jpg"
-              >
-                <source src="/videos/videofaireetaller.mp4" type="video/mp4" />
-              </video>
-
-              {!videoPlaying && (
-                <button
-                  onClick={playVideo}
-                  className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-                  aria-label="Lire la vidéo"
-                  title="Lire la vidéo"
-                >
-                  ▶
-                </button>
-              )}
-
-              <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
-                Tutoriel vidéo
+  ref={videoRef}
+  src="/videos/videoexo.mp4"
+  className="h-full w-full object-contain bg-black"
+  controls={false}
+  poster="/images/courses/teacher/proffemme.png"
+/>
+                {!videoPlaying && (
+                  <button
+                    onClick={playVideo}
+                    className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                    aria-label="Lire la vidéo"
+                  >
+                    ▶
+                  </button>
+                )}
+                <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
+                  Tutoriel vidéo
+                </div>
               </div>
-            </div>
           </div>
 
           {/* Image */}
