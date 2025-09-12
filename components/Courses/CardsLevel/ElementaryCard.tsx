@@ -29,6 +29,7 @@ const ElementaryCard = () => {
                     fill
                     style={{ objectFit: "contain" }}
                     className="rounded-lg drop-shadow-md"
+                
                   />
                 </div>
 
