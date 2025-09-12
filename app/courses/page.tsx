@@ -26,23 +26,30 @@ const CoursesCardsPage = () => {
 
         {/* Grille des cartes */}
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
-          {/* Débutant */}
-          <BeginnerCard />
 
-          {/* Élémentaire 1 */}
-          <ElementaryCard />
+          {/* Fonction utilitaire badge */}
+          {[
+            { Component: BeginnerCard, level: "A1", badge: "Free" },
+            { Component: ElementaryCard, level: "A2", badge: "Get Started" },
+            { Component: ElementaryCard2, level: "A2+", badge: "Get Started" },
+            { Component: IntermediateCard, level: "B1", badge: "Get Started" },
+            { Component: IntermediateCard2, level: "B1+", badge: "Get Started" },
+            { Component: AdvancedCard, level: "B2", badge: "Get Started" },
+          ].map(({ Component, level, badge }, i) => (
+            <div key={i} className="relative group w-[320px] h-[320px]">
+              <Component />
 
-          {/* Élémentaire 2 */}
-          <ElementaryCard2 />
-
-          {/* Intermédiaire 1 */}
-          <IntermediateCard />
-
-          {/* Intermédiaire 2 */}
-          <IntermediateCard2 />
-
-          {/* Avancé */}
-          <AdvancedCard />
+        
+              {/* Badge esthétique doré en bas à gauche */}
+              <span
+                className="absolute bottom-3 left-3 flex items-center gap-1 
+                  bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 
+                  text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md"
+              >
+                {badge === "Free" ? "⭐ Free" : "🎓 Get Started"}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
