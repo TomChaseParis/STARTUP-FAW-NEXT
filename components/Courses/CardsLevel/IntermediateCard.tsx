@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import ImgTeacher1 from "../../../public/images/courses/teacher/jean.jpg";
+import ImgTeacher1 from "../../../public/images/courses/teacher/etienne.jpeg";
 
-const ElementaryCard = () => {
+const IntermediateCard = () => {
   return (
     <section className="">
       <div className="container">
@@ -10,9 +10,9 @@ const ElementaryCard = () => {
           {/* Partie image */}
           <div className="w-full px-4 lg:w-1/2">
             {/* Encadré cliquable */}
-            <Link href="/courses/elementary" className="block">
+            <Link href="/courses/intermediate" className="block">
               <div
-                className="relative mx-auto mb-12 flex items-center justify-center bg-green-400 cursor-pointer hover:opacity-90 transition"
+                className="relative mx-auto mb-12 flex items-center justify-center bg-red-400 cursor-pointer hover:opacity-90 transition"
                 style={{
                   width: "300px",   // largeur de l'encart
                   height: "300px",  // hauteur de l'encart
@@ -33,7 +33,7 @@ const ElementaryCard = () => {
                 {/* Texte centré */}
                 <div className="absolute inset-0 flex mt-3 justify-center">
                   <span className="text-black text-3xl font-bold uppercase">
-                    ELEMENTAIRE
+                    INTERMEDIAIRE
                   </span>
                 </div>
               </div>
@@ -45,4 +45,4 @@ const ElementaryCard = () => {
   );
 };
 
-export default ElementaryCard;
+export default IntermediateCard;

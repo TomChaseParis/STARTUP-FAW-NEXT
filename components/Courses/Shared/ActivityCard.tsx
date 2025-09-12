@@ -1,13 +1,14 @@
-    import Link from "next/link";
+import Link from "next/link";
 import React from "react";
 
 type ActivityCardProps = {
   title: string;
   description?: string;
-  href?: string; // si non fourni, la card n'est pas cliquable
-  className?: string; // option pour custom CSS ponctuel si besoin
+  href?: string;
+  className?: string;
   width?: number;
   height?: number;
+  level?: "beginner" | "elementary" | "intermediate" | "advanced"; // ← nouvelle prop
 };
 
 const ActivityCard: React.FC<ActivityCardProps> = ({
@@ -17,10 +18,21 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   className = "",
   width = 300,
   height = 300,
+  level = "beginner", // valeur par défaut
 }) => {
+  // Couleurs selon niveau
+  const levelColors: Record<string, string> = {
+    beginner: "bg-amber-400",
+    elementary: "bg-green-400",
+    intermediate: "bg-red-400",
+    advanced: "bg-blue-400",
+  };
+
+  const bgColor = levelColors[level] || "bg-gray-300";
+
   const CardInner = (
     <div
-      className={`bg-amber-400 rounded-lg shadow-md transition-transform duration-300 hover:scale-105 flex flex-col items-center justify-between p-5 text-center ${className}`}
+      className={`${bgColor} rounded-lg shadow-md transition-transform duration-300 hover:scale-105 flex flex-col items-center justify-between p-5 text-center ${className}`}
       style={{ width: `${width}px`, height: `${height}px` }}
     >
       <div className="space-y-3">
@@ -44,7 +56,6 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
     </div>
   );
 
-  // Si href est fourni → card cliquable
   return href ? (
     <Link href={href} className="group">
       {CardInner}

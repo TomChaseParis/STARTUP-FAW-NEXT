@@ -1,7 +1,7 @@
 import AdvancedCard from "@/components/Courses/CardsLevel/AdvancedCard";
 import BeginnerCard from "@/components/Courses/CardsLevel/BeginnerCard";
 import ElementaryCard from "@/components/Courses/CardsLevel/ElementaryCard";
-import IntermediateCards from "@/components/Courses/CardsLevel/IntermediateCards";
+import IntermediateCard from "@/components/Courses/CardsLevel/IntermediateCard";
 import Image from "next/image";
 import ImgSide from "../../public/images/courses/level-plan.png";
 
@@ -20,7 +20,7 @@ const CoursesCardsPage = () => {
       <div className="flex-1 flex flex-col gap-1">
         <BeginnerCard />
         <ElementaryCard />
-        <IntermediateCards />
+        <IntermediateCard />
         <AdvancedCard />
       </div>
 
