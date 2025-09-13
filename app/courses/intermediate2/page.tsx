@@ -1,33 +1,49 @@
+"use client";
+
+import { useRef, useState } from "react";
 import Image from "next/image";
-import ImgTeacher1 from "../../../public/images/courses/teacher/henri.png";
 import ActivityCard from "@/components/Courses/Shared/ActivityCard";
 
 const Intermediate2Page = () => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+
+  const playVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setVideoPlaying(true);
+    }
+  };
+
   return (
     <section className="bg-white py-16 md:py-20 lg:py-28">
       <div className="container pt-[90px] flex flex-col items-start space-y-12">
-        {/* Card DEBUTANT alignée au-dessus de la grille */}
-        <div
-          className="relative flex items-center justify-center bg-red-400"
-          style={{ width: "300px", height: "300px" }}
-        >
-          <div className="relative w-[80%] h-[80%] mt-8">
-            <Image
-              src={ImgTeacher1}
-              alt="prof"
-              fill
-              style={{ objectFit: "contain" }}
-              className="rounded-md"
+        {/* Bloc vidéo en haut (remplace la card) */}
+        <div className="flex justify-start w-full">
+          <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
+            <video
+              ref={videoRef}
+              src="/videos/henri.mp4" // 👉 mets ton fichier vidéo ici
+              className="h-full w-full object-cover bg-black"
+              controls={false}
+              poster="/images/courses/teacher/henri.png"
             />
-          </div>
-          <div className="absolute inset-0 flex mt-3 justify-center">
-            <span className="text-black text-3xl font-bold uppercase">
-              INTERMEDIAIRE 2
-            </span>
+            {!videoPlaying && (
+              <button
+                onClick={playVideo}
+                className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                aria-label="Lire la vidéo"
+              >
+                ▶
+              </button>
+            )}
+            <div className="absolute top-3 left-3 rounded bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow">
+              INTERMÉDIAIRE 2
+            </div>
           </div>
         </div>
 
-        {/* Grille des activités : on passe title/description/href en props */}
+        {/* Grille des activités */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <ActivityCard
             title="Activité 1"
@@ -35,45 +51,35 @@ const Intermediate2Page = () => {
             href="/courses/intermediate/activity1"
             level="intermediate"
           />
-
           <ActivityCard
             title="Activité 2"
             description="Compréhension orale : se présenter, poser des questions simples."
             href="/courses/beginner/activity2"
-                        level="intermediate"
-
+            level="intermediate"
           />
-
           <ActivityCard
             title="Activité 3"
             description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
             href="/courses/beginner/activity3"
-                        level="intermediate"
-
+            level="intermediate"
           />
-
           <ActivityCard
             title="Activité 4"
             description="Lecture guidée : repérer les infos clés dans un texte court."
             href="/courses/beginner/activity4"
-                        level="intermediate"
-
+            level="intermediate"
           />
-
           <ActivityCard
             title="Activité 5"
             description="Prononciation : rythme, liaisons et intonation de base."
             href="/courses/beginner/activity5"
-                        level="intermediate"
-
+            level="intermediate"
           />
-
           <ActivityCard
             title="Activité 6"
             description="Production orale : mini-dialogues du quotidien."
             href="/courses/beginner/activity6"
-                        level="intermediate"
-
+            level="intermediate"
           />
         </div>
       </div>

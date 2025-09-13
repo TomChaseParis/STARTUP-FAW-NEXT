@@ -37,10 +37,10 @@ const Description: React.FC = () => {
           <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
               <video
   ref={videoRef}
-  src="/videos/videoexo.mp4"
-  className="h-full w-full object-contain bg-black"
+  src="/videos/irene.mp4"
+  className="h-full w-full object-cover bg-black"
   controls={false}
-  poster="/images/courses/teacher/proffemme.png"
+  poster="/images/courses/teacher/irene2.png"
 />
                 {!videoPlaying && (
                   <button
