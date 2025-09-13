@@ -12,7 +12,7 @@ export const metadata = {
 
 const CoursesCardsPage = () => {
   return (
-    <section className="bg-white py-20 pt-[200px]">
+    <section className="bg-gradient-to-b from-amber-50 to-white py-20 pt-[200px]">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Titre principal */}
         <div className="text-center max-w-2xl mx-auto">

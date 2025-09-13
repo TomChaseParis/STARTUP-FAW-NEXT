@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const AboutPage = () => {
   return (
-    <section className="bg-white pt-[200px] pb-20">
+    <section className="bg-gradient-to-b from-amber-50 to-white pt-[200px] pb-20">
       <div className="container mx-auto px-6 lg:px-12">
         {/* HERO */}
         <div className="grid lg:grid-cols-2 items-center gap-12 mb-24">
