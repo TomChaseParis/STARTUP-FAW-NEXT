@@ -3,12 +3,12 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { BookOpen, Users, Award, PlayCircle } from "lucide-react";
 
-import ImgTeacher from "../../public/images/courses/teacher/proffemme.png";
 import ImgHero from "../../public/images/about/beach.png";
+import ImgVirtualTeacher from "../../public/images/about/allteachers.png"; // image à droite de la section "profs virtuels"
 
 export const metadata: Metadata = {
   title: "À propos | Plateforme d’apprentissage du français",
-  description: "Découvrez notre mission, notre pédagogie et nos professeurs virtuels.",
+  description: "Découvrez notre mission, nos professeurs virtuels et nos points forts.",
 };
 
 const AboutPage = () => {
@@ -32,106 +32,153 @@ const AboutPage = () => {
               Commencez dès aujourd’hui →
             </Link>
           </div>
+
           <div className="flex justify-center">
             <Image
               src={ImgHero}
               alt="Illustration apprentissage"
-              width={500}
-              height={500}
+              width={520}
+              height={520}
               className="rounded-2xl shadow-lg object-cover"
+              priority
             />
           </div>
         </div>
 
         {/* NOTRE MISSION */}
-        <div className="max-w-4xl mx-auto text-center mb-20">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Notre mission</h2>
-          <p className="text-lg text-gray-600 leading-relaxed">
-            Rendre l’apprentissage du français accessible, engageant et efficace. 
-            Grâce à une pédagogie progressive et des professeurs virtuels, 
-            chaque étudiant avance à son rythme tout en découvrant la culture 
-            et la langue dans un cadre moderne et intuitif.
+        <div className="mb-20 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Notre mission</h2>
+          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto mb-12">
+            Rendre l’apprentissage du français accessible, engageant et efficace. Grâce à une pédagogie
+            progressive et des professeurs virtuels, chaque étudiant avance à son rythme tout en
+            découvrant la culture et la langue dans un cadre moderne et intuitif.
           </p>
+
+          {/* 3 points mission */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="flex flex-col items-center text-center p-6 bg-gradient-to-br from-amber-50 to-white rounded-2xl shadow hover:shadow-md transition">
+              <BookOpen className="w-12 h-12 text-amber-500 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">Clarté</h3>
+              <p className="text-sm text-gray-600 mt-2">
+                Des parcours simples et progressifs pour apprendre sans confusion.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-6 bg-gradient-to-br from-emerald-50 to-white rounded-2xl shadow hover:shadow-md transition">
+              <Users className="w-12 h-12 text-emerald-500 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">Accompagnement</h3>
+              <p className="text-sm text-gray-600 mt-2">
+                Des professeurs virtuels qui adaptent leur pédagogie à votre rythme.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-6 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow hover:shadow-md transition">
+              <Award className="w-12 h-12 text-blue-500 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">Réussite</h3>
+              <p className="text-sm text-gray-600 mt-2">
+                Des résultats concrets visibles dès les premières semaines.
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* PROFESSEURS VIRTUELS */}
-        <div className="mb-20">
+        {/* VOS PROFESSEURS VIRTUELS (titre conservé, texte à gauche, image à droite) */}
+        <div className="mb-24">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">
             Vos professeurs virtuels
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {[1, 2, 3].map((n) => (
-              <div
-                key={n}
-                className="bg-gradient-to-br from-amber-100 via-white to-amber-50 p-6 rounded-2xl shadow hover:shadow-lg transition"
-              >
-                <div className="flex justify-center mb-4">
-                  <Image
-                    src={ImgTeacher}
-                    alt="Professeur virtuel"
-                    width={120}
-                    height={120}
-                    className="rounded-full shadow-md object-cover"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800 text-center">Professeur {n}</h3>
-                <p className="text-sm text-gray-600 text-center mt-2">
-                  Spécialiste du niveau {n === 1 ? "A1" : n === 2 ? "A2" : "B1"} avec une approche
-                  interactive et bienveillante.
-                </p>
-              </div>
-            ))}
+
+          <div className="grid lg:grid-cols-2 items-center gap-12">
+            {/* Texte à gauche */}
+            <div className="space-y-5">
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Nos professeurs virtuels ne sont pas de simples avatars : ils structurent votre parcours
+                et adaptent leur guidance à votre profil. À chaque étape, vous êtes accompagné·e par une
+                pédagogie claire, bienveillante et motivante.
+              </p>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                <li>🎯 <strong>Guidage personnalisé</strong> : objectifs clairs et feedback immédiat.</li>
+                <li>🗣️ <strong>Oral au cœur</strong> : questions vocales, répétitions, mises en situation.</li>
+                <li>📈 <strong>Progression visible</strong> : activités graduées, révisions intelligentes.</li>
+                <li>💡 <strong>Confiance</strong> : vous pratiquez sans pression, avec des scénarios concrets.</li>
+              </ul>
+              <p className="text-gray-600">
+                Résultat : vous apprenez plus vite, avec plus de plaisir — et vous osez vraiment parler.
+              </p>
+            </div>
+
+            {/* Image à droite */}
+            <div className="flex justify-center">
+              <Image
+                src={ImgVirtualTeacher}
+                alt="Professeurs virtuels"
+                width={520}
+                height={420}
+                className="rounded-2xl shadow-lg object-cover"
+              />
+            </div>
           </div>
         </div>
 
         {/* POURQUOI NOUS CHOISIR */}
-        <div className="mb-20">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+        <div className="mb-24 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
             Pourquoi choisir notre plateforme ?
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-              <BookOpen className="w-10 h-10 text-amber-500 mb-3" />
-              <h4 className="font-semibold text-gray-800">Méthode claire</h4>
-              <p className="text-sm text-gray-600 mt-2">
-                Une progression guidée du niveau A1 à B2, étape par étape.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-              <Users className="w-10 h-10 text-emerald-500 mb-3" />
-              <h4 className="font-semibold text-gray-800">Professeurs virtuels</h4>
-              <p className="text-sm text-gray-600 mt-2">
-                Des enseignants interactifs qui vous accompagnent tout au long du parcours.
-              </p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-              <PlayCircle className="w-10 h-10 text-red-500 mb-3" />
-              <h4 className="font-semibold text-gray-800">Activités immersives</h4>
+          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto mb-12">
+            Une expérience pensée pour que chaque étudiant progresse sans stress, en restant motivé et
+            accompagné à chaque étape.
+          </p>
+
+          {/* 3 points clés */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="flex flex-col items-center text-center p-6 bg-gradient-to-br from-rose-50 to-white rounded-2xl shadow hover:shadow-md transition">
+              <PlayCircle className="w-12 h-12 text-rose-500 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">Activités immersives</h3>
               <p className="text-sm text-gray-600 mt-2">
                 QCM vocaux, vidéos, chansons et mises en situation pratiques.
               </p>
             </div>
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-              <Award className="w-10 h-10 text-blue-500 mb-3" />
-              <h4 className="font-semibold text-gray-800">Résultats concrets</h4>
+
+            <div className="flex flex-col items-center text-center p-6 bg-gradient-to-br from-teal-50 to-white rounded-2xl shadow hover:shadow-md transition">
+              <Users className="w-12 h-12 text-teal-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">Encadrement humain</h3>
               <p className="text-sm text-gray-600 mt-2">
-                Améliorez votre compréhension, votre oral et votre confiance en vous.
+                Des professeurs virtuels interactifs, disponibles à tout moment.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-6 bg-gradient-to-br from-indigo-50 to-white rounded-2xl shadow hover:shadow-md transition">
+              <Award className="w-12 h-12 text-indigo-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">Résultats concrets</h3>
+              <p className="text-sm text-gray-600 mt-2">
+                Améliorez vos compétences orales, écrites et gagnez en confiance.
               </p>
             </div>
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Prêt à démarrer votre aventure ?
-          </h2>
-          <Link
-            href="/courses"
-            className="px-8 py-4 bg-amber-500 text-black font-semibold rounded-lg shadow hover:bg-amber-400 transition"
-          >
-            Explorer les cours →
-          </Link>
+        {/* CTA FINAL — Votre prochain pas */}
+        <div className="relative rounded-3xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-100 via-white to-amber-50" />
+          <div className="relative p-10 md:p-12 lg:p-14 text-center rounded-3xl ring-1 ring-black/5 shadow">
+            <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900">
+              Votre prochain pas commence ici
+            </h3>
+            <p className="mt-3 text-lg text-gray-700 max-w-2xl mx-auto">
+              Choisissez votre niveau, lancez la première activité, et laissez nos professeurs virtuels
+              vous guider. Simple, fluide et motivant.
+            </p>
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <Link
+                href="/courses"
+                className="px-6 py-3 bg-amber-500 text-black font-semibold rounded-lg shadow hover:bg-amber-400 transition"
+              >
+                Explorer les cours
+              </Link>
+          
+            </div>
+          </div>
         </div>
       </div>
     </section>
