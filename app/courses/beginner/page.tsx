@@ -1,53 +1,49 @@
+"use client"
+
 import Image from "next/image";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import ImgTeacher1 from "../../../public/images/courses/proffemme.png";
 import ActivityCard from "@/components/Courses/Shared/ActivityCard";
 
 const BeginnerPage = () => {
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const [videoPlaying, setVideoPlaying] = useState(false);
+  
+    const playVideo = () => {
+      if (videoRef.current) {
+        videoRef.current.play();
+        setVideoPlaying(true);
+      }
+    };
   return (
     <section className="bg-white py-16 md:py-20 lg:py-28">
       <div className="container pt-[90px] flex flex-col items-start space-y-12">
         {/* Card DEBUTANT alignée à gauche */}
-        <div className="-mx-4 flex flex-wrap items-center">
-          <div className="w-full px-4 lg:w-1/2">
-            <Link href="/courses/beginner" className="block">
-              <div
-                className="relative mx-auto mb-12 flex items-center justify-center cursor-pointer 
-                  rounded-2xl shadow-lg bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600
-                  transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:scale-105"
-                style={{ width: "320px", height: "320px" }}
-                data-wow-delay=".15s"
+         {/* Bloc vidéo en haut (remplace la card) */}
+        <div className="flex justify-start w-full">
+          <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
+            <video
+              ref={videoRef}
+              src="/videos/carla-presentation.mp4" // 👉 mets ton fichier vidéo ici
+              className="h-full w-full object-cover bg-black"
+              controls={false}
+              poster="/images/courses/teacher/carla-video.png"
+            />
+            {!videoPlaying && (
+              <button
+                onClick={playVideo}
+                className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                aria-label="Lire la vidéo"
               >
-                {/* Image centrée */}
-                <div className="relative w-[80%] h-[80%] mt-6">
-                  <Image
-                    src={ImgTeacher1}
-                    alt="prof"
-                    fill
-                    style={{ objectFit: "contain" }}
-                    className="rounded-lg drop-shadow-md"
-                  />
-                </div>
-
-                {/* Texte centré */}
-                <div className="absolute inset-0 flex items-end justify-center pb-6">
-                  <span
-                    className="text-3xl font-extrabold uppercase tracking-wide 
-                    text-black drop-shadow-lg bg-white/70 px-4 py-1 rounded-lg"
-                  >
-                    Débutant
-                  </span>
-                </div>
-
-                {/* Badge niveau */}
-                <span className="absolute bottom-3 right-3 bg-black/80 text-white text-xs px-3 py-1 rounded-full shadow-md">
-                  A1
-                </span>
-              </div>
-            </Link>
+                ▶
+              </button>
+            )}
+            <div className="absolute top-3 left-3 rounded bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow">
+              DEBUTANT
+            </div>
           </div>
         </div>
-
         {/* Grille des activités */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <ActivityCard

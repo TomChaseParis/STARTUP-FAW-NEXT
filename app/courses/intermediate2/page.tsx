@@ -23,10 +23,10 @@ const Intermediate2Page = () => {
           <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
             <video
               ref={videoRef}
-              src="/videos/henri.mp4" // 👉 mets ton fichier vidéo ici
+              src="/videos/henri-presentation.mp4" // 👉 mets ton fichier vidéo ici
               className="h-full w-full object-cover bg-black"
               controls={false}
-              poster="/images/courses/teacher/henri.png"
+              poster="/images/courses/teacher/henri-video.png"
             />
             {!videoPlaying && (
               <button
