@@ -48,7 +48,8 @@ const IntermediatePage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <ActivityCard
             title="Activité 1"
-            description="Grammaire : Être / Avoir / Aller / Faire — écoute et répétition."
+            subtitle="Compréhension orale"
+            description="Ecoute la chanson et réponds aux qestions"
             href="/courses/intermediate/activity1"
             level="intermediate"
           />

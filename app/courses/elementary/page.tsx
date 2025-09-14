@@ -48,14 +48,16 @@ const ElementaryPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <ActivityCard
             title="Activité 1"
-            description="Grammaire : Être / Avoir / Aller / Faire — écoute et répétition."
+            subtitle="QCM vocal"
+            description=""
             href="/courses/elementary/activity1"
             level="elementary"
           />
 
           <ActivityCard
             title="Activité 2"
-            description="Compréhension orale : se présenter, poser des questions simples."
+            subtitle="Compréhension orale"
+            description="Ecoute la conversation et réponds à l'oral"
             href="/courses/beginner/activity2"
                         level="elementary"
 

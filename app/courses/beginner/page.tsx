@@ -48,15 +48,16 @@ const BeginnerPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <ActivityCard
             title="Activité 1"
-            description="Grammaire : Être / Avoir / Aller / Faire — écoute et répétition."
+            subtitle="Grammaire"
+            description="Les 4 verbes essentiels : Être - Avoir - Faire - Aller"
             href="/courses/beginner/activity1"
             level="beginner"
-            duration="5mn"
           />
 
           <ActivityCard
             title="Activité 2"
-            description="Compréhension orale : se présenter, poser des questions simples."
+            subtitle="Compréhension orale"
+            description="Être - Avoir - Faire - Aller"
             href="/courses/beginner/activity2"
             level="beginner"
           />
