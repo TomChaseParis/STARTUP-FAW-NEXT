@@ -57,7 +57,7 @@ const IntermediatePage = () => {
           <ActivityCard
             title="Activité 2"
             description="Compréhension orale : se présenter, poser des questions simples."
-            href="/courses/beginner/activity2"
+            href="/courses/intermediate/activity2"
                         level="intermediate"
 
           />
