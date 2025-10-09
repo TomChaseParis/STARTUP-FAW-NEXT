@@ -48,48 +48,8 @@ const Elementary2Page = () => {
           <ActivityCard
             title="Activité 1"
             description="Grammaire : Être / Avoir / Aller / Faire — écoute et répétition."
-            href="/courses/elementary/activity1"
+            href="/courses/elementary2/activity1"
             level="elementary"
-          />
-
-          <ActivityCard
-            title="Activité 2"
-            description="Compréhension orale : se présenter, poser des questions simples."
-            href="/courses/beginner/activity2"
-                        level="elementary"
-
-          />
-
-          <ActivityCard
-            title="Activité 3"
-            description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
-            href="/courses/beginner/activity3"
-                        level="elementary"
-
-          />
-
-          <ActivityCard
-            title="Activité 4"
-            description="Lecture guidée : repérer les infos clés dans un texte court."
-            href="/courses/beginner/activity4"
-                        level="elementary"
-
-          />
-
-          <ActivityCard
-            title="Activité 5"
-            description="Prononciation : rythme, liaisons et intonation de base."
-            href="/courses/beginner/activity5"
-                        level="elementary"
-
-          />
-
-          <ActivityCard
-            title="Activité 6"
-            description="Production orale : mini-dialogues du quotidien."
-            href="/courses/beginner/activity6"
-                        level="elementary"
-
           />
         </div>
       </div>
