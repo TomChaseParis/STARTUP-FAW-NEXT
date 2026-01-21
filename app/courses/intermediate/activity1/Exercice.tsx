@@ -23,7 +23,7 @@ const Exercice: React.FC = () => {
 
   // -------- TEXTE À TROUS --------
   const gaps = [
-    { id: 1, before: "On ", after: " au bord de la mer", answer: "allait" },
+    { id: 1, before: "On ", after: " au bord de la mer", answer: "baiser" },
     { id: 2, before: "Avec mon père, ma sœur, ma mère\nOn ", after: " les autres gens", answer: "regardait" },
     { id: 3, before: "Comme ils ", after: " leur argent.", answer: "dépensaient" },
     { id: 4, before: "Nous il ", after: " faire attention", answer: "fallait" },
