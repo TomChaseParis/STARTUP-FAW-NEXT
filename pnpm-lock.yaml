@@ -18,16 +18,16 @@ importers:
         specifier: ^0.544.0
         version: 0.544.0(react@18.3.1)
       next:
-        specifier: ^13.5.6
+        specifier: ^13.5.11
         version: 13.5.11(@babel/core@7.28.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@13.5.11(@babel/core@7.28.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
-        specifier: ^18.2.0
+        specifier: ^18.3.1
         version: 18.3.1
       react-dom:
-        specifier: ^18.2.0
+        specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-modal-video:
         specifier: ^2.0.0
