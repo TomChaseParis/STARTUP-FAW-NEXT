@@ -74,7 +74,7 @@ const Exercice: React.FC = () => {
   >([]);
 
   // VIDEO (avec bouton overlay)
-  const videoRef = useRef<HTMLVideoElement | null>(null);ls
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const toggleVideo = () => {
     if (!videoRef.current) return;
