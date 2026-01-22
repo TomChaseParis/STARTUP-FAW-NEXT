@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ImgTeacher1 from "../../../public/images/courses/proffemme.png";
+import ImgTeacher1 from "../../../public/images/courses/teacher/card-karla.png";
 
 const BeginnerCard = () => {
   return (
@@ -12,9 +12,9 @@ const BeginnerCard = () => {
             {/* Encadré cliquable */}
             <Link href="/courses/beginner" className="block">
               <div
-                className="relative mx-auto mb-12 flex items-center justify-center cursor-pointer 
-                  rounded-2xl shadow-lg bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600
-                  transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:scale-105"
+                className="relative mx-auto mb-12 flex cursor-pointer items-center justify-center 
+                  rounded-2xl bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-lg
+                  transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl"
                 style={{
                   width: "320px",
                   height: "320px",
@@ -22,7 +22,7 @@ const BeginnerCard = () => {
                 data-wow-delay=".15s"
               >
                 {/* Image centrée */}
-                <div className="relative w-[80%] h-[80%] mt-6">
+                <div className="relative mt-6 h-[80%] w-[80%]">
                   <Image
                     src={ImgTeacher1}
                     alt="prof"
@@ -34,14 +34,16 @@ const BeginnerCard = () => {
 
                 {/* Texte centré */}
                 <div className="absolute inset-0 flex items-end justify-center pb-6">
-                  <span className="text-3xl font-extrabold uppercase tracking-wide 
-                    text-black drop-shadow-lg bg-white/70 px-4 py-1 rounded-lg">
+                  <span
+                    className="rounded-lg bg-white/70 px-4 py-1 
+                    text-3xl font-extrabold uppercase tracking-wide text-black drop-shadow-lg"
+                  >
                     Débutant
                   </span>
                 </div>
 
                 {/* Badge niveau */}
-                <span className="absolute bottom-3 right-3 bg-black/80 text-white text-xs px-3 py-1 rounded-full shadow-md">
+                <span className="absolute bottom-3 right-3 rounded-full bg-black/80 px-3 py-1 text-xs text-white shadow-md">
                   A1
                 </span>
               </div>

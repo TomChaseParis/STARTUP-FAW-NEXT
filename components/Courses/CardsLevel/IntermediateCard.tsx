@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ImgTeacher1 from "../../../public/images/courses/teacher/etienne.jpeg";
+import ImgTeacher1 from "../../../public/images/courses/teacher/card-etienne.jpeg";
 
 const IntermediateCard = () => {
   return (

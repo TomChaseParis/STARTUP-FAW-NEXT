@@ -42,9 +42,9 @@ const CoursesCardsPage = () => {
         
               {/* Badge esthétique doré en bas à gauche */}
               <span
-                className="absolute bottom-3 left-3 flex items-center gap-1 
+                className="absolute bottom-0 left-3 flex items-center gap-1 
                   bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 
-                  text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md"
+                  text-black text-xs font-semibold px-3 py-1 rounded-full shadow-md"
               >
                 {badge === "Free" ? "⭐ Free" : "🎓 Get Started"}
               </span>

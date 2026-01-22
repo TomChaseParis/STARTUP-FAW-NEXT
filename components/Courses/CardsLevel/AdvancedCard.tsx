@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ImgTeacher1 from "../../../public/images/courses/teacher/pete.png";
+import ImgTeacher1 from "../../../public/images/courses/teacher/card-pete.png";
 
 const AdvancedCard = () => {
   return (
@@ -33,11 +33,10 @@ const AdvancedCard = () => {
                 </div>
 
                 {/* Texte centré */}
-                <div className="absolute inset-0 flex items-end justify-center pb-6">
-                  <span
-                    className="text-2xl sm:text-3xl font-extrabold uppercase tracking-wide 
-                    text-white drop-shadow-lg bg-black/40 px-4 py-1 rounded-lg"
-                  >
+                  {/* Texte centré */}
+                  <div className="absolute inset-0 flex items-end justify-center pb-6">
+                  <span className="text-3xl font-extrabold uppercase tracking-wide 
+                    text-black drop-shadow-lg bg-white/70 px-4 py-1 rounded-lg">
                     Avancé
                   </span>
                 </div>
