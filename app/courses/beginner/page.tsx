@@ -51,7 +51,7 @@ const BeginnerPage = () => {
             title="Activité 1"
             subtitle="Grammaire"
             description="Les 4 verbes essentiels : Être - Avoir - Faire - Aller"
-            href="/courses/beginner/activities/activity-01"
+            href="/courses/beginner/activity1"
             level="beginner"
           />
 
