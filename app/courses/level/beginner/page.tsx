@@ -12,7 +12,6 @@ const BeginnerPage = () => {
   const playVideo = () => {
     if (videoRef.current) {
       videoRef.current.play();
-
       setVideoPlaying(true);
     }
   };
@@ -51,7 +50,7 @@ const BeginnerPage = () => {
             title="Activité 1"
             subtitle="Grammaire"
             description="Les 4 verbes essentiels : Être - Avoir - Faire - Aller"
-            href="/courses/beginner/activity1"
+            href="/courses/level/beginner/activities/activity1"
             level="beginner"
           />
 
@@ -59,35 +58,35 @@ const BeginnerPage = () => {
             title="Activité 2"
             subtitle="Compréhension orale"
             description="Être - Avoir - Faire - Aller"
-            href="/courses/beginner/activity2"
+            href="/courses/level/beginner/activities/activity2"
             level="beginner"
           />
 
           <ActivityCard
             title="Activité 3"
             description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
-            href="/courses/beginner/activity3"
+            href="/courses/level/beginner/activity3"
             level="beginner"
           />
 
           <ActivityCard
             title="Activité 4"
             description="Lecture guidée : repérer les infos clés dans un texte court."
-            href="/courses/beginner/activity4"
+            href="/courses/level/beginner/activity4"
             level="beginner"
           />
 
           <ActivityCard
             title="Activité 5"
             description="Prononciation : rythme, liaisons et intonation de base."
-            href="/courses/beginner/activity5"
+            href="/courses/level/beginner/activity5"
             level="beginner"
           />
 
           <ActivityCard
             title="Activité 6"
             description="Production orale : mini-dialogues du quotidien."
-            href="/courses/beginner/activity6"
+            href="/courses/level/beginner/activity6"
             level="beginner"
           />
         </div>

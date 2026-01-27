@@ -10,7 +10,7 @@ const ElementaryCard = () => {
           {/* Partie image */}
           <div className="w-full px-4 ">
             {/* Encadré cliquable */}
-            <Link href="/courses/elementary" className="block">
+            <Link href="/courses/level/elementary" className="block">
               <div
                 className="relative mx-auto mb-12 flex items-center justify-center cursor-pointer 
                   rounded-2xl shadow-lg bg-gradient-to-br from-emerald-200 via-emerald-400 to-emerald-600

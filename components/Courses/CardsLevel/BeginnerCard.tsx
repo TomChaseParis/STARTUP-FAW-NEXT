@@ -10,7 +10,7 @@ const BeginnerCard = () => {
           {/* Partie image */}
           <div className="w-full px-4 ">
             {/* Encadré cliquable */}
-            <Link href="/courses/beginner" className="block">
+            <Link href="/courses/level/beginner" className="block">
               <div
                 className="relative mx-auto mb-12 flex cursor-pointer items-center justify-center 
                   rounded-2xl bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-lg

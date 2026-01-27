@@ -50,7 +50,7 @@ const ElementaryPage = () => {
             title="Activité 1"
             subtitle="QCM vocal"
             description=""
-            href="/courses/elementary/activity1"
+            href="/courses/level/elementary/activity1"
             level="elementary"
           />
 
@@ -58,7 +58,7 @@ const ElementaryPage = () => {
             title="Activité 2"
             subtitle="Compréhension orale"
             description="Ecoute la conversation et réponds à l'oral"
-            href="/courses/beginner/activity2"
+            href="/courses/level/beginner/activity2"
                         level="elementary"
 
           />
@@ -66,7 +66,7 @@ const ElementaryPage = () => {
           <ActivityCard
             title="Activité 3"
             description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
-            href="/courses/beginner/activity3"
+            href="/courses/level/beginner/activity3"
                         level="elementary"
 
           />
@@ -74,7 +74,7 @@ const ElementaryPage = () => {
           <ActivityCard
             title="Activité 4"
             description="Lecture guidée : repérer les infos clés dans un texte court."
-            href="/courses/beginner/activity4"
+            href="/courses/level/beginner/activity4"
                         level="elementary"
 
           />
@@ -82,7 +82,7 @@ const ElementaryPage = () => {
           <ActivityCard
             title="Activité 5"
             description="Prononciation : rythme, liaisons et intonation de base."
-            href="/courses/beginner/activity5"
+            href="/courses/level/beginner/activity5"
                         level="elementary"
 
           />
@@ -90,7 +90,7 @@ const ElementaryPage = () => {
           <ActivityCard
             title="Activité 6"
             description="Production orale : mini-dialogues du quotidien."
-            href="/courses/beginner/activity6"
+            href="/courses/level/beginner/activity6"
                         level="elementary"
 
           />

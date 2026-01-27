@@ -48,7 +48,7 @@ const Elementary2Page = () => {
           <ActivityCard
             title="Activité 1"
             description="Grammaire : Être / Avoir / Aller / Faire — écoute et répétition."
-            href="/courses/elementary2/activity1"
+            href="/courses/level/elementary2/activity1"
             level="elementary"
           />
         </div>

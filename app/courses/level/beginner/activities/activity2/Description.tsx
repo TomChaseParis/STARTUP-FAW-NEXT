@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import Exercice from "@/app/courses/beginner/activity2/Exercice";
+import Exercice from "@/app/courses/level/beginner/activities/activity2/Exercice";
 
 /**
  * Description (Actaivité 2) — Cohérente avec l'activité 1
@@ -44,14 +44,15 @@ const Description: React.FC = () => {
       {/* En-tête */}
       <div className="container pt-16">
         <div className="mx-auto max-w-5xl text-center">
-          <span className="inline-block text-[30px] rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-black">
+          <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-[30px] text-sm font-semibold text-black">
             Compréhension orale
           </span>
           <h1 className="mt-3 text-[30px] text-black">
             Activité 2 — Écoute et réponds
           </h1>
           <p className="mx-auto mt-3 max-w-3xl text-base text-black/70 sm:text-lg">
-            Regarde la vidéo, écoute l’audio, puis réponds aux questions à l’oral ou par écrit.
+            Regarde la vidéo, écoute l’audio, puis réponds aux questions à
+            l’oral ou par écrit.
           </p>
         </div>
       </div>
@@ -63,25 +64,25 @@ const Description: React.FC = () => {
           <div className="flex justify-center">
             <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
               <video
-  ref={videoRef}
-  src="/videos/videoexo.mp4"
-  className="h-full w-full object-contain bg-black"
-  controls={false}
-  poster="/images/courses/teacher/proffemme.png"
-/>
-                {!videoPlaying && (
-                  <button
-                    onClick={playVideo}
-                    className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-                    aria-label="Lire la vidéo"
-                  >
-                    ▶
-                  </button>
-                )}
-                <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
-                  Tutoriel vidéo
-                </div>
+                ref={videoRef}
+                src="/videos/videoexo.mp4"
+                className="h-full w-full bg-black object-contain"
+                controls={false}
+                poster="/images/courses/teacher/proffemme.png"
+              />
+              {!videoPlaying && (
+                <button
+                  onClick={playVideo}
+                  className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                  aria-label="Lire la vidéo"
+                >
+                  ▶
+                </button>
+              )}
+              <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
+                Tutoriel vidéo
               </div>
+            </div>
           </div>
 
           {/* Image */}
@@ -124,7 +125,8 @@ const Description: React.FC = () => {
               </button>
               <audio ref={audioRef} src="/audios/lunch.wav" />
               <p className="mt-3 text-sm text-black/60">
-                Conseil : écoute une première fois, puis relance en notant les mots-clés utiles.
+                Conseil : écoute une première fois, puis relance en notant les
+                mots-clés utiles.
               </p>
             </div>
             <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
@@ -141,7 +143,7 @@ const Description: React.FC = () => {
           <Exercice />
 
           {/* Colonne Image */}
-          <div className="w-full lg:w-1/2 px-6 mt-8 lg:mt-0">
+          <div className="mt-8 w-full px-6 lg:mt-0 lg:w-1/2">
             <div className="relative w-full overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5">
               <Image
                 src="/images/courses/breaklunch.png"
