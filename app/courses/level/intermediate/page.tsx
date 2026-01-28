@@ -27,7 +27,7 @@ const IntermediatePage = () => {
               src="/videos/damien-presentation.mp4" // 👉 mets ton fichier vidéo ici
               className="h-full w-full object-cover bg-black"
               controls={false}
-              poster="/images/courses/teacher/damien-video.png"
+              poster="/images/courses/teacher/wide-etienne.png"
             />
             {!videoPlaying && (
               <button

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ImgTeacher1 from "../../../public/images/courses/teacher/card-irene.png";
+import ImgTeacher1 from "../../../public/images/courses/teacher/wide-irene.png";
 
 const ElementaryCard2 = () => {
   return (
@@ -27,7 +27,7 @@ const ElementaryCard2 = () => {
                     src={ImgTeacher1}
                     alt="prof"
                     fill
-                    style={{ objectFit: "contain" }}
+                    style={{ objectFit: "cover" }}
                     className="rounded-lg drop-shadow-md"
                   />
                 </div>

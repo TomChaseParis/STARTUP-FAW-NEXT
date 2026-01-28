@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.33.0",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "lucide-react": "^0.544.0",

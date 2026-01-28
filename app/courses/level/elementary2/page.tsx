@@ -26,7 +26,7 @@ const Elementary2Page = () => {
               src="/videos/henri-presentation.mp4" // 👉 mets ton fichier vidéo ici
               className="h-full w-full object-cover bg-black"
               controls={false}
-              poster="/images/courses/teacher/irene-video.png"
+              poster="/images/courses/teacher/wide-irene.png"
             />
             {!videoPlaying && (
               <button

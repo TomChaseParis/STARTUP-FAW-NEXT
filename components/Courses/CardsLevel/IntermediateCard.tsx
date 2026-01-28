@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ImgTeacher1 from "../../../public/images/courses/teacher/card-etienne.jpeg";
+import ImgTeacher1 from "../../../public/images/courses/teacher/wide-etienne.png";
 
 const IntermediateCard = () => {
   return (
@@ -27,7 +27,7 @@ const IntermediateCard = () => {
                     src={ImgTeacher1}
                     alt="prof"
                     fill
-                    style={{ objectFit: "contain" }}
+                    style={{ objectFit: "cover" }}
                     className="rounded-lg drop-shadow-md"
                   />
                 </div>

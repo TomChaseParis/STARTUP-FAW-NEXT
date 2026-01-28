@@ -27,7 +27,7 @@ const BeginnerPage = () => {
               src="/videos/carla-presentation.mp4"
               className="h-full w-full bg-black object-cover"
               controls={false}
-              poster="/images/courses/teacher/carla-video.png"
+              poster="/images/courses/teacher/wide-marie.png"
             />
             {!videoPlaying && (
               <button

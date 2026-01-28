@@ -99,8 +99,8 @@ const Description: React.FC = () => {
             <div className="relative aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
             <video
                 ref={videoRef}
-                src="/videos/laurie1.mp4"
-                poster="/images/courses/teacher/wide-karla.png"
+                src="/videos/marieactivity1.mp4"
+                poster="/images/courses/teacher/wide-marie.png"
                 className="h-full w-full object-cover"
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}

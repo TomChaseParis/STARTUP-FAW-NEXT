@@ -78,7 +78,7 @@ const Description: React.FC = () => {
             <div className="relative aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
               <video
                 ref={videoRef}
-                src="/videos/etienne-activity-1.mp4"
+                src="/videos/etienneactivity1.mp4"
                 poster="/images/courses/teacher/wide-damien.png"
                 className="h-full w-full object-cover"
                 onTimeUpdate={handleTimeUpdate}
