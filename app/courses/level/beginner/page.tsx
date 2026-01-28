@@ -65,7 +65,7 @@ const BeginnerPage = () => {
           <ActivityCard
             title="Activité 3"
             description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
-            href="/courses/level/beginner/activity3"
+            href="/courses/level/beginner/activities/activity3"
             level="beginner"
           />
 

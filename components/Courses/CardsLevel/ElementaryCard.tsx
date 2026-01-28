@@ -38,7 +38,7 @@ const ElementaryCard = () => {
                     className="rounded-lg bg-white/70 px-4 py-1 
                     text-3xl font-extrabold uppercase tracking-wide text-black drop-shadow-lg"
                   >
-                    Débutant
+                    ELEMENTAIRE
                   </span>
                 </div>
 
