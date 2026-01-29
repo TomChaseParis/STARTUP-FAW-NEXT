@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 
-// --- Données d'exercices ---
+/* -------------------------------------------------------
+   DONNÉES D’EXERCICES
+------------------------------------------------------- */
 const categories = [
   {
     title: "1. ÊTRE",
@@ -55,7 +57,9 @@ const categories = [
   },
 ];
 
-// --- Audios de Marie ---
+/* -------------------------------------------------------
+   AUDIOS
+------------------------------------------------------- */
 const correctAudios = [
   "/audios/courses/beginner/marie/correct/marie_correct_01.mp3",
   "/audios/courses/beginner/marie/correct/marie_correct_02.mp3",
@@ -65,7 +69,6 @@ const correctAudios = [
   "/audios/courses/beginner/marie/correct/marie_correct_06.mp3",
   "/audios/courses/beginner/marie/correct/marie_correct_07.mp3",
 ];
-
 const wrongAudios1 = [
   "/audios/courses/beginner/marie/wrong/marie_wrong_01.mp3",
   "/audios/courses/beginner/marie/wrong/marie_wrong_02.mp3",
@@ -84,24 +87,20 @@ const Exercice: React.FC = () => {
     categories.map((cat) => cat.items.map(() => 0)),
   );
 
-  const playAudio = (file: string) => {
-    const audio = new Audio(file);
-    audio.play();
-  };
+  const playAudio = (file: string) => new Audio(file).play();
 
+  /* ----------- Reconnaissance vocale ------------ */
   const startRecognition = (catIndex: number, itemIndex: number) => {
     if (typeof window === "undefined") return;
-
-    const SpeechRecognition =
+    const Recognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
+    if (!Recognition)
+      return alert(
+        "⚠️ Votre navigateur ne supporte pas la reconnaissance vocale.",
+      );
 
-    if (!SpeechRecognition) {
-      alert("⚠️ Votre navigateur ne supporte pas la reconnaissance vocale.");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
+    const recognition = new Recognition();
     recognition.lang = "fr-FR";
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
@@ -109,110 +108,148 @@ const Exercice: React.FC = () => {
     let finalTranscript = "";
 
     recognition.onstart = () => {
-      const newFeedbacks = feedbacks.map((cat) => [...cat]);
-      newFeedbacks[catIndex][itemIndex] = "🎤 Parlez maintenant...";
-      setFeedbacks(newFeedbacks);
+      const f = feedbacks.map((c) => [...c]);
+      f[catIndex][itemIndex] = "🎤 Parlez maintenant…";
+      setFeedbacks(f);
     };
 
     recognition.onresult = (event: any) => {
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        if (event.results[i].isFinal) {
+      for (let i = event.resultIndex; i < event.results.length; i++)
+        if (event.results[i].isFinal)
           finalTranscript += " " + event.results[i][0].transcript;
-        }
-      }
     };
 
     recognition.onend = () => {
-      const transcriptNormalized = finalTranscript.toLowerCase().trim();
-      const { phrase, word } = categories[catIndex].items[itemIndex];
-      const currentWord = word.toLowerCase();
+      const spoken = finalTranscript.toLowerCase().trim();
+      const expected = categories[catIndex].items[itemIndex].word.toLowerCase();
+      const phrase = categories[catIndex].items[itemIndex].phrase;
 
-      const newFeedbacks = feedbacks.map((cat) => [...cat]);
-      const newAttempts = attempts.map((cat) => [...cat]);
+      const f = feedbacks.map((c) => [...c]);
+      const a = attempts.map((c) => [...c]);
 
-      if (transcriptNormalized.includes(currentWord)) {
-        const index = Math.floor(Math.random() * correctAudios.length);
-        newFeedbacks[catIndex][itemIndex] = "✅ Bonne réponse !";
-        playAudio(correctAudios[index]);
-        newAttempts[catIndex][itemIndex] = 0;
+      if (spoken.includes(expected)) {
+        playAudio(
+          correctAudios[Math.floor(Math.random() * correctAudios.length)],
+        );
+        f[catIndex][itemIndex] = "✅ Bonne réponse !";
+        a[catIndex][itemIndex] = 0;
       } else {
-        newAttempts[catIndex][itemIndex] += 1;
-        const attempt = newAttempts[catIndex][itemIndex];
-
-        if (attempt === 1) {
-          const index = Math.floor(Math.random() * wrongAudios1.length);
-          newFeedbacks[catIndex][itemIndex] = "❌ Mauvaise réponse.";
-          playAudio(wrongAudios1[index]);
+        a[catIndex][itemIndex]++;
+        if (a[catIndex][itemIndex] === 1) {
+          playAudio(
+            wrongAudios1[Math.floor(Math.random() * wrongAudios1.length)],
+          );
+          f[catIndex][itemIndex] = "❌ Mauvaise réponse.";
         } else {
-          newFeedbacks[catIndex][itemIndex] =
-            `❌ La phrase correcte : "${phrase.replace(".......", word)}"`;
-          newAttempts[catIndex][itemIndex] = 0;
+          f[catIndex][itemIndex] =
+            `❌ Correction : « ${phrase.replace(".......", expected)} »`;
+          a[catIndex][itemIndex] = 0;
         }
       }
 
-      setFeedbacks(newFeedbacks);
-      setAttempts(newAttempts);
+      setFeedbacks(f);
+      setAttempts(a);
     };
 
     recognition.start();
   };
 
+  /* -------------------------------------------------------
+     RENDER
+  ------------------------------------------------------- */
   return (
     <section className="bg-white">
-      <div className="container pt-16">
-        <div className="mx-auto max-w-5xl text-center">
-          <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-[30px] text-sm font-semibold text-black">
-            Exercice
-          </span>
-          <h2 className="mt-3 text-[30px] text-black">
-            Exercice 1 — Complète et parle
-          </h2>
-          <p className="mx-auto mt-3 max-w-3xl text-base text-black/70 sm:text-lg">
-            Lis chaque phrase, puis appuie sur le micro pour dire le mot
-            manquant.
-          </p>
-        </div>
+      {/* HEADER */}
+      <div className="container pt-16 text-center">
+        <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-black">
+          Exercice
+        </span>
+
+        <h2 className="mt-4 text-3xl font-bold text-black">
+          Exercice 1 — Complète et parle
+        </h2>
+
+        <p className="mx-auto mt-3 max-w-3xl text-lg text-black/70">
+          Lis chaque phrase puis appuie sur le micro pour dire le mot manquant.
+        </p>
       </div>
 
-      <div className="container mt-10 pb-20">
-        <div className="grid gap-6 sm:grid-cols-2">
+      {/* CONTENT */}
+      <div className="container mt-14 pb-20">
+        <div className="grid gap-10 sm:grid-cols-2">
           {categories.map((cat, catIndex) => (
             <div
               key={cat.title}
-              className="relative w-full overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5"
+              className="
+                overflow-hidden rounded-2xl bg-white shadow-xl ring-1 
+                ring-black/5 transition hover:shadow-2xl
+              "
             >
-              <div className="flex items-center justify-between border-b border-black/5 px-5 py-4">
-                <h3 className="text-[18px] font-semibold text-black">
+              {/* ----- TITLE CARD ----- */}
+              <div className="border-b border-black/10 bg-amber-50 px-6 py-4">
+                <h3 className="text-xl font-semibold tracking-tight text-black">
                   {cat.title}
                 </h3>
               </div>
 
-              <ul className="divide-y divide-black/5">
+              {/* ----- ITEMS (CARDS AMÉLIORÉES) ----- */}
+              <div className="space-y-4 p-5">
                 {cat.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className="px-5 py-4">
-                    <div className="flex items-start gap-3">
-                      <button
-                        type="button"
-                        onClick={() => startRecognition(catIndex, itemIndex)}
-                        aria-label={`Parler pour la phrase ${itemIndex + 1}`}
-                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500 text-black shadow hover:bg-amber-400"
+                  <div
+                    key={itemIndex}
+                    className="
+                      flex items-start gap-4 rounded-xl bg-white px-5 py-4 
+                      shadow-md ring-1 ring-black/5
+                      transition-all duration-300 
+                      hover:-translate-y-[2px] hover:shadow-xl
+                    "
+                  >
+                    {/* Microphone */}
+                    <button
+                      onClick={() => startRecognition(catIndex, itemIndex)}
+                      aria-label={`Parler phrase ${itemIndex + 1}`}
+                      className="
+                        flex h-11 w-11 items-center justify-center 
+                        rounded-full bg-amber-500 text-black shadow 
+                        transition-all hover:scale-105 
+                        hover:bg-amber-400
+                      "
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
-                        🎤
-                      </button>
+                        <rect x="9" y="2" width="6" height="12" rx="3" />
+                        <path d="M5 10a7 7 0 0 0 14 0" />
+                        <line x1="12" y1="22" x2="12" y2="17" />
+                      </svg>
+                    </button>
 
-                      <div className="min-w-0">
-                        <p className="text-[16px] text-black">{item.phrase}</p>
-                        <p className="mt-1 text-sm text-black/60">
-                          {feedbacks[catIndex][itemIndex]}
-                        </p>
-                      </div>
+                    {/* Phrase */}
+                    <div>
+                      <p className="text-[15px] font-medium leading-snug text-black">
+                        {item.phrase}
+                      </p>
+
+                      <p className="mt-2 text-sm italic text-black/60">
+                        {feedbacks[catIndex][itemIndex]}
+                      </p>
                     </div>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
 
-              <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
-                Reconnaissance vocale
+              {/* FOOTER */}
+              <div className="px-4 pb-3">
+                <span className="rounded bg-black/5 px-2 py-1 text-xs text-black/60">
+                  Reconnaissance vocale
+                </span>
               </div>
             </div>
           ))}

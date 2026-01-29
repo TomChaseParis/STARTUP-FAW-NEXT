@@ -148,31 +148,15 @@ const Description: React.FC = () => {
         </div>
       </div>
 
-      {/* ================= IMAGE ================= */}
-      <div className="container mt-10 flex justify-center">
-        <div className="relative w-full max-w-[420px] overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5">
-          <Image
-            src="/images/courses/benoittime.png"
-            alt="benoittime"
-            width={420}
-            height={420}
-            className="h-auto w-full object-cover"
-            priority
-          />
-          <div className="absolute left-3 top-3 rounded-md bg-amber-400 px-2 py-1 text-xs font-semibold text-black shadow">
-            Débutant • A1
-          </div>
-        </div>
-      </div>
-
       {/* ================= VERBES ================= */}
       <div className="container mt-14">
-        <h2 className="mb-6 text-center text-2xl font-bold text-black">
+        <h2 className="mb-6 text-center text-2xl font-medium text-black">
           ÊTRE – AVOIR – FAIRE – ALLER
         </h2>
 
         <div className="grid gap-6 sm:grid-cols-2">
           <VerbCard
+            image="/images/courses/beginner/activities/activity1/asset-etre.png"
             title="ÊTRE"
             forms={[
               "Je suis",
@@ -186,6 +170,7 @@ const Description: React.FC = () => {
           />
 
           <VerbCard
+            image="/images/courses/beginner/activities/activity1/asset-avoir.png"
             title="AVOIR"
             forms={[
               "J’ai",
@@ -199,6 +184,7 @@ const Description: React.FC = () => {
           />
 
           <VerbCard
+            image="/images/courses/beginner/activities/activity1/asset-faire.png"
             title="FAIRE"
             forms={[
               "Je fais",
@@ -212,6 +198,7 @@ const Description: React.FC = () => {
           />
 
           <VerbCard
+            image="/images/courses/beginner/activities/activity1/asset-aller.png"
             title="ALLER"
             forms={[
               "Je vais",

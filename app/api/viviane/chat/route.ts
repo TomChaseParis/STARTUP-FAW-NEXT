@@ -1,78 +1,152 @@
 import { NextResponse } from "next/server";
-
-const SYSTEM_PROMPT = `
-Tu es Viviane, l’assistante pédagogique officielle de la plateforme “French Around the World”.
-
-🎯 Ta mission :
-Accompagner des apprenants adultes dans l’apprentissage du français langue étrangère (FLE) en t’adaptant à leur niveau : Débutant, Élémentaire 1, Élémentaire 2, Intermédiaire 1, Intermédiaire 2, ou Avancé.
-
-🏫 Ton rôle :
-Tu es bienveillante, patiente, motivante et professionnelle. Tu expliques simplement, encourages, corriges doucement, reformules, proposes des exemples et poses des questions courtes pour aider l’apprenant à progresser.
-
-🧠 Règles fondamentales :
-- Tu restes TOUJOURS dans le contexte de l’apprentissage du français.
-- Tu ne parles JAMAIS d’autre chose : pas de contenu hors sujet, pas de rôle différent.
-- Si l’élève dévie, tu le recadres gentiment vers son apprentissage.
-- Tu t’exprimes comme à l’oral (phrases courtes, naturelles, chaleureuses).
-- Tu adaptes ton vocabulaire et ton style au niveau supposé de l’élève.
-- Tu réponds toujours de manière pédagogique et encourageante.
-
-📚 Contenu :
-La plateforme contient de nombreuses leçons et activités. Tu peux :
-- expliquer une notion,
-- proposer un exercice oral,
-- poser une question simple,
-- reformuler, corriger, encourager,
-- proposer de passer à une activité correspondante au niveau.
-
-🗣 Style d’expression :
-- phrases simples pour les niveaux bas
-- phrases un peu plus riches pour les niveaux avancés
-- ton professionnel, chaleureux, jamais infantilisant
-- attitude positive et motivante
-
-🎤 Interaction :
-- tu privilégies les questions courtes
-- tu encourages l’apprenant à s’exprimer à l’oral
-- tu donnes des réponses concises et utiles
-
-🎯 But final :
-Aider l’apprenant dans son parcours FLE, étape par étape, en restant toujours dans ton rôle d’assistante pédagogique Viviane.
-
-Si l’élève parle d’un sujet qui n’a aucun lien avec l’apprentissage du français,
-tu le recadres doucement en disant par exemple :
-"Revenons à ton apprentissage du français. Que veux-tu travailler ?"
-`;
+import { SYSTEM_PROMPT } from "./prompt";
+import { extractName, extractGender, extractUserInfo, isEnglish } from "./nlp";
+import { getMemory, saveMessage, getUserData, updateUserData } from "./memory";
+import { ACTIVITY_1_CONTEXT } from "./context/beginner/activity1";
+import { ACTIVITY_CLARA_CONTEXT } from "./context/elementary/activity1";
 
 export const dynamic = "force-dynamic";
 
-// --- MÉMOIRE PAR UTILISATEUR ---
-const sessions = new Map<string, any[]>();
-
-function getMemory(userId: string) {
-  if (!sessions.has(userId)) sessions.set(userId, []);
-  return sessions.get(userId)!;
-}
-
-function saveMessage(userId: string, msg: any) {
-  const arr = getMemory(userId);
-  arr.push(msg);
-}
-
+// -----------------------------------------------------------
+// 📡 API POST — CHAT DE VIVIANE
+// -----------------------------------------------------------
 export async function POST(req: Request) {
-  const { userId, text } = await req.json();
+  const { userId, text, activityId } = await req.json();
 
-  // 1. Charger mémoire conversationnelle
+  const studentSpeaksEnglish = isEnglish(text);
   const memory = getMemory(userId);
+  const info = getUserData(userId);
+  const isFirstMessage = memory.length === 0;
 
-  // 2. Prompt complet
-  const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
-    ...memory,
-    { role: "user", content: text },
-  ];
+  // Extraction prénom + genre + infos (niveau, objectifs...)
+  const name = extractName(text);
+  const gender = extractGender(text);
+  const infos = extractUserInfo(text);
 
-  // 3. Appel à OLLAMA (LLM LOCAL)
+  if (name) updateUserData(userId, { name });
+  if (gender !== "unknown") updateUserData(userId, { gender });
+  if (Object.keys(infos).length > 0) updateUserData(userId, infos);
+
+  // -----------------------------------------------------------
+  // 🧠 CONSTRUCTION DU PROMPT CENTRAL
+  // -----------------------------------------------------------
+  const messages: any[] = [{ role: "system", content: SYSTEM_PROMPT }];
+
+  // -----------------------------------------------------------
+  // 🔥 INJECTION AUTOMATIQUE DU CONTEXTE DE L’ACTIVITÉ
+  // -----------------------------------------------------------
+  if (activityId === "beginner_activity_1") {
+    messages.push({
+      role: "system",
+      content: `
+Tu es actuellement dans l'activité : ${ACTIVITY_1_CONTEXT.title}.
+Voici toutes les données pédagogiques associées :
+
+${JSON.stringify(ACTIVITY_1_CONTEXT, null, 2)}
+
+Utilise ce contexte pour :
+- guider l’apprenant
+- proposer des explications cohérentes avec la leçon
+- encourager, reformuler, accompagner
+- rester alignée avec ce que l’élève voit à l’écran
+Ne répète jamais mot pour mot le JSON.
+      `.trim(),
+    });
+  }
+
+  if (activityId === "elementary_activity_1") {
+    messages.push({
+      role: "system",
+      content: `
+Tu es actuellement dans l'activité : ${ACTIVITY_CLARA_CONTEXT.title}.
+Voici le contexte pédagogique complet :
+
+${JSON.stringify(ACTIVITY_CLARA_CONTEXT, null, 2)}
+
+Utilise ce contexte pour :
+- guider l’apprenant
+- corriger ses questions
+- expliquer ses erreurs
+- l’aider à transformer JE → ELLE
+- réviser les verbes pronominaux
+- rester cohérente avec la vidéo de Clara
+- rester douce et encourageante
+Ne répète jamais le JSON.
+      `.trim(),
+    });
+  }
+
+  // -----------------------------------------------------------
+  // 🌐 MODE ANGLAIS SI L’ÉLÈVE PARLE ANGLAIS
+  // -----------------------------------------------------------
+  if (studentSpeaksEnglish) {
+    messages.push({
+      role: "system",
+      content: `
+The student is speaking in English.
+You MUST answer in English.
+Use extremely simple English.
+Explain French points clearly.
+Always include a tiny French example.
+Stay inside the activity.
+Be warm, gentle and encouraging.
+      `.trim(),
+    });
+  }
+
+  // -----------------------------------------------------------
+  // 👤 Données utilisateur (mémoire intelligente)
+  // -----------------------------------------------------------
+  if (info.name) {
+    messages.push({
+      role: "system",
+      content: `
+L'élève s'appelle ${info.name}.
+Genre : ${info.gender}.
+Niveau : ${info.level ?? "non renseigné"}.
+Objectifs : ${info.goals?.join(", ") || "aucun"}.
+Difficultés : ${info.issues?.join(", ") || "aucune"}.
+Préférences : ${info.preferences?.join(", ") || "aucune"}.
+
+Tu adaptes ton discours :
+- homme : "tu es prêt"
+- femme : "tu es prête"
+- inconnu : neutre
+
+Tu n'affiches jamais ces données.
+      `.trim(),
+    });
+  }
+
+  // -----------------------------------------------------------
+  // ⭐ MESSAGE D’ACCUEIL SI PREMIÈRE INTERACTION
+  // -----------------------------------------------------------
+  if (isFirstMessage) {
+    messages.push({
+      role: "system",
+      content: `
+MESSAGE D'ACCUEIL OBLIGATOIRE :
+Tu te présentes très brièvement.
+Tu demandes le prénom.
+Tu demandes comment il/elle va.
+Réponse courte.
+      `.trim(),
+    });
+  }
+
+  // -----------------------------------------------------------
+  // 💬 Mémoire conversationnelle
+  // -----------------------------------------------------------
+  messages.push(...memory);
+
+  // -----------------------------------------------------------
+  // 🧑‍🎓 Message de l’utilisateur
+  // -----------------------------------------------------------
+  messages.push({ role: "user", content: text });
+
+  // -----------------------------------------------------------
+  // 🤖 Appel au LLM via Ollama
+  // -----------------------------------------------------------
   const llmRes = await fetch("http://localhost:11434/api/chat", {
     method: "POST",
     body: JSON.stringify({
@@ -85,11 +159,15 @@ export async function POST(req: Request) {
   const llmData = await llmRes.json();
   const vivianeText = llmData.message.content;
 
-  // 4. Sauvegarder l'échange
+  // -----------------------------------------------------------
+  // 💾 Sauvegarde mémoire
+  // -----------------------------------------------------------
   saveMessage(userId, { role: "user", content: text });
   saveMessage(userId, { role: "assistant", content: vivianeText });
 
-  // 5. Génération audio via ELEVENLABS
+  // -----------------------------------------------------------
+  // 🔊 Synthèse vocale ElevenLabs
+  // -----------------------------------------------------------
   const audioRes = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${process.env.ELEVENLABS_VOICE_ID}`,
     {
@@ -108,7 +186,6 @@ export async function POST(req: Request) {
 
   const audioBuffer = await audioRes.arrayBuffer();
 
-  // 6. Retour texte + audio (base64)
   return NextResponse.json({
     text: vivianeText,
     audio: Buffer.from(audioBuffer).toString("base64"),

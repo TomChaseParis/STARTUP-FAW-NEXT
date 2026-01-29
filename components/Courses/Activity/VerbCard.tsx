@@ -1,34 +1,66 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 type VerbCardProps = {
   title: string;
-  forms: string[]; // ex: ["Je suis","Tu es",...]
+  forms: string[];
   onPlay: () => void;
+  image: string;
 };
 
-const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay }) => {
+const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay, image }) => {
   return (
-    <div className="group rounded-xl bg-white/90 shadow-lg ring-1 ring-black/5 transition hover:shadow-xl">
-      {/* Header */}
-      <div className="flex items-center justify-between rounded-t-xl bg-amber-100 px-5 py-3">
-        <h3 className="text-xl font-semibold text-black">{title}</h3>
-        <button
-          onClick={onPlay}
-          aria-label={`Écouter la conjugaison de ${title}`}
-          className="inline-flex items-center gap-2 rounded-md bg-amber-400 px-3 py-1.5 text-sm font-semibold text-black transition hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-        >
-          🔊 Écouter
-        </button>
+    <div
+      className="
+        group overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5 
+        transition-all duration-300 hover:shadow-2xl hover:-translate-y-1
+        flex
+      "
+    >
+      {/* ==== IMAGE FIXE, TAILLE IDENTIQUE POUR TOUTES ==== */}
+      <div className="relative w-40 h-40 flex-shrink-0 bg-white p-3">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          className="object-contain rounded-xl"
+        />
       </div>
 
-      {/* Corps : conjugaisons en grille 2 colonnes */}
-      <div className="px-6 py-5">
-        <div className="grid grid-cols-1 gap-y-2 text-black sm:grid-cols-2">
-          {forms.map((f, i) => (
-            <div key={i} className="text-base leading-7">
-              <span className="font-medium">{i + 1}.</span> {f}
+      {/* ==== CONTENU À DROITE ==== */}
+      <div className="flex-1 px-6 py-6 relative">
+        {/* Titre + bouton audio */}
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-semibold text-black">
+            {title}
+          </h3>
+
+          <button
+            onClick={onPlay}
+            aria-label={`Écouter ${title}`}
+            className="
+              flex items-center gap-2 rounded-lg 
+              bg-amber-400 px-4 py-2 text-sm font-semibold text-black shadow 
+              transition hover:bg-amber-300 hover:scale-105
+            "
+          >
+            🔊 Écouter
+          </button>
+        </div>
+
+        {/* Conjugaisons */}
+        <div className="mt-4 grid grid-cols-1 gap-y-2 text-black sm:grid-cols-2">
+          {forms.map((form, index) => (
+            <div
+              key={index}
+              className="text-base leading-7 transition group-hover:translate-x-1"
+            >
+              <span className="mr-2 font-semibold text-amber-600">
+                {index + 1}.
+              </span>
+              {form}
             </div>
           ))}
         </div>

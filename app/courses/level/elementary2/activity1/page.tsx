@@ -2,6 +2,7 @@ import React from 'react'
 import Description from './Description'
 import Exercice from './Exercice'
 import Exercice2 from './Exercice2'
+import ChatViviane from '@/app/components/ChatViviane'
 
 
 const page = () => {
@@ -10,6 +11,7 @@ const page = () => {
      <Description />
      <Exercice />
      <Exercice2 />
+     <ChatViviane activityId="elementary_activity_1" />
     </div>
   )
 }

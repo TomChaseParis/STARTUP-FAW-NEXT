@@ -8,6 +8,10 @@
   body {
     font-family: "Inter", sans-serif;
   }
+
+  .pop-font {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }
 }
 
 @layer components {
