@@ -7,10 +7,9 @@ type VerbCardProps = {
   title: string;
   forms: string[];
   onPlay: () => void;
-  image: string;
 };
 
-const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay, image }) => {
+const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay}) => {
   return (
     <div
       className="
@@ -19,15 +18,7 @@ const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay, image }) => {
         flex
       "
     >
-      {/* ==== IMAGE FIXE, TAILLE IDENTIQUE POUR TOUTES ==== */}
-      <div className="relative w-40 h-40 flex-shrink-0 bg-white p-3">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          className="object-contain rounded-xl"
-        />
-      </div>
+   
 
       {/* ==== CONTENU À DROITE ==== */}
       <div className="flex-1 px-6 py-6 relative">

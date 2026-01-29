@@ -156,7 +156,6 @@ const Description: React.FC = () => {
 
         <div className="grid gap-6 sm:grid-cols-2">
           <VerbCard
-            image="/images/courses/beginner/activities/activity1/asset-etre.png"
             title="ÊTRE"
             forms={[
               "Je suis",
@@ -170,7 +169,6 @@ const Description: React.FC = () => {
           />
 
           <VerbCard
-            image="/images/courses/beginner/activities/activity1/asset-avoir.png"
             title="AVOIR"
             forms={[
               "J’ai",
@@ -184,7 +182,6 @@ const Description: React.FC = () => {
           />
 
           <VerbCard
-            image="/images/courses/beginner/activities/activity1/asset-faire.png"
             title="FAIRE"
             forms={[
               "Je fais",
@@ -198,7 +195,6 @@ const Description: React.FC = () => {
           />
 
           <VerbCard
-            image="/images/courses/beginner/activities/activity1/asset-aller.png"
             title="ALLER"
             forms={[
               "Je vais",
