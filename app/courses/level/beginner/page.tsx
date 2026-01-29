@@ -64,6 +64,7 @@ const BeginnerPage = () => {
 
           <ActivityCard
             title="Activité 3"
+            subtitle="A l'agence matrimoniale"
             description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
             href="/courses/level/beginner/activities/activity3"
             level="beginner"

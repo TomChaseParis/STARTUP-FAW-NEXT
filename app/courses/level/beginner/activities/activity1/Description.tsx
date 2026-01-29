@@ -97,7 +97,7 @@ const Description: React.FC = () => {
         <div className="flex justify-center">
           <div className="w-full max-w-[720px]">
             <div className="relative aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
-            <video
+              <video
                 ref={videoRef}
                 src="/videos/marieactivity1.mp4"
                 poster="/images/courses/teacher/wide-marie.png"
@@ -111,7 +111,7 @@ const Description: React.FC = () => {
               <button
                 onClick={togglePlayPause}
                 className="absolute  inset-0 m-auto flex h-16 w-16 items-center justify-center 
-                           rounded-full bg-black/60 text-white text-2xl backdrop-blur
+                           rounded-full bg-black/60 text-2xl text-white backdrop-blur
                            hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                 aria-label={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
               >
@@ -174,25 +174,53 @@ const Description: React.FC = () => {
         <div className="grid gap-6 sm:grid-cols-2">
           <VerbCard
             title="ÊTRE"
-            forms={["Je suis", "Tu es", "Il/Elle est", "Nous sommes", "Vous êtes", "Ils/Elles sont"]}
+            forms={[
+              "Je suis",
+              "Tu es",
+              "Il/Elle est",
+              "Nous sommes",
+              "Vous êtes",
+              "Ils/Elles sont",
+            ]}
             onPlay={() => playAudio("/audios/etre.mp3")}
           />
 
           <VerbCard
             title="AVOIR"
-            forms={["J’ai", "Tu as", "Il/Elle a", "Nous avons", "Vous avez", "Ils/Elles ont"]}
+            forms={[
+              "J’ai",
+              "Tu as",
+              "Il/Elle a",
+              "Nous avons",
+              "Vous avez",
+              "Ils/Elles ont",
+            ]}
             onPlay={() => playAudio("/audios/avoir.mp3")}
           />
 
           <VerbCard
             title="FAIRE"
-            forms={["Je fais", "Tu fais", "Il/Elle fait", "Nous faisons", "Vous faites", "Ils/Elles font"]}
+            forms={[
+              "Je fais",
+              "Tu fais",
+              "Il/Elle fait",
+              "Nous faisons",
+              "Vous faites",
+              "Ils/Elles font",
+            ]}
             onPlay={() => playAudio("/audios/faire.mp3")}
           />
 
           <VerbCard
             title="ALLER"
-            forms={["Je vais", "Tu vas", "Il/Elle va", "Nous allons", "Vous allez", "Ils/Elles vont"]}
+            forms={[
+              "Je vais",
+              "Tu vas",
+              "Il/Elle va",
+              "Nous allons",
+              "Vous allez",
+              "Ils/Elles vont",
+            ]}
             onPlay={() => playAudio("/audios/aller.mp3")}
           />
         </div>

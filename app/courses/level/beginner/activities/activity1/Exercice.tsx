@@ -55,66 +55,43 @@ const categories = [
   },
 ];
 
-// Réponses
-const correctResponses = [
-  "Très bien, c'est correct !",
-  "Bravo, tu as trouvé la bonne réponse !",
-  "Parfait, on continue comme ça !",
-  "Exactement, c’est la bonne phrase !",
-  "Super, tu progresses !",
+// --- Audios de Marie ---
+const correctAudios = [
+  "/audios/courses/beginner/marie/correct/marie_correct_01.mp3",
+  "/audios/courses/beginner/marie/correct/marie_correct_02.mp3",
+  "/audios/courses/beginner/marie/correct/marie_correct_03.mp3",
+  "/audios/courses/beginner/marie/correct/marie_correct_04.mp3",
+  "/audios/courses/beginner/marie/correct/marie_correct_05.mp3",
+  "/audios/courses/beginner/marie/correct/marie_correct_06.mp3",
+  "/audios/courses/beginner/marie/correct/marie_correct_07.mp3",
 ];
-const wrongResponses1 = [
-  "Ce n’est pas ça, essaie encore.",
-  "Mauvaise réponse, essaye à nouveau.",
-  "Non, écoute bien et recommence.",
-  "Raté, essaie encore une fois.",
-  "Pas correct, refais un essai.",
-];
-const wrongResponses2 = [
-  "Toujours incorrect, concentre-toi.",
-  "Non, ce n’est pas encore juste.",
-  "Pas encore bon, essaie à nouveau.",
-  "Faux, continue de chercher.",
-  "Ce n’est toujours pas ça, réessaie.",
+
+const wrongAudios1 = [
+  "/audios/courses/beginner/marie/wrong/marie_wrong_01.mp3",
+  "/audios/courses/beginner/marie/wrong/marie_wrong_02.mp3",
+  "/audios/courses/beginner/marie/wrong/marie_wrong_03.mp3",
+  "/audios/courses/beginner/marie/wrong/marie_wrong_04.mp3",
+  "/audios/courses/beginner/marie/wrong/marie_wrong_05.mp3",
+  "/audios/courses/beginner/marie/wrong/marie_wrong_06.mp3",
+  "/audios/courses/beginner/marie/wrong/marie_wrong_07.mp3",
 ];
 
 const Exercice: React.FC = () => {
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [feedbacks, setFeedbacks] = useState<string[][]>(
-    categories.map((cat) => cat.items.map(() => ""))
+    categories.map((cat) => cat.items.map(() => "")),
   );
   const [attempts, setAttempts] = useState<number[][]>(
-    categories.map((cat) => cat.items.map(() => 0))
+    categories.map((cat) => cat.items.map(() => 0)),
   );
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const synth = window.speechSynthesis;
-    const loadVoices = () => {
-      const availableVoices = synth.getVoices();
-      if (availableVoices.length > 0) setVoices(availableVoices);
-    };
-    loadVoices();
-    synth.onvoiceschanged = loadVoices;
-    return () => {
-      synth.onvoiceschanged = null;
-    };
-  }, []);
-
-  const speak = (text: string) => {
-    if (typeof window === "undefined") return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voice =
-      voices.find((v) => v.name.includes("Google français")) || voices[0];
-    if (voice) utterance.voice = voice;
-    utterance.lang = "fr-FR";
-    utterance.pitch = 0.9;
-    utterance.rate = 0.9;
-    window.speechSynthesis.speak(utterance);
+  const playAudio = (file: string) => {
+    const audio = new Audio(file);
+    audio.play();
   };
 
   const startRecognition = (catIndex: number, itemIndex: number) => {
     if (typeof window === "undefined") return;
+
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
@@ -154,44 +131,27 @@ const Exercice: React.FC = () => {
       const newAttempts = attempts.map((cat) => [...cat]);
 
       if (transcriptNormalized.includes(currentWord)) {
-        const randomCorrect =
-          correctResponses[Math.floor(Math.random() * correctResponses.length)];
-        newFeedbacks[catIndex][itemIndex] = `✅ ${randomCorrect}`;
-        speak(randomCorrect);
+        const index = Math.floor(Math.random() * correctAudios.length);
+        newFeedbacks[catIndex][itemIndex] = "✅ Bonne réponse !";
+        playAudio(correctAudios[index]);
         newAttempts[catIndex][itemIndex] = 0;
       } else {
         newAttempts[catIndex][itemIndex] += 1;
-        const attemptCount = newAttempts[catIndex][itemIndex];
-        if (attemptCount === 1) {
-          const randomWrong1 =
-            wrongResponses1[Math.floor(Math.random() * wrongResponses1.length)];
-          newFeedbacks[catIndex][itemIndex] = randomWrong1;
-          speak(
-            `${randomWrong1} Répète après moi : ${phrase.replace(".......", word)}`
-          );
-        } else if (attemptCount === 2) {
-          const randomWrong2 =
-            wrongResponses2[Math.floor(Math.random() * wrongResponses2.length)];
-          newFeedbacks[catIndex][itemIndex] = randomWrong2;
-          speak(randomWrong2);
+        const attempt = newAttempts[catIndex][itemIndex];
+
+        if (attempt === 1) {
+          const index = Math.floor(Math.random() * wrongAudios1.length);
+          newFeedbacks[catIndex][itemIndex] = "❌ Mauvaise réponse.";
+          playAudio(wrongAudios1[index]);
         } else {
-          newFeedbacks[catIndex][itemIndex] = `❌ Mauvaise réponse. La phrase correcte était : "${phrase.replace(
-            ".......",
-            word
-          )}".`;
-          speak(`La phrase correcte était : ${phrase.replace(".......", word)}`);
+          newFeedbacks[catIndex][itemIndex] =
+            `❌ La phrase correcte : "${phrase.replace(".......", word)}"`;
           newAttempts[catIndex][itemIndex] = 0;
         }
       }
 
       setFeedbacks(newFeedbacks);
       setAttempts(newAttempts);
-    };
-
-    recognition.onerror = (event: any) => {
-      const newFeedbacks = feedbacks.map((cat) => [...cat]);
-      newFeedbacks[catIndex][itemIndex] = `Erreur : ${event.error}`;
-      setFeedbacks(newFeedbacks);
     };
 
     recognition.start();
@@ -201,15 +161,15 @@ const Exercice: React.FC = () => {
     <section className="bg-white">
       <div className="container pt-16">
         <div className="mx-auto max-w-5xl text-center">
-          <span className="inline-block text-[30px] rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-black">
+          <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-[30px] text-sm font-semibold text-black">
             Exercice
           </span>
           <h2 className="mt-3 text-[30px] text-black">
             Exercice 1 — Complète et parle
           </h2>
           <p className="mx-auto mt-3 max-w-3xl text-base text-black/70 sm:text-lg">
-            Lis chaque phrase, puis appuie sur le micro pour dire le mot manquant.
-            Tu auras un retour audio immédiat et la correction si besoin.
+            Lis chaque phrase, puis appuie sur le micro pour dire le mot
+            manquant.
           </p>
         </div>
       </div>
@@ -225,9 +185,6 @@ const Exercice: React.FC = () => {
                 <h3 className="text-[18px] font-semibold text-black">
                   {cat.title}
                 </h3>
-                <span className="rounded-md bg-amber-400 px-2 py-1 text-xs font-semibold text-black shadow">
-                  Parle &amp; vérifie
-                </span>
               </div>
 
               <ul className="divide-y divide-black/5">
@@ -237,8 +194,8 @@ const Exercice: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => startRecognition(catIndex, itemIndex)}
-                        aria-label={`Parler pour la phrase ${itemIndex + 1} de ${cat.title}`}
-                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500 text-black shadow hover:bg-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                        aria-label={`Parler pour la phrase ${itemIndex + 1}`}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500 text-black shadow hover:bg-amber-400"
                       >
                         🎤
                       </button>
