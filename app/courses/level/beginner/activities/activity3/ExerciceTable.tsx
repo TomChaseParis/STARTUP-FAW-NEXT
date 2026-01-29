@@ -119,13 +119,18 @@ const imageOptions = [
 
 const IMAGE_CORRECT_INDEX = 1;
 
-const Exercice: React.FC = () => {
+const ExerciceTable: React.FC = () => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [imageAnswer, setImageAnswer] = useState<number | null>(null);
 
   const [isValidated, setIsValidated] = useState(false);
   const [score, setScore] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
+
+  /* ---------------- CHECK IF ALL ANSWERED ---------------- */
+  const allAnswered =
+    Object.keys(answers).length === rows.length &&
+    imageAnswer !== null;
 
   /* ---------------- HANDLERS ---------------- */
 
@@ -162,6 +167,17 @@ const Exercice: React.FC = () => {
   return (
     <section className="bg-white">
       <div className="container mt-16 pb-20">
+
+        {/* -------- BARRE DE PROGRESSION -------- */}
+        <div className="w-full bg-slate-200 h-2 rounded-full mb-6">
+          <div
+            className="h-full bg-amber-500 rounded-full transition-all duration-500"
+            style={{
+              width: `${((Object.keys(answers).length + (imageAnswer !== null ? 1 : 0)) / (rows.length + 1)) * 100}%`,
+            }}
+          ></div>
+        </div>
+
         <div className="mx-auto max-w-6xl rounded-xl bg-white shadow-lg ring-1 ring-black/5">
           <div className="border-b border-black/5 px-6 py-4">
             <h3 className="text-lg font-semibold text-black">
@@ -172,45 +188,77 @@ const Exercice: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <tbody>
-                {rows.map((row, rowIndex) => (
-                  <tr key={rowIndex} className="border-t border-black/5">
-                    <td className="px-6 py-4 font-medium text-black">
-                      {row.question}
-                    </td>
+                {rows.map((row, rowIndex) => {
+                  const selected = answers[rowIndex];
+                  const correct = row.correctIndex;
 
-                    {row.options.map((opt, optIndex) => {
-                      const selected = answers[rowIndex] === optIndex;
-                      const isCorrect = optIndex === row.correctIndex;
-
-                      let style = "border-slate-300 bg-slate-50";
-
-                      if (!isValidated && selected) {
-                        style = "border-amber-500 bg-amber-100";
-                      }
-
-                      if (isValidated && isCorrect) {
-                        style = "border-green-600 bg-green-200 text-green-900";
-                      }
-
-                      if (isValidated && selected && !isCorrect) {
-                        style = "border-red-600 bg-red-200 text-red-900";
-                      }
-
-                      return (
-                        <td key={optIndex} className="px-4 py-3 text-center text-black">
-                          <button
-                            onClick={() =>
-                              handleSelect(rowIndex, optIndex)
-                            }
-                            className={`w-full rounded-md border px-3 py-2 text-sm font-semibold transition ${style}`}
-                          >
-                            {opt}
-                          </button>
+                  return (
+                    <React.Fragment key={rowIndex}>
+                      <tr className="border-t border-black/5">
+                        <td className="px-6 py-4 font-medium text-black">
+                          {row.question}
                         </td>
-                      );
-                    })}
-                  </tr>
-                ))}
+
+                        {row.options.map((opt, optIndex) => {
+                          const isSelected = selected === optIndex;
+                          const isCorrect = optIndex === correct;
+
+                          let style = "border-slate-300 bg-slate-50";
+
+                          if (!isValidated && isSelected) {
+                            style = "border-amber-500 bg-amber-100";
+                          }
+
+                          if (isValidated && isCorrect) {
+                            style =
+                              "border-green-600 bg-green-200 text-green-900";
+                          }
+
+                          if (isValidated && isSelected && !isCorrect) {
+                            style =
+                              "border-red-600 bg-red-200 text-red-900";
+                          }
+
+                          return (
+                            <td
+                              key={optIndex}
+                              className="px-4 py-3 text-center text-black"
+                            >
+                              <button
+                                onClick={() =>
+                                  handleSelect(rowIndex, optIndex)
+                                }
+                                className={`w-full rounded-md border px-3 py-2 text-sm font-semibold transition ${style}`}
+                              >
+                                {opt}
+                              </button>
+                            </td>
+                          );
+                        })}
+                      </tr>
+
+                      {/* === CORRECTION LIGNE === */}
+                      {isValidated && (
+                        <tr className="border-b border-black/10 bg-white/70">
+                          <td className="px-6 py-2 text-sm text-black/80" colSpan={4}>
+                            {selected === correct ? (
+                              <span className="text-green-600 font-bold text-lg">✔ Bonne réponse</span>
+                            ) : (
+                              <div className="flex gap-4">
+                                <span className="text-red-600 font-semibold">
+                                  ❌ {row.options[selected!]}
+                                </span>
+                                <span className="text-green-600 font-semibold">
+                                  ✔ {row.options[correct]}
+                                </span>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
 
                 {/* IMAGE QUESTION */}
                 <tr className="border-t-2 border-black/10 bg-slate-50">
@@ -237,7 +285,10 @@ const Exercice: React.FC = () => {
                     }
 
                     return (
-                      <td key={index} className="px-4 py-6 text-center">
+                      <td
+                        key={index}
+                        className="px-4 py-6 text-center"
+                      >
                         <button
                           onClick={() => handleImageSelect(index)}
                           className={`rounded-lg border-2 p-1 transition ${style}`}
@@ -254,6 +305,26 @@ const Exercice: React.FC = () => {
                     );
                   })}
                 </tr>
+
+                {/* Correction image */}
+                {isValidated && (
+                  <tr className="border-b border-black/10 bg-white/70">
+                    <td colSpan={4} className="px-6 py-3">
+                      {imageAnswer === IMAGE_CORRECT_INDEX ? (
+                        <span className="text-green-600 font-bold text-lg">✔ Bonne réponse</span>
+                      ) : (
+                        <div className="flex gap-4">
+                          <span className="text-red-600 font-semibold">
+                            ❌ Mauvaise image
+                          </span>
+                          <span className="text-green-600 font-semibold">
+                            ✔ Bonne image : {IMAGE_CORRECT_INDEX + 1}
+                          </span>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -262,7 +333,13 @@ const Exercice: React.FC = () => {
             <div className="flex justify-center py-8">
               <button
                 onClick={handleValidate}
-                className="rounded-xl bg-black px-8 py-3 font-semibold text-white hover:bg-black/80"
+                disabled={!allAnswered}
+                className={`rounded-xl px-8 py-3 font-semibold text-white 
+                  ${
+                    allAnswered
+                      ? "bg-black hover:bg-black/80"
+                      : "bg-black/30 cursor-not-allowed"
+                  }`}
               >
                 Valider
               </button>
@@ -302,4 +379,4 @@ const Exercice: React.FC = () => {
   );
 };
 
-export default Exercice;
+export default ExerciceTable;

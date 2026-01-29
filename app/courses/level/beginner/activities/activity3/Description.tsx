@@ -191,7 +191,7 @@ const Description: React.FC = () => {
       {/* ================= BANNIÈRE ================= */}
       <div className="container mt-20">
         <div className="flex justify-center">
-          <div className="relative w-full max-w-5xl overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
+          <div className="relative w-full max-w-2xl overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
             <Image
               src={ImgTop} // à adapter à ton image
               alt="Souvenirs de vacances au bord de la mer"
