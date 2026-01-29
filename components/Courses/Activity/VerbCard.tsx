@@ -59,6 +59,10 @@ const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay, image }) => {
             >
               <span className="mr-2 font-semibold text-amber-600">
                 {index + 1}.
+
+
+
+                
               </span>
               {form}
             </div>
