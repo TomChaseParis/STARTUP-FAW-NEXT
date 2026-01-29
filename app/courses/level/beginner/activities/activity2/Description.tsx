@@ -4,28 +4,58 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import Exercice from "@/app/courses/level/beginner/activities/activity2/Exercice";
 
-/**
- * Description (Actaivité 2) — Cohérente avec l'activité 1
- * - Header avec badge amber, titre noir, sous-titre gris
- * - Carte vidéo avec overlay Play (custom), chip “Tutoriel vidéo”
- * - Carte image avec chip amber
- * - Cadre audio stylé (bouton noir/80 comme Play)
- * - Exercice importé en bas avec la même grammaire visuelle
- */
+const formatTime = (time: number) => {
+  if (!time || isNaN(time)) return "0:00";
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
 
 const Description: React.FC = () => {
+  /* ========= VIDEO ========= */
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [videoPlaying, setVideoPlaying] = useState(false);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const togglePlayPause = () => {
+    if (!videoRef.current) return;
+
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (!videoRef.current) return;
+    setCurrentTime(videoRef.current.currentTime);
+  };
+
+  const handleLoadedMetadata = () => {
+    if (!videoRef.current) return;
+    setDuration(videoRef.current.duration);
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!videoRef.current) return;
+    const time = Number(e.target.value);
+    videoRef.current.currentTime = time;
+    setCurrentTime(time);
+  };
+
+  const handleFullscreen = () => {
+    if (!videoRef.current) return;
+    videoRef.current.requestFullscreen?.();
+  };
+
+  /* ========= AUDIO ========= */
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [audioPlaying, setAudioPlaying] = useState(false);
-
-  const playVideo = () => {
-    if (!videoRef.current) return;
-    videoRef.current.play();
-    setVideoPlaying(true);
-    videoRef.current.onended = () => setVideoPlaying(false);
-  };
 
   const toggleAudio = () => {
     if (!audioRef.current) return;
@@ -57,47 +87,60 @@ const Description: React.FC = () => {
         </div>
       </div>
 
-      {/* Vidéo + Image */}
+      {/* 🎯 VIDÉO CENTRÉE EXACTEMENT COMME L’AUTRE FICHIER */}
       <div className="container mt-10">
-        <div className="grid items-start gap-8 lg:grid-cols-2">
-          {/* Vidéo */}
-          <div className="flex justify-center">
-            <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
+        <div className="flex justify-center">
+          <div className="w-full max-w-[720px]">
+            {/* --- VIDEO CARD --- */}
+            <div className="relative aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
               <video
                 ref={videoRef}
-                src="/videos/videoexo.mp4"
-                className="h-full w-full bg-black object-contain"
+                src="/videos/marieactivity1.mp4"
+                className="h-full w-full bg-black object-cover"
                 controls={false}
-                poster="/images/courses/teacher/proffemme.png"
+                poster="/images/courses/teacher/wide-marie.png"
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
+                onEnded={() => setIsPlaying(false)}
               />
-              {!videoPlaying && (
-                <button
-                  onClick={playVideo}
-                  className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-                  aria-label="Lire la vidéo"
-                >
-                  ▶
-                </button>
-              )}
+
+              {/* Bouton central Play / Pause */}
+              <button
+                onClick={togglePlayPause}
+                className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-2xl text-white backdrop-blur hover:bg-black/50"
+              >
+                {isPlaying ? "⏸" : "▶"}
+              </button>
+
+              {/* Badge Tutoriel */}
               <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
                 Tutoriel vidéo
               </div>
             </div>
-          </div>
 
-          {/* Image */}
-          <div className="flex justify-center">
-            <div className="relative w-full max-w-[420px] overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5">
-              <Image
-                src="/images/courses/headeractivity.png"
-                alt="professeur"
-                width={420}
-                height={420}
-                className="h-auto w-full object-cover"
-                priority
+            {/* --- Barre de progression --- */}
+            <div className="mt-3 space-y-2">
+              <input
+                type="range"
+                min={0}
+                max={duration}
+                step={0.1}
+                value={currentTime}
+                onChange={handleSeek}
+                className="w-full"
               />
-              <div className="absolute left-3 top-3 rounded-md bg-amber-400 px-2 py-1 text-xs font-semibold text-black shadow">
-                Débutant • A1
+
+              <div className="flex items-center justify-between text-sm text-black">
+                <span>
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </span>
+
+                <button
+                  onClick={handleFullscreen}
+                  className="rounded-md bg-black px-3 py-1 text-white hover:bg-black/80"
+                >
+                  ⛶ Plein écran
+                </button>
               </div>
             </div>
           </div>
@@ -116,12 +159,13 @@ const Description: React.FC = () => {
                 Audio
               </span>
             </div>
+
             <div className="px-5 py-5">
               <button
                 onClick={toggleAudio}
-                className="inline-flex items-center justify-center rounded-lg bg-black/80 px-5 py-2.5 text-white backdrop-blur hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                className="inline-flex items-center justify-center rounded-lg bg-black/80 px-5 py-2.5 text-white hover:bg-black/70"
               >
-                {audioPlaying ? "⏸︎ Pause" : "▶ Écouter"}
+                {audioPlaying ? "⏸ Pause" : "▶ Écouter"}
               </button>
               <audio ref={audioRef} src="/audios/lunch.wav" />
               <p className="mt-3 text-sm text-black/60">
@@ -129,6 +173,7 @@ const Description: React.FC = () => {
                 mots-clés utiles.
               </p>
             </div>
+
             <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black backdrop-blur">
               Fichier audio
             </div>
@@ -136,13 +181,11 @@ const Description: React.FC = () => {
         </div>
       </div>
 
-      {/* Exercice + Image latérale */}
+      {/* Exercice + Image */}
       <div className="container mt-14 pb-20">
         <div className="flex flex-wrap">
-          {/* Colonne Quiz */}
           <Exercice />
 
-          {/* Colonne Image */}
           <div className="mt-8 w-full px-6 lg:mt-0 lg:w-1/2">
             <div className="relative w-full overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black/5">
               <Image
