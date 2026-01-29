@@ -169,13 +169,18 @@ const ExerciceTable: React.FC = () => {
       <div className="container mt-16 pb-20">
 
         {/* -------- BARRE DE PROGRESSION -------- */}
-        <div className="w-full bg-slate-200 h-2 rounded-full mb-6">
-          <div
-            className="h-full bg-amber-500 rounded-full transition-all duration-500"
-            style={{
-              width: `${((Object.keys(answers).length + (imageAnswer !== null ? 1 : 0)) / (rows.length + 1)) * 100}%`,
-            }}
-          ></div>
+      
+  <div className="mx-auto max-w-6xl rounded-xl bg-white shadow-lg ring-1 ring-black/5">
+
+{/* -------- BARRE DE PROGRESSION -------- */}
+<div className="w-full bg-slate-200 h-2 rounded-full mb-6">
+  <div
+    className="h-full bg-amber-500 rounded-full transition-all duration-500"
+    style={{
+      width: `${((Object.keys(answers).length + (imageAnswer !== null ? 1 : 0)) / (rows.length + 1)) * 100}%`,
+    }}
+  ></div>
+</div>
         </div>
 
         <div className="mx-auto max-w-6xl rounded-xl bg-white shadow-lg ring-1 ring-black/5">
