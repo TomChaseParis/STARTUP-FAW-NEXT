@@ -41,7 +41,7 @@ const questions: Question[] = [
         id: "C",
         label: "Ils font du tennis",
         isCorrect: true,
-        explanation: "Bonne r&eacute;ponse&nbsp;: ils jouent au tennis.",
+        explanation: "Bonne réponse : ils jouent au tennis.",
       },
     ],
   },
@@ -60,8 +60,7 @@ const questions: Question[] = [
         id: "B",
         label: "Elles mangent une pizza",
         isCorrect: true,
-        explanation:
-          "Bonne r&eacute;ponse&nbsp;: elles mangent bien une pizza.",
+        explanation: "Bonne réponse : elles mangent bien une pizza.",
       },
       {
         id: "C",
@@ -84,10 +83,9 @@ const questions: Question[] = [
       },
       {
         id: "B",
-        label: "Ils vont &agrave; la plage",
+        label: "Ils vont à la plage",
         isCorrect: true,
-        explanation:
-          "Bonne r&eacute;ponse&nbsp;: on les voit aller &agrave; la plage.",
+        explanation: "Bonne réponse : on les voit aller à la plage.",
       },
       {
         id: "C",
@@ -104,10 +102,9 @@ const questions: Question[] = [
     choices: [
       {
         id: "A",
-        label: "Non, ils d&eacute;testent leur repas",
+        label: "Non, ils détestent leur repas",
         isCorrect: true,
-        explanation:
-          "Bonne r&eacute;ponse&nbsp;: ils n’aiment pas du tout leur repas.",
+        explanation: "Bonne réponse : ils n’aiment pas du tout leur repas.",
       },
       {
         id: "B",
@@ -117,10 +114,9 @@ const questions: Question[] = [
       },
       {
         id: "C",
-        label: "Comme ci, comme &ccedil;a",
+        label: "Comme ci, comme ça",
         isCorrect: false,
-        explanation:
-          "Ils d&eacute;testent leur repas&nbsp;: ce n’est pas neutre.",
+        explanation: "Ils détestent leur repas : ce n’est pas neutre.",
       },
     ],
   },
@@ -143,10 +139,9 @@ const questions: Question[] = [
       },
       {
         id: "C",
-        label: "Ils jouent aux &eacute;checs",
+        label: "Ils jouent aux échecs",
         isCorrect: true,
-        explanation:
-          "Bonne r&eacute;ponse&nbsp;: ils jouent bien aux &eacute;checs.",
+        explanation: "Bonne réponse : ils jouent bien aux échecs.",
       },
     ],
   },
@@ -159,14 +154,13 @@ const questions: Question[] = [
         id: "A",
         label: "Elles finissent leurs devoirs de classe",
         isCorrect: true,
-        explanation:
-          "Bonne r&eacute;ponse&nbsp;: elles sont en train de travailler.",
+        explanation: "Bonne réponse : elles sont en train de travailler.",
       },
       {
         id: "B",
-        label: "Elles regardent la t&eacute;l&eacute;vision",
+        label: "Elles regardent la télévision",
         isCorrect: false,
-        explanation: "Elles ne regardent pas la t&eacute;l&eacute;vision.",
+        explanation: "Elles ne regardent pas la télévision.",
       },
       {
         id: "C",
@@ -197,7 +191,7 @@ const questions: Question[] = [
         id: "C",
         label: "Ils sont au Maroc",
         isCorrect: true,
-        explanation: "Bonne r&eacute;ponse&nbsp;: ils sont bien au Maroc.",
+        explanation: "Bonne réponse : ils sont bien au Maroc.",
       },
     ],
   },
@@ -214,14 +208,14 @@ const questions: Question[] = [
       },
       {
         id: "B",
-        label: "Ils sont trop fatigu&eacute;s, ils ne peuvent plus marcher",
+        label: "Ils sont trop fatigués, ils ne peuvent plus marcher",
         isCorrect: true,
         explanation:
-          "Bonne r&eacute;ponse&nbsp;: ils n’en peuvent plus et sont &eacute;puis&eacute;s.",
+          "Bonne réponse : ils n’en peuvent plus et sont épuisés.",
       },
       {
         id: "C",
-        label: "Ils sont tr&egrave;s contents, ils rient sans s’arr&ecirc;ter",
+        label: "Ils sont très contents, ils rient sans s’arrêter",
         isCorrect: false,
         explanation: "Ce n’est pas du tout ce qui se passe.",
       },
@@ -280,7 +274,7 @@ const Exercice2: React.FC = () => {
             ✍️ Exercice — Compréhension
           </h3>
           <p className="leading-relaxed text-black/80">
-            Choisissez la r&eacute;ponse qui correspond &agrave; l&apos;image.
+            Choisissez la réponse qui correspond à l’image.
           </p>
         </div>
 
@@ -328,7 +322,7 @@ const Exercice2: React.FC = () => {
               {showAnswer && (
                 <div className="mt-6 rounded-lg bg-white p-4 ring-1 ring-black/5">
                   <p className="mb-1 font-medium text-black">
-                    R&eacute;ponse correcte :
+                    Réponse correcte :
                   </p>
                   <p className="text-black/80">
                     {
@@ -380,7 +374,7 @@ const Exercice2: React.FC = () => {
           />
           <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl">
             <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-amber-500">
-              R&eacute;sultat final
+              Résultat final
             </p>
             <p className="text-5xl font-extrabold text-black">
               {Math.round((score / totalQuestions) * 100)}
@@ -395,7 +389,7 @@ const Exercice2: React.FC = () => {
               onClick={() => setShowModal(false)}
               className="mt-6 rounded-lg bg-amber-500 px-6 py-3 font-semibold text-black hover:bg-amber-400"
             >
-              Voir mes r&eacute;sultats
+              Voir mes résultats
             </button>
           </div>
         </div>
