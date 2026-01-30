@@ -286,7 +286,7 @@ const Exercice2: React.FC = () => {
           <div className="flex flex-col gap-8 lg:flex-row">
             {/* ------ TEXTE ------ */}
             <div className="flex-1">
-              <p className="mb-6 text-lg text-black">
+              <p className="mb-6 text-lg text-black">npm run buildnpm run build
                 {currentQuestion.question}
               </p>
 
