@@ -81,7 +81,7 @@ const Description: React.FC = () => {
             Les loisirs des Français
           </h1>
           <p className="mx-auto mt-3 max-w-3xl text-base text-black/70 sm:text-lg">
-            Regarde la vidéo, puis écoute l'audio et complète le texte.
+            Regarde la vidéo, puis écoute l&apos;audio et complète le texte.
           </p>
         </div>
       </div>
@@ -179,7 +179,7 @@ const Description: React.FC = () => {
               </h3>
               <ul className="list-disc space-y-1 pl-5 text-black/80">
                 <li>
-                  Conjugaison au présent : 3ème personne du pluriel
+                  Conjugaison au présent : 3ème personne du pluriel{" "}
                   <span className="italic">(ils/elles)</span>{" "}
                 </li>
                 <li>Questions et mots interrogatifs</li>
@@ -198,12 +198,13 @@ const Description: React.FC = () => {
           </div>
         </div>
       </div>
+
       {/* ================= BANNIÈRE ================= */}
       <div className="container mt-20">
         <div className="flex justify-center">
           <div className="relative w-full max-w-md overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
             <Image
-              src="/images/courses/elementary/lesloisirsdesfrancais/illustration1.png" // à adapter à ton image
+              src="/images/courses/elementary/lesloisirsdesfrancais/illustration1.png"
               alt=""
               width={1200}
               height={400}
@@ -254,12 +255,12 @@ const Description: React.FC = () => {
       {/* ================= CONSIGNE EXERCICE 1 ================= */}
       <div className="mx-auto mb-10 mt-[140px] max-w-5xl rounded-xl bg-amber-50 p-6 text-left shadow-sm ring-1 ring-amber-200">
         <h3 className="mb-3 text-lg font-semibold text-black">
-          ✍️ Exercice — Ecoutez le texte et conjuguez tous les verbes à la
+          ✍️ Exercice — Écoutez le texte et conjuguez tous les verbes à la
           troisième personne du pluriel.
         </h3>
 
         <p className="leading-relaxed text-black/80">
-          Ecoutez le texte et conjuguez tous les verbes à la troisième personne
+          Écoutez le texte et conjuguez tous les verbes à la troisième personne
           du pluriel.
           <br />
           Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet.
@@ -267,7 +268,8 @@ const Description: React.FC = () => {
 
         <p className="mt-3 text-black/80">
           <strong>
-            Attention : La marque du pluriel (–ent) ne s’entend pas à l’oral !
+            Attention : La marque du pluriel (–ent) ne s&apos;entend pas à
+            l&apos;oral !
           </strong>
         </p>
       </div>
