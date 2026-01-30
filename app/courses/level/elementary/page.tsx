@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -7,25 +6,25 @@ import ImgTeacher1 from "../../../public/images/courses/teacher/jean.jpg";
 import ActivityCard from "@/components/Courses/Shared/ActivityCard";
 
 const ElementaryPage = () => {
-     const videoRef = useRef<HTMLVideoElement | null>(null);
-      const [videoPlaying, setVideoPlaying] = useState(false);
-    
-      const playVideo = () => {
-        if (videoRef.current) {
-          videoRef.current.play();
-          setVideoPlaying(true);
-        }
-      };
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+
+  const playVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setVideoPlaying(true);
+    }
+  };
   return (
     <section className="bg-white py-16 md:py-20 lg:py-28">
-      <div className="container pt-[90px] flex flex-col items-start space-y-12">
+      <div className="container flex flex-col items-start space-y-12 pt-[90px]">
         {/* Bloc vidéo en haut (remplace la card) */}
-        <div className="flex justify-start w-full">
+        <div className="flex w-full justify-start">
           <div className="relative aspect-video w-full max-w-[640px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
             <video
               ref={videoRef}
               src="/videos/jean-presentation.mp4" // 👉 mets ton fichier vidéo ici
-              className="h-full w-full object-cover bg-black"
+              className="h-full w-full bg-black object-cover"
               controls={false}
               poster="/images/courses/teacher/jean-video.png"
             />
@@ -38,14 +37,14 @@ const ElementaryPage = () => {
                 ▶
               </button>
             )}
-            <div className="absolute top-3 left-3 rounded bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow">
+            <div className="absolute left-3 top-3 rounded bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow">
               ELEMENTAIRE
             </div>
           </div>
         </div>
 
         {/* Grille des activités : on passe title/description/href en props */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <ActivityCard
             title="Activité 1"
             subtitle="QCM vocal"
@@ -56,43 +55,38 @@ const ElementaryPage = () => {
 
           <ActivityCard
             title="Activité 2"
-            subtitle="Compréhension orale"
+            subtitle="Les loisirs des français"
             description="Ecoute la conversation et réponds à l'oral"
-            href="/courses/level/beginner/activity2"
-                        level="elementary"
-
+            href="/courses/level/elementary/activities/activity2"
+            level="elementary"
           />
 
           <ActivityCard
             title="Activité 3"
             description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
             href="/courses/level/beginner/activity3"
-                        level="elementary"
-
+            level="elementary"
           />
 
           <ActivityCard
             title="Activité 4"
             description="Lecture guidée : repérer les infos clés dans un texte court."
             href="/courses/level/beginner/activity4"
-                        level="elementary"
-
+            level="elementary"
           />
 
           <ActivityCard
             title="Activité 5"
             description="Prononciation : rythme, liaisons et intonation de base."
             href="/courses/level/beginner/activity5"
-                        level="elementary"
-
+            level="elementary"
           />
 
           <ActivityCard
             title="Activité 6"
             description="Production orale : mini-dialogues du quotidien."
             href="/courses/level/beginner/activity6"
-                        level="elementary"
-
+            level="elementary"
           />
         </div>
       </div>
