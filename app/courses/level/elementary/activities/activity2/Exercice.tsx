@@ -14,31 +14,31 @@ const Exercice2: React.FC = () => {
     {
       id: 1,
       before:
-        "Les loisirs préférés des Français.\nBien sûr, ça dépend des générations, mais en général, quand ils sont chez eux, ils ",
+        "Les loisirs pr&eacute;f&eacute;r&eacute;s des Fran&ccedil;ais.\nBien s&ucirc;r, &ccedil;a d&eacute;pend des g&eacute;n&eacute;rations, mais en g&eacute;n&eacute;ral, quand ils sont chez eux, ils ",
       answer: "aiment",
       after:
-        " bien écouter de la musique, regarder un film à la télévision ou en DVD.",
+        " bien &eacute;couter de la musique, regarder un film &agrave; la t&eacute;l&eacute;vision ou en DVD.",
       hint: "aimer",
     },
     {
       id: 2,
       before:
-        "L’ordinateur prend une place de plus en plus importante. Les Français l’",
+        "L&rsquo;ordinateur prend une place de plus en plus importante. Les Fran&ccedil;ais l&rsquo;",
       answer: "utilisent",
       after:
-        " pour surfer sur Internet, mais aussi pour tenir leur blog, faire des montages vidéos, s’occuper de leurs photos ou encore télécharger de la musique.",
+        " pour surfer sur Internet, mais aussi pour tenir leur blog, faire des montages vid&eacute;os, s&rsquo;occuper de leurs photos ou encore t&eacute;l&eacute;charger de la musique.",
       hint: "utiliser",
     },
     {
       id: 3,
       before: "Ils ",
       answer: "adorent",
-      after: " jouer aux jeux vidéo.",
+      after: " jouer aux jeux vid&eacute;o.",
       hint: "adorer",
     },
     {
       id: 4,
-      before: "En général, ils ",
+      before: "En g&eacute;n&eacute;ral, ils ",
       answer: "jouent",
       after:
         " sur leur ordinateur ou sur leur console, mais il y a de plus en plus de gens qui ",
@@ -48,14 +48,14 @@ const Exercice2: React.FC = () => {
       id: 5,
       before: "",
       answer: "jouent",
-      after: " sur leurs téléphones portables.",
+      after: " sur leurs t&eacute;l&eacute;phones portables.",
       hint: "jouer",
     },
     {
       id: 6,
       before: "Il y a aussi ceux qui ",
       answer: "aiment",
-      after: " bricoler, laver leur voiture ou s’occuper de leur jardin.",
+      after: " bricoler, laver leur voiture ou s&rsquo;occuper de leur jardin.",
       hint: "aimer",
     },
     {
@@ -63,43 +63,45 @@ const Exercice2: React.FC = () => {
       before: "Ils ",
       answer: "lisent",
       after:
-        " aussi beaucoup de romans, des magazines et des bandes dessinées.",
+        " aussi beaucoup de romans, des magazines et des bandes dessin&eacute;es.",
       hint: "lire",
     },
     {
       id: 8,
       before: "Quand ils ",
       answer: "sortent",
-      after: ", les Français ",
+      after: ", les Fran&ccedil;ais ",
       hint: "sortir",
     },
     {
       id: 9,
       before: "",
       answer: "vont",
-      after: " beaucoup au cinéma.",
+      after: " beaucoup au cin&eacute;ma.",
       hint: "aller",
     },
     {
       id: 10,
       before: "Les jeunes ",
       answer: "passent",
-      after: " beaucoup de temps à boire des cafés au bar, et les étudiants ",
+      after:
+        " beaucoup de temps &agrave; boire des caf&eacute;s au bar, et les &eacute;tudiants ",
       hint: "passer",
     },
     {
       id: 11,
       before: "",
       answer: "aiment",
-      after: " bien sortir boire une bière en ville ou aller en discothèque.",
+      after:
+        " bien sortir boire une bi&egrave;re en ville ou aller en discoth&egrave;que.",
       hint: "aimer",
     },
     {
       id: 12,
-      before: "Les Français ",
-      answer: "apprécient",
+      before: "Les Fran&ccedil;ais ",
+      answer: "appr&eacute;cient",
       after:
-        " aussi les visites de musées, le théâtre et les concerts de rock, les concerts de jazz, les concerts de musique pop, etc.",
+        " aussi les visites de mus&eacute;es, le th&eacute;&acirc;tre et les concerts de rock, les concerts de jazz, les concerts de musique pop, etc.",
       hint: "apprécier",
     },
     {
@@ -107,28 +109,28 @@ const Exercice2: React.FC = () => {
       before: "Quand ils ",
       answer: "font",
       after:
-        " du sport, les garçons font du football, du tennis, du rugby, du basket et des arts martiaux comme le judo ou le karaté.",
+        " du sport, les gar&ccedil;ons font du football, du tennis, du rugby, du basket et des arts martiaux comme le judo ou le karat&eacute;.",
       hint: "faire",
     },
     {
       id: 14,
       before: "Les filles ",
-      answer: "préfèrent",
+      answer: "pr&eacute;f&egrave;rent",
       after:
-        " le tennis, la danse, la natation, l’équitation ou la gymnastique.",
-      hint: "préférer",
+        " le tennis, la danse, la natation, l&rsquo;&eacute;quitation ou la gymnastique.",
+      hint: "pr&eacute;f&eacute;rer",
     },
     {
       id: 15,
-      before: "Les plus âgés ",
-      answer: "préfèrent",
+      before: "Les plus &acirc;g&eacute;s ",
+      answer: "pr&eacute;f&egrave;rent",
       after:
-        " le vélo, la marche, la natation ou, bien sûr, une bonne partie de pétanque.",
-      hint: "préférer",
+        " le v&eacute;lo, la marche, la natation ou, bien s&ucirc;r, une bonne partie de p&eacute;tanque.",
+      hint: "pr&eacute;f&eacute;rer",
     },
     {
       id: 16,
-      before: "Les Français ",
+      before: "Les Fran&ccedil;ais ",
       answer: "aiment",
       after: " aussi jouer de la musique : ils ",
       hint: "aimer",
@@ -142,10 +144,10 @@ const Exercice2: React.FC = () => {
     },
     {
       id: 18,
-      before: "Mais depuis quelques années, les percussions africaines ",
+      before: "Mais depuis quelques ann&eacute;es, les percussions africaines ",
       answer: "sont",
       after:
-        " très à la mode et on entend de plus en plus le son du djembé dans les parcs et les rues de France.",
+        " tr&egrave;s &agrave; la mode et on entend de plus en plus le son du djemb&eacute; dans les parcs et les rues de France.",
       hint: "être",
     },
   ];
@@ -199,7 +201,7 @@ const Exercice2: React.FC = () => {
         {/* -------- TEXTE À TROUS -------- */}
         <div className="rounded-xl bg-white p-8 text-left shadow-lg ring-1 ring-black/5 transition-all duration-300">
           <h3 className="mb-6 text-lg font-semibold text-black">
-            Complète le texte :
+            Compl&egrave;te le texte :
           </h3>
 
           <div className="space-y-4 whitespace-pre-line text-[17px] leading-relaxed text-slate-800">
@@ -249,7 +251,6 @@ const Exercice2: React.FC = () => {
                         `}
                       />
 
-                      {/* --- HINT (infinitif) --- */}
                       <span className="ml-3 text-sm text-slate-400">
                         ({gap.hint})
                       </span>
@@ -258,7 +259,6 @@ const Exercice2: React.FC = () => {
 
                   {gap.after}
 
-                  {/* ------ Correction visuelle DEMANDÉE ------ */}
                   {showCorrection && gap.answer !== "" && (
                     <span className="ml-3 inline-flex items-center gap-2">
                       {isCorrect ? (
@@ -298,7 +298,7 @@ const Exercice2: React.FC = () => {
                   }
                 `}
               >
-                Vérifier mes réponses
+                V&eacute;rifier mes r&eacute;ponses
               </button>
             )}
 
@@ -327,7 +327,7 @@ const Exercice2: React.FC = () => {
 
           <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl">
             <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-amber-500">
-              Résultat final
+              R&eacute;sultat final
             </p>
 
             <p className="text-5xl font-extrabold text-black">
@@ -339,7 +339,7 @@ const Exercice2: React.FC = () => {
               onClick={() => setShowModal(false)}
               className="mt-6 rounded-lg bg-amber-500 px-6 py-3 font-semibold text-black hover:bg-amber-400"
             >
-              Voir mes résultats
+              Voir mes r&eacute;sultats
             </button>
           </div>
         </div>

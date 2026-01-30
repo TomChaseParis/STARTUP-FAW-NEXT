@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 
 /* ========= Types ========= */
 type Choice = {
@@ -40,7 +41,7 @@ const questions: Question[] = [
         id: "C",
         label: "Ils font du tennis",
         isCorrect: true,
-        explanation: "Bonne réponse : ils jouent au tennis.",
+        explanation: "Bonne r&eacute;ponse&nbsp;: ils jouent au tennis.",
       },
     ],
   },
@@ -59,7 +60,8 @@ const questions: Question[] = [
         id: "B",
         label: "Elles mangent une pizza",
         isCorrect: true,
-        explanation: "Bonne réponse : elles mangent bien une pizza.",
+        explanation:
+          "Bonne r&eacute;ponse&nbsp;: elles mangent bien une pizza.",
       },
       {
         id: "C",
@@ -82,9 +84,10 @@ const questions: Question[] = [
       },
       {
         id: "B",
-        label: "Ils vont à la plage",
+        label: "Ils vont &agrave; la plage",
         isCorrect: true,
-        explanation: "Bonne réponse : on les voit aller à la plage.",
+        explanation:
+          "Bonne r&eacute;ponse&nbsp;: on les voit aller &agrave; la plage.",
       },
       {
         id: "C",
@@ -101,9 +104,10 @@ const questions: Question[] = [
     choices: [
       {
         id: "A",
-        label: "Non, ils détestent leur repas",
+        label: "Non, ils d&eacute;testent leur repas",
         isCorrect: true,
-        explanation: "Bonne réponse : ils n’aiment pas du tout leur repas.",
+        explanation:
+          "Bonne r&eacute;ponse&nbsp;: ils n’aiment pas du tout leur repas.",
       },
       {
         id: "B",
@@ -113,9 +117,10 @@ const questions: Question[] = [
       },
       {
         id: "C",
-        label: "Comme ci, comme ça",
+        label: "Comme ci, comme &ccedil;a",
         isCorrect: false,
-        explanation: "Ils détestent leur repas : ce n’est pas neutre.",
+        explanation:
+          "Ils d&eacute;testent leur repas&nbsp;: ce n’est pas neutre.",
       },
     ],
   },
@@ -138,9 +143,10 @@ const questions: Question[] = [
       },
       {
         id: "C",
-        label: "Ils jouent aux échecs",
+        label: "Ils jouent aux &eacute;checs",
         isCorrect: true,
-        explanation: "Bonne réponse : ils jouent bien aux échecs.",
+        explanation:
+          "Bonne r&eacute;ponse&nbsp;: ils jouent bien aux &eacute;checs.",
       },
     ],
   },
@@ -153,13 +159,14 @@ const questions: Question[] = [
         id: "A",
         label: "Elles finissent leurs devoirs de classe",
         isCorrect: true,
-        explanation: "Bonne réponse : elles sont en train de travailler.",
+        explanation:
+          "Bonne r&eacute;ponse&nbsp;: elles sont en train de travailler.",
       },
       {
         id: "B",
-        label: "Elles regardent la télévision",
+        label: "Elles regardent la t&eacute;l&eacute;vision",
         isCorrect: false,
-        explanation: "Elles ne regardent pas la télévision.",
+        explanation: "Elles ne regardent pas la t&eacute;l&eacute;vision.",
       },
       {
         id: "C",
@@ -190,7 +197,7 @@ const questions: Question[] = [
         id: "C",
         label: "Ils sont au Maroc",
         isCorrect: true,
-        explanation: "Bonne réponse : ils sont bien au Maroc.",
+        explanation: "Bonne r&eacute;ponse&nbsp;: ils sont bien au Maroc.",
       },
     ],
   },
@@ -207,13 +214,14 @@ const questions: Question[] = [
       },
       {
         id: "B",
-        label: "Ils sont trop fatigués, ils ne peuvent plus marcher",
+        label: "Ils sont trop fatigu&eacute;s, ils ne peuvent plus marcher",
         isCorrect: true,
-        explanation: "Bonne réponse : ils n’en peuvent plus et sont épuisés.",
+        explanation:
+          "Bonne r&eacute;ponse&nbsp;: ils n’en peuvent plus et sont &eacute;puis&eacute;s.",
       },
       {
         id: "C",
-        label: "Ils sont très contents, ils rient sans s’arrêter",
+        label: "Ils sont tr&egrave;s contents, ils rient sans s’arr&ecirc;ter",
         isCorrect: false,
         explanation: "Ce n’est pas du tout ce qui se passe.",
       },
@@ -244,7 +252,6 @@ const Exercice2: React.FC = () => {
       setScore((prev) => prev + 1);
     }
 
-    // Fin → ouvrir la modale
     if (currentIndex === totalQuestions - 1) {
       setTimeout(() => setShowModal(true), 700);
     }
@@ -259,7 +266,7 @@ const Exercice2: React.FC = () => {
   return (
     <section className="mt-16 bg-white pb-20">
       <div className="container mx-auto max-w-4xl">
-        {/* -------- BARRE DE PROGRESSION -------- */}
+        {/* BARRE DE PROGRESSION */}
         <div className="mb-6 h-2 w-full rounded-full bg-slate-200">
           <div
             className="h-full rounded-full bg-amber-500 transition-all duration-500"
@@ -267,26 +274,26 @@ const Exercice2: React.FC = () => {
           ></div>
         </div>
 
-        {/* -------- CONSIGNE -------- */}
+        {/* CONSIGNE */}
         <div className="mx-auto mb-10 mt-[60px] max-w-5xl rounded-xl bg-amber-50 p-6 shadow-sm ring-1 ring-amber-200">
           <h3 className="mb-3 text-lg font-semibold text-black">
             ✍️ Exercice — Compréhension
           </h3>
           <p className="leading-relaxed text-black/80">
-            Choisissez la réponse qui correspond à l'image
+            Choisissez la r&eacute;ponse qui correspond &agrave; l&apos;image.
           </p>
         </div>
 
-        {/* -------- CARD PRINCIPALE -------- */}
+        {/* CARD */}
         <div className="mx-auto mb-10 max-w-5xl rounded-xl bg-amber-50 p-8 shadow-sm ring-1 ring-amber-200">
           <h3 className="mb-6 text-xl font-semibold text-black">
             🗣 Question {currentIndex + 1} / {totalQuestions}
           </h3>
 
           <div className="flex flex-col gap-8 lg:flex-row">
-            {/* ------ TEXTE ------ */}
+            {/* TEXTE */}
             <div className="flex-1">
-              <p className="mb-6 text-lg text-black">npm run buildnpm run build
+              <p className="mb-6 text-lg text-black">
                 {currentQuestion.question}
               </p>
 
@@ -311,18 +318,17 @@ const Exercice2: React.FC = () => {
                         }
                       `}
                     >
-                      <strong className="mr-2">{choice.id}.</strong>
+                      <strong>{choice.id}. </strong>
                       {choice.label}
                     </button>
                   );
                 })}
               </div>
 
-              {/* ------ EXPLICATION ------ */}
               {showAnswer && (
                 <div className="mt-6 rounded-lg bg-white p-4 ring-1 ring-black/5">
                   <p className="mb-1 font-medium text-black">
-                    Réponse correcte :
+                    R&eacute;ponse correcte :
                   </p>
                   <p className="text-black/80">
                     {
@@ -334,21 +340,24 @@ const Exercice2: React.FC = () => {
               )}
             </div>
 
-            {/* ------ IMAGE + BADGE ------ */}
+            {/* IMAGE */}
             <div className="relative w-full lg:w-1/3">
               <div className="relative overflow-hidden rounded-xl bg-white shadow-md ring-1 ring-black/10">
                 <div className="absolute left-2 top-2 rounded bg-black/70 px-2 py-1 text-xs text-white">
                   Question {currentIndex + 1} / {totalQuestions}
                 </div>
-                <img
+
+                <Image
                   src={currentQuestion.image}
+                  alt="Illustration"
+                  width={600}
+                  height={400}
                   className="h-64 w-full object-cover"
                 />
               </div>
             </div>
           </div>
 
-          {/* ------ NAVIGATION ------ */}
           {showAnswer && currentIndex < totalQuestions - 1 && (
             <div className="mt-8 text-right">
               <button
@@ -362,19 +371,17 @@ const Exercice2: React.FC = () => {
         </div>
       </div>
 
-      {/* -------- MODALE SCORE -------- */}
+      {/* MODALE SCORE */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowModal(false)}
           />
-
           <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl">
             <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-amber-500">
-              Résultat final
+              R&eacute;sultat final
             </p>
-
             <p className="text-5xl font-extrabold text-black">
               {Math.round((score / totalQuestions) * 100)}
               <span className="text-2xl text-black/60"> / 100</span>
@@ -388,7 +395,7 @@ const Exercice2: React.FC = () => {
               onClick={() => setShowModal(false)}
               className="mt-6 rounded-lg bg-amber-500 px-6 py-3 font-semibold text-black hover:bg-amber-400"
             >
-              Voir mes résultats
+              Voir mes r&eacute;sultats
             </button>
           </div>
         </div>
