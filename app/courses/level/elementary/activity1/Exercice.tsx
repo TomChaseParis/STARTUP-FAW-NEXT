@@ -332,12 +332,12 @@ const Exercice2: React.FC = () => {
 
             <p className="mb-10 text-lg leading-relaxed text-black/70">
               {score === totalQuestions
-                ? "Excellent travail ! Tu maîtrises parfaitement ce chapitre."
+                ? `Excellent travail ! Tu maîtrises parfaitement ce chapitre.`
                 : score >= totalQuestions * 0.7
-                ? "Très bon score ! Il ne te manque que quelques détails à consolider."
+                ? `Très bon score ! Il ne te manque que quelques détails à consolider.`
                 : score >= totalQuestions * 0.5
-                ? "C’est un bon début ! Avec un peu plus de pratique, tu vas y arriver."
-                : "Courage ! Reprends l'exercice et n'hésite pas à regarder les explications pour progresser."}
+                ? `C’est un bon début ! Avec un peu plus de pratique, tu vas y arriver.`
+                : `Courage ! Reprends l'exercice et n'hésite pas à regarder les explications pour progresser.`}
             </p>
 
             <button
