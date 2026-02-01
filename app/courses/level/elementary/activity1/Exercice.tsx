@@ -1,367 +1,720 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
+
+/* ========= Types ========= */
+type Choice = {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+  explanation: string;
+};
 
 type Question = {
   id: number;
-  prompt: string;
-  choices: { key: "A" | "B" | "C" | "D"; text: string }[];
-  correct: "A" | "B" | "C" | "D";
+  question: string;
+  choices: Choice[];
   image: string;
+  correctAudio: string;
+  wrongAudio: string;
 };
 
-const QUESTIONS: Question[] = [
+/* ========= Questions ========= */
+const questions: Question[] = [
   {
     id: 1,
-    prompt: "Il y a combien de joueurs dans une équipe de Rugby ?",
+    question: "Il y a combien de joueurs dans une équipe de Rugby ?",
+    image: "/images/courses/elementary/questions-reponses/q1-rugby.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_1.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_1.mp3",
     choices: [
-      { key: "A", text: "12" },
-      { key: "B", text: "11" },
-      { key: "C", text: "15" },
-      { key: "D", text: "8" },
+      {
+        id: "A",
+        label: "12",
+        isCorrect: false,
+        explanation: "Ce n’est pas 12 joueurs.",
+      },
+      {
+        id: "B",
+        label: "11",
+        isCorrect: false,
+        explanation: "Ce n’est pas 11 joueurs.",
+      },
+      {
+        id: "C",
+        label: "15",
+        isCorrect: true,
+        explanation:
+          "Bonne réponse : Une équipe de rugby compte bien 15 joueurs.",
+      },
+      {
+        id: "D",
+        label: "8",
+        isCorrect: false,
+        explanation: "Ce n’est pas 8 joueurs.",
+      },
     ],
-    correct: "C",
-    image: "/images/courses/elementary/qcm/rugby.jpeg",
   },
   {
     id: 2,
-    prompt: "Quel jour commence l'été ?",
+    question: "En France, quel jour commence l'été ?",
+    image: "/images/courses/elementary/questions-reponses/q2-summer.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_2.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_2.mp3",
     choices: [
-      { key: "A", text: "Le 12 avril" },
-      { key: "B", text: "Le 21 juin" },
-      { key: "C", text: "Le 1er juillet" },
-      { key: "D", text: "Le 11 juin" },
+      {
+        id: "A",
+        label: "Le 12 avril",
+        isCorrect: false,
+        explanation: "Ce n’est pas en avril.",
+      },
+      {
+        id: "B",
+        label: "Le 21 juin",
+        isCorrect: true,
+        explanation: "Bonne réponse : L'été commence le 21 juin.",
+      },
+      {
+        id: "C",
+        label: "Le 1er juillet",
+        isCorrect: false,
+        explanation: "Ce n’est pas en juillet.",
+      },
+      {
+        id: "D",
+        label: "Le 11 juin",
+        isCorrect: false,
+        explanation: "Ce n’est pas le 11 juin.",
+      },
     ],
-    correct: "B",
-    image: "/images/courses/elementary/qcm/ete.jpg",
   },
+
   {
     id: 3,
-    prompt: "Comment fait-on une paella ?",
+    question: "Avec quels ingrédients fait-on une Paella ?",
+    image: "/images/courses/elementary/questions-reponses/q3-food.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_3.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_3.mp3",
     choices: [
-      { key: "A", text: "Avec du fromage et des pommes de terre" },
       {
-        key: "B",
-        text: "Avec du riz, du chorizo, du poulet et/ou des fruits de mer",
+        id: "A",
+        label: "Fromage et pommes de terre",
+        isCorrect: false,
+        explanation: "La paella ne se prépare pas comme ça.",
       },
-      { key: "C", text: "Avec des pâtes et de la sauce tomate" },
-      { key: "D", text: "Avec du pain et du beurre" },
+      {
+        id: "B",
+        label: "Riz, chorizo, poulet et/ou fruits de mer",
+        isCorrect: true,
+        explanation:
+          "Bonne réponse : Les ingrédients traditionnels incluent du riz, du chorizo, du poulet et/ou des fruits de mer.",
+      },
+      {
+        id: "C",
+        label: "Pâtes et sauce tomate",
+        isCorrect: false,
+        explanation: "Ce n’est pas une paella.",
+      },
+      {
+        id: "D",
+        label: "Pain et beurre",
+        isCorrect: false,
+        explanation: "Ce n’est absolument pas une paella.",
+      },
     ],
-    correct: "B",
-    image: "/images/courses/elementary/qcm/paella.jpg",
   },
+
   {
     id: 4,
-    prompt: "Comment font les gens pour avoir des bébés ?",
+    question: "Comment font les gens pour avoir des bébés ?",
+    image: "/images/courses/elementary/questions-reponses/q4-baby.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_4.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_4.mp3",
     choices: [
-      { key: "A", text: "Ils font du ski" },
-      { key: "B", text: "Ils font la vaisselle" },
-      { key: "C", text: "Ils font la cuisine" },
-      { key: "D", text: "Ils font l'amour" },
+      {
+        id: "A",
+        label: "Ils font du ski",
+        isCorrect: false,
+        explanation: "Non, ce n’est pas lié.",
+      },
+      {
+        id: "B",
+        label: "Ils font la vaisselle",
+        isCorrect: false,
+        explanation: "Toujours pas.",
+      },
+      {
+        id: "C",
+        label: "Ils font la cuisine",
+        isCorrect: false,
+        explanation: "Non plus.",
+      },
+      {
+        id: "D",
+        label: "Ils font l'amour",
+        isCorrect: true,
+        explanation: "Bonne réponse : Ils font l'amour.",
+      },
     ],
-    correct: "D",
-    image: "/images/courses/elementary/qcm/bebe.webp",
   },
+
   {
     id: 5,
-    prompt: "Comment est-ce qu'ils vont au travail ?",
+    question: "Comment est-ce qu'ils vont au travail ?",
+    image: "/images/courses/elementary/questions-reponses/q5-work.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_5.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_5.mp3",
     choices: [
-      { key: "A", text: "En taxi" },
-      { key: "B", text: "En métro" },
-      { key: "C", text: "En avion" },
-      { key: "D", text: "À pied" },
+      {
+        id: "A",
+        label: "En taxi",
+        isCorrect: false,
+        explanation: "Ce n’est pas en taxi.",
+      },
+      {
+        id: "B",
+        label: "En métro",
+        isCorrect: true,
+        explanation: "Bonne réponse : Ils prennent le métro.",
+      },
+      {
+        id: "C",
+        label: "En avion",
+        isCorrect: false,
+        explanation: "Ils ne prennent pas l’avion pour aller au travail.",
+      },
+      {
+        id: "D",
+        label: "À pied",
+        isCorrect: false,
+        explanation: "Ils ne marchent pas jusqu'au travail.",
+      },
     ],
-    correct: "B",
-    image: "/images/courses/elementary/qcm/metro.jpg",
   },
+
   {
     id: 6,
-    prompt: "Quelle est la capitale de la France ?",
+    question: "Quelle est la capitale de la France ?",
+    image: "/images/courses/elementary/questions-reponses/q6-city.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_6.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_6.mp3",
     choices: [
-      { key: "A", text: "Paris" },
-      { key: "B", text: "Lyon" },
-      { key: "C", text: "Marseille" },
-      { key: "D", text: "Toulouse" },
+      {
+        id: "A",
+        label: "Paris",
+        isCorrect: true,
+        explanation: "Bonne réponse : Paris est la capitale de la France.",
+      },
+      {
+        id: "B",
+        label: "Lyon",
+        isCorrect: false,
+        explanation: "Lyon n'est pas la capitale.",
+      },
+      { id: "C", label: "Marseille", isCorrect: false, explanation: "" },
+      { id: "D", label: "Toulouse", isCorrect: false, explanation: "" },
     ],
-    correct: "A",
-    image: "/images/courses/elementary/qcm/paris.jpg",
   },
   {
     id: 7,
-    prompt: "Combien de jours y a-t-il dans une semaine ?",
+    question: "Qu'est-ce qu'ils font ?",
+    image: "/images/courses/elementary/questions-reponses/q7-sport.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_7.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_7.mp3",
     choices: [
-      { key: "A", text: "5" },
-      { key: "B", text: "6" },
-      { key: "C", text: "7" },
-      { key: "D", text: "8" },
+      {
+        id: "A",
+        label: "Du basket",
+        isCorrect: false,
+        explanation: "Ce n’est pas du basket.",
+      },
+      {
+        id: "B",
+        label: "De la natation",
+        isCorrect: false,
+        explanation: "Ils ne nagent pas.",
+      },
+      {
+        id: "C",
+        label: "Du judo",
+        isCorrect: true,
+        explanation: "Bonne réponse : Ils pratiquent le judo.",
+      },
+      {
+        id: "D",
+        label: "Du trampoline",
+        isCorrect: false,
+        explanation: "Ils ne font pas de trampoline.",
+      },
     ],
-    correct: "C",
-    image: "/images/courses/elementary/qcm/semaine.jpg",
   },
+
   {
     id: 8,
-    prompt: "De quelle couleur est le ciel quand il fait beau ?",
+    question: "De quelle couleur est le ciel quand il fait beau ?",
+    image: "/images/courses/elementary/questions-reponses/q8-weather.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_8.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_8.mp3",
     choices: [
-      { key: "A", text: "Rouge" },
-      { key: "B", text: "Vert" },
-      { key: "C", text: "Bleu" },
-      { key: "D", text: "Jaune" },
+      {
+        id: "A",
+        label: "Rouge",
+        isCorrect: false,
+        explanation: "Ce n’est pas rouge.",
+      },
+      {
+        id: "B",
+        label: "Vert",
+        isCorrect: false,
+        explanation: "Ce n’est pas vert.",
+      },
+      {
+        id: "C",
+        label: "Bleu",
+        isCorrect: true,
+        explanation: "Bonne réponse : Le ciel est bleu quand il fait beau.",
+      },
+      {
+        id: "D",
+        label: "Jaune",
+        isCorrect: false,
+        explanation: "Ce n’est pas jaune.",
+      },
     ],
-    correct: "C",
-    image: "/images/courses/elementary/qcm/cielbleu.jpg",
   },
+
   {
     id: 9,
-    prompt: "Quelle est la langue officielle de l'Espagne ?",
+    question: "Qui a été le dernier président de l’URSS ?",
+    image: "/images/courses/elementary/questions-reponses/q9-president.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_9.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_9.mp3",
     choices: [
-      { key: "A", text: "L’anglais" },
-      { key: "B", text: "Le portugais" },
-      { key: "C", text: "Le français" },
-      { key: "D", text: "L’espagnol" },
+      {
+        id: "A",
+        label: "Céline Dion",
+        isCorrect: false,
+        explanation: "C’est une chanteuse, pas une présidente.",
+      },
+      {
+        id: "B",
+        label: "Gorbatchev",
+        isCorrect: true,
+        explanation:
+          "Bonne réponse : Mikhaïl Gorbatchev a été le dernier dirigeant de l’URSS.",
+      },
+      {
+        id: "C",
+        label: "Staline",
+        isCorrect: false,
+        explanation: "Staline est mort bien avant la fin de l’URSS.",
+      },
+      {
+        id: "D",
+        label: "Brejnev",
+        isCorrect: false,
+        explanation: "Brejnev n’a pas été le dernier dirigeant.",
+      },
     ],
-    correct: "D",
-    image: "/images/courses/elementary/qcm/espagnol.webp",
   },
+
   {
     id: 10,
-    prompt: "Quel fruit est jaune et riche en potassium ?",
+    question: "Quel instrument est-ce qu’il joue ?",
+    image: "/images/courses/elementary/questions-reponses/q10-music.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_10.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_10.mp3",
     choices: [
-      { key: "A", text: "Pomme" },
-      { key: "B", text: "Banane" },
-      { key: "C", text: "Orange" },
-      { key: "D", text: "Fraise" },
+      {
+        id: "A",
+        label: "De la flûte",
+        isCorrect: false,
+        explanation: "Ce n’est pas une flûte.",
+      },
+      {
+        id: "B",
+        label: "De la harpe",
+        isCorrect: false,
+        explanation: "Il ne joue pas de la harpe.",
+      },
+      {
+        id: "C",
+        label: "Du piano",
+        isCorrect: false,
+        explanation: "Ce n’est pas un piano.",
+      },
+      {
+        id: "D",
+        label: "De la guitare",
+        isCorrect: true,
+        explanation: "Bonne réponse : Il joue de la guitare.",
+      },
     ],
-    correct: "B",
-    image: "/images/courses/elementary/qcm/banane.jpg",
   },
+
+  {
+    id: 11,
+    question: "Pourquoi est-ce que les oiseaux chantent ?",
+    image: "/images/courses/elementary/questions-reponses/q11-birds.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_11.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_11.mp3",
+    choices: [
+      {
+        id: "A",
+        label: "Pour qu’on leur donne de l’argent",
+        isCorrect: false,
+        explanation: "Ce n’est pas pour de l’argent.",
+      },
+      {
+        id: "B",
+        label: "Pour tuer le temps",
+        isCorrect: false,
+        explanation: "Ce n’est pas pour s’occuper.",
+      },
+      {
+        id: "C",
+        label: "Pour communiquer",
+        isCorrect: true,
+        explanation: "Bonne réponse : Les oiseaux chantent pour communiquer.",
+      },
+      {
+        id: "D",
+        label: "Pour s'amuser",
+        isCorrect: false,
+        explanation: "Ce n’est pas pour s’amuser.",
+      },
+    ],
+  },
+
+  {
+    id: 12,
+    question: "Quel moment historique illustre cette photo ?",
+    image: "/images/courses/elementary/questions-reponses/q12-monument.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_12.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_12.mp3",
+    choices: [
+      {
+        id: "A",
+        label: "Le couronnement de la reine Elisabeth II (1953)",
+        isCorrect: false,
+        explanation: "Ce n’est pas cette date.",
+      },
+      {
+        id: "B",
+        label: "L’inauguration du Louvre (1793)",
+        isCorrect: false,
+        explanation: "Ce n’est pas cette scène.",
+      },
+      {
+        id: "C",
+        label: "La destruction de la Tour Eiffel (2056)",
+        isCorrect: false,
+        explanation: "La Tour Eiffel n’a jamais été détruite.",
+      },
+      {
+        id: "D",
+        label: "La construction du mur de Berlin (1961)",
+        isCorrect: true,
+        explanation:
+          "Bonne réponse : Il s’agit bien de la construction du mur de Berlin en 1961.",
+      },
+    ],
+  },
+
+  {
+    id: 13,
+    question: "Quand est-ce qu’il est né ?",
+    image: "/images/courses/elementary/questions-reponses/q13-born.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_13.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_13.mp3",
+    choices: [
+      {
+        id: "A",
+        label: "Hier soir",
+        isCorrect: false,
+        explanation: "Ce n’est pas hier soir.",
+      },
+      {
+        id: "B",
+        label: "Demain matin",
+        isCorrect: false,
+        explanation: "On ne peut pas naître demain.",
+      },
+      {
+        id: "C",
+        label: "Il y a très longtemps",
+        isCorrect: true,
+        explanation: "Bonne réponse : Il est né il y a longtemps.",
+      },
+      {
+        id: "D",
+        label: "En 2025",
+        isCorrect: false,
+        explanation: "Ce n’est pas 2025.",
+      },
+    ],
+  },
+
+  {
+    id: 14,
+    question: "Où est-ce qu’ils habitent ?",
+    image: "/images/courses/elementary/questions-reponses/q14-where.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/youhoutest.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_14.mp3",
+    choices: [
+      {
+        id: "A",
+        label: "Dans une grande ville",
+        isCorrect: false,
+        explanation: "Ce n’est pas en ville.",
+      },
+      {
+        id: "B",
+        label: "Dans la jungle",
+        isCorrect: true,
+        explanation: "Bonne réponse : Ils vivent dans la jungle.",
+      },
+      {
+        id: "C",
+        label: "Dans un petit village",
+        isCorrect: false,
+        explanation: "Ce n’est pas un village.",
+      },
+      {
+        id: "D",
+        label: "Sur un bateau",
+        isCorrect: false,
+        explanation: "Ils n’habitent pas sur un bateau.",
+      },
+    ],
+  },
+
+  {
+    id: 15,
+    question: "Mais... Qu’est-ce que c’est que ce machin ?",
+    image: "/images/courses/elementary/questions-reponses/q15-whatisit.png",
+    correctAudio: "/audios/courses/elementary/questions-reponses/jean_good-answer_15.mp3",
+    wrongAudio: "/audios/courses/elementary/questions-reponses/jean_bad-answer_15.mp3",
+    choices: [
+      {
+        id: "A",
+        label: "Un objet venu de l’espace",
+        isCorrect: false,
+        explanation: "Ce n’est pas un objet extraterrestre.",
+      },
+      {
+        id: "B",
+        label: "Une mauvaise blague",
+        isCorrect: false,
+        explanation: "Ce n’est pas une blague.",
+      },
+      {
+        id: "C",
+        label: "Des toilettes portatives",
+        isCorrect: false,
+        explanation: "Ce ne sont pas des toilettes portatives.",
+      },
+      {
+        id: "D",
+        label: "Une œuvre d’art",
+        isCorrect: true,
+        explanation: "Bonne réponse : C’est une œuvre d’art.",
+      },
+    ],
+  },
+
+  // --- (les autres questions identiques, tu les conserves) ---
 ];
 
-const Exercice: React.FC = () => {
-  const [started, setStarted] = useState(false);
-  const [current, setCurrent] = useState(0);
+/* =======================================================================================
+   EXERCICE 2 — QUIZ À CHOIX MULTIPLES
+======================================================================================= */
+
+const Exercice2: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
+  const [showAnswer, setShowAnswer] = useState(false);
   const [score, setScore] = useState(0);
-  const [answered, setAnswered] = useState<null | string>(null);
-  const [ended, setEnded] = useState(false);
-  const [listening, setListening] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const question = QUESTIONS[current];
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // -------- VOIX PROF --------
-  const speak = (text: string) => {
-    if (typeof window === "undefined") return;
-    const synth = window.speechSynthesis;
-    synth.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-
-    utterance.lang = "fr-FR";
-    utterance.rate = 0.93; // vitesse naturelle
-    utterance.pitch = 1.05; // ton un peu plus agréable
-
-    const voices = synth.getVoices();
-    const preferred = voices.find((v) =>
-      v.name.toLowerCase().includes("google français")
-    );
-    const frenchVoice =
-      preferred || voices.find((v) => v.lang.toLowerCase().startsWith("fr"));
-    if (frenchVoice) utterance.voice = frenchVoice;
-
-    synth.speak(utterance);
+  const playAudio = (src: string) => {
+    if (!audioRef.current) audioRef.current = new Audio();
+    audioRef.current.src = src;
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
   };
 
-  // Lecture auto de la question dès qu'on change
-  useEffect(() => {
-    if (!started || !question) return;
-    const text = `${question.prompt}. Réponses possibles : ${question.choices
-      .map((c) => `${c.key}: ${c.text}`)
-      .join(", ")}.`;
+  const totalQuestions = questions.length;
+  const currentQuestion = questions[currentIndex];
 
-    const synth = window.speechSynthesis;
-    if (synth.getVoices().length > 0) {
-      speak(text);
+  const progressPercent = ((currentIndex + 1) / totalQuestions) * 100;
+
+  const handleSelect = (id: string) => {
+    if (showAnswer) return;
+
+    setSelectedChoice(id);
+    setShowAnswer(true);
+
+    const choice = currentQuestion.choices.find((c) => c.id === id);
+
+    /* 🔊 AUDIO SPÉCIFIQUE À CHAQUE QUESTION */
+    if (choice?.isCorrect) {
+      playAudio(currentQuestion.correctAudio);
+      setScore((prev) => prev + 1);
     } else {
-      synth.onvoiceschanged = () => speak(text);
-    }
-  }, [current, started]);
-
-  // -------- CLIQUE --------
-  const handleAnswer = (key: string) => {
-    if (answered) return;
-    setAnswered(key);
-    if (key === question.correct) {
-      setScore((s) => s + 1);
-      speak("Bravo, bonne réponse !");
-    } else {
-      speak(
-        `Mauvaise réponse. La bonne était : ${
-          question.choices.find((c) => c.key === question.correct)?.text
-        }`
-      );
-    }
-  };
-
-  // -------- MICRO --------
-  const handleVoiceAnswer = () => {
-    if (typeof window === "undefined") return;
-    const SpeechRecognition =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert("⚠️ Votre navigateur ne supporte pas la reconnaissance vocale.");
-      return;
+      playAudio(currentQuestion.wrongAudio);
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = "fr-FR";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = () => setListening(true);
-    recognition.onend = () => setListening(false);
-
-    recognition.onresult = (event: any) => {
-      const transcript: string = event.results[0][0].transcript
-        .toLowerCase()
-        .trim();
-
-      const found = question.choices.find(
-        (c) =>
-          transcript.includes(c.key.toLowerCase()) ||
-          transcript.includes(c.text.toLowerCase())
-      );
-
-      if (found) {
-        handleAnswer(found.key);
-      } else {
-        speak("Je n’ai pas compris, répète s’il te plaît.");
-      }
-    };
-
-    recognition.start();
+    if (currentIndex === totalQuestions - 1) {
+      setTimeout(() => setShowModal(true), 900);
+    }
   };
 
   const nextQuestion = () => {
-    if (current + 1 < QUESTIONS.length) {
-      setCurrent((c) => c + 1);
-      setAnswered(null);
-    } else {
-      setEnded(true);
-      speak(`Exercice terminé. Ton score est ${score} sur ${QUESTIONS.length}`);
-    }
-  };
-
-  const restart = () => {
-    setStarted(false);
-    setCurrent(0);
-    setScore(0);
-    setAnswered(null);
-    setEnded(false);
+    setSelectedChoice(null);
+    setShowAnswer(false);
+    setCurrentIndex((i) => i + 1);
   };
 
   return (
-    <section className="bg-white mt-12 pb-20">
-      <div className="container max-w-3xl mx-auto text-center">
-        <h2 className="text-2xl font-bold text-black mb-6">
-          QCM — 10 questions
-        </h2>
+    <section className="mt-16 bg-white pb-20">
+      <div className="container mx-auto max-w-4xl">
+        {/* BARRE DE PROGRESSION */}
+        <div className="mb-6 h-2 w-full rounded-full bg-slate-200">
+          <div
+            className="h-full rounded-full bg-amber-500 transition-all duration-500"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
 
-        {!started ? (
-          <button
-            onClick={() => setStarted(true)}
-            className="px-6 py-3 bg-amber-500 text-black rounded-lg text-lg"
-          >
-            ▶ Démarrer le quiz
-          </button>
-        ) : !ended ? (
-          <div className="space-y-6 text-left">
-            {/* Question */}
-            <div className="flex flex-col lg:flex-row gap-6 items-start">
-              <div className="flex-1">
-                <h3 className="font-semibold text-black mb-4">
-                  {question.id}. {question.prompt}
-                </h3>
-                <ul className="space-y-3">
-                  {question.choices.map((c) => (
-                    <li key={c.key}>
-                      <button
-                        onClick={() => handleAnswer(c.key)}
-                        disabled={!!answered}
-                        className={`w-full flex items-center gap-2 rounded-md px-4 py-2 border transition text-black
-                          ${
-                            answered === c.key
-                              ? c.key === question.correct
-                                ? "bg-green-200 border-green-500"
-                                : "bg-red-200 border-red-500"
-                              : "bg-amber-50 hover:bg-amber-100 border-amber-200"
-                          }`}
-                      >
-                        <span className="bg-amber-400 text-black font-bold px-2 py-1 rounded">
-                          {c.key}
-                        </span>
-                        <span className="text-black">{c.text}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+        {/* CARD */}
+        <div className="mx-auto mb-10 max-w-5xl rounded-xl bg-amber-50 p-8 shadow-sm ring-1 ring-amber-200">
+          <h3 className="mb-6 text-xl font-semibold text-black">
+            🗣 Question {currentIndex + 1} / {totalQuestions}
+          </h3>
 
-                {/* Bouton micro */}
-                {!answered && (
-                  <button
-                    onClick={handleVoiceAnswer}
-                    className="mt-4 px-4 py-2 rounded-md bg-amber-500 text-black"
-                  >
-                    {listening ? "🎤 J’écoute..." : "🎤 Répondre avec la voix"}
-                  </button>
-                )}
+          <div className="flex flex-col gap-8 lg:flex-row">
+            <div className="flex-1">
+              <p className="mb-6 text-lg text-black">
+                {currentQuestion.question}
+              </p>
+
+              <div className="space-y-3">
+                {currentQuestion.choices.map((choice) => {
+                  const isSelected = selectedChoice === choice.id;
+
+                  return (
+                    <button
+                      key={choice.id}
+                      onClick={() => handleSelect(choice.id)}
+                      className={`
+                        w-full rounded-lg border px-4 py-3 text-left text-black transition
+                        ${
+                          !showAnswer
+                            ? "border-black/20 hover:bg-white"
+                            : choice.isCorrect
+                              ? "border-green-500 bg-green-100 text-green-800"
+                              : isSelected
+                                ? "border-red-500 bg-red-100 text-red-800"
+                                : "border-black/10"
+                        }
+                      `}
+                    >
+                      <strong>{choice.id}. </strong>
+                      {choice.label}
+                    </button>
+                  );
+                })}
               </div>
-              <Image
-                src={question.image}
-                alt={`illustration question ${question.id}`}
-                width={200}
-                height={140}
-                className="rounded-md object-cover"
-              />
+
+              {/* FEEDBACK */}
+              {showAnswer &&
+                (() => {
+                  const selected = currentQuestion.choices.find(
+                    (c) => c.id === selectedChoice,
+                  );
+                  const correct = currentQuestion.choices.find(
+                    (c) => c.isCorrect,
+                  );
+
+                  return (
+                    <div className="mt-6 rounded-lg bg-white p-4 ring-1 ring-black/5">
+                      {selected?.isCorrect ? (
+                        <p className="mb-2 text-lg font-bold text-green-600">
+                          ✔ Bonne réponse !
+                        </p>
+                      ) : (
+                        <p className="mb-2 text-lg font-bold text-red-600">
+                          ✘ Mauvaise réponse
+                        </p>
+                      )}
+                      <p className="text-black/80">
+                        {correct?.explanation
+                          .replace("Bonne réponse :", "")
+                          .trim()}
+                      </p>
+                    </div>
+                  );
+                })()}
             </div>
 
-            {/* Feedback */}
-            {answered && (
-              <div className="space-y-3 text-center">
-                {answered === question.correct ? (
-                  <p className="text-green-700 font-semibold">✅ Bonne réponse !</p>
-                ) : (
-                  <p className="text-red-700 font-semibold">
-                    ❌ Mauvaise réponse. La bonne était{" "}
-                    {
-                      question.choices.find((c) => c.key === question.correct)
-                        ?.text
-                    }
-                  </p>
-                )}
-                <button
-                  onClick={nextQuestion}
-                  className="px-6 py-2 bg-black text-white rounded-lg"
-                >
-                  {current + 1 < QUESTIONS.length ? "Suivant ➜" : "Voir le score"}
-                </button>
+            {/* IMAGE */}
+            <div className="relative w-full lg:w-1/3">
+              <div className="relative overflow-hidden rounded-xl bg-white shadow-md ring-1 ring-black/10 lg:top-10">
+                <Image
+                  src={currentQuestion.image}
+                  alt="Illustration"
+                  width={600}
+                  height={400}
+                  className="h-64 w-full object-cover"
+                />
               </div>
-            )}
+            </div>
           </div>
-        ) : (
-          <div className="space-y-4">
-            <p className="text-lg font-bold text-black">
-              Score final : {score} / {QUESTIONS.length}
+
+          {showAnswer && currentIndex < totalQuestions - 1 && (
+            <div className="mt-8 text-right">
+              <button
+                onClick={nextQuestion}
+                className="rounded-lg bg-black px-6 py-2.5 text-white hover:bg-black/90"
+              >
+                Question suivante →
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* MODALE SCORE */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-amber-500">
+              Résultat final
             </p>
+            <p className="text-5xl font-extrabold text-black">
+              {Math.round((score / totalQuestions) * 100)}
+              <span className="text-2xl text-black/60"> / 100</span>
+            </p>
+            <p className="mt-3 text-black/70">
+              Score : {score} / {totalQuestions}
+            </p>
+
             <button
-              onClick={restart}
-              className="px-6 py-3 bg-amber-500 text-black rounded-lg"
+              onClick={() => setShowModal(false)}
+              className="mt-6 rounded-lg bg-amber-500 px-6 py-3 font-semibold text-black hover:bg-amber-400"
             >
-              ↻ Recommencer
+              Voir mes résultats
             </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 };
 
-export default Exercice;
+export default Exercice2;

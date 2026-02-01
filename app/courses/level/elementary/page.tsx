@@ -46,7 +46,7 @@ const ElementaryPage = () => {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <ActivityCard
             title="Activité 1"
-            subtitle="QCM vocal"
+            subtitle="Questions - Réponses"
             description=""
             href="/courses/level/elementary/activity1"
             level="elementary"
