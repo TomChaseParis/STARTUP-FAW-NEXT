@@ -26,7 +26,7 @@ const Intermediate2Page = () => {
               src="/videos/henri-presentation.mp4" // 👉 mets ton fichier vidéo ici
               className="h-full w-full object-cover bg-black"
               controls={false}
-              poster="/images/courses/teacher/henri-video.png"
+              poster="/images/courses/teacher/wide-henri.png"
             />
             {!videoPlaying && (
               <button
@@ -46,38 +46,38 @@ const Intermediate2Page = () => {
         {/* Grille des activités */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <ActivityCard
-            title="Activité 1"
-            description="Grammaire : Être / Avoir / Aller / Faire — écoute et répétition."
+            title=""
+            description=""
             href="/courses/level/intermediate/activity1"
             level="intermediate"
           />
           <ActivityCard
-            title="Activité 2"
-            description="Compréhension orale : se présenter, poser des questions simples."
+            title=""
+            description=""
             href="/courses/level/beginner/activity2"
             level="intermediate"
           />
           <ActivityCard
-            title="Activité 3"
-            description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
+            title=""
+            description=""
             href="/courses/level/beginner/activity3"
             level="intermediate"
           />
           <ActivityCard
-            title="Activité 4"
-            description="Lecture guidée : repérer les infos clés dans un texte court."
+            title=""
+            description=""
             href="/courses/level/beginner/activity4"
             level="intermediate"
           />
           <ActivityCard
-            title="Activité 5"
-            description="Prononciation : rythme, liaisons et intonation de base."
+            title=""
+            description=""
             href="/courses/level/beginner/activity5"
             level="intermediate"
           />
           <ActivityCard
-            title="Activité 6"
-            description="Production orale : mini-dialogues du quotidien."
+            title=""
+            description=""
             href="/courses/level/beginner/activity6"
             level="intermediate"
           />

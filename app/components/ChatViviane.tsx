@@ -12,7 +12,7 @@ declare global {
 
 export default function ChatViviane({
   activityId,
-  engine = "ollama", // tu peux changer plus tard
+  engine = "ollama", // 👉 PAR DÉFAUT LOCAL !
 }: {
   activityId: string;
   engine?: "ollama" | "openai";
@@ -21,8 +21,7 @@ export default function ChatViviane({
   const [text, setText] = useState("");
   const [listening, setListening] = useState(false);
   const [speaking, setSpeaking] = useState(false);
-
-  const [isOpen, setIsOpen] = useState(true); // ⭐ nouvelle feature
+  const [isOpen, setIsOpen] = useState(true);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,12 +72,8 @@ export default function ChatViviane({
     setSpeaking(true);
     addMessage("viviane-temp", "Viviane est en train de parler…");
 
-    const url =
-      engine === "openai"
-        ? "/api/viviane/openai"
-        : "/api/viviane/chat";
-
-    const res = await fetch(url, {
+    // 👉 ON REPASSE 100% EN LOCAL
+    const res = await fetch("/api/viviane/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -95,10 +90,6 @@ export default function ChatViviane({
 
     if (data.audio) playAudio(data.audio);
   };
-
-  /* ---------------------------------------------------
-      🟡 UI : BOUTON FLOTTANT POUR OUVRIR LE CHAT
-  --------------------------------------------------- */
 
   if (!isOpen) {
     return (
@@ -117,14 +108,9 @@ export default function ChatViviane({
     );
   }
 
-  /* ---------------------------------------------------
-      🟢 FENÊTRE CHAT OUVERTE
-  --------------------------------------------------- */
-
   return (
     <div className="fixed bottom-6 right-6 w-[360px] rounded-2xl shadow-2xl bg-white border border-amber-200 overflow-hidden animate-fadeIn">
-      
-      {/* HEADER */}
+
       <div className="flex items-center justify-between p-4 bg-white border-b border-amber-100">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full overflow-hidden shadow-inner">
@@ -139,11 +125,10 @@ export default function ChatViviane({
 
           <div>
             <h2 className="text-lg font-semibold text-black">Viviane</h2>
-            <p className="text-xs text-black/60">Assistante pédagogique FAW</p>
+            <p className="text-xs text-black/60">Assistante pédagogique FAW (local)</p>
           </div>
         </div>
 
-        {/* 🔽 bouton réduire */}
         <button
           onClick={() => setIsOpen(false)}
           className="text-black/70 hover:text-black text-xl px-2"
@@ -152,7 +137,6 @@ export default function ChatViviane({
         </button>
       </div>
 
-      {/* MESSAGES */}
       <div className="p-4 h-[300px] overflow-y-auto flex flex-col gap-3 bg-white">
         {messages.map((m) => (
           <div
@@ -202,7 +186,6 @@ export default function ChatViviane({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* INPUT */}
       <div className="flex items-center p-3 gap-2 border-t bg-white">
         <input
           value={text}

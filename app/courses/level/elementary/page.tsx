@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import ImgTeacher1 from "../../../public/images/courses/teacher/jean.jpg";
 import ActivityCard from "@/components/Courses/Shared/ActivityCard";
 
 const ElementaryPage = () => {
@@ -26,7 +25,7 @@ const ElementaryPage = () => {
               src="/videos/jean-presentation.mp4" // 👉 mets ton fichier vidéo ici
               className="h-full w-full bg-black object-cover"
               controls={false}
-              poster="/images/courses/teacher/jean-video.png"
+              poster="/images/courses/teacher/wide-jean.png"
             />
             {!videoPlaying && (
               <button
@@ -56,35 +55,35 @@ const ElementaryPage = () => {
           <ActivityCard
             title="Activité 2"
             subtitle="Les loisirs des français"
-            description="Ecoute la conversation et réponds à l'oral"
+            description="Ecoute l'audio et complète le texte"
             href="/courses/level/elementary/activities/activity2"
             level="elementary"
           />
 
           <ActivityCard
-            title="Activité 3"
-            description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
+            title=""
+            description=""
             href="/courses/level/beginner/activity3"
             level="elementary"
           />
 
           <ActivityCard
-            title="Activité 4"
-            description="Lecture guidée : repérer les infos clés dans un texte court."
+            title=""
+            description=""
             href="/courses/level/beginner/activity4"
             level="elementary"
           />
 
           <ActivityCard
-            title="Activité 5"
-            description="Prononciation : rythme, liaisons et intonation de base."
+            title=""
+            description=""
             href="/courses/level/beginner/activity5"
             level="elementary"
           />
 
           <ActivityCard
-            title="Activité 6"
-            description="Production orale : mini-dialogues du quotidien."
+            title=""
+            description=""
             href="/courses/level/beginner/activity6"
             level="elementary"
           />

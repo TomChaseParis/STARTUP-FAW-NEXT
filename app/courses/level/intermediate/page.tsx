@@ -48,7 +48,7 @@ const IntermediatePage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <ActivityCard
             title="Activité 1"
-            subtitle="Compréhension orale"
+            subtitle="Les vacances au bord de la mer"
             description="Ecoute la chanson et réponds aux qestions"
             href="/courses/level/intermediate/activity1"
             level="intermediate"
@@ -63,32 +63,32 @@ const IntermediatePage = () => {
           />
 
           <ActivityCard
-            title="Activité 3"
-            description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
+            title=""
+            description=""
             href="/courses/level/beginner/activity3"
                         level="intermediate"
 
           />
 
           <ActivityCard
-            title="Activité 4"
-            description="Lecture guidée : repérer les infos clés dans un texte court."
+            title=""
+            description=""
             href="/courses/level/beginner/activity4"
                         level="intermediate"
 
           />
 
           <ActivityCard
-            title="Activité 5"
-            description="Prononciation : rythme, liaisons et intonation de base."
+            title=""
+            description=""
             href="/courses/level/beginner/activity5"
                         level="intermediate"
 
           />
 
           <ActivityCard
-            title="Activité 6"
-            description="Production orale : mini-dialogues du quotidien."
+            title=""
+            description=""
             href="/courses/level/beginner/activity6"
                         level="intermediate"
 

@@ -48,7 +48,7 @@ const BeginnerPage = () => {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           <ActivityCard
             title="Activité 1"
-            subtitle="Grammaire"
+            subtitle="Les 4 verbes essentiels"
             description="Les 4 verbes essentiels : Être - Avoir - Faire - Aller"
             href="/courses/level/beginner/activities/activity1"
             level="beginner"
@@ -56,8 +56,8 @@ const BeginnerPage = () => {
 
           <ActivityCard
             title="Activité 2"
-            subtitle="Compréhension orale"
-            description="Être - Avoir - Faire - Aller"
+            subtitle="Madame Sicard"
+            description="Écoute la conversation et choisis la bonne réponse"
             href="/courses/level/beginner/activities/activity2"
             level="beginner"
           />
@@ -65,28 +65,28 @@ const BeginnerPage = () => {
           <ActivityCard
             title="Activité 3"
             subtitle="A l'agence matrimoniale"
-            description="Vocabulaire du quotidien : horaires, lieux, objets utiles."
+            description="Ecoute la conversation et réponds aux questions"
             href="/courses/level/beginner/activities/activity3"
             level="beginner"
           />
 
           <ActivityCard
-            title="Activité 4"
-            description="Lecture guidée : repérer les infos clés dans un texte court."
+            title=""
+            description=""
             href="/courses/level/beginner/activity4"
             level="beginner"
           />
 
           <ActivityCard
-            title="Activité 5"
-            description="Prononciation : rythme, liaisons et intonation de base."
+            title=""
+            description=""
             href="/courses/level/beginner/activity5"
             level="beginner"
           />
 
           <ActivityCard
-            title="Activité 6"
-            description="Production orale : mini-dialogues du quotidien."
+            title=""
+            description=""
             href="/courses/level/beginner/activity6"
             level="beginner"
           />

@@ -47,7 +47,43 @@ const Elementary2Page = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <ActivityCard
             title="Activité 1"
-            description="Grammaire : Être / Avoir / Aller / Faire — écoute et répétition."
+            subtitle="L'emploi du temps de Clara"
+            description=""
+            href="/courses/level/elementary2/activity1"
+            level="elementary"
+          />
+          <ActivityCard
+            title=""
+            subtitle=""
+            description=""
+            href="/courses/level/elementary2/activity1"
+            level="elementary"
+          />
+          <ActivityCard
+            title=""
+            subtitle=""
+            description=""
+            href="/courses/level/elementary2/activity1"
+            level="elementary"
+          />
+          <ActivityCard
+            title=""
+            subtitle=""
+            description=""
+            href="/courses/level/elementary2/activity1"
+            level="elementary"
+          />
+          <ActivityCard
+            title=""
+            subtitle=""
+            description=""
+            href="/courses/level/elementary2/activity1"
+            level="elementary"
+          />
+          <ActivityCard
+            title=""
+            subtitle=""
+            description=""
             href="/courses/level/elementary2/activity1"
             level="elementary"
           />

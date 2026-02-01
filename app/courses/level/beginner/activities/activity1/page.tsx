@@ -10,7 +10,8 @@ const page = () => {
     <div className="bg-white p-10 pt-[200px]">
       <Description />
       <Exercice />
-      <ChatViviane activityId="beginner_activity_1" />
+      <ChatViviane activityId="beginner_activity_1" engine="ollama" />
+
     </div>
   );
 };

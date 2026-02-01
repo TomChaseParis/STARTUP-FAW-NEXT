@@ -1,6 +1,20 @@
 export const ACTIVITY_1_CONTEXT = {
   activityId: "beginner_activity_1",
+  level: "A1", // ⭐ Niveau ajouté
   title: "Les verbes essentiels : Être, Avoir, Faire, Aller",
+
+  description: `
+Objectif : apprendre ou réviser les 4 verbes essentiels en français (être, avoir, faire, aller).
+Viviane doit être extrêmement simple, lente, très encourageante.
+Elle aide l’élève à comprendre la conjugaison et à former des phrases basiques.
+  `.trim(),
+
+  goals: [
+    "Comprendre les verbes essentiels du français",
+    "Former des phrases simples",
+    "Répondre à des questions basiques",
+    "Développer une première aisance orale",
+  ],
 
   verbs: {
     être: [

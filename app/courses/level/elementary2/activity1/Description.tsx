@@ -1,17 +1,59 @@
 "use client";
 
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 const Description: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [videoPlaying, setVideoPlaying] = useState(false);
 
-  const playVideo = () => {
-    if (!videoRef.current) return;
-    videoRef.current.play();
-    setVideoPlaying(true);
-    videoRef.current.onended = () => setVideoPlaying(false);
+  const formatTime = (time: number) => {
+    if (!time || isNaN(time)) return "0:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
+
+
+
+   /* ========= VIDEO ========= */
+   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+   const [isPlaying, setIsPlaying] = useState(false);
+   const [currentTime, setCurrentTime] = useState(0);
+   const [duration, setDuration] = useState(0);
+ 
+   const togglePlayPause = () => {
+     if (!videoRef.current) return;
+ 
+     if (videoRef.current.paused) {
+       videoRef.current.play();
+       setIsPlaying(true);
+     } else {
+       videoRef.current.pause();
+       setIsPlaying(false);
+     }
+   };
+ 
+   const handleTimeUpdate = () => {
+     if (!videoRef.current) return;
+     setCurrentTime(videoRef.current.currentTime);
+   };
+ 
+   const handleLoadedMetadata = () => {
+     if (!videoRef.current) return;
+     setDuration(videoRef.current.duration);
+   };
+ 
+   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+     if (!videoRef.current) return;
+     const time = Number(e.target.value);
+     videoRef.current.currentTime = time;
+     setCurrentTime(time);
+   };
+ 
+   const handleFullscreen = () => {
+     if (!videoRef.current) return;
+     videoRef.current.requestFullscreen?.();
+   };
+ 
 
   return (
     <section className="bg-white">
@@ -31,27 +73,57 @@ const Description: React.FC = () => {
         </div>
       </div>
 
-      {/* Vidéo du professeur */}
-      <div className="container mt-10">
+         {/* ================= VIDÉO ================= */}
+         <div className="container mt-10">
         <div className="flex justify-center">
-          <div className="relative aspect-video w-full max-w-[720px] overflow-hidden rounded-xl shadow-lg ring-1 ring-black/5">
-            <video
-              ref={videoRef}
-              src="/videos/ireneactivity1.mp4"
-              className="h-full w-full object-cover bg-black"
-              controls={false}
-              poster="/images/courses/teacher/wide-irene.png"
-            />
-            {!videoPlaying && (
+          <div className="w-full max-w-[720px]">
+            <div className="relative aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
+              <video
+                ref={videoRef}
+                src="/videos/ireneactivity1.mp4"
+                poster="/images/courses/teacher/wide-irene.png"
+                className="h-full w-full object-cover"
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
+                onEnded={() => setIsPlaying(false)}
+              />
+
+              {/* ===== BOUTON CENTRAL UNIQUE ===== */}
               <button
-                onClick={playVideo}
-                className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/50"
+                onClick={togglePlayPause}
+                className="absolute  inset-0 m-auto flex h-16 w-16 items-center justify-center 
+                           rounded-full bg-black/60 text-2xl text-white backdrop-blur
+                           hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                aria-label={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
               >
-                ▶
+                {isPlaying ? "⏸" : "▶"}
               </button>
-            )}
-            <div className="absolute bottom-2 left-2 rounded bg-white/80 px-2 py-1 text-xs font-medium text-black">
-              Tutoriel vidéo
+            </div>
+
+            {/* ================= PROGRESSION ================= */}
+            <div className="mt-3 space-y-2">
+              <input
+                type="range"
+                min={0}
+                max={duration}
+                step={0.1}
+                value={currentTime}
+                onChange={handleSeek}
+                className="w-full"
+              />
+
+              <div className="flex items-center justify-between text-sm text-black">
+                <span>
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </span>
+
+                <button
+                  onClick={handleFullscreen}
+                  className="rounded-md bg-black px-3 py-1 text-white hover:bg-black/80"
+                >
+                  ⛶ Plein écran
+                </button>
+              </div>
             </div>
           </div>
         </div>
