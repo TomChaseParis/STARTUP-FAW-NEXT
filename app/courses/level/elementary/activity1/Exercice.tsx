@@ -10,7 +10,7 @@ import { quizData } from './quizData'
    EXERCICE 2 — QUIZ À CHOIX MULTIPLES
 ======================================================================================= */
 
-const Exercice2: React.FC = () => {
+const Exercice: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -235,4 +235,4 @@ const Exercice2: React.FC = () => {
   );
 };
 
-export default Exercice2;
+export default Exercice;
