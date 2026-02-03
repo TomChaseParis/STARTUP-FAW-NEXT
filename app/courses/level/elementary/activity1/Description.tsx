@@ -196,7 +196,7 @@ const Description: React.FC = () => {
       </div>
 
       {/* ================= CONSIGNE EXERCICE 1 ================= */}
-      <div className="mx-auto mb-10 mt-[140px] max-w-5xl rounded-xl bg-amber-50 p-6 text-left shadow-sm ring-1 ring-amber-200">
+      <div className="mx-auto mb-10 mt-[140px] max-w-4xl rounded-xl bg-amber-50 p-6 text-left shadow-sm ring-1 ring-amber-200">
         <h3 className="mb-3 text-lg font-semibold text-black">
           ✍️ Exercice — Testez vos connaissances en choisissant la bonne réponse à chaque question.
         </h3>

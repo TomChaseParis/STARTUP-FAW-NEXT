@@ -8,8 +8,6 @@
   body {
     font-family: "Inter", sans-serif;
   }
-
- 
 }
 
 @layer components {
@@ -32,4 +30,36 @@
   input#checkboxLabel:checked ~ .box span {
     @apply opacity-100;
   }
+}
+
+/* ============================================================
+   🎤 ANIMATIONS POUR LE MICRO + BARRES D'ÉCOUTE — ULTRA UI/UX
+   (Utilisé dans tous tes quiz, animations propres et fluides)
+=============================================================== */
+
+@keyframes wave1 {
+  0%, 100% { height: 4px; }
+  50% { height: 12px; }
+}
+
+@keyframes wave2 {
+  0%, 100% { height: 12px; }
+  50% { height: 4px; }
+}
+
+@keyframes wave3 {
+  0%, 100% { height: 8px; }
+  50% { height: 16px; }
+}
+
+.animate-wave1 {
+  animation: wave1 0.9s infinite ease-in-out;
+}
+
+.animate-wave2 {
+  animation: wave2 0.9s infinite ease-in-out;
+}
+
+.animate-wave3 {
+  animation: wave3 0.9s infinite ease-in-out;
 }

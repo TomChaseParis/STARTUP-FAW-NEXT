@@ -71,20 +71,8 @@ const Description2: React.FC = () => {
 
   return (
     <section className="bg-white">
-      {/* ================= CONSIGNE EXERCICE 1 ================= */}
-      <div className="mx-auto mb-10 mt-[140px] max-w-5xl rounded-xl bg-amber-50 p-6 text-left shadow-sm ring-1 ring-amber-200">
-        <h3 className="mb-3 text-lg font-semibold text-black">
-          ✍️ Exercice — Trouvez à chaque fois, la bonne question à poser à chacun des personnages.
-        </h3>
+   
 
-        <p className="leading-relaxed text-black/80">
-          Faites connaissance avec Norbert, Mariama et Adrien en regardant la
-          petite vidéo, puis posez-leur des questions. Attention, ils sont
-          susceptibles ! Vous devez choisir la bonne question si vous voulez
-          qu’ils vous répondent gentiment.
-        </p>
-      </div>
- 
       {/* ================= VIDÉO ================= */}
       <div className="container mt-10">
         <div className="flex justify-center">
@@ -115,6 +103,7 @@ const Description2: React.FC = () => {
                 Vidéo — Compréhension orale
               </div>
             </div>
+            
 
             {/* ================= PROGRESSION ================= */}
             <div className="mt-3 space-y-2">
@@ -143,8 +132,21 @@ const Description2: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+           {/* ================= CONSIGNE EXERCICE 1 ================= */}
+      <div className="mx-auto mb-10 mt-[140px] max-w-4xl rounded-xl bg-amber-50 p-6 text-left shadow-sm ring-1 ring-amber-200">
+        <h3 className="mb-3 text-lg font-semibold text-black">
+          ✍️ Exercice — Trouvez à chaque fois, la bonne question à poser à
+          chacun des personnages.
+        </h3>
 
+        <p className="leading-relaxed text-black/80">
+          Faites connaissance avec Norbert, Mariama et Adrien en regardant la
+          petite vidéo, puis posez-leur des questions. Attention, ils sont
+          susceptibles ! Vous devez choisir la bonne question si vous voulez
+          qu’ils vous répondent gentiment.
+        </p>
+      </div>
+      </div>
     </section>
   );
 };
