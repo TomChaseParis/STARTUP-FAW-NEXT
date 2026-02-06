@@ -53,10 +53,10 @@ const Elementary2Page = () => {
             level="elementary"
           />
           <ActivityCard
-            title=""
-            subtitle=""
+            title="Activité 2"
+            subtitle="La famille déménage"
             description=""
-            href="/courses/level/elementary2/activity1"
+            href="/courses/level/elementary2/activity2"
             level="elementary"
           />
           <ActivityCard

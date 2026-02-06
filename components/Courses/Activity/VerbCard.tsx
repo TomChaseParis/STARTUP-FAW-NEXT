@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 
 type VerbCardProps = {
   title: string;
@@ -9,24 +8,20 @@ type VerbCardProps = {
   onPlay: () => void;
 };
 
-const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay}) => {
+const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay }) => {
   return (
     <div
       className="
-        group overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5 
-        transition-all duration-300 hover:shadow-2xl hover:-translate-y-1
-        flex
+        group flex overflow-hidden rounded-2xl bg-white shadow-xl ring-1 
+        ring-black/5 transition-all duration-300 hover:-translate-y-1
+        hover:shadow-2xl
       "
     >
-   
-
       {/* ==== CONTENU À DROITE ==== */}
-      <div className="flex-1 px-6 py-6 relative">
+      <div className="relative flex-1 px-6 py-6">
         {/* Titre + bouton audio */}
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold text-black">
-            {title}
-          </h3>
+          <h3 className="text-xl font-semibold text-black">{title}</h3>
 
           <button
             onClick={onPlay}
@@ -34,7 +29,7 @@ const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay}) => {
             className="
               flex items-center gap-2 rounded-lg 
               bg-amber-400 px-4 py-2 text-sm font-semibold text-black shadow 
-              transition hover:bg-amber-300 hover:scale-105
+              transition hover:scale-105 hover:bg-amber-300
             "
           >
             🔊 Écouter
@@ -50,10 +45,6 @@ const VerbCard: React.FC<VerbCardProps> = ({ title, forms, onPlay}) => {
             >
               <span className="mr-2 font-semibold text-amber-600">
                 {index + 1}.
-
-
-
-                
               </span>
               {form}
             </div>

@@ -147,8 +147,6 @@ const Exercice: React.FC = () => {
         playAudio(correctAudios[Math.floor(Math.random() * correctAudios.length)]);
 
         f[catIndex][itemIndex] = "✅ Bonne réponse !";
-
-        // ➤ On remplit le bon mot (affiché en vert)
         fi[catIndex][itemIndex] = expected;
 
         a[catIndex][itemIndex] = 0;
@@ -223,7 +221,6 @@ const Exercice: React.FC = () => {
               {/* ITEMS */}
               <div className="space-y-4 p-5">
                 {cat.items.map((item, itemIndex) => {
-                  // Phrase à afficher
                   const solved = filled[catIndex][itemIndex];
 
                   const visiblePhrase = solved
@@ -235,42 +232,59 @@ const Exercice: React.FC = () => {
 
                   return (
                     <div
-                      key={itemIndex}
-                      className="flex items-start gap-4 rounded-xl bg-white px-5 py-4 shadow-md ring-1 ring-black/5 transition-all hover:-translate-y-[2px] hover:shadow-xl"
+                    key={itemIndex}
+                    className="flex items-center gap-4 rounded-xl bg-white px-5 py-4 shadow-md ring-1 ring-black/5 transition-all hover:-translate-y-[2px] hover:shadow-xl"
+                  >
+                    {/* 🔥 MICRO PREMIUM ALIGNÉ + COULEUR DYNAMIQUE */}
+                    <button
+                      onClick={() => startRecognition(catIndex, itemIndex)}
+                      className={`
+                        relative flex items-center justify-center w-14 h-14 rounded-full shadow-xl transition
+                        ${
+                          feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…"
+                            ? "bg-amber-400 text-black scale-105"          /* 🔥 Écoute : MICRO JAUNE */
+                            : "bg-white text-amber-600 hover:bg-amber-100 hover:scale-105"  /* Normal */
+                        }
+                      `}
                     >
-                      {/* Micro */}
-                      <button
-                        onClick={() => startRecognition(catIndex, itemIndex)}
-                        className="flex h-11 w-11 items-center justify-center rounded-full bg-amber-500 text-black shadow transition hover:scale-105 hover:bg-amber-400"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-7 h-7"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2"
+                        stroke="currentColor"
                       >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
+                        <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                        >
-                          <rect x="9" y="2" width="6" height="12" rx="3" />
-                          <path d="M5 10a7 7 0 0 0 14 0" />
-                          <line x1="12" y1="22" x2="12" y2="17" />
-                        </svg>
-                      </button>
-
-                      {/* Phrase */}
-                      <div>
-                        <p
-                          className="text-[15px] font-medium leading-snug text-black"
-                          dangerouslySetInnerHTML={{ __html: visiblePhrase }}
+                          d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
                         />
-
-                        <p className="mt-2 text-sm italic text-black/60">
-                          {feedbacks[catIndex][itemIndex]}
-                        </p>
-                      </div>
+                      </svg>
+                  
+                      {/* 🔥 Animation bars quand ça écoute */}
+                      {feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…" && (
+                        <div className="absolute -bottom-4 flex gap-1">
+                          <div className="w-1 h-3 bg-amber-300 animate-wave1 rounded"></div>
+                          <div className="w-1 h-4 bg-amber-500 animate-wave2 rounded"></div>
+                          <div className="w-1 h-3 bg-amber-300 animate-wave3 rounded"></div>
+                        </div>
+                      )}
+                    </button>
+                  
+                    {/* Phrase */}
+                    <div>
+                      <p
+                        className="text-[15px] font-medium leading-snug text-black"
+                        dangerouslySetInnerHTML={{ __html: visiblePhrase }}
+                      />
+                      <p className="mt-2 text-sm italic text-black/60">
+                        {feedbacks[catIndex][itemIndex]}
+                      </p>
                     </div>
+                  </div>
+                  
+                  
                   );
                 })}
               </div>
