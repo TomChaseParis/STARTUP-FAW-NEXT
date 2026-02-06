@@ -1,6 +1,8 @@
+
 "use client";
 
 import React, { useRef, useState } from "react";
+import Image from "next/image";
 import AudioActivityCard from "@/components/Courses/Activity/AudioActivityCard";
 
 /* ========= Utilitaire format temps ========= */
@@ -196,6 +198,7 @@ const Description: React.FC = () => {
           </div>
         </div>
       </div>
+
       {/* -------- CONSIGNE -------- */}
       <div className="mx-auto mb-10 mt-[40px] max-w-5xl rounded-xl bg-amber-50 p-6 shadow-sm ring-1 ring-amber-200">
         <h3 className="mb-4 text-lg font-semibold text-black">
@@ -225,9 +228,11 @@ const Description: React.FC = () => {
           {/* COLONNE DROITE : IMAGE */}
           <div className="flex items-center justify-center">
             <div className="relative h-48 w-full md:h-60 md:w-[420px] lg:w-[500px]">
-              <img
+              <Image
                 src="/images/courses/elementary2/activity2/header1.png"
                 alt="Illustration logement"
+                width={800}
+                height={600}
                 className="h-full w-full rounded-xl object-cover shadow-lg ring-1 ring-black/10"
               />
             </div>
@@ -237,7 +242,7 @@ const Description: React.FC = () => {
 
       <div className="pt-10">
         <AudioActivityCard
-          title="La famille déménage — Écoute l'audio"
+          title="La famille déménage — Écoute l&apos;audio"
           audioSrc="/audios/courses/elementary/audioloisirs.mp3"
         />
       </div>
