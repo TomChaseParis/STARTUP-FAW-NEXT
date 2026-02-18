@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import InfoBlock from "./InfoBlock";
 
 type LessonBlockProps = {
-  badge: string;
+  badge?: string; // ✅ optionnel
   title: string;
   description?: string;
   videoSrc: string;
@@ -57,9 +57,13 @@ export default function LessonBlock({
       {/* HEADER */}
       <div className="container">
         <div className="mx-auto max-w-5xl text-center">
-          <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-black">
-            {badge}
-          </span>
+
+          {/* ✅ Badge affiché seulement si présent */}
+          {badge && (
+            <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-black">
+              {badge}
+            </span>
+          )}
 
           <h1 className="mt-3 text-2xl font-semibold text-black">
             {title}
