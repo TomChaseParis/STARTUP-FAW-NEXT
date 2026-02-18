@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone", // ✅ force mode serveur, bloque next export
+
   images: {
     domains: ["localhost"],
     remotePatterns: [
