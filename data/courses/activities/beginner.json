@@ -1,0 +1,28 @@
+[
+  {
+    "slug": "activity1",
+    "title": "Activité 1",
+    "subtitle": "Les 4 verbes essentiels",
+    "description": "Être – Avoir – Faire – Aller",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "activity2",
+    "title": "Activité 2",
+    "subtitle": "Madame Sicard",
+    "description": "Compréhension orale et interaction",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "activity3",
+    "title": "Activité 3",
+    "subtitle": "À l’agence matrimoniale",
+    "description": "Compréhension orale et exercices interactifs",
+    "components": [
+      "Description",
+      "Audio",
+      "Exercice",
+      "Exercice2"
+    ]
+  }
+]

@@ -67,9 +67,7 @@ const MemoryGame: React.FC = () => {
   return (
     <section className="mt-12 pb-20 relative">
       <div className="container mx-auto max-w-5xl text-center">
-        <h2 className="text-2xl font-bold text-black mb-6">
-          🧠 Jeu du Memory — Associe le mot et l’image
-        </h2>
+       
 
         {/* GRID */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 justify-items-center mt-8">

@@ -1,55 +1,59 @@
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
 
-type Level = "beginner" | "elementary" | "intermediate" | "advanced";
+type Level =
+  | "beginner"
+  | "elementary-1"
+  | "elementary-2"
+  | "intermediate-1"
+  | "intermediate-2"
+  | "advanced";
 
 type ActivityCardProps = {
-  title: string; // ex : "Activité 1"
-  subtitle?: string; // ex : "Grammaire"
-  description?: string; // ex : "Être / Avoir / Faire ..."
+  title: string;
+  subtitle?: string; // ✅ ajouté
+  description?: string;
   href?: string;
   className?: string;
-  width?: number;
-  height?: number;
   level?: Level;
-  duration?: string;
-  progress?: number;
-  teacherName?: string;
-  teacherAvatarSrc?: string;
   badgeOverride?: string;
 };
 
 const ActivityCard: React.FC<ActivityCardProps> = ({
   title,
-  subtitle, // 👈 nouveau
+  subtitle,
   description,
   href,
   className = "",
-  width = 320,
-  height = 320,
   level = "beginner",
-  duration,
-  progress,
-  teacherName,
-  teacherAvatarSrc,
   badgeOverride,
 }) => {
   const levelGradients: Record<Level, string> = {
     beginner:
-      "bg-[radial-gradient(120%_120%_at_0%_0%,#FFF7D6_0%,#FBE189_35%,#F4B73E_70%,#E59F2A_100%)]",
-    elementary:
-      "bg-[radial-gradient(120%_120%_at_0%_0%,#E6F8EC_0%,#BFEFD2_40%,#64D8A7_85%)]",
-    intermediate:
-      "bg-[radial-gradient(120%_120%_at_0%_0%,#FDE7E9_0%,#F8B8BE_40%,#EE6C7E_85%)]",
+      "bg-gradient-to-br from-amber-200 via-amber-300 to-amber-400",
+
+    "elementary-1":
+      "bg-gradient-to-br from-emerald-200 via-emerald-300 to-emerald-400",
+
+    "elementary-2":
+      "bg-gradient-to-br from-green-200 via-green-300 to-green-400",
+
+    "intermediate-1":
+      "bg-gradient-to-br from-rose-200 via-rose-300 to-rose-400",
+
+    "intermediate-2":
+      "bg-gradient-to-br from-pink-200 via-pink-300 to-pink-400",
+
     advanced:
-      "bg-[radial-gradient(120%_120%_at_0%_0%,#E6ECFF_0%,#B6C4FF_40%,#6C82FF_85%)]",
+      "bg-gradient-to-br from-indigo-200 via-indigo-300 to-indigo-400",
   };
 
   const levelBadge: Record<Level, string> = {
     beginner: "A1",
-    elementary: "A2",
-    intermediate: "B1",
+    "elementary-1": "A2",
+    "elementary-2": "A2+",
+    "intermediate-1": "B1",
+    "intermediate-2": "B1+",
     advanced: "B2",
   };
 
@@ -57,70 +61,57 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   const badgeText = badgeOverride ?? levelBadge[level];
   const isDisabled = !href;
 
-  const Card = (
+  const Card = (  
     <div
       className={[
-        "group relative overflow-hidden rounded-2xl",
-        "shadow-[0_8px_24px_rgba(0,0,0,0.08)]",
-        "transition-all duration-300 ease-out",
+        "group relative overflow-hidden rounded-3xl",
+        "shadow-[0_12px_32px_rgba(0,0,0,0.12)]",
+        "transition-all duration-500 ease-out",
         gradient,
-        isDisabled ? "opacity-80 cursor-not-allowed" : "cursor-pointer",
-        "will-change-transform hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(0,0,0,0.12)]",
-        level === "beginner" ? "hover:ring-2 hover:ring-amber-500/60" : "",
+        isDisabled ? "opacity-70 cursor-not-allowed" : "cursor-pointer",
+        "hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(0,0,0,0.18)]",
         className,
       ].join(" ")}
-      style={{ width, height }}
       aria-disabled={isDisabled}
-      role={isDisabled ? "article" : "link"}
     >
-      {/* Effet lumineux subtil */}
-      <div className="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-white/40 blur-3xl opacity-40 group-hover:opacity-60 transition-opacity" />
+      {/* Glow effect */}
+      <div className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/40 blur-3xl opacity-40 group-hover:opacity-60 transition duration-500" />
 
-      {/* Contenu centré */}
-      <div className="relative z-10 h-full p-6 flex flex-col justify-between items-center text-black text-center">
-        {/* Titre */}
-        <h3 className="text-xl font-medium tracking-tight">{title}</h3>
+      <div className="relative z-10 flex h-[320px] flex-col items-center justify-between p-8 text-center text-black">
+        
+        {/* TOP LABEL */}
+        <span className="text-xs font-bold uppercase tracking-widest text-black/70">
+          ACTIVITÉ
+        </span>
 
-        {/* Sous-titre */}
-        {subtitle && (
-          <h4 className="mt-1 text-2xl font-semibold text-black/90">
-            {subtitle}
-          </h4>
-        )}
+        {/* CENTER CONTENT */}
+        <div className="space-y-4">
+          <h2 className="text-2xl font-bold leading-tight text-black">
+            {title}
+          </h2>
 
-        {/* Description */}
-        {description && (
-          <p className="mt-3 text-md  font-medium leading-6 text-black/90 line-clamp-4">
-            {description}
-          </p>
-        )}
-
-        {/* Footer */}
-        <div className="mt-4 w-full flex flex-col items-center gap-2">
-          {duration && (
-            <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-md bg-white/70 shadow-sm">
-              ⏱ {duration}
-            </span>
+          {subtitle && (
+            <p className="text-base font-semibold text-black/90">
+              {subtitle}
+            </p>
           )}
 
-          <span className="inline-flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-md bg-black/80 text-white shadow-sm">
+          {description && (
+            <p className="text-sm font-medium text-black/80 max-w-[260px] mx-auto leading-relaxed">
+              {description}
+            </p>
+          )}
+        </div>
+
+        {/* BOTTOM */}
+        <div className="flex flex-col items-center gap-3">
+          <span className="inline-flex items-center justify-center rounded-md bg-black/80 px-3 py-1 text-xs font-bold text-white shadow">
             {badgeText}
           </span>
 
-          <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold bg-black/85 text-white px-3 py-1 rounded-lg shadow transition-colors group-hover:bg-black">
+          <span className="inline-flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white shadow transition group-hover:bg-black/90">
             {isDisabled ? "(bientôt)" : "Voir l’activité →"}
           </span>
-
-          {typeof progress === "number" && (
-            <div className="mt-2 w-28 h-1.5 rounded-full bg-black/10 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-black/70 transition-all"
-                style={{
-                  width: `${Math.min(100, Math.max(0, progress))}%`,
-                }}
-              />
-            </div>
-          )}
         </div>
       </div>
     </div>
@@ -129,7 +120,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   return href && !isDisabled ? (
     <Link
       href={href}
-      className="focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/60 rounded-2xl"
+      className="focus:outline-none focus-visible:ring-2 focus-visible:ring-black/40 rounded-3xl"
     >
       {Card}
     </Link>

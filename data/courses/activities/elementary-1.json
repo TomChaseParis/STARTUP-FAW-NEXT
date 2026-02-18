@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "activity1",
+    "title": "Activité 1",
+    "subtitle": "Questions - Réponses",
+    "description": "Compréhension et interaction orale"
+  },
+  {
+    "slug": "activity2",
+    "title": "Activité 2",
+    "subtitle": "Les loisirs des Français",
+    "description": "Écoute l'audio et complète le texte"
+  }
+]

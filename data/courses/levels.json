@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "beginner",
+    "title": "Débutant",
+    "description": "Premiers pas en français",
+    "badge": "A1",
+    "image": "/images/courses/teacher/wide-marie.png"
+  },
+  {
+    "slug": "elementary-1",
+    "title": "Élémentaire 1",
+    "description": "Bases consolidées du français",
+    "badge": "A2",
+    "image": "/images/courses/teacher/wide-jean.png"
+  },
+  {
+    "slug": "elementary-2",
+    "title": "Élémentaire 2",
+    "description": "Renforcement des fondamentaux",
+    "badge": "A2+",
+    "image": "/images/courses/teacher/wide-irene.png"
+  },
+  {
+    "slug": "intermediate-1",
+    "title": "Intermédiaire 1",
+    "description": "Communication fluide",
+    "badge": "B1",
+    "image": "/images/courses/teacher/wide-etienne.png"
+  },
+  {
+    "slug": "intermediate-2",
+    "title": "Intermédiaire 2",
+    "description": "Expression naturelle",
+    "badge": "B1+",
+    "image": "/images/courses/teacher/wide-henri.png"
+  },
+  {
+    "slug": "advanced",
+    "title": "Avancé",
+    "description": "Maîtrise approfondie du français",
+    "badge": "B2",
+    "image": "/images/courses/teacher/wide-pete.png"
+  }
+]
