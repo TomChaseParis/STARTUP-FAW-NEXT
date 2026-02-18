@@ -9,7 +9,7 @@ export default function Page({
   const Activity = dynamic(
     () =>
       import(
-        `@/components/courses/activities/${params.level}/${params.activity}/Activity`
+        `../../../../../components/courses/activities/${params.level}/${params.activity}/Activity`
       ),
     { ssr: false }
   );

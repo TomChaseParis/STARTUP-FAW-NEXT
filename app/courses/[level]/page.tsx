@@ -1,5 +1,6 @@
 import { getLevel } from "@/lib/courses/getLevel";
-import ActivitiesGrid from "@/components/courses/ActivitiesGrid";
+import ActivitiesGrid from "../../../components/courses/ActivitiesGrid";
+
 
 export default async function LevelPage({ params }: { params: { level: string } }) {
   const level = await getLevel(params.level);
