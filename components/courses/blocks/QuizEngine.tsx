@@ -26,8 +26,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
   const [showReport, setShowReport] = useState(false);
 
-  if (!currentQuestion) return null;
-
   const progressPercent =
     totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
 
@@ -43,15 +41,19 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
     const isLastQuestion = currentIndex === totalQuestions - 1;
 
     if (isLastQuestion) {
-      setTimeout(() => {
-        nextQuestion(); // déclenche isFinished
+      const timer = setTimeout(() => {
+        nextQuestion();
       }, 900);
+
+      return () => clearTimeout(timer);
     }
-  }, [selectedChoiceId]);
+  }, [selectedChoiceId, currentIndex, totalQuestions, nextQuestion]);
 
   /* ========================================================= */
-  /* ======================= RESULT VIEW ===================== */
+  /* ================= SAFE RETURN AFTER HOOKS =============== */
   /* ========================================================= */
+
+  if (!currentQuestion) return null;
 
   /* ========================================================= */
   /* ======================= RESULT VIEW ===================== */
@@ -65,21 +67,21 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
             <h2 className="mb-10 text-center text-3xl font-bold">
               📊 Détail de tes réponses
             </h2>
-    
+
             <div className="space-y-8">
               {history.map((item, index) => {
                 const question = questions.find(
                   (q) => q.id === item.questionId
                 );
-    
+
                 const selectedChoice = question?.choices.find(
                   (c) => c.id === item.selectedChoiceId
                 );
-    
+
                 const correctChoice = question?.choices.find(
                   (c) => c.isCorrect
                 );
-    
+
                 return (
                   <div
                     key={item.questionId}
@@ -88,13 +90,11 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
                     <p className="mb-3 text-lg font-semibold">
                       Question {index + 1}
                     </p>
-    
-                    {/* QUESTION */}
+
                     <p className="mb-4 text-slate-800">
                       {question?.question}
                     </p>
-    
-                    {/* RÉPONSE ÉTUDIANT */}
+
                     <p className="mb-2 text-slate-700">
                       Ta réponse :{" "}
                       <span
@@ -107,15 +107,13 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
                         {selectedChoice?.label}
                       </span>
                     </p>
-    
-                    {/* BONNE RÉPONSE */}
+
                     {!item.isCorrect && (
                       <p className="mb-2 font-semibold text-green-700">
                         Bonne réponse : {correctChoice?.label}
                       </p>
                     )}
-    
-                    {/* EXPLICATION */}
+
                     {correctChoice?.explanation && (
                       <p className="mt-3 text-sm text-slate-600">
                         💡 {correctChoice.explanation}
@@ -125,7 +123,7 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
                 );
               })}
             </div>
-    
+
             <div className="mt-12 text-center">
               <button
                 onClick={resetQuiz}
@@ -138,7 +136,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
         </div>
       );
     }
-    
 
     return (
       <div className="bg-slate-50 py-24 text-slate-900">
@@ -184,14 +181,13 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
   /* ========================= QUIZ ========================== */
   /* ========================================================= */
 
-  const correctChoice = currentQuestion?.choices.find((c) => c.isCorrect);
-  const selectedChoice = currentQuestion?.choices.find(
+  const correctChoice = currentQuestion.choices.find((c) => c.isCorrect);
+  const selectedChoice = currentQuestion.choices.find(
     (c) => c.id === selectedChoiceId,
   );
 
   return (
     <section className="mx-auto max-w-5xl py-16">
-      {/* Barre progression */}
       <div className="mb-6 h-2 w-full rounded-full bg-slate-200">
         <div
           className="h-full rounded-full bg-amber-500 transition-all duration-500"
@@ -205,7 +201,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
         </h3>
 
         <div className="flex flex-col gap-10 lg:flex-row">
-          {/* TEXTE */}
           <div className="flex-1">
             <p className="mb-8 text-lg text-black">
               {currentQuestion.question}
@@ -239,8 +234,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
               })}
             </div>
 
-            {/* ================= FEEDBACK DYNAMIQUE ================= */}
-
             {selectedChoiceId && (
               <div className="mt-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-black/5">
                 {selectedChoice?.isCorrect ? (
@@ -256,7 +249,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
             )}
           </div>
 
-          {/* IMAGE */}
           {currentQuestion.image && (
             <div className="relative w-full lg:w-1/3">
               <div className="relative overflow-hidden rounded-xl shadow-md ring-1 ring-black/10">
@@ -272,7 +264,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
           )}
         </div>
 
-        {/* Bouton suivante sauf dernière */}
         {selectedChoiceId && currentIndex < totalQuestions - 1 && (
           <div className="mt-10 text-right">
             <button

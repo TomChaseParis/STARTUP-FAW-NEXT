@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 
 type MediaType = "video" | "audio" | "image";
 
@@ -58,13 +59,12 @@ export default function IntroBlock({
     <section className="container pt-16">
       <div className="mx-auto max-w-5xl text-center">
         <h1 className="text-2xl font-bold text-black">{title}</h1>
-        {subtitle && (
-          <p className="mt-2 text-black/70">{subtitle}</p>
-        )}
+        {subtitle && <p className="mt-2 text-black/70">{subtitle}</p>}
       </div>
 
       <div className="mt-10 flex justify-center">
         <div className="w-full max-w-[720px]">
+          {/* ================= VIDEO ================= */}
           {mediaType === "video" && (
             <>
               <div className="relative aspect-video overflow-hidden rounded-xl bg-black shadow-lg">
@@ -109,6 +109,7 @@ export default function IntroBlock({
             </>
           )}
 
+          {/* ================= AUDIO ================= */}
           {mediaType === "audio" && (
             <div className="rounded-xl bg-white p-6 shadow">
               <audio
@@ -128,12 +129,18 @@ export default function IntroBlock({
             </div>
           )}
 
+          {/* ================= IMAGE ================= */}
           {mediaType === "image" && (
-            <img
-              src={src}
-              alt={title}
-              className="rounded-xl shadow-lg"
-            />
+            <div className="relative aspect-video w-full overflow-hidden rounded-xl shadow-lg">
+              <Image
+                src={src}
+                alt={title}
+                fill
+                sizes="(max-width: 768px) 100vw, 720px"
+                className="object-cover"
+                priority
+              />
+            </div>
           )}
         </div>
       </div>
