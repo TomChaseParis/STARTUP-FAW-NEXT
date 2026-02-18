@@ -1,18 +1,56 @@
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 
+type ActivityComponent = ReturnType<typeof dynamic>;
+
+const activityMap: Record<string, ActivityComponent> = {
+  "beginner/activity1": dynamic(
+    () => import("@/components/courses/activities/beginner/activity1/Activity"),
+    { ssr: false }
+  ),
+  "beginner/activity2": dynamic(
+    () => import("@/components/courses/activities/beginner/activity2/Activity"),
+    { ssr: false }
+  ),
+  "beginner/activity3": dynamic(
+    () => import("@/components/courses/activities/beginner/activity3/Activity"),
+    { ssr: false }
+  ),
+  "elementary-1/activity1": dynamic(
+    () =>
+      import("@/components/courses/activities/elementary-1/activity1/Activity"),
+    { ssr: false }
+  ),
+  "elementary-1/activity2": dynamic(
+    () =>
+      import("@/components/courses/activities/elementary-1/activity2/Activity"),
+    { ssr: false }
+  ),
+  "elementary-2/activity1": dynamic(
+    () =>
+      import("@/components/courses/activities/elementary-2/activity1/Activity"),
+    { ssr: false }
+  ),
+  "elementary-2/activity2": dynamic(
+    () =>
+      import("@/components/courses/activities/elementary-2/activity2/Activity"),
+    { ssr: false }
+  ),
+  "intermediate-1/activity1": dynamic(
+    () =>
+      import("@/components/courses/activities/intermediate-1/activity1/Activity"),
+    { ssr: false }
+  ),
+  // ➜ ajoute ici tes autres activités
+};
+
 export default function Page({
   params,
 }: {
   params: { level: string; activity: string };
 }) {
-  const Activity = dynamic(
-    () =>
-      import(
-        `../../../../../components/courses/activities/${params.level}/${params.activity}/Activity`
-      ),
-    { ssr: false }
-  );
+  const key = `${params.level}/${params.activity}`;
+  const Activity = activityMap[key];
 
   if (!Activity) {
     notFound();
