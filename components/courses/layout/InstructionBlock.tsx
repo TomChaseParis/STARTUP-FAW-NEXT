@@ -3,9 +3,10 @@ import { ReactNode } from "react";
 interface InstructionBlockProps {
   icon?: ReactNode;
   title: string;
-  subtitle?: string; // ✅ devient optionnel
+  subtitle?: string;
   description?: string;
   reminder?: string;
+  children?: ReactNode; // ✅ on le remet
 }
 
 export default function InstructionBlock({
@@ -14,29 +15,43 @@ export default function InstructionBlock({
   subtitle,
   description,
   reminder,
+  children,
 }: InstructionBlockProps) {
   return (
     <div className="w-full rounded-2xl border border-amber-200 bg-amber-50/70 p-8 shadow-sm">
-      <div className="mb-6 flex items-center gap-3">
-        {icon && <div className="text-xl text-amber-600">{icon}</div>}
-        <h2 className="text-lg font-semibold text-neutral-900 md:text-xl">
+
+      <div className="flex items-center gap-3 mb-6">
+        {icon && (
+          <div className="text-xl text-amber-600">
+            {icon}
+          </div>
+        )}
+        <h2 className="text-lg md:text-xl font-semibold text-neutral-900">
           {title}
         </h2>
       </div>
 
-      {/* ✅ Subtitle affiché uniquement si présent */}
       {subtitle && (
-        <h3 className="mb-4 text-xl font-medium text-neutral-900 md:text-2xl">
+        <h3 className="text-xl md:text-2xl font-medium text-neutral-900 mb-4">
           {subtitle}
         </h3>
       )}
 
       {description && (
-        <p className="mb-6 leading-relaxed text-neutral-700">{description}</p>
+        <p className="text-neutral-700 leading-relaxed mb-6">
+          {description}
+        </p>
+      )}
+
+      {/* ✅ Si children est utilisé */}
+      {children && (
+        <div className="text-neutral-700 leading-relaxed mb-6">
+          {children}
+        </div>
       )}
 
       {reminder && (
-        <div className="inline-block rounded-lg border border-amber-200 bg-white/70 px-4 py-2 text-sm text-neutral-700">
+        <div className="inline-block rounded-lg bg-white/70 border border-amber-200 px-4 py-2 text-sm text-neutral-700">
           {reminder}
         </div>
       )}
