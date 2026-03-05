@@ -2,12 +2,20 @@
 
 import { useMemo, useState } from "react";
 
+export type Teacher = {
+  name: string;
+  avatar: string;
+};
+
 export type Choice = {
   id: string;
   label: string;
   isCorrect: boolean;
   explanation?: string;
   spokenVariants?: string[];
+
+  teacherAudioCorrect?: string;
+  teacherAudioWrong?: string;
 };
 
 export type Question = {
@@ -15,6 +23,12 @@ export type Question = {
   question: string;
   image?: string;
   audioQuestion?: string;
+
+  correctAudio?: string;
+  wrongAudio?: string;
+
+  teacher?: Teacher;
+
   choices: Choice[];
 };
 
@@ -26,6 +40,7 @@ export type QuizResult = {
 };
 
 export function useQuizEngine(questions: Question[]) {
+
   const safeQuestions = useMemo(() => questions ?? [], [questions]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -41,11 +56,10 @@ export function useQuizEngine(questions: Question[]) {
       : null;
 
   const selectChoice = (choiceId: string) => {
+
     if (!currentQuestion || selectedChoiceId) return;
 
-    const correctChoice = currentQuestion.choices.find(
-      (c) => c.isCorrect
-    );
+    const correctChoice = currentQuestion.choices.find((c) => c.isCorrect);
 
     const result: QuizResult = {
       questionId: currentQuestion.id,
@@ -56,9 +70,11 @@ export function useQuizEngine(questions: Question[]) {
 
     setSelectedChoiceId(choiceId);
     setHistory((prev) => [...prev, result]);
+
   };
 
   const nextQuestion = () => {
+
     if (currentIndex >= totalQuestions - 1) {
       setIsFinished(true);
       return;
@@ -66,13 +82,16 @@ export function useQuizEngine(questions: Question[]) {
 
     setSelectedChoiceId(null);
     setCurrentIndex((prev) => prev + 1);
+
   };
 
   const resetQuiz = () => {
+
     setCurrentIndex(0);
     setSelectedChoiceId(null);
     setHistory([]);
     setIsFinished(false);
+
   };
 
   const correctAnswers = history.filter((h) => h.isCorrect).length;
@@ -95,4 +114,5 @@ export function useQuizEngine(questions: Question[]) {
     scorePercentage,
     isFinished,
   };
+
 }

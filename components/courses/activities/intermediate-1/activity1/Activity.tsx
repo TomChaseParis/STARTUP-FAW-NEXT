@@ -8,6 +8,7 @@ import AudioBlock from "@/components/courses/blocks/AudioBlock";
 import QuizEngine from "@/components/courses/blocks/QuizEngine";
 import { quizData } from "./quizData";
 import Exercice from "./Exercice";
+import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 
 export default function Activity() {
   const questions = useMemo(() => quizData ?? [], []);
@@ -36,12 +37,14 @@ export default function Activity() {
       />
       <Exercice />
 
-      <InstructionBlock
-        title="✍️ Exercice"
-        description="Choisis la bonne réponse pour chaque question."
-      />
+      <ExerciseSection>
+        <InstructionBlock
+          title="✍️ Exercice"
+          description="Choisis la bonne réponse pour chaque question."
+        />
 
-      <QuizEngine questions={questions} />
+        <QuizEngine questions={questions} />
+      </ExerciseSection>
     </ActivityLayout>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuizEngine, Question } from "@/hooks/useQuizEngine";
 import { computeScore, getScoreLevel } from "@/utils/quizScoring";
 
@@ -26,28 +26,64 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
   const [showReport, setShowReport] = useState(false);
 
+  /* ================= AUDIO CONTROL ================= */
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const [isTeacherTalking, setIsTeacherTalking] = useState(false);
+  const [audioFinished, setAudioFinished] = useState(false);
+
   const progressPercent =
     totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
 
   const score = computeScore(correctAnswers, totalQuestions);
 
   /* ========================================================= */
-  /* ===================== AUTO FINISH ======================= */
+  /* ======================= AUDIO PROF ====================== */
   /* ========================================================= */
 
   useEffect(() => {
-    if (!selectedChoiceId) return;
+    if (!selectedChoiceId || !currentQuestion) return;
 
-    const isLastQuestion = currentIndex === totalQuestions - 1;
+    const choice = currentQuestion.choices.find(
+      (c) => c.id === selectedChoiceId
+    );
 
-    if (isLastQuestion) {
-      const timer = setTimeout(() => {
-        nextQuestion();
-      }, 900);
+    if (!choice) return;
 
-      return () => clearTimeout(timer);
+    let audioSrc: string | undefined;
+
+    if (choice.isCorrect && choice.teacherAudioCorrect) {
+      audioSrc = choice.teacherAudioCorrect;
     }
-  }, [selectedChoiceId, currentIndex, totalQuestions, nextQuestion]);
+
+    if (!choice.isCorrect && choice.teacherAudioWrong) {
+      audioSrc = choice.teacherAudioWrong;
+    }
+
+    if (!audioSrc) return;
+
+    const audio = new Audio(audioSrc);
+    audioRef.current = audio;
+
+    setIsTeacherTalking(true);
+    setAudioFinished(false);
+
+    audio.play();
+
+    audio.onended = () => {
+      setIsTeacherTalking(false);
+      setAudioFinished(true);
+    
+      const isLastQuestion = currentIndex === totalQuestions - 1;
+    
+      if (isLastQuestion) {
+        setTimeout(() => {
+          nextQuestion();
+        }, 500);
+      }
+    };
+  }, [selectedChoiceId, currentQuestion]);
 
   /* ========================================================= */
   /* ================= SAFE RETURN AFTER HOOKS =============== */
@@ -111,12 +147,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
                     {!item.isCorrect && (
                       <p className="mb-2 font-semibold text-green-700">
                         Bonne réponse : {correctChoice?.label}
-                      </p>
-                    )}
-
-                    {correctChoice?.explanation && (
-                      <p className="mt-3 text-sm text-slate-600">
-                        💡 {correctChoice.explanation}
                       </p>
                     )}
                   </div>
@@ -183,7 +213,7 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
   const correctChoice = currentQuestion.choices.find((c) => c.isCorrect);
   const selectedChoice = currentQuestion.choices.find(
-    (c) => c.id === selectedChoiceId,
+    (c) => c.id === selectedChoiceId
   );
 
   return (
@@ -201,10 +231,28 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
         </h3>
 
         <div className="flex flex-col gap-10 lg:flex-row">
+
+          {/* QUESTION */}
+
           <div className="flex-1">
+
             <p className="mb-8 text-lg text-black">
               {currentQuestion.question}
             </p>
+
+            {/* Bulle du prof */}
+
+            {isTeacherTalking && (
+              <div className="mb-6 flex items-center gap-3 animate-pulse">
+
+                <div className="w-10 h-10 rounded-full bg-amber-500"></div>
+
+                <div className="bg-amber-100 px-4 py-2 rounded-lg text-sm font-medium text-black shadow">
+                  Le professeur parle...
+                </div>
+
+              </div>
+            )}
 
             <div className="space-y-3">
               {currentQuestion.choices.map((choice) => {
@@ -215,16 +263,17 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
                   <button
                     key={choice.id}
                     onClick={() => selectChoice(choice.id)}
+                    disabled={!!selectedChoiceId}
                     className={`
                       w-full rounded-lg border px-4 py-3 text-left text-black transition
                       ${
                         !selectedChoiceId
                           ? "border-black/20 hover:bg-gray-50"
                           : isCorrect
-                            ? "border-green-500 bg-green-100 text-green-800"
-                            : isSelected
-                              ? "border-red-500 bg-red-100 text-red-800"
-                              : "border-black/10"
+                          ? "border-green-500 bg-green-100 text-green-800"
+                          : isSelected
+                          ? "border-red-500 bg-red-100 text-red-800"
+                          : "border-black/10"
                       }
                     `}
                   >
@@ -249,6 +298,8 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
             )}
           </div>
 
+          {/* IMAGE */}
+
           {currentQuestion.image && (
             <div className="relative w-full lg:w-1/3">
               <div className="relative overflow-hidden rounded-xl shadow-md ring-1 ring-black/10">
@@ -264,7 +315,9 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
           )}
         </div>
 
-        {selectedChoiceId && currentIndex < totalQuestions - 1 && (
+        {/* BOUTON SUIVANT BLOQUÉ TANT QUE LE PROF PARLE */}
+
+        {selectedChoiceId && audioFinished && currentIndex < totalQuestions - 1 && (
           <div className="mt-10 text-right">
             <button
               onClick={nextQuestion}

@@ -1,45 +1,61 @@
 "use client";
 
-import { useMemo } from "react";
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
+import AudioBlock from "@/components/courses/blocks/AudioBlock";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
-import AudioBlock from "@/components/courses/blocks/AudioBlock";
-import QuizEngine from "@/components/courses/blocks/QuizEngine";
-import { quizData } from "./quizData";
 import Exercice from "./Exercice";
+import Exercice2 from "./Exercice2";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 
 export default function Activity() {
-  const questions = useMemo(() => quizData ?? [], []);
-
   return (
     <ActivityLayout>
+      {/* ================= HEADER + VIDEO + INFO ================= */}
       <LessonBlock
         badge="Compréhension orale"
-        title="Activité 2 — Écoute et réponds"
-        description="Regarde la vidéo, écoute l’audio, puis réponds aux questions."
-        videoSrc="/videos/marieactivity1.mp4"
+        title="À l’agence matrimoniale"
+        description="Regarde la vidéo puis réponds aux questions."
+        videoSrc="/videos/marieactivity3.mp4"
         poster="/images/courses/teacher/wide-marie.png"
         info={{
-          objectifs: ["Comprendre un dialogue simple"],
-          competences: ["Compréhension orale", "Compréhension écrite"],
-          prerequis: ["Vocabulaire du quotidien"],
-          duree: "20 minutes",
+          objectifs: ["Se présenter", "Répondre à des questions personnelles"],
+          competences: ["Compréhension orale", "Expression orale"],
+          prerequis: [
+            "Présent des verbes être / avoir",
+            "Questions interrogatives",
+            "Chiffres et numéros",
+          ],
+          duree: "35 minutes",
         }}
       />
 
       <AudioBlock
         title="Écoute la conversation"
-        audioSrc="/audios/lunch.wav"
-        badge="Audio"
-        tip="Conseil : écoute une première fois, puis relance en notant les mots-clés utiles."
+        audioSrc="/audios/courses/beginner/audioactivity3.mp3"
+        levelColor="amber"
+        tip="Écoute deux fois avant de répondre."
       />
 
       <ExerciseSection>
+      <InstructionBlock
+          title="✍️ Exercice - Compléter le tableau"
+          description="Complète le tableau en choisissant à chaque ligne parmi les trois
+        réponses proposées"
+        ></InstructionBlock>
         <Exercice />
-        <QuizEngine questions={questions} />
       </ExerciseSection>
+
+      {/* ================= EXERCICE 2 ================= */}
+  <ExerciseSection>
+  <InstructionBlock
+        title="✍️ Exercice - Compléter le dialogue"
+        description="Écoutez à nouveau le dialogue et complétez les verbes à la bonne forme."
+      ></InstructionBlock>
+            <Exercice2 />
+
+  </ExerciseSection>
+
     </ActivityLayout>
   );
 }
