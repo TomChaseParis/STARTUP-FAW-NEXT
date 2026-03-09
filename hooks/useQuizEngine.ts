@@ -57,7 +57,7 @@ export function useQuizEngine(questions: Question[]) {
 
   const selectChoice = (choiceId: string) => {
 
-    if (!currentQuestion || selectedChoiceId) return;
+    if (!currentQuestion || selectedChoiceId !== null) return;
 
     const correctChoice = currentQuestion.choices.find((c) => c.isCorrect);
 
@@ -69,7 +69,11 @@ export function useQuizEngine(questions: Question[]) {
     };
 
     setSelectedChoiceId(choiceId);
-    setHistory((prev) => [...prev, result]);
+
+    setHistory((prev) => [
+      ...prev,
+      result
+    ]);
 
   };
 
@@ -94,7 +98,8 @@ export function useQuizEngine(questions: Question[]) {
 
   };
 
-  const correctAnswers = history.filter((h) => h.isCorrect).length;
+  const correctAnswers =
+    history.filter((h) => h.isCorrect).length;
 
   const scorePercentage =
     totalQuestions > 0

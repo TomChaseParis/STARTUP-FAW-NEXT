@@ -33,6 +33,93 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
   const [isTeacherTalking, setIsTeacherTalking] = useState(false);
   const [audioFinished, setAudioFinished] = useState(false);
 
+  /* ================= VOICE CONTROL ================= */
+
+  const recognitionRef = useRef<any>(null);
+  const [isListening, setIsListening] = useState(false);
+
+  const normalize = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/[.,!?]/g, "")
+      .trim();
+
+  useEffect(() => {
+
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) return;
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "fr-FR";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = (event: any) => {
+
+      const transcript =
+        event.results[event.results.length - 1][0].transcript;
+
+      const clean = normalize(transcript);
+
+      handleVoiceAnswer(clean);
+
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+
+  }, [currentQuestion]);
+
+  const handleVoiceAnswer = (transcript: string) => {
+
+    if (!currentQuestion || selectedChoiceId) return;
+  
+    const normalizedTranscript = normalize(transcript);
+  
+    for (const choice of currentQuestion.choices) {
+  
+      const variants = [
+        choice.label,
+        ...(choice.spokenVariants || [])
+      ];
+  
+      for (const variant of variants) {
+  
+        const cleanVariant = normalize(variant);
+  
+        if (normalizedTranscript.includes(cleanVariant)) {
+  
+          selectChoice(choice.id);
+  
+          recognitionRef.current?.stop();
+  
+          return;
+  
+        }
+  
+      }
+  
+    }
+  
+  };
+
+  const startListening = () => {
+
+    if (!recognitionRef.current) return;
+
+    setIsListening(true);
+
+    recognitionRef.current.start();
+
+  };
+
   const progressPercent =
     totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
 
@@ -85,15 +172,7 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
     };
   }, [selectedChoiceId, currentQuestion]);
 
-  /* ========================================================= */
-  /* ================= SAFE RETURN AFTER HOOKS =============== */
-  /* ========================================================= */
-
   if (!currentQuestion) return null;
-
-  /* ========================================================= */
-  /* ======================= RESULT VIEW ===================== */
-  /* ========================================================= */
 
   if (isFinished) {
     if (showReport) {
@@ -207,10 +286,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
     );
   }
 
-  /* ========================================================= */
-  /* ========================= QUIZ ========================== */
-  /* ========================================================= */
-
   const correctChoice = currentQuestion.choices.find((c) => c.isCorrect);
   const selectedChoice = currentQuestion.choices.find(
     (c) => c.id === selectedChoiceId
@@ -232,15 +307,11 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
         <div className="flex flex-col gap-10 lg:flex-row">
 
-          {/* QUESTION */}
-
           <div className="flex-1">
 
             <p className="mb-8 text-lg text-black">
               {currentQuestion.question}
             </p>
-
-            {/* Bulle du prof */}
 
             {isTeacherTalking && (
               <div className="mb-6 flex items-center gap-3 animate-pulse">
@@ -283,6 +354,34 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
               })}
             </div>
 
+            {/* MICRO */}
+
+            {!selectedChoiceId && (
+              <div className="mt-6 flex items-center gap-3">
+
+                <button
+                  onClick={startListening}
+                  disabled={isListening}
+                  className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500 text-white"
+                >
+                  🎤
+                </button>
+
+                {isListening && (
+                  <div className="flex items-center gap-2 text-sm text-black">
+
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-black"></div>
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-black delay-75"></div>
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-black delay-150"></div>
+
+                    <span>Parle...</span>
+
+                  </div>
+                )}
+
+              </div>
+            )}
+
             {selectedChoiceId && (
               <div className="mt-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-black/5">
                 {selectedChoice?.isCorrect ? (
@@ -298,8 +397,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
             )}
           </div>
 
-          {/* IMAGE */}
-
           {currentQuestion.image && (
             <div className="relative w-full lg:w-1/3">
               <div className="relative overflow-hidden rounded-xl shadow-md ring-1 ring-black/10">
@@ -314,8 +411,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
             </div>
           )}
         </div>
-
-        {/* BOUTON SUIVANT BLOQUÉ TANT QUE LE PROF PARLE */}
 
         {selectedChoiceId && audioFinished && currentIndex < totalQuestions - 1 && (
           <div className="mt-10 text-right">
