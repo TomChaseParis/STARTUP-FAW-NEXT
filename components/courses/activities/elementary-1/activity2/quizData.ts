@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 /* ========= Types ========= */
 type Choice = {
@@ -16,9 +16,10 @@ type Question = {
   question: string;
   choices: Choice[];
   image: string;
+  teacherImage?: string;
   correctAudio: string;
   wrongAudio: string;
-  wrongAudio2: string;
+  teacherAudioQuestion: string;
 };
 
 /* ========= Questions ========= */
@@ -27,9 +28,11 @@ export const quizData: Question[] = [
     id: 1,
     question: "Qu’est-ce qu’ils font ?",
     image: "/images/courses/elementary/lesloisirsdesfrancais/tennis.png",
-    correctAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q1_correct.mp3",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion: "/audios/teacher/elementary-1/activity2/q1/qteacher1.mp3",
+    correctAudio:
+      "/audios/courses/elementary/lesloisirsdesfrancais/q1_correct.mp3",
     wrongAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q1_wrong.mp3",
-    wrongAudio2: "/audios/courses/elementary/lesloisirsdesfrancais/q1_wrong2.mp3",
     choices: [
       {
         id: "A",
@@ -65,9 +68,11 @@ export const quizData: Question[] = [
     id: 2,
     question: "Qu’est-ce qu’elles mangent ?",
     image: "/images/courses/elementary/lesloisirsdesfrancais/pizza.png",
-    correctAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q2_correct.mp3",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion: "/audios/teacher/elementary-1/activity2/q2/qteacher2.mp3",
+    correctAudio:
+      "/audios/courses/elementary/lesloisirsdesfrancais/q2_correct.mp3",
     wrongAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q2_wrong.mp3",
-    wrongAudio2: "/audios/courses/elementary/lesloisirsdesfrancais/q2_wrong2.mp3",
     choices: [
       {
         id: "A",
@@ -103,9 +108,11 @@ export const quizData: Question[] = [
     id: 3,
     question: "Où est-ce qu’ils vont ?",
     image: "/images/courses/elementary/lesloisirsdesfrancais/beach.png",
-    correctAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q3_correct.mp3",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion: "/audios/teacher/elementary-1/activity2/q3/qteacher3.mp3",
+    correctAudio:
+      "/audios/courses/elementary/lesloisirsdesfrancais/q3_correct.mp3",
     wrongAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q3_wrong.mp3",
-    wrongAudio2: "/audios/courses/elementary/lesloisirsdesfrancais/q3_wrong2.mp3",
     choices: [
       {
         id: "A",
@@ -141,9 +148,11 @@ export const quizData: Question[] = [
     id: 4,
     question: "Est-ce qu’ils aiment leur repas à la cantine ?",
     image: "/images/courses/elementary/lesloisirsdesfrancais/cantine.png",
-    correctAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q4_correct.mp3",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion: "/audios/teacher/elementary-1/activity2/q4/qteacher4.mp3",
+    correctAudio:
+      "/audios/courses/elementary/lesloisirsdesfrancais/q4_correct.mp3",
     wrongAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q4_wrong.mp3",
-    wrongAudio2: "/audios/courses/elementary/lesloisirsdesfrancais/q4_wrong2.mp3",
     choices: [
       {
         id: "A",
@@ -179,9 +188,11 @@ export const quizData: Question[] = [
     id: 5,
     question: "À quel jeu est-ce qu’ils jouent ?",
     image: "/images/courses/elementary/lesloisirsdesfrancais/chess.png",
-    correctAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q5_correct.mp3",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion: "/audios/teacher/elementary-1/activity2/q5/qteacher5.mp3",
+    correctAudio:
+      "/audios/courses/elementary/lesloisirsdesfrancais/q5_correct.mp3",
     wrongAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q5_wrong.mp3",
-    wrongAudio2: "/audios/courses/elementary/lesloisirsdesfrancais/q5_wrong2.mp3",
     choices: [
       {
         id: "A",
@@ -217,9 +228,11 @@ export const quizData: Question[] = [
     id: 6,
     question: "Qu’est-ce qu’elles font ?",
     image: "/images/courses/elementary/lesloisirsdesfrancais/teach.png",
-    correctAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q6_correct.mp3",
+    teacherAudioQuestion: "/audios/teacher/elementary-1/activity2/q6/qteacher6.mp3",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    correctAudio:
+      "/audios/courses/elementary/lesloisirsdesfrancais/q6_correct.mp3",
     wrongAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q6_wrong.mp3",
-    wrongAudio2: "/audios/courses/elementary/lesloisirsdesfrancais/q6_wrong2.mp3",
     choices: [
       {
         id: "A",
@@ -255,9 +268,11 @@ export const quizData: Question[] = [
     id: 7,
     question: "Dans quel pays est-ce qu’ils sont ?",
     image: "/images/courses/elementary/lesloisirsdesfrancais/maroc.png",
-    correctAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q7_correct.mp3",
+    teacherAudioQuestion: "/audios/teacher/elementary-1/activity2/q7/qteacher7.mp3",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    correctAudio:
+      "/audios/courses/elementary/lesloisirsdesfrancais/q7_correct.mp3",
     wrongAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q7_wrong.mp3",
-    wrongAudio2: "/audios/courses/elementary/lesloisirsdesfrancais/q7_wrong2.mp3",
     choices: [
       {
         id: "A",
@@ -293,9 +308,11 @@ export const quizData: Question[] = [
     id: 8,
     question: "Quel est leur problème ?",
     image: "/images/courses/elementary/lesloisirsdesfrancais/tired.png",
-    correctAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q8_correct.mp3",
+    teacherAudioQuestion: "/audios/teacher/elementary-1/activity2/q8/qteacher8.mp3",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    correctAudio:
+      "/audios/courses/elementary/lesloisirsdesfrancais/q8_correct.mp3",
     wrongAudio: "/audios/courses/elementary/lesloisirsdesfrancais/q8_wrong.mp3",
-    wrongAudio2: "/audios/courses/elementary/lesloisirsdesfrancais/q8_wrong2.mp3",
     choices: [
       {
         id: "A",

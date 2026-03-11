@@ -20,16 +20,19 @@ export type Choice = {
 
 export type Question = {
   id: number;
+
   question: string;
+
+  choices: Choice[];
+
   image?: string;
-  audioQuestion?: string;
+
+  teacherAudioQuestion?: string;
+
+  teacherImage?: string;
 
   correctAudio?: string;
   wrongAudio?: string;
-
-  teacher?: Teacher;
-
-  choices: Choice[];
 };
 
 export type QuizResult = {
@@ -38,6 +41,160 @@ export type QuizResult = {
   correctChoiceId: string;
   isCorrect: boolean;
 };
+
+/* ----------------------------- */
+/* NORMALISATION TEXTE VOCALE */
+/* ----------------------------- */
+
+function normalize(text: string) {
+
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\s]/g, "")
+    .trim();
+
+}
+
+/* ----------------------------- */
+/* SIMILARITE TEXTE */
+/* ----------------------------- */
+
+function similarity(a: string, b: string): number {
+
+  let matches = 0;
+
+  for (let i = 0; i < Math.min(a.length, b.length); i++) {
+
+    if (a[i] === b[i]) {
+
+      matches++;
+
+    }
+
+  }
+
+  return matches / Math.max(a.length, b.length);
+
+}
+
+/* ----------------------------- */
+/* DETECTION LETTRE */
+/* ----------------------------- */
+
+function detectLetter(speech: string): string | null {
+
+  const map: Record<string, string> = {
+    a: "A",
+    b: "B",
+    c: "C",
+    d: "D",
+  };
+
+  for (const key in map) {
+
+    if (
+      speech === key ||
+      speech.includes(` ${key} `) ||
+      speech.startsWith(key) ||
+      speech.includes(`reponse ${key}`) ||
+      speech.includes(`choisis ${key}`) ||
+      speech.includes(`choix ${key}`)
+    ) {
+
+      return map[key];
+
+    }
+
+  }
+
+  return null;
+
+}
+
+/* ----------------------------- */
+/* DETECTION REPONSE VOCALE */
+/* ----------------------------- */
+
+function detectChoiceFromSpeech(
+  speech: string,
+  choices: Choice[]
+): Choice | null {
+
+  const normalizedSpeech = normalize(speech);
+
+  /* 1️⃣ detection lettre */
+
+  const letter = detectLetter(normalizedSpeech);
+
+  if (letter) {
+
+    const found = choices.find((c) => c.id === letter);
+
+    if (found) return found;
+
+  }
+
+  /* 2️⃣ detection label exact */
+
+  for (const choice of choices) {
+
+    const label = normalize(choice.label);
+
+    if (normalizedSpeech.includes(label)) {
+
+      return choice;
+
+    }
+
+  }
+
+  /* 3️⃣ detection variantes parlées */
+
+  for (const choice of choices) {
+
+    if (choice.spokenVariants) {
+
+      for (const variant of choice.spokenVariants) {
+
+        const v = normalize(variant);
+
+        if (normalizedSpeech.includes(v)) {
+
+          return choice;
+
+        }
+
+      }
+
+    }
+
+  }
+
+  /* 4️⃣ detection similarité */
+
+  for (const choice of choices) {
+
+    const label = normalize(choice.label);
+
+    const score = similarity(normalizedSpeech, label);
+
+    if (score > 0.7) {
+
+      return choice;
+
+    }
+
+  }
+
+  return null;
+
+}
+
+/* ----------------------------- */
+/* HOOK QUIZ ENGINE */
+/* ----------------------------- */
 
 export function useQuizEngine(questions: Question[]) {
 
@@ -71,20 +228,46 @@ export function useQuizEngine(questions: Question[]) {
     setSelectedChoiceId(choiceId);
 
     setHistory((prev) => [
+
       ...prev,
       result
+
     ]);
+
+  };
+
+  /* ----------------------------- */
+  /* TRAITEMENT REPONSE VOCALE */
+  /* ----------------------------- */
+
+  const processSpeechAnswer = (speech: string) => {
+
+    if (!currentQuestion) return;
+
+    const detectedChoice = detectChoiceFromSpeech(
+      speech,
+      currentQuestion.choices
+    );
+
+    if (detectedChoice) {
+
+      selectChoice(detectedChoice.id);
+
+    }
 
   };
 
   const nextQuestion = () => {
 
     if (currentIndex >= totalQuestions - 1) {
+
       setIsFinished(true);
       return;
+
     }
 
     setSelectedChoiceId(null);
+
     setCurrentIndex((prev) => prev + 1);
 
   };
@@ -107,6 +290,7 @@ export function useQuizEngine(questions: Question[]) {
       : 0;
 
   return {
+
     currentIndex,
     currentQuestion,
     selectedChoiceId,
@@ -118,6 +302,8 @@ export function useQuizEngine(questions: Question[]) {
     correctAnswers,
     scorePercentage,
     isFinished,
+    processSpeechAnswer
+
   };
 
 }

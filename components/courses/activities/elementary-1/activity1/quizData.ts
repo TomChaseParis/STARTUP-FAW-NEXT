@@ -16,8 +16,10 @@ type Question = {
   question: string;
   choices: Choice[];
   image: string;
+  teacherImage?: string;
   correctAudio: string;
   wrongAudio: string;
+  teacherAudioQuestion: string;
 };
 
 /* ==========================================================================
@@ -28,7 +30,10 @@ export const quizData: Question[] = [
   {
     id: 1,
     question: "Il y a combien de joueurs dans une équipe de Rugby ?",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q1/qteacher1.mp3",
     image: "/images/courses/elementary/questions-reponses/q1-rugby.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_1.mp3",
     wrongAudio:
@@ -78,6 +83,9 @@ export const quizData: Question[] = [
     id: 2,
     question: "En France, quel jour commence l'été ?",
     image: "/images/courses/elementary/questions-reponses/q2-summer.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q2/qteacher2.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_2.mp3",
     wrongAudio:
@@ -126,6 +134,9 @@ export const quizData: Question[] = [
     id: 3,
     question: "Avec quels ingrédients fait-on une Paella ?",
     image: "/images/courses/elementary/questions-reponses/q3-food.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q3/qteacher3.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_3.mp3",
     wrongAudio:
@@ -175,6 +186,9 @@ export const quizData: Question[] = [
     id: 4,
     question: "Comment font les gens pour avoir des bébés ?",
     image: "/images/courses/elementary/questions-reponses/q4-baby.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q4/qteacher4.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_4.mp3",
     wrongAudio:
@@ -223,6 +237,9 @@ export const quizData: Question[] = [
     id: 5,
     question: "Comment est-ce qu'ils vont au travail ?",
     image: "/images/courses/elementary/questions-reponses/q5-work.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q5/qteacher5.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_5.mp3",
     wrongAudio:
@@ -271,6 +288,9 @@ export const quizData: Question[] = [
     id: 6,
     question: "Quelle est la capitale de la France ?",
     image: "/images/courses/elementary/questions-reponses/q6-city.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q6/qteacher6.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_6.mp3",
     wrongAudio:
@@ -319,6 +339,9 @@ export const quizData: Question[] = [
     id: 7,
     question: "Qu'est-ce qu'ils font ?",
     image: "/images/courses/elementary/questions-reponses/q7-sport.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q7/qteacher7.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_7.mp3",
     wrongAudio:
@@ -367,6 +390,9 @@ export const quizData: Question[] = [
     id: 8,
     question: "De quelle couleur est le ciel quand il fait beau ?",
     image: "/images/courses/elementary/questions-reponses/q8-weather.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q8/qteacher8.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_8.mp3",
     wrongAudio:
@@ -415,6 +441,9 @@ export const quizData: Question[] = [
     id: 9,
     question: "Qui a été le dernier président de l’URSS ?",
     image: "/images/courses/elementary/questions-reponses/q9-president.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q9/qteacher9.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_9.mp3",
     wrongAudio:
@@ -464,6 +493,9 @@ export const quizData: Question[] = [
     id: 10,
     question: "Quel instrument est-ce qu’il joue ?",
     image: "/images/courses/elementary/questions-reponses/q10-music.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q10/qteacher10.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_10.mp3",
     wrongAudio:
@@ -512,6 +544,9 @@ export const quizData: Question[] = [
     id: 11,
     question: "Pourquoi est-ce que les oiseaux chantent ?",
     image: "/images/courses/elementary/questions-reponses/q11-birds.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q11/qteacher11.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_11.mp3",
     wrongAudio:
@@ -560,6 +595,9 @@ export const quizData: Question[] = [
     id: 12,
     question: "Quel moment historique illustre cette photo ?",
     image: "/images/courses/elementary/questions-reponses/q12-monument.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q12/qteacher12.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_12.mp3",
     wrongAudio:
@@ -609,6 +647,9 @@ export const quizData: Question[] = [
     id: 13,
     question: "Quand est-ce qu’il est né ?",
     image: "/images/courses/elementary/questions-reponses/q13-born.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q13/qteacher13.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_13.mp3",
     wrongAudio:
@@ -657,6 +698,9 @@ export const quizData: Question[] = [
     id: 14,
     question: "Où est-ce qu’ils habitent ?",
     image: "/images/courses/elementary/questions-reponses/q14-where.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q14/qteacher14.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/youhoutest.mp3",
     wrongAudio:
@@ -705,6 +749,9 @@ export const quizData: Question[] = [
     id: 15,
     question: "Mais... Qu’est-ce que c’est que ce machin ?",
     image: "/images/courses/elementary/questions-reponses/q15-whatisit.png",
+    teacherImage: "/images/courses/teacher/jeantalkquestion.png",
+    teacherAudioQuestion:
+    "/audios/teacher/elementary-1/activity1/q15/qteacher15.mp3",
     correctAudio:
       "/audios/courses/elementary/questions-reponses/jean_good-answer_15.mp3",
     wrongAudio:
