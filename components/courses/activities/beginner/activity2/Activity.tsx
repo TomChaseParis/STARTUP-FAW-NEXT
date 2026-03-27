@@ -38,8 +38,9 @@ export default function Activity() {
       />
 
       <ExerciseSection>
-      <InstructionBlock
+        <InstructionBlock
           title="✍️ Exercice - Compléter le tableau"
+          activityType="click"
           description="Complète le tableau en choisissant à chaque ligne parmi les trois
         réponses proposées"
         ></InstructionBlock>
@@ -47,15 +48,9 @@ export default function Activity() {
       </ExerciseSection>
 
       {/* ================= EXERCICE 2 ================= */}
-  <ExerciseSection>
-  <InstructionBlock
-        title="✍️ Exercice - Compléter le dialogue"
-        description="Écoutez à nouveau le dialogue et complétez les verbes à la bonne forme."
-      ></InstructionBlock>
-            <Exercice2 />
-
-  </ExerciseSection>
-
+      <ExerciseSection>
+        <Exercice2 />
+      </ExerciseSection>
     </ActivityLayout>
   );
 }

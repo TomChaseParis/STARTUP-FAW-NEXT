@@ -6,7 +6,9 @@ const Exercice2 = () => {
     <div>
       <InstructionBlock
         title="🧠 EPISODE 2 — La visite du nouvel appartement"
-        subtitle="Jeu du memory : associe l’image au mot correspondant."
+        activityType="click"
+        subtitle="JEU DU MEMORY."
+        description="Associe l'image au mot correspondant"
       ></InstructionBlock>
 
       <MemoryGame />

@@ -14,7 +14,7 @@ export default function Activity() {
         badge="Niveau Élémentaire 2"
         title="Activité 1 — L’emploi du temps mouvementé de Clara"
         description="Dans cette activité, vous allez découvrir la journée quotidienne de Clara. Vous réviserez les heures, les moments de la journée, les verbes pronominaux et la conjugaison au présent."
-        videoSrc="/videos/irene-activity-1.mp4"
+        videoSrc="/videos/ireneactivity1subtitlefrench.mp4"
         poster="/images/courses/teacher/irenegood.png"
         info={{
           objectifs: [
@@ -43,19 +43,18 @@ export default function Activity() {
         poster="/images/courses/clarapic.png"
       />
       <ExerciseSection>
-        <InstructionBlock title="Exercice 1 — Formule la question">
-          Trouvez la question correspondante à chaque réponse pour dialoguer
-          avec Clara. Vous pouvez répondre à l’oral (micro) ou à l’écrit.
+        <InstructionBlock title="Formule la question" description="Trouvez la question correspondante à chaque réponse pour dialoguer avec Clara. Vous pouvez répondre à l’oral (micro) ou à l’écrit.
+">
         </InstructionBlock>
 
         <Exercice />
       </ExerciseSection>
 
       <ExerciseSection>
-        <InstructionBlock title="Exercice 2 — Transformation JE → ELLE">
-          Transformez l’intégralité du texte en passant de « je » à « elle » et
+        <InstructionBlock title="Transformation JE → ELLE" description="    Transformez l’intégralité du texte en passant de « je » à « elle » et
           effectuez toutes les modifications nécessaires (pronoms, accords,
-          possessifs, verbes pronominaux…).
+          possessifs, verbes pronominaux…).">
+    
         </InstructionBlock>
         <Exercice2 />
       </ExerciseSection>

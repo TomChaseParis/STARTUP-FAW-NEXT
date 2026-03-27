@@ -18,7 +18,7 @@ export default function Activity() {
         badge="Compréhension orale"
         title="Questions - Réponses"
         description="Regarde la vidéo, puis écoute l'audio et complète le texte."
-        videoSrc="/videos/jean-activity-1.mp4"
+        videoSrc="/videos/jeanactivity1subtitlefrench.mp4"
         poster="/images/courses/teacher/jeangood.png"
         info={{
           objectifs: ["Pratiquer les questions"],
@@ -30,9 +30,10 @@ export default function Activity() {
       <ExerciseSection>
         <InstructionBlock
           title="✍️ Exercice"
-          subtitle="Testez vos connaissances en choisissant la bonne réponse à chaque question."
+          subtitle=""
           description="Écoutez le texte et conjuguez tous les verbes à la troisième personne du pluriel.
     Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet."
+    activityType="click"
         />
         <Exercice />
       </ExerciseSection>
@@ -41,8 +42,8 @@ export default function Activity() {
 
       <LessonBlock
         badge="Compréhension orale"
+        videoSrc=""
         title="Exercice 2 — Trouver la bonne question"
-        videoSrc="/videos/videoexo2.mp4"
         poster="/images/courses/elementary/questions-reponses/adrien.png"
       />
       <ExerciseSection>

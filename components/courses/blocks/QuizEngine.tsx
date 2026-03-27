@@ -40,7 +40,8 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
   /* ================= FINAL TEACHER ANNOUNCEMENT ================= */
 
-  const [isTeacherAnnouncingScore, setIsTeacherAnnouncingScore] = useState(false);
+  const [isTeacherAnnouncingScore, setIsTeacherAnnouncingScore] =
+    useState(false);
 
   useEffect(() => {
     if (isFinished) {
@@ -208,11 +209,9 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
     return (
       <div className="bg-slate-50 py-24 text-slate-900">
         <div className="mx-auto max-w-3xl px-6 text-center">
-
           {isTeacherAnnouncingScore && (
             <div className="mb-10 flex flex-col items-center">
-
-              <div className="relative h-32 w-32 overflow-hidden rounded-full shadow-xl ring-4 ring-amber-400 animate-pulse">
+              <div className="relative h-32 w-32 animate-pulse overflow-hidden rounded-full shadow-xl ring-4 ring-amber-400">
                 <Image
                   src={
                     currentQuestion?.teacherImage ||
@@ -226,7 +225,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
               </div>
 
               <div className="relative mt-6 max-w-md rounded-2xl bg-amber-100 px-6 py-4 text-black shadow-md">
-
                 <p className="text-lg font-semibold">
                   Ton score est de {score} sur 100 !
                 </p>
@@ -308,7 +306,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
   return (
     <section className="mx-auto max-w-5xl py-16">
-
       <div className="mb-6 h-2 w-full rounded-full bg-slate-200">
         <div
           className="h-full rounded-full bg-amber-500 transition-all duration-500"
@@ -317,7 +314,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
       </div>
 
       <div className="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-black/5">
-
         <div className="mb-6 flex items-center gap-4">
           <button
             onClick={playQuestionAudio}
@@ -358,16 +354,13 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
         </div>
 
         <div className="flex flex-col gap-10 lg:flex-row">
-
           <div className="flex-1">
-
             <p className="mb-8 text-lg text-black">
               {currentQuestion.question}
             </p>
 
             {isTeacherTalking && (
               <div className="mb-6 flex animate-pulse items-center gap-3">
-
                 <div className="relative h-24 w-24 overflow-hidden rounded-full shadow ring-2 ring-amber-400">
                   <Image
                     src={
@@ -403,10 +396,10 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
                         !selectedChoiceId
                           ? "border-black/20 hover:bg-gray-50"
                           : isCorrect
-                          ? "border-green-500 bg-green-100 text-green-800"
-                          : isSelected
-                          ? "border-red-500 bg-red-100 text-red-800"
-                          : "border-black/10"
+                            ? "border-green-500 bg-green-100 text-green-800"
+                            : isSelected
+                              ? "border-red-500 bg-red-100 text-red-800"
+                              : "border-black/10"
                       }
                     `}
                   >
@@ -418,7 +411,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
             {!selectedChoiceId && (
               <div className="mt-6 flex items-center gap-3">
-
                 <button
                   onClick={startListening}
                   disabled={isListening}
@@ -468,7 +460,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
             {selectedChoiceId && (
               <div className="mt-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-black/5">
-
                 {selectedChoice?.isCorrect ? (
                   <p className="font-semibold text-green-700">
                     ✔ Oui, c’est bien : {selectedChoice.label}
@@ -478,10 +469,8 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
                     ❌ Non, c’était : {correctChoice?.label}
                   </p>
                 )}
-
               </div>
             )}
-
           </div>
 
           {currentQuestion.image && (
@@ -497,7 +486,6 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
               </div>
             </div>
           )}
-
         </div>
 
         {selectedChoiceId &&

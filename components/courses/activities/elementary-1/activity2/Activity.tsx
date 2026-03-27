@@ -15,7 +15,7 @@ export default function Activity() {
         badge="Compréhension orale"
         title="Les loisirs des Français"
         description="Regarde les images et choisis la bonne réponse."
-        videoSrc="/videos/jean-activity-loisirs.mp4"
+        videoSrc="/videos/jeanactivity2subtitlefrench.mp4"
         poster="/images/courses/teacher/jeangood.png"
         info={{
           objectifs: ["Parler des loisirs"],
@@ -28,9 +28,12 @@ export default function Activity() {
       <ExerciseSection>
         <InstructionBlock
           title="✍️ Exercice"
+          activityType="type"
           subtitle="Testez vos connaissances en choisissant la bonne réponse à chaque question."
           description="Écoutez le texte et conjuguez tous les verbes à la troisième personne du pluriel.
     Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet."
+    
+    
         />
         <Exercice2 />
       </ExerciseSection>

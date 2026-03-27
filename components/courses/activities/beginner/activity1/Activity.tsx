@@ -17,7 +17,7 @@ export default function Activity() {
           badge="Grammaire"
           title="Les 4 verbes essentiels : Être – Avoir – Faire – Aller"
           description="Regarde la vidéo d’abord, puis écoute et répète les conjugaisons."
-          videoSrc="/videos/marie-activity-verbs.mp4"
+          videoSrc="/videos/marieactivity1subtitlefrench.mp4"
           poster="/images/courses/teacher/mariegood.png"
           info={{
             objectifs: [
@@ -32,7 +32,11 @@ export default function Activity() {
       </div>
 
       {/* ================= VERB CARDS GRID ================= */}
-      <div className="mx-auto w-full max-w-6xl px-6">
+      <ExerciseSection>
+        <InstructionBlock
+        title="✍️ Ecoute et observe comment se conjugue chacun des verbes."
+        activityType="listen" />
+         <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
 
           <VerbCard
@@ -89,11 +93,14 @@ export default function Activity() {
 
         </div>
       </div>
+      </ExerciseSection>
+     
 
       {/* ================= EXERCISE SECTION ================= */}
       <ExerciseSection width="wide">
         <InstructionBlock
           title="✍️ Exercice - Complète chaque phrase avec le bon verbe."
+          activityType="click-or-speak"
           description="Lis chaque phrase puis appuie sur le micro pour dire le mot manquant."
         />
         <Exercice />

@@ -39,6 +39,13 @@ const activityMap: Record<string, ActivityComponent> = {
       ),
     { ssr: false },
   ),
+  "intermediate-1/activity2": dynamic(
+    () =>
+      import(
+        "@/components/courses/activities/intermediate-1/activity2/Activity"
+      ),
+    { ssr: false },
+  ),
   // ➜ ajoute ici tes autres activités
 };
 

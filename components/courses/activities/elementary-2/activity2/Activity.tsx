@@ -7,6 +7,9 @@ import AudioActivityCard from "@/components/courses/Activity/AudioActivityCard";
 import Exercice from "./Exercice";
 import Exercice2 from "./Exercice2";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
+import Exercice3 from "./Exercice3";
+import ExerciceEpisode2 from "./Exercice2.2";
+import Exercice4 from "./Exercice4";
 
 export default function Activity() {
   return (
@@ -15,7 +18,7 @@ export default function Activity() {
         badge="Niveau Élémentaire 2"
         title="Activité 1 — La famille déménage"
         description="Découvrez la journée quotidienne de Clara. Travail sur les heures, les verbes pronominaux et les transformations."
-        videoSrc="/videos/irene-activity-2.mp4"
+        videoSrc="/videos/ireneactivity2subtitlefrench.mp4"
         poster="/images/courses/teacher/irenegood.png"
         info={{
           objectifs: ["Parler d’un déménagement"],
@@ -30,28 +33,31 @@ export default function Activity() {
           ],
           duree: "35 minutes",
         }}
-
-        
       />
-       <AudioActivityCard
+      <AudioActivityCard
         title="La famille déménage — Écoute l'audio"
         audioSrc="/audios/courses/elementary/audioloisirs.mp3"
       />
       <ExerciseSection>
-     
-
-      <Exercice />
-
-
+        <Exercice />
       </ExerciseSection>
 
       <ExerciseSection>
-      <Exercice2 />
-
-        
+        <Exercice2 />
       </ExerciseSection>
 
- 
+      <ExerciseSection>
+       <ExerciceEpisode2/>
+      </ExerciseSection>
+
+      <ExerciseSection>
+        <Exercice3 />
+      </ExerciseSection>
+
+      <ExerciseSection>
+        <Exercice4 />
+      </ExerciseSection>
+  
     </ActivityLayout>
   );
 }

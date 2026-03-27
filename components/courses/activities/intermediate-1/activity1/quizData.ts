@@ -26,6 +26,7 @@ export const quizData: Question[] = [
   {
     id: 1,
     question: "Avec qui le chanteur passait-il ses vacances ?",
+    teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion: "/audios/teacher/intermediate-1/activity1/q1/qteacher1.mp3",
     correctAudio: "/audios/courses/song/q1_correct.mp3",
     wrongAudio: "/audios/courses/song/q1_wrong.mp3",
@@ -60,6 +61,7 @@ export const quizData: Question[] = [
   {
     id: 2,
     question: "Est-ce que sa famille avait de l’argent ?",
+    teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion: "/audios/teacher/intermediate-1/activity1/q2/qteacher2.mp3",
     correctAudio: "/audios/courses/song/q2_correct.mp3",
     wrongAudio: "/audios/courses/song/q2_wrong.mp3",
@@ -88,6 +90,7 @@ export const quizData: Question[] = [
     id: 3,
     question:
       "Quelles étaient les activités de la famille pendant les vacances ?",
+      teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
       teacherAudioQuestion: "/audios/teacher/intermediate-1/activity1/q3/qteacher3.mp3",
     correctAudio: "/audios/courses/song/q3_correct.mp3",
     wrongAudio: "/audios/courses/song/q3_wrong.mp3",
@@ -123,6 +126,7 @@ export const quizData: Question[] = [
   {
     id: 4,
     question: "Est-ce que la famille aimait bien rester tard au lit le matin ?",
+    teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion: "/audios/teacher/intermediate-1/activity1/q4/qteacher4.mp3",
     correctAudio: "/audios/courses/song/q4_correct.mp3",
     wrongAudio: "/audios/courses/song/q4_wrong.mp3",
@@ -157,6 +161,7 @@ export const quizData: Question[] = [
   {
     id: 5,
     question: "Quelles étaient les deux conditions pour aller aux îles ?",
+    teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion: "/audios/teacher/intermediate-1/activity1/q5/qteacher5.mp3",
     correctAudio: "/audios/courses/song/q5_correct.mp3",
     wrongAudio: "/audios/courses/song/q5_wrong.mp3",

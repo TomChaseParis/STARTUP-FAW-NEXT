@@ -36,7 +36,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
       "bg-gradient-to-br from-emerald-200 via-emerald-300 to-emerald-400",
 
     "elementary-2":
-      "bg-gradient-to-br from-green-200 via-green-300 to-green-400",
+      "bg-gradient-to-br from-rose-200 via-rose-300 to-rose-400",
 
     "intermediate-1":
       "bg-gradient-to-br from-rose-200 via-rose-300 to-rose-400",

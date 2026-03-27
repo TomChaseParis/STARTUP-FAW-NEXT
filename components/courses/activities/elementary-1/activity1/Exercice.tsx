@@ -9,8 +9,7 @@ export default function Exercice() {
 
   return (
     <>
-  
-    <QuizEngine questions={questions} />;
+      <QuizEngine questions={questions}  />;
     </>
-  )
+  );
 }
