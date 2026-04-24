@@ -33,8 +33,14 @@ export type GapResult = {
 
 /* ================= UTILS ================= */
 
-const removeAccents = (str: string) =>
-  str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const normalizeText = (str: string) =>
+  str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[’']/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
 
 /* ================= HOOK ================= */
 
@@ -108,14 +114,12 @@ export function useFillGapsEngine(data: FillGapsData) {
     sentences.forEach((sentence) => {
       sentence.parts.forEach((p) => {
         if (p.type === "input") {
-          const user = removeAccents(
-            (answers[idx] || "")
-              .trim()
-              .toLowerCase()
+          const user = normalizeText(
+            answers[idx] || ""
           );
 
-          const good = removeAccents(
-            p.answer.toLowerCase()
+          const good = normalizeText(
+            p.answer
           );
 
           const ok = user === good;

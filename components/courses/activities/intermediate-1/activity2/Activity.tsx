@@ -32,6 +32,7 @@ export default function Activity() {
         <InstructionBlock
           title="✍️ Exercice"
           description="Choisis la bonne réponse pour chaque question."
+          activityType="click-or-speak"
         />
 
         <QuizEngine questions={questions} />

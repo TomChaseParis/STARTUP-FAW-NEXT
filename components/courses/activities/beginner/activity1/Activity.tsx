@@ -35,6 +35,8 @@ export default function Activity() {
       <ExerciseSection>
         <InstructionBlock
         title="✍️ Ecoute et observe comment se conjugue chacun des verbes."
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit,si ut aliquip ex ea commodo consequat."
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
         activityType="listen" />
          <div className="mx-auto w-full max-w-6xl px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -100,8 +102,9 @@ export default function Activity() {
       <ExerciseSection width="wide">
         <InstructionBlock
           title="✍️ Exercice - Complète chaque phrase avec le bon verbe."
+          subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit,si ut aliquip ex ea commodo consequat."
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
           activityType="click-or-speak"
-          description="Lis chaque phrase puis appuie sur le micro pour dire le mot manquant."
         />
         <Exercice />
       </ExerciseSection>

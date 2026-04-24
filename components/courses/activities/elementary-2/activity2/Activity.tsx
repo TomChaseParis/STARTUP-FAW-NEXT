@@ -10,6 +10,7 @@ import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import Exercice3 from "./Exercice3";
 import ExerciceEpisode2 from "./Exercice2.2";
 import Exercice4 from "./Exercice4";
+import AudioBlock from "@/components/courses/blocks/AudioBlock";
 
 export default function Activity() {
   return (
@@ -34,10 +35,14 @@ export default function Activity() {
           duree: "35 minutes",
         }}
       />
-      <AudioActivityCard
-        title="La famille déménage — Écoute l'audio"
+
+      <AudioBlock
+        title="Écoute la conversation"
         audioSrc="/audios/courses/elementary/audioloisirs.mp3"
+        levelColor="amber"
+        tip="Écoute deux fois avant de répondre."
       />
+
       <ExerciseSection>
         <Exercice />
       </ExerciseSection>
@@ -47,7 +52,7 @@ export default function Activity() {
       </ExerciseSection>
 
       <ExerciseSection>
-       <ExerciceEpisode2/>
+        <ExerciceEpisode2 />
       </ExerciseSection>
 
       <ExerciseSection>
@@ -57,7 +62,6 @@ export default function Activity() {
       <ExerciseSection>
         <Exercice4 />
       </ExerciseSection>
-  
     </ActivityLayout>
   );
 }

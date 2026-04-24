@@ -1,16 +1,30 @@
 [
   {
     "slug": "activity1",
-    "title": "Activité 1",
-    "subtitle": "Les 4 verbes essentiels",
+    "title": "Les 4 verbes essentiels",
+    "subtitle": "Activité 1",
     "description": "Être – Avoir – Faire – Aller",
     "components": ["Description", "Exercice"]
   },
 
   {
     "slug": "activity2",
-    "title": "Activité 2",
-    "subtitle": "À l’agence matrimoniale",
+    "title": "A l'agence matrimoniale",
+    "subtitle": "Activité 2",
+    "description": "Compréhension orale et exercices interactifs",
+    "components": ["Description", "Audio", "Exercice", "Exercice2"]
+  },
+  {
+    "slug": "activity3",
+    "title": "Les verbes du 1er groupe au présent",
+    "subtitle": "Activité 3",
+    "description": "Compréhension orale et exercices interactifs",
+    "components": ["Description", "Audio", "Exercice", "Exercice2"]
+  },
+  {
+    "slug": "activity4",
+    "title": "Les activités de la semaine",
+    "subtitle": "Activité 4",
     "description": "Compréhension orale et exercices interactifs",
     "components": ["Description", "Audio", "Exercice", "Exercice2"]
   }

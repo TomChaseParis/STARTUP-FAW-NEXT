@@ -12,6 +12,14 @@ const activityMap: Record<string, ActivityComponent> = {
     () => import("@/components/courses/activities/beginner/activity2/Activity"),
     { ssr: false },
   ),
+  "beginner/activity3": dynamic(
+    () => import("@/components/courses/activities/beginner/activity3/Activity"),
+    { ssr: false },
+  ),
+  "beginner/activity4": dynamic(
+    () => import("@/components/courses/activities/beginner/activity4/Activity"),
+    { ssr: false },
+  ),
   "elementary-1/activity1": dynamic(
     () =>
       import("@/components/courses/activities/elementary-1/activity1/Activity"),
@@ -22,6 +30,16 @@ const activityMap: Record<string, ActivityComponent> = {
       import("@/components/courses/activities/elementary-1/activity2/Activity"),
     { ssr: false },
   ),
+  "elementary-1/activity3": dynamic(
+    () =>
+      import("@/components/courses/activities/elementary-1/activity3/Activity"),
+    { ssr: false },
+  ),
+  "elementary-1/activity4": dynamic(
+    () =>
+      import("@/components/courses/activities/elementary-1/activity4/Activity"),
+    { ssr: false },
+  ),
   "elementary-2/activity1": dynamic(
     () =>
       import("@/components/courses/activities/elementary-2/activity1/Activity"),
@@ -30,6 +48,11 @@ const activityMap: Record<string, ActivityComponent> = {
   "elementary-2/activity2": dynamic(
     () =>
       import("@/components/courses/activities/elementary-2/activity2/Activity"),
+    { ssr: false },
+  ),
+  "elementary-2/activity3": dynamic(
+    () =>
+      import("@/components/courses/activities/elementary-2/activity3/Activity"),
     { ssr: false },
   ),
   "intermediate-1/activity1": dynamic(

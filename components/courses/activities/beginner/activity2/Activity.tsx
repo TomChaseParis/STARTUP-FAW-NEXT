@@ -17,7 +17,7 @@ export default function Activity() {
         title="À l’agence matrimoniale"
         description="Regarde la vidéo puis réponds aux questions."
         videoSrc="/videos/marieactivity3.mp4"
-        poster="/images/courses/teacher/wide-marie.png"
+        poster="/images/courses/teacher/mariegood.png"
         info={{
           objectifs: ["Se présenter", "Répondre à des questions personnelles"],
           competences: ["Compréhension orale", "Expression orale"],

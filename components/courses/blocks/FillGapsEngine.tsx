@@ -12,8 +12,14 @@ type Props = {
   teacherImage?: string;
 };
 
-const removeAccents = (str: string) =>
-  str.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
+const normalizeText = (str: string) =>
+  str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[’']/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const FillGapsEngine: React.FC<Props> = ({ data, teacherImage = '/images/teachers/default.png' }) => {
   const {
@@ -196,8 +202,6 @@ const FillGapsEngine: React.FC<Props> = ({ data, teacherImage = '/images/teacher
           </InstructionBlock>
 
           <div className="container mx-auto max-w-5xl pt-4">
-            {/* Progress + compteur */}
-
             <div className="mb-4 flex items-center justify-between text-sm text-slate-600">
               <span>
                 Progression : {answeredCount} / {totalInputs}
@@ -258,6 +262,7 @@ const FillGapsEngine: React.FC<Props> = ({ data, teacherImage = '/images/teacher
         }
       `}
     >
+      
       {sentence.parts.map((part, partIndex) => {
 
         if (part.type === "text") {
@@ -279,8 +284,7 @@ const FillGapsEngine: React.FC<Props> = ({ data, teacherImage = '/images/teacher
         const val = answers[globalIndex] || "";
 
         const isCorrect =
-          removeAccents(val.toLowerCase()) ===
-          removeAccents(part.answer.toLowerCase());
+          normalizeText(val) === normalizeText(part.answer);
 
         return (
           <span

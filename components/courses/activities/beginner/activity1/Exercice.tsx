@@ -23,7 +23,7 @@ const categories = [
   },
   {
     title: "2. AVOIR",
-    image: "/images/courses/beginner/activities/activity1/asset-avoir.png",
+    image: "/images/courses/beginner/activities/activity1/assets-avoir.png",
     items: [
       { phrase: "Tu ....... quel âge ?", word: "as" },
       { phrase: "Excusez-moi, je n'....... pas le temps", word: "ai" },
@@ -37,7 +37,7 @@ const categories = [
   },
   {
     title: "3. FAIRE",
-    image: "/images/courses/beginner/activities/activity1/asset-faire.png",
+    image: "/images/courses/beginner/activities/activity1/assets-faire.png",
     items: [
       { phrase: "Qu'est-ce qu'elle ....... comme études ?", word: "fait" },
       { phrase: "Vous ....... du sport ?", word: "faites" },
@@ -50,7 +50,7 @@ const categories = [
   },
   {
     title: "4. ALLER",
-    image: "/images/courses/beginner/activities/activity1/asset-aller.png",
+    image: "/images/courses/beginner/activities/activity1/assets-aller.png",
     items: [
       { phrase: "Vous ....... bien ?", word: "allez" },
       { phrase: "Elle ....... où ?", word: "va" },
@@ -196,12 +196,12 @@ const Exercice: React.FC = () => {
             >
               {/* IMAGE + TITLE */}
               <div className="border-b border-black/10 bg-white">
-                <div className="relative flex h-40 w-full items-center justify-center bg-white">
+                <div className="relative flex h-[390px] w-full items-center justify-center bg-white">
                   <Image
                     src={cat.image}
                     alt={cat.title}
                     fill
-                    className="object-contain p-4"
+                    className="object-cover p-4"
                   />
                 </div>
 
@@ -226,59 +226,94 @@ const Exercice: React.FC = () => {
 
                   return (
                     <div
-                      key={itemIndex}
-                      className="flex items-center gap-4 rounded-xl bg-white px-5 py-4 shadow-md ring-1 ring-black/5 transition-all hover:-translate-y-[2px] hover:shadow-xl"
-                    >
-                      {/* 🔥 MICRO PREMIUM ALIGNÉ + COULEUR DYNAMIQUE */}
-                      <button
-                        onClick={() => startRecognition(catIndex, itemIndex)}
-                        className={`
-                        relative flex h-14 w-14 items-center justify-center rounded-full shadow-xl transition
+                    key={itemIndex}
+                    className="
+                      flex items-start gap-4
+                      rounded-2xl
+                      bg-white
+                      px-5 py-5
+                      shadow-sm
+                      ring-1 ring-black/5
+                      transition-all
+                      hover:-translate-y-[2px] hover:shadow-lg
+                    "
+                  >
+                    {/* MICRO */}
+                    <button
+                      onClick={() => startRecognition(catIndex, itemIndex)}
+                      className={`
+                        relative flex h-12 w-12 shrink-0 items-center justify-center
+                        rounded-full
+                        shadow-md
+                        transition
                         ${
-                          feedbacks[catIndex][itemIndex] ===
-                          "🎤 Parlez maintenant…"
-                            ? "scale-105 bg-amber-400 text-black" /* 🔥 Écoute : MICRO JAUNE */
-                            : "bg-white text-amber-600 hover:scale-105 hover:bg-amber-100" /* Normal */
+                          feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…"
+                            ? "bg-amber-400 text-black scale-105"
+                            : "bg-white text-amber-600 hover:bg-amber-100"
                         }
                       `}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2"
+                        stroke="currentColor"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-7 w-7"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="2"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
-                          />
-                        </svg>
-
-                        {/* 🔥 Animation bars quand ça écoute */}
-                        {feedbacks[catIndex][itemIndex] ===
-                          "🎤 Parlez maintenant…" && (
-                          <div className="absolute -bottom-4 flex gap-1">
-                            <div className="animate-wave1 h-3 w-1 rounded bg-amber-300"></div>
-                            <div className="animate-wave2 h-4 w-1 rounded bg-amber-500"></div>
-                            <div className="animate-wave3 h-3 w-1 rounded bg-amber-300"></div>
-                          </div>
-                        )}
-                      </button>
-
-                      {/* Phrase */}
-                      <div>
-                        <p
-                          className="text-[15px] font-medium leading-snug text-black"
-                          dangerouslySetInnerHTML={{ __html: visiblePhrase }}
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
                         />
-                        <p className="mt-2 text-sm italic text-black/60">
+                      </svg>
+                  
+                      {/* animation écoute */}
+                      {feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…" && (
+                        <span className="absolute inset-0 rounded-full animate-ping bg-amber-300 opacity-70"></span>
+                      )}
+                    </button>
+                  
+                    {/* TEXTE */}
+                    <div className="flex-1">
+                  
+                      {/* PHRASE */}
+                      <p
+                        className="text-[16px] font-medium leading-relaxed text-black"
+                        dangerouslySetInnerHTML={{
+                          __html: visiblePhrase.replace(
+                            ".......",
+                            `<span style="
+                              display:inline-block;
+                              min-width:70px;
+                              border-bottom:3px solid #f59e0b;
+                              text-align:center;
+                              font-weight:600;
+                              letter-spacing:1px;
+                            ">___</span>`
+                          ),
+                        }}
+                      />
+                  
+                      {/* FEEDBACK */}
+                      {feedbacks[catIndex][itemIndex] && (
+                        <div
+                          className={`
+                            mt-3 text-sm px-3 py-2 rounded-lg
+                            ${
+                              feedbacks[catIndex][itemIndex].includes("Bonne")
+                                ? "bg-green-100 text-green-700"
+                                : feedbacks[catIndex][itemIndex].includes("Correction")
+                                ? "bg-blue-100 text-blue-700"
+                                : "bg-red-100 text-red-700"
+                            }
+                          `}
+                        >
                           {feedbacks[catIndex][itemIndex]}
-                        </p>
-                      </div>
+                        </div>
+                      )}
                     </div>
+                  </div>
                   );
                 })}
               </div>

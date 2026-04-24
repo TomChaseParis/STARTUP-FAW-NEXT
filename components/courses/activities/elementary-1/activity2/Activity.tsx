@@ -30,15 +30,22 @@ export default function Activity() {
           title="✍️ Exercice"
           activityType="type"
           subtitle="Testez vos connaissances en choisissant la bonne réponse à chaque question."
-          description="Écoutez le texte et conjuguez tous les verbes à la troisième personne du pluriel.
-    Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet."
+          description="Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet."
     
     
         />
         <Exercice2 />
       </ExerciseSection>
 
-      <QuizEngine questions={quizData} />
+      <ExerciseSection>
+      <InstructionBlock
+        title="Trouve la bonne réponse à chaque question"
+        description="Regarde la vidéo puis choisis la bonne question à poser à chaque personnage dans le QCM ci-dessous."
+        activityType="click-or-speak"
+      ></InstructionBlock>
+            <QuizEngine questions={quizData} />
+
+      </ExerciseSection>
     </ActivityLayout>
   );
 }

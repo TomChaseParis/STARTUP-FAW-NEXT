@@ -43,17 +43,24 @@ export default function Activity() {
         poster="/images/courses/clarapic.png"
       />
       <ExerciseSection>
-        <InstructionBlock title="Formule la question" description="Trouvez la question correspondante à chaque réponse pour dialoguer avec Clara. Vous pouvez répondre à l’oral (micro) ou à l’écrit.
-">
+        <InstructionBlock
+         title="Formule la question"
+        description="Trouvez la question correspondante à chaque réponse pour dialoguer avec Clara. Vous pouvez répondre à l’oral (micro) ou à l’écrit."
+        activityType="speak-or-type"
+        >
         </InstructionBlock>
 
         <Exercice />
       </ExerciseSection>
 
       <ExerciseSection>
-        <InstructionBlock title="Transformation JE → ELLE" description="    Transformez l’intégralité du texte en passant de « je » à « elle » et
+        <InstructionBlock
+         title="Transformation JE → ELLE"
+         description="    Transformez l’intégralité du texte en passant de « je » à « elle » et
           effectuez toutes les modifications nécessaires (pronoms, accords,
-          possessifs, verbes pronominaux…).">
+          possessifs, verbes pronominaux…)."
+          activityType="type"
+          >
     
         </InstructionBlock>
         <Exercice2 />

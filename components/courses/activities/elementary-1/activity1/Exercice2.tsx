@@ -13,7 +13,7 @@ export default function Exercice2() {
       <InstructionBlock
         title="Trouve la bonne question à poser"
         description="Regarde la vidéo puis choisis la bonne question à poser à chaque personnage dans le QCM ci-dessous."
-        activityType="listen-click"
+        activityType="click-or-speak"
       ></InstructionBlock>
       {/* ===== VIDEO ===== */}
 

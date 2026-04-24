@@ -33,7 +33,7 @@ export default function Activity() {
           subtitle=""
           description="Écoutez le texte et conjuguez tous les verbes à la troisième personne du pluriel.
     Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet."
-    activityType="click"
+    activityType="click-or-speak"
         />
         <Exercice />
       </ExerciseSection>

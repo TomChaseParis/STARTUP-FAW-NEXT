@@ -25,4 +25,5 @@ export const activitySignals: Record<ActivityType, string> = {
 
   converse:
     "/images/signals/converse.png",
+    
 };
