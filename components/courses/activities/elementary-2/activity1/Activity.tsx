@@ -46,7 +46,6 @@ export default function Activity() {
         <InstructionBlock
          title="Formule la question"
         description="Trouvez la question correspondante à chaque réponse pour dialoguer avec Clara. Vous pouvez répondre à l’oral (micro) ou à l’écrit."
-        activityType="speak-or-type"
         >
         </InstructionBlock>
 
