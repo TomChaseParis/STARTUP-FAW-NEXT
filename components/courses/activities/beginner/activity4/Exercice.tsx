@@ -32,7 +32,7 @@ export default function Exercice() {
                 🎯 Astuce :
               </p>
               <p className="text-base">
-                Utilise des phrases simples avec "il" + verbe (présent).
+                Utilise des phrases simples avec &quot;il&quot; + verbe (présent).
               </p>
             </div>
 
