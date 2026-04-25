@@ -6,18 +6,9 @@ export const articlesExercice2Data: FillGapsData = {
   title: "✍️ ARTICLES — Exercice 2",
   activityType: "type",
 
-  instruction:
-    "Complète avec le, la, les, un, une, des ou de.",
+  instruction: "Complète avec le, la, les, un, une, des ou de.",
 
-  verbs: [
-    "le",
-    "la",
-    "les",
-    "un",
-    "une",
-    "des",
-    "de",
-  ],
+  verbs: ["le", "la", "les", "un", "une", "des", "de"],
 
   sentences: [
     {
@@ -36,8 +27,7 @@ export const articlesExercice2Data: FillGapsData = {
       parts: [
         {
           type: "text",
-          value:
-            "La vendeuse : Oui, vous avez vu quelque chose dans ",
+          value: "La vendeuse : Oui, vous avez vu quelque chose dans ",
         },
         { type: "input", answer: "la", hint: "article" },
         { type: "text", value: " vitrine ?" },
@@ -63,8 +53,7 @@ export const articlesExercice2Data: FillGapsData = {
         { type: "input", answer: "les", hint: "article" },
         {
           type: "text",
-          value:
-            " chaussures noires plates, au milieu.",
+          value: " chaussures noires plates, au milieu.",
         },
       ],
     },
@@ -76,8 +65,7 @@ export const articlesExercice2Data: FillGapsData = {
         { type: "input", answer: "le", hint: "article" },
         {
           type: "text",
-          value:
-            " style est élégant, vous ne trouvez pas ?",
+          value: " style est élégant, vous ne trouvez pas ?",
         },
       ],
     },
@@ -87,8 +75,7 @@ export const articlesExercice2Data: FillGapsData = {
       parts: [
         {
           type: "text",
-          value:
-            "La vendeuse : 95 euros, mais en ce moment, nous proposons ",
+          value: "La vendeuse : 95 euros, mais en ce moment, nous proposons ",
         },
         { type: "input", answer: "une", hint: "article" },
         { type: "text", value: " réduction de 15 %." },
@@ -104,8 +91,7 @@ export const articlesExercice2Data: FillGapsData = {
         { type: "input", answer: "la", hint: "article" },
         {
           type: "text",
-          value:
-            " nouvelle collection d’hiver.",
+          value: " nouvelle collection d’hiver.",
         },
       ],
     },
@@ -121,8 +107,7 @@ export const articlesExercice2Data: FillGapsData = {
         { type: "input", answer: "de", hint: "article" },
         {
           type: "text",
-          value:
-            " nouvelles idées de cadeaux.",
+          value: " nouvelles idées de cadeaux.",
         },
       ],
     },
@@ -134,8 +119,7 @@ export const articlesExercice2Data: FillGapsData = {
         { type: "input", answer: "les", hint: "article" },
         {
           type: "text",
-          value:
-            " cartes de crédit ?",
+          value: " cartes de crédit ?",
         },
       ],
     },

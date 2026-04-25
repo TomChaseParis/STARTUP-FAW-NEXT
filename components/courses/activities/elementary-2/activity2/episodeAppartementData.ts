@@ -3,7 +3,7 @@
 import { FillGapsData } from "@/types/fillGapsTypes";
 
 export const episodeAppartementData: FillGapsData = {
-  title: "✍️ EPISODE 2.2 — Réecoute le texte et compléte avec les mots manquants",
+  title: "✍️ EPISODE 2.2 — Compléte avec les mots manquants",
 
   instruction:
     `« LE DEMENAGEMENT » > les mots surlignés en rouge sont

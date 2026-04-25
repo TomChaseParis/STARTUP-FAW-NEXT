@@ -3,7 +3,6 @@
 import { FillGapsData } from "@/types/fillGapsTypes";
 
 export const grammarVerbsData: FillGapsData = {
-  title: "🧠 Grammaire — Devoir / Vouloir / Pouvoir / Savoir",
   activityType: "type",
 
   instruction:

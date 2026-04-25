@@ -25,26 +25,69 @@ export default function Activity() {
         }}
       />
 
+      {/* ================= EXERCICE 1 ================= */}
       <ExerciseSection>
         <InstructionBlock
           title="✍️ Exercice"
           activityType="type"
-          subtitle="Testez vos connaissances en choisissant la bonne réponse à chaque question."
-          description="Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet."
-    
-    
+          description={
+            <div className="space-y-5 text-black">
+
+              <p>
+                Complète la phrase avec la bonne forme du verbe.
+              </p>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                <p className="text-sm font-medium text-slate-600 mb-2">
+                  💡 Exemple :
+                </p>
+                <p className="text-base">
+                  Les jeunes <span className="font-semibold">passent</span> beaucoup de temps sur internet.
+                </p>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                <p className="text-sm font-medium text-slate-600 mb-2">
+                  🎯 Astuce :
+                </p>
+                <p className="text-base">
+                  Fais attention au sujet pour choisir la bonne terminaison du verbe.
+                </p>
+              </div>
+
+            </div>
+          }
         />
+
         <Exercice2 />
       </ExerciseSection>
 
+      {/* ================= EXERCICE 2 ================= */}
       <ExerciseSection>
-      <InstructionBlock
-        title="Trouve la bonne réponse à chaque question"
-        description="Regarde la vidéo puis choisis la bonne question à poser à chaque personnage dans le QCM ci-dessous."
-        activityType="click-or-speak"
-      ></InstructionBlock>
-            <QuizEngine questions={quizData} />
+        <InstructionBlock
+          title="Trouve la bonne réponse à chaque question"
+          activityType="click-or-speak"
+          description={
+            <div className="space-y-5 text-black">
 
+              <p>
+                Regarde la vidéo puis choisis la bonne question à poser à chaque personnage.
+              </p>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                <p className="text-sm font-medium text-slate-600 mb-2">
+                  💡 Astuce :
+                </p>
+                <p className="text-base">
+                  Écoute bien les informations pour comprendre la situation avant de répondre.
+                </p>
+              </div>
+
+            </div>
+          }
+        />
+
+        <QuizEngine questions={quizData} />
       </ExerciseSection>
     </ActivityLayout>
   );

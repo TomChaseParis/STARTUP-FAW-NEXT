@@ -37,6 +37,8 @@ export default function ImageSliderEngine({
 }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [isValidated, setIsValidated] = useState(false);
+
   const [isFinished, setIsFinished] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [history, setHistory] = useState<Result[]>([]);
@@ -76,16 +78,17 @@ export default function ImageSliderEngine({
   const isValidAnswer = currentAnswer.length >= 5;
   const canGoNext = isGuidedStep || isValidAnswer;
 
+  const isCorrect =
+    normalize(currentAnswer) === normalize(currentItem.answer);
+
   const next = () => {
-    if (!canGoNext) return;
+    if (!isValidated) return;
+
     if (!isLastStep) {
       setCurrentIndex((prev) => prev + 1);
-    }
-  };
-
-  const prev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
+      setIsValidated(false);
+    } else {
+      checkAnswers();
     }
   };
 
@@ -245,6 +248,7 @@ export default function ImageSliderEngine({
   return (
     <section className="max-w-xl mx-auto space-y-8 text-black">
 
+      {/* PROGRESS */}
       <div className="space-y-2">
         <div className="flex justify-between text-sm text-slate-600">
           <span>
@@ -278,9 +282,7 @@ export default function ImageSliderEngine({
 
       {isGuidedStep && (
         <div className="mt-4 text-center">
-          <p className="text-sm text-slate-500 mb-1">
-            Exemple :
-          </p>
+          <p className="text-sm text-slate-500 mb-1">Exemple :</p>
           <p className="text-lg font-semibold text-black">
             {data.items[0].answer}
           </p>
@@ -288,32 +290,56 @@ export default function ImageSliderEngine({
       )}
 
       {!isGuidedStep && (
-        <input
-          type="text"
-          value={answers[currentItem.id] || ""}
-          onChange={(e) => handleChange(e.target.value)}
-          placeholder="Ex : Il dort."
-          className="w-full border-2 border-amber-400 rounded-xl px-4 py-3 text-lg text-black bg-slate-50 focus:ring-2 focus:ring-amber-400 outline-none"
-        />
+        <>
+          <input
+            type="text"
+            value={answers[currentItem.id] || ""}
+            onChange={(e) => handleChange(e.target.value)}
+            disabled={isValidated}
+            placeholder="Ex : Il dort."
+            className={`
+              w-full border-2 rounded-xl px-4 py-3 text-lg text-black outline-none transition
+              ${
+                !isValidated
+                  ? "border-amber-400 bg-slate-50 focus:ring-2 focus:ring-amber-400"
+                  : isCorrect
+                    ? "border-green-500 bg-green-50"
+                    : "border-red-500 bg-red-50"
+              }
+            `}
+          />
+
+          {isValidated && (
+            <div className="text-center text-sm font-medium mt-2">
+              {isCorrect ? (
+                <span className="text-green-600">Correct</span>
+              ) : (
+                <span className="text-red-500">
+                  Réponse : {currentItem.answer}
+                </span>
+              )}
+            </div>
+          )}
+        </>
       )}
 
+      {/* ACTION */}
       <div className="flex justify-center">
 
-        {!isLastStep ? (
+        {!isValidated ? (
           <button
-            onClick={next}
+            onClick={() => setIsValidated(true)}
             disabled={!canGoNext}
-            className="px-8 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-black font-semibold shadow-md hover:scale-105 hover:shadow-lg transition-all disabled:opacity-30"
+            className="px-8 py-3 rounded-xl bg-amber-400 text-black font-semibold shadow-md hover:scale-105 transition disabled:opacity-30"
           >
-            {isGuidedStep ? "✨ Commencer" : "Suivant →"}
+            Vérifier
           </button>
         ) : (
           <button
-            onClick={checkAnswers}
-            disabled={!canGoNext}
-            className="px-6 py-2 rounded-xl bg-amber-500 text-black font-semibold disabled:opacity-30"
+            onClick={next}
+            className="px-8 py-3 rounded-xl bg-amber-500 text-black font-semibold shadow-md hover:scale-105 transition"
           >
-            Valider
+            {isLastStep ? "Voir le score" : "Continuer"}
           </button>
         )}
 

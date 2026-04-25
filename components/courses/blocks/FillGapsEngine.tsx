@@ -191,16 +191,7 @@ const FillGapsEngine: React.FC<Props> = ({ data, teacherImage = '/images/teacher
 
       {!isFinished && (
         <>
-          <InstructionBlock title={data.title} description={data.instruction} activityType={data.activityType}>
-            {data.verbs && (
-              <ul className="mt-4 list-disc space-y-1 pl-6 text-black">
-                {data.verbs.map((v, i) => (
-                  <li key={i}>{v}</li>
-                ))}
-              </ul>
-            )}
-          </InstructionBlock>
-
+         
           <div className="container mx-auto max-w-5xl pt-4">
             <div className="mb-4 flex items-center justify-between text-sm text-slate-600">
               <span>

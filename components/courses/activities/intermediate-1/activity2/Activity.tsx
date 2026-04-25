@@ -31,8 +31,34 @@ export default function Activity() {
 
         <InstructionBlock
           title="✍️ Exercice"
-          description="Choisis la bonne réponse pour chaque question."
           activityType="click-or-speak"
+          description={
+            <div className="space-y-5 text-black">
+
+              <p>
+                Écoute la chanson puis choisis la bonne réponse pour chaque question.
+              </p>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                <p className="text-sm font-medium text-slate-600 mb-2">
+                  💡 Astuce :
+                </p>
+                <p className="text-base">
+                  Concentre-toi sur les habitudes décrites dans la chanson (actions répétées dans le passé).
+                </p>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                <p className="text-sm font-medium text-slate-600 mb-2">
+                  🎯 Conseil :
+                </p>
+                <p className="text-base">
+                  Tu peux écouter plusieurs fois pour mieux comprendre les détails.
+                </p>
+              </div>
+
+            </div>
+          }
         />
 
         <QuizEngine questions={questions} />
