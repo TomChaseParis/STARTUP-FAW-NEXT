@@ -387,7 +387,7 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
                 return (
                   <button
-                    key={choice.id}
+                    key={choice.id} 
                     onClick={() => selectChoice(choice.id)}
                     disabled={!!selectedChoiceId || isTeacherTalking}
                     className={`

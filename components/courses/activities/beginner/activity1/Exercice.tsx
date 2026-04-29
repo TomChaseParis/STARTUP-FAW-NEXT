@@ -1,125 +1,71 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
+import { exercice2Data } from "./exercice2Data";
 
-/* -------------------------------------------------------
-   DONNÉES D’EXERCICES (avec images)
-------------------------------------------------------- */
-const categories = [
-  {
-    title: "1. ÊTRE",
-    image: "/images/courses/beginner/activities/activity1/asset-etre.png",
-    items: [
-      { phrase: "Qui ....... étudiant ? Qui travaille ?", word: "est" },
-      { phrase: "Où ....... les toilettes ?", word: "sont" },
-      { phrase: "Je ne ....... pas français", word: "suis" },
-      { phrase: "Tu ....... fatigué ?", word: "es" },
-      { phrase: "Nous ....... étrangers", word: "sommes" },
-      { phrase: "Merci, vous ....... bien aimables", word: "êtes" },
-      { phrase: "On ....... en retard. Excusez-nous", word: "est" },
-    ],
-  },
-  {
-    title: "2. AVOIR",
-    image: "/images/courses/beginner/activities/activity1/assets-avoir.png",
-    items: [
-      { phrase: "Tu ....... quel âge ?", word: "as" },
-      { phrase: "Excusez-moi, je n'....... pas le temps", word: "ai" },
-      { phrase: "Ils n'....... pas d'argent", word: "ont" },
-      { phrase: "Pardon, vous ....... l'heure ?", word: "avez" },
-      { phrase: "Nous ....... un problème", word: "avons" },
-      { phrase: "Elle ....... 15 ans", word: "a" },
-      { phrase: "Vous ....... une minute s'il vous plaît ?", word: "avez" },
-      { phrase: "On ....... faim et soif", word: "a" },
-    ],
-  },
-  {
-    title: "3. FAIRE",
-    image: "/images/courses/beginner/activities/activity1/assets-faire.png",
-    items: [
-      { phrase: "Qu'est-ce qu'elle ....... comme études ?", word: "fait" },
-      { phrase: "Vous ....... du sport ?", word: "faites" },
-      { phrase: "Elles ....... un voyage en Asie", word: "font" },
-      { phrase: "Je vous ....... un café ?", word: "fais" },
-      { phrase: "Il ....... froid aujourd'hui ?", word: "fait" },
-      { phrase: "Nous ....... des études en France", word: "faisons" },
-      { phrase: "Qu'est-ce que tu ....... ce soir ?", word: "fais" },
-    ],
-  },
-  {
-    title: "4. ALLER",
-    image: "/images/courses/beginner/activities/activity1/assets-aller.png",
-    items: [
-      { phrase: "Vous ....... bien ?", word: "allez" },
-      { phrase: "Elle ....... où ?", word: "va" },
-      { phrase: "On ....... au cinéma ?", word: "va" },
-      { phrase: "Tu ....... téléphoner ?", word: "vas" },
-      { phrase: "Mes parents ne ....... pas bien", word: "vont" },
-      { phrase: "Je ....... avec toi", word: "vais" },
-      { phrase: "Nous ....... à la banque", word: "allons" },
-    ],
-  },
-];
-
-/* -------------------------------------------------------
-   AUDIOS
-------------------------------------------------------- */
-const correctAudios = [
-  "/audios/courses/beginner/marie/correct/marie_correct_01.mp3",
-  "/audios/courses/beginner/marie/correct/marie_correct_02.mp3",
-  "/audios/courses/beginner/marie/correct/marie_correct_03.mp3",
-  "/audios/courses/beginner/marie/correct/marie_correct_04.mp3",
-  "/audios/courses/beginner/marie/correct/marie_correct_05.mp3",
-  "/audios/courses/beginner/marie/correct/marie_correct_06.mp3",
-  "/audios/courses/beginner/marie/correct/marie_correct_07.mp3",
-];
-
-const wrongAudios1 = [
-  "/audios/courses/beginner/marie/wrong/marie_wrong_01.mp3",
-  "/audios/courses/beginner/marie/wrong/marie_wrong_02.mp3",
-  "/audios/courses/beginner/marie/wrong/marie_wrong_03.mp3",
-  "/audios/courses/beginner/marie/wrong/marie_wrong_04.mp3",
-  "/audios/courses/beginner/marie/wrong/marie_wrong_05.mp3",
-  "/audios/courses/beginner/marie/wrong/marie_wrong_06.mp3",
-  "/audios/courses/beginner/marie/wrong/marie_wrong_07.mp3",
-];
-
-/* -------------------------------------------------------
-   COMPOSANT PRINCIPAL
-------------------------------------------------------- */
 const Exercice: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<string[][]>(
-    categories.map((cat) => cat.items.map(() => "")),
+    exercice2Data.map((cat) => cat.items.map(() => "")),
   );
 
   const [filled, setFilled] = useState<string[][]>(
-    categories.map((cat) => cat.items.map(() => "")),
+    exercice2Data.map((cat) => cat.items.map(() => "")),
   );
 
   const [attempts, setAttempts] = useState<number[][]>(
-    categories.map((cat) => cat.items.map(() => 0)),
+    exercice2Data.map((cat) => cat.items.map(() => 0)),
   );
 
   const playAudio = (file: string) => new Audio(file).play();
 
-  /* ----------- Reconnaissance vocale ------------ */
-  const startRecognition = (catIndex: number, itemIndex: number) => {
-    if (typeof window === "undefined") return;
+  /* ---------------- NORMALIZE ---------------- */
+  const normalize = (text: string) => {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[’']/g, "")
+      .replace(/[^a-z]/g, "");
+  };
 
+  /* ---------------- LEVENSHTEIN ---------------- */
+  const levenshtein = (a: string, b: string) => {
+    const matrix = Array.from({ length: b.length + 1 }, () => []);
+
+    for (let i = 0; i <= b.length; i++) matrix[i][0] = i;
+    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        matrix[i][j] =
+          b[i - 1] === a[j - 1]
+            ? matrix[i - 1][j - 1]
+            : Math.min(
+                matrix[i - 1][j - 1] + 1,
+                matrix[i][j - 1] + 1,
+                matrix[i - 1][j] + 1
+              );
+      }
+    }
+
+    return matrix[b.length][a.length];
+  };
+
+  /* ---------------- RECOGNITION ---------------- */
+  const startRecognition = (catIndex: number, itemIndex: number) => {
     const Recognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
 
-    if (!Recognition)
-      return alert(
-        "⚠️ Votre navigateur ne supporte pas la reconnaissance vocale.",
-      );
+    if (!Recognition) {
+      alert("⚠️ Reconnaissance vocale non supportée");
+      return;
+    }
 
     const recognition = new Recognition();
     recognition.lang = "fr-FR";
-    recognition.interimResults = true;
+    recognition.interimResults = false;
 
     let finalTranscript = "";
 
@@ -130,43 +76,62 @@ const Exercice: React.FC = () => {
     };
 
     recognition.onresult = (event: any) => {
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        if (event.results[i].isFinal) {
-          finalTranscript += " " + event.results[i][0].transcript;
-        }
-      }
+      finalTranscript = event.results[0][0].transcript;
     };
 
     recognition.onend = () => {
-      const spoken = finalTranscript.toLowerCase().trim();
-      const expected = categories[catIndex].items[itemIndex].word.toLowerCase();
-      const phrase = categories[catIndex].items[itemIndex].phrase;
+      const spoken = normalize(finalTranscript);
+      const item = exercice2Data[catIndex].items[itemIndex];
+      const expected = normalize(item.answer);
+      const phrase = item.phrase;
+      const audio = item.audio;
 
       const f = feedbacks.map((c) => [...c]);
       const a = attempts.map((c) => [...c]);
       const fi = filled.map((c) => [...c]);
 
-      if (spoken.includes(expected)) {
+      /* ---------------- MATCH ULTRA FIABLE ---------------- */
+      const isCorrect = (() => {
+        if (spoken === expected) return true;
+
+        if (expected.length <= 3) return false;
+
+        if (expected.length <= 5) {
+          return levenshtein(spoken, expected) <= 1;
+        }
+
+        return levenshtein(spoken, expected) <= 2;
+      })();
+
+      /* ---------------- SUCCESS ---------------- */
+      if (isCorrect) {
         playAudio(
-          correctAudios[Math.floor(Math.random() * correctAudios.length)],
+          audio.correct[Math.floor(Math.random() * audio.correct.length)]
         );
 
         f[catIndex][itemIndex] = "✅ Bonne réponse !";
-        fi[catIndex][itemIndex] = expected;
-
+        fi[catIndex][itemIndex] = item.answer;
         a[catIndex][itemIndex] = 0;
       } else {
         a[catIndex][itemIndex]++;
 
         if (a[catIndex][itemIndex] === 1) {
           playAudio(
-            wrongAudios1[Math.floor(Math.random() * wrongAudios1.length)],
+            audio.wrong1[Math.floor(Math.random() * audio.wrong1.length)]
           );
           f[catIndex][itemIndex] = "❌ Mauvaise réponse.";
+        } else if (a[catIndex][itemIndex] === 2) {
+          playAudio(
+            audio.wrong2[Math.floor(Math.random() * audio.wrong2.length)]
+          );
+          f[catIndex][itemIndex] = "❌ Essaie encore.";
         } else {
-          f[catIndex][itemIndex] =
-            `❌ Correction : « ${phrase.replace(".......", expected)} »`;
+          playAudio(audio.solution);
 
+          f[catIndex][itemIndex] =
+            `💡 Correction : « ${phrase.replace(".......", item.answer)} »`;
+
+          fi[catIndex][itemIndex] = item.answer;
           a[catIndex][itemIndex] = 0;
         }
       }
@@ -179,153 +144,126 @@ const Exercice: React.FC = () => {
     recognition.start();
   };
 
-  /* -------------------------------------------------------
-     RENDER
-  ------------------------------------------------------- */
+  /* ---------------- RENDER ---------------- */
   return (
     <section className="bg-white">
-      {/* HEADER */}
-
-      {/* CONTENT */}
       <div className="mt-14 pb-20">
         <div className="grid gap-10 sm:grid-cols-2">
-          {categories.map((cat, catIndex) => (
+
+          {exercice2Data.map((cat, catIndex) => (
             <div
               key={cat.title}
-              className="overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5 transition hover:shadow-2xl"
+              className="overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition"
             >
-              {/* IMAGE + TITLE */}
-              <div className="border-b border-black/10 bg-white">
-                <div className="relative flex h-[390px] w-full items-center justify-center bg-white">
-                  <Image
-                    src={cat.image}
-                    alt={cat.title}
-                    fill
-                    className="object-cover p-4"
-                  />
-                </div>
 
-                <div className="border-t border-black/10 bg-amber-50 px-6 py-4">
-                  <h3 className="text-xl font-semibold tracking-tight text-black">
-                    {cat.title}
-                  </h3>
-                </div>
+              {/* IMAGE */}
+              <div className="relative flex h-[390px] w-full items-center justify-center bg-white">
+                <Image
+                  src={cat.image}
+                  alt={cat.title}
+                  fill
+                  className="object-cover p-4"
+                />
+              </div>
+
+              {/* TITLE */}
+              <div className="border-t border-black/10 bg-amber-50 px-6 py-4">
+                <h3 className="text-xl font-semibold text-black">
+                  {cat.title}
+                </h3>
               </div>
 
               {/* ITEMS */}
               <div className="space-y-4 p-5">
+
                 {cat.items.map((item, itemIndex) => {
                   const solved = filled[catIndex][itemIndex];
 
-                  const visiblePhrase = solved
-                    ? item.phrase.replace(
-                        ".......",
-                        `<span style='color:#22c55e; font-weight:bold;'>${solved}</span>`,
-                      )
-                    : item.phrase;
-
                   return (
                     <div
-                    key={itemIndex}
-                    className="
-                      flex items-start gap-4
-                      rounded-2xl
-                      bg-white
-                      px-5 py-5
-                      shadow-sm
-                      ring-1 ring-black/5
-                      transition-all
-                      hover:-translate-y-[2px] hover:shadow-lg
-                    "
-                  >
-                    {/* MICRO */}
-                    <button
-                      onClick={() => startRecognition(catIndex, itemIndex)}
-                      className={`
-                        relative flex h-12 w-12 shrink-0 items-center justify-center
-                        rounded-full
-                        shadow-md
-                        transition
-                        ${
-                          feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…"
-                            ? "bg-amber-400 text-black scale-105"
-                            : "bg-white text-amber-600 hover:bg-amber-100"
-                        }
-                      `}
+                      key={itemIndex}
+                      className="
+                        flex items-start gap-4
+                        rounded-2xl bg-white px-5 py-5
+                        shadow-sm ring-1 ring-black/5
+                        hover:-translate-y-[2px] hover:shadow-lg transition
+                      "
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
+
+                      {/* MICRO */}
+                      <button
+                        onClick={() => startRecognition(catIndex, itemIndex)}
+                        className={`
+                          relative flex h-12 w-12 shrink-0 items-center justify-center
+                          rounded-full shadow-md transition
+                          ${
+                            feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…"
+                              ? "bg-amber-400 text-black scale-105"
+                              : "bg-white text-amber-600 hover:bg-amber-100"
+                          }
+                        `}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
+                        🎤
+
+                        {feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…" && (
+                          <span className="absolute inset-0 rounded-full animate-ping bg-amber-300 opacity-70"></span>
+                        )}
+                      </button>
+
+                      {/* TEXTE */}
+                      <div className="flex-1">
+
+                        <p
+                          className="text-[16px] font-medium leading-relaxed text-black"
+                          dangerouslySetInnerHTML={{
+                            __html: item.phrase.replace(
+                              ".......",
+                              solved
+                                ? `<span style="
+                                    color:#22c55e;
+                                    font-weight:bold;
+                                  ">${solved}</span>`
+                                : `<span style="
+                                    display:inline-block;
+                                    min-width:70px;
+                                    border-bottom:3px solid #f59e0b;
+                                    text-align:center;
+                                    font-weight:600;
+                                    letter-spacing:1px;
+                                  ">___</span>`
+                            ),
+                          }}
                         />
-                      </svg>
-                  
-                      {/* animation écoute */}
-                      {feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…" && (
-                        <span className="absolute inset-0 rounded-full animate-ping bg-amber-300 opacity-70"></span>
-                      )}
-                    </button>
-                  
-                    {/* TEXTE */}
-                    <div className="flex-1">
-                  
-                      {/* PHRASE */}
-                      <p
-                        className="text-[16px] font-medium leading-relaxed text-black"
-                        dangerouslySetInnerHTML={{
-                          __html: visiblePhrase.replace(
-                            ".......",
-                            `<span style="
-                              display:inline-block;
-                              min-width:70px;
-                              border-bottom:3px solid #f59e0b;
-                              text-align:center;
-                              font-weight:600;
-                              letter-spacing:1px;
-                            ">___</span>`
-                          ),
-                        }}
-                      />
-                  
-                      {/* FEEDBACK */}
-                      {feedbacks[catIndex][itemIndex] && (
-                        <div
-                          className={`
-                            mt-3 text-sm px-3 py-2 rounded-lg
-                            ${
-                              feedbacks[catIndex][itemIndex].includes("Bonne")
-                                ? "bg-green-100 text-green-700"
-                                : feedbacks[catIndex][itemIndex].includes("Correction")
-                                ? "bg-blue-100 text-blue-700"
-                                : "bg-red-100 text-red-700"
-                            }
-                          `}
-                        >
-                          {feedbacks[catIndex][itemIndex]}
-                        </div>
-                      )}
+
+                        {/* FEEDBACK */}
+                        {feedbacks[catIndex][itemIndex] && (
+                          <div
+                            className={`
+                              mt-3 text-sm px-3 py-2 rounded-lg
+                              ${
+                                feedbacks[catIndex][itemIndex].includes("Bonne")
+                                  ? "bg-green-100 text-green-700"
+                                  : feedbacks[catIndex][itemIndex].includes("Correction")
+                                  ? "bg-blue-100 text-blue-700"
+                                  : "bg-red-100 text-red-700"
+                              }
+                            `}
+                          >
+                            {feedbacks[catIndex][itemIndex]}
+                          </div>
+                        )}
+
+                      </div>
+
                     </div>
-                  </div>
                   );
                 })}
+
               </div>
 
-              {/* FOOTER */}
-              <div className="px-4 pb-3">
-                <span className="rounded bg-black/5 px-2 py-1 text-xs text-black/60">
-                  Reconnaissance vocale
-                </span>
-              </div>
             </div>
           ))}
+
         </div>
       </div>
     </section>

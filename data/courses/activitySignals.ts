@@ -12,7 +12,7 @@ export const activitySignals: Record<ActivityType, string> = {
     "/images/signals/listen-type.png",
 
   "click-speak":
-    "/images/signals/click-speak.png",
+    "/images/signals/clickandspeak.png",
 
   "click-or-speak":
     "/images/signals/click-or-speak.png",

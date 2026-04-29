@@ -94,3 +94,23 @@
 .animate-fade-in {
   animation: fade-in 0.35s ease;
 }
+
+/* ===== SCROLLBAR CUSTOM ===== */
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9; /* gris clair */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #f59e0b; /* amber */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d97706;
+}
