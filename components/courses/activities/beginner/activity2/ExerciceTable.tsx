@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
+/* ---------------- TYPES ---------------- */
+
 type QuestionRow = {
   question: string;
   options: string[];
@@ -13,19 +15,19 @@ type QuestionRow = {
 
 const rows: QuestionRow[] = [
   {
-    question: "« Fabien » est…",
+    question: "« Xavier » est…",
     options: ["son nom de famille", "son prénom", "le nom de son chien"],
     correctIndex: 1,
   },
   {
-    question: "« Delpêche » est…",
+    question: "« Plantu » est…",
     options: ["son nom de famille", "son prénom", "le nom de sa tortue"],
     correctIndex: 0,
   },
   {
     question: "Quelle est sa nationalité ?",
     options: ["Il est belge", "Il est français", "Il est canadien"],
-    correctIndex: 1,
+    correctIndex: 2,
   },
   {
     question: "Est-ce qu’il sait parler français ?",
@@ -35,7 +37,7 @@ const rows: QuestionRow[] = [
   {
     question: "Il a quel âge ?",
     options: ["45 ans", "46 ans", "47 ans"],
-    correctIndex: 2,
+    correctIndex: 1,
   },
   {
     question: "Est-ce qu’il est… ?",
@@ -70,21 +72,21 @@ const rows: QuestionRow[] = [
     options: [
       "Dans le sixième arrondissement",
       "Dans le seizième arrondissement",
-      "Dans le troisième arrondissement",
+      "Dans le quinzième arrondissement",
     ],
-    correctIndex: 0,
+    correctIndex: 2,
   },
   {
     question: "Quel est son numéro de téléphone portable ?",
-    options: ["01 20 00 76 88", "06 23 92 62 34", "06 33 82 72 24"],
+    options: ["01 20 00 76 88", "06 32 12 45 30", "06 33 82 72 24"],
     correctIndex: 1,
   },
   {
     question: "Quelle est son adresse email ?",
     options: [
-      "delpêche43@yahoo.fr",
-      "delpêche23@gmail.com",
-      "delpêche23@yahoo.fr",
+      "plantu_xavier@gmail.com",
+      "plantuxavier@gmail.com",
+      "plantu.xavier@gmail.com",
     ],
     correctIndex: 2,
   },
@@ -108,8 +110,7 @@ const rows: QuestionRow[] = [
   },
 ];
 
-const TOTAL_QUESTIONS = 15;
-const POINTS_PER_QUESTION = 100 / TOTAL_QUESTIONS;
+/* ---------------- IMAGE ---------------- */
 
 const imageOptions = [
   "/images/courses/beginner/punkman.png",
@@ -118,266 +119,264 @@ const imageOptions = [
 ];
 
 const IMAGE_CORRECT_INDEX = 1;
+const TOTAL = rows.length + 1;
+
+/* ---------------- SCORE ---------------- */
+
+const computeScore = (correct: number, total: number) =>
+  Math.round((correct / total) * 100);
+
+const getScoreLevel = (score: number) => {
+  if (score >= 90) return "Excellent";
+  if (score >= 70) return "Bon";
+  if (score >= 50) return "Moyen";
+  return "À améliorer";
+};
+
+/* ---------------- COMPONENT ---------------- */
 
 const ExerciceTable: React.FC = () => {
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+
+  const [history, setHistory] = useState<
+    { index: number; selected: number; isCorrect: boolean }[]
+  >([]);
+
   const [imageAnswer, setImageAnswer] = useState<number | null>(null);
 
-  const [isValidated, setIsValidated] = useState(false);
-  const [score, setScore] = useState<number | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+  const [finalScore, setFinalScore] = useState(0);
 
-  /* ---------------- CHECK IF ALL ANSWERED ---------------- */
-  const allAnswered =
-    Object.keys(answers).length === rows.length && imageAnswer !== null;
+  const isLast = currentIndex === rows.length;
+  const currentQuestion = rows[currentIndex];
 
-  /* ---------------- HANDLERS ---------------- */
+  const progress = ((currentIndex + 1) / TOTAL) * 100;
 
-  const handleSelect = (rowIndex: number, optionIndex: number) => {
-    if (isValidated) return;
-    setAnswers((prev) => ({ ...prev, [rowIndex]: optionIndex }));
+  /* ---------------- ACTIONS ---------------- */
+
+  const handleSelect = (index: number) => {
+    if (selectedChoice !== null) return;
+
+    const isCorrect = index === currentQuestion.correctIndex;
+
+    setSelectedChoice(index);
+
+    setHistory((prev) => [
+      ...prev,
+      { index: currentIndex, selected: index, isCorrect },
+    ]);
   };
 
-  const handleImageSelect = (index: number) => {
-    if (isValidated) return;
-    setImageAnswer(index);
+  const nextQuestion = () => {
+    setSelectedChoice(null);
+    setCurrentIndex((prev) => prev + 1);
   };
 
   const handleValidate = () => {
-    let correctCount = 0;
+    let correct = history.filter((h) => h.isCorrect).length;
 
-    rows.forEach((row, index) => {
-      if (answers[index] === row.correctIndex) {
-        correctCount++;
-      }
-    });
+    if (imageAnswer === IMAGE_CORRECT_INDEX) correct++;
 
-    if (imageAnswer === IMAGE_CORRECT_INDEX) {
-      correctCount++;
-    }
-
-    setScore(Math.round(correctCount * POINTS_PER_QUESTION));
-    setIsValidated(true);
-    setShowModal(true);
+    setFinalScore(computeScore(correct, TOTAL));
+    setIsFinished(true);
   };
 
-  /* ---------------- RENDER ---------------- */
+  /* ---------------- RESULT ---------------- */
 
-  return (
-    <section className="bg-white">
-      <div className="mt-16 pb-20">
-        {/* -------- BARRE DE PROGRESSION -------- */}
+  if (isFinished && showReport) {
+    return (
+      <div className="py-20 max-w-4xl mx-auto text-black">
+        <h2 className="text-3xl font-bold mb-10 text-center">
+          📊 Détail des réponses
+        </h2>
 
-        <div className="mx-auto max-w-6xl rounded-xl bg-white shadow-lg ring-1 ring-black/5">
-          {/* -------- BARRE DE PROGRESSION -------- */}
-          <div className="mb-6 h-2 w-full rounded-full bg-slate-200">
-            <div
-              className="h-full rounded-full bg-amber-500 transition-all duration-500"
-              style={{
-                width: `${((Object.keys(answers).length + (imageAnswer !== null ? 1 : 0)) / (rows.length + 1)) * 100}%`,
-              }}
-            ></div>
-          </div>
+        <div className="space-y-6">
+          {history.map((h, i) => {
+            const q = rows[h.index];
+
+            return (
+              <div key={i} className="p-6 bg-white rounded-xl shadow">
+                <p className="font-semibold mb-2">
+                  Question {i + 1}
+                </p>
+
+                <p className="mb-3">{q.question}</p>
+
+                <p>
+                  Ta réponse :{" "}
+                  <span
+                    className={
+                      h.isCorrect
+                        ? "text-green-600 font-semibold"
+                        : "text-red-600 font-semibold"
+                    }
+                  >
+                    {q.options[h.selected]}
+                  </span>
+                </p>
+
+                {!h.isCorrect && (
+                  <p className="text-green-700 font-semibold">
+                    ✔ {q.options[q.correctIndex]}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-        <div className="mx-auto max-w-6xl rounded-xl bg-white shadow-lg ring-1 ring-black/5">
-          <div className="border-b border-black/5 px-6 py-4">
-            <h3 className="text-lg font-semibold text-black">
-              À l’agence matrimoniale — Choisis la bonne réponse
-            </h3>
-          </div>
+        <div className="text-center mt-10">
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-amber-500 px-6 py-3 rounded-xl text-black"
+          >
+            Recommencer
+          </button>
+        </div>
+      </div>
+    );
+  }
 
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <tbody>
-                {rows.map((row, rowIndex) => {
-                  const selected = answers[rowIndex];
-                  const correct = row.correctIndex;
+  if (isFinished) {
+    return (
+      <div className="py-20 text-center text-black">
+        <p className="text-6xl font-bold">
+          {finalScore} / 100
+        </p>
 
-                  return (
-                    <React.Fragment key={rowIndex}>
-                      <tr className="border-t border-black/5">
-                        <td className="px-6 py-4 font-medium text-black">
-                          {row.question}
-                        </td>
+        <p className="mt-2 text-lg">
+          Niveau : {getScoreLevel(finalScore)}
+        </p>
 
-                        {row.options.map((opt, optIndex) => {
-                          const isSelected = selected === optIndex;
-                          const isCorrect = optIndex === correct;
+        <div className="mt-10 flex justify-center gap-4">
+          <button
+            onClick={() => setShowReport(true)}
+            className="bg-black text-white px-6 py-3 rounded-xl"
+          >
+            Voir mes résultats
+          </button>
 
-                          let style = "border-slate-300 bg-slate-50";
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-amber-500 px-6 py-3 rounded-xl text-black"
+          >
+            Recommencer
+          </button>
+        </div>
+      </div>
+    );
+  }
 
-                          if (!isValidated && isSelected) {
-                            style = "border-amber-500 bg-amber-100";
-                          }
+  /* ---------------- UI ---------------- */
 
-                          if (isValidated && isCorrect) {
-                            style =
-                              "border-green-600 bg-green-200 text-green-900";
-                          }
+  return (
+    <section className="max-w-xl mx-auto py-16 text-black">
 
-                          if (isValidated && isSelected && !isCorrect) {
-                            style = "border-red-600 bg-red-200 text-red-900";
-                          }
+      {/* PROGRESS BAR */}
+      <div className="mb-4 text-sm font-medium text-black text-center">
+        Question {Math.min(currentIndex + 1, TOTAL)} / {TOTAL}
+      </div>
 
-                          return (
-                            <td
-                              key={optIndex}
-                              className="px-4 py-3 text-center text-black"
-                            >
-                              <button
-                                onClick={() => handleSelect(rowIndex, optIndex)}
-                                className={`w-full rounded-md border px-3 py-2 text-sm font-semibold transition ${style}`}
-                              >
-                                {opt}
-                              </button>
-                            </td>
-                          );
-                        })}
-                      </tr>
+      <div className="h-2 bg-slate-200 rounded-full mb-6">
+        <div
+          className="h-full bg-amber-500 rounded-full transition-all duration-500"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
 
-                      {/* === CORRECTION LIGNE === */}
-                      {isValidated && (
-                        <tr className="border-b border-black/10 bg-white/70">
-                          <td
-                            className="px-6 py-2 text-sm text-black/80"
-                            colSpan={4}
-                          >
-                            {selected === correct ? (
-                              <span className="text-lg font-bold text-green-600">
-                                ✔ Bonne réponse
-                              </span>
-                            ) : (
-                              <div className="flex gap-4">
-                                <span className="font-semibold text-red-600">
-                                  ❌ {row.options[selected!]}
-                                </span>
-                                <span className="font-semibold text-green-600">
-                                  ✔ {row.options[correct]}
-                                </span>
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
+      <div className="bg-white p-8 rounded-2xl shadow-xl">
 
-                {/* IMAGE QUESTION */}
-                <tr className="border-t-2 border-black/10 bg-slate-50">
-                  <td className="px-6 py-6 font-semibold text-black">
-                    Qui ressemble le plus à Monsieur Dupont ?
-                  </td>
+        {!isLast ? (
+          <>
+            <h2 className="mb-6 text-xl font-semibold">
+              {currentQuestion.question}
+            </h2>
 
-                  {imageOptions.map((src, index) => {
-                    const selected = imageAnswer === index;
-                    const isCorrect = index === IMAGE_CORRECT_INDEX;
+            <div className="space-y-3">
+              {currentQuestion.options.map((opt, i) => {
+                const isSelected = selectedChoice === i;
+                const isCorrect = i === currentQuestion.correctIndex;
 
-                    let style = "border-transparent";
+                let style = "border-black/20 text-black";
 
-                    if (!isValidated && selected) {
-                      style = "border-amber-500 bg-amber-100";
-                    }
+                if (selectedChoice !== null) {
+                  if (isCorrect)
+                    style = "border-green-500 bg-green-100 text-black";
+                  else if (isSelected)
+                    style = "border-red-500 bg-red-100 text-black";
+                }
 
-                    if (isValidated && isCorrect) {
-                      style = "border-green-600 bg-green-100";
-                    }
+                return (
+                  <button
+                    key={i}
+                    onClick={() => handleSelect(i)}
+                    disabled={selectedChoice !== null}
+                    className={`w-full border px-4 py-3 rounded-lg text-left ${style}`}
+                  >
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
 
-                    if (isValidated && selected && !isCorrect) {
-                      style = "border-red-600 bg-red-100";
-                    }
-
-                    return (
-                      <td key={index} className="px-4 py-6 text-center">
-                        <button
-                          onClick={() => handleImageSelect(index)}
-                          className={`rounded-lg border-2 p-1 transition ${style}`}
-                        >
-                          <Image
-                            src={src}
-                            alt=""
-                            width={200}
-                            height={160}
-                            className="rounded-md shadow-md"
-                          />
-                        </button>
-                      </td>
-                    );
-                  })}
-                </tr>
-
-                {/* Correction image */}
-                {isValidated && (
-                  <tr className="border-b border-black/10 bg-white/70">
-                    <td colSpan={4} className="px-6 py-3">
-                      {imageAnswer === IMAGE_CORRECT_INDEX ? (
-                        <span className="text-lg font-bold text-green-600">
-                          ✔ Bonne réponse
-                        </span>
-                      ) : (
-                        <div className="flex gap-4">
-                          <span className="font-semibold text-red-600">
-                            ❌ Mauvaise image
-                          </span>
-                          <span className="font-semibold text-green-600">
-                            ✔ Bonne image : {IMAGE_CORRECT_INDEX + 1}
-                          </span>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
+            {selectedChoice !== null && (
+              <div className="mt-6">
+                {selectedChoice === currentQuestion.correctIndex ? (
+                  <p className="text-green-600 font-semibold">
+                    ✔ Bonne réponse
+                  </p>
+                ) : (
+                  <p className="text-red-600 font-semibold">
+                    ❌ Bonne réponse :{" "}
+                    {currentQuestion.options[currentQuestion.correctIndex]}
+                  </p>
                 )}
-              </tbody>
-            </table>
-          </div>
+              </div>
+            )}
 
-          {!isValidated && (
-            <div className="flex justify-center py-8">
+            {selectedChoice !== null && (
+              <div className="mt-8 text-right">
+                <button
+                  onClick={nextQuestion}
+                  className="bg-black text-white px-6 py-3 rounded-xl"
+                >
+                  Question suivante →
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <h2 className="mb-6">Choisis la bonne image</h2>
+
+            <div className="grid grid-cols-3 gap-4">
+              {imageOptions.map((src, i) => (
+                <button
+                  key={i}
+                  onClick={() => setImageAnswer(i)}
+                  className={`border-2 rounded-xl ${
+                    imageAnswer === i ? "border-amber-500" : ""
+                  }`}
+                >
+                  <Image src={src} alt="" width={200} height={160} />
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-10 text-right">
               <button
                 onClick={handleValidate}
-                disabled={!allAnswered}
-                className={`rounded-xl px-8 py-3 font-semibold text-white 
-                  ${
-                    allAnswered
-                      ? "bg-black hover:bg-black/80"
-                      : "cursor-not-allowed bg-black/30"
-                  }`}
+                disabled={imageAnswer === null}
+                className="bg-black text-white px-6 py-3 rounded-xl"
               >
                 Valider
               </button>
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
-
-      {/* MODALE SCORE */}
-      {showModal && score !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setShowModal(false)}
-          />
-
-          <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-amber-500">
-              Résultat final
-            </p>
-
-            <p className="text-5xl font-extrabold text-black">
-              {score}
-              <span className="text-2xl text-black/60"> / 100</span>
-            </p>
-
-            <button
-              onClick={() => setShowModal(false)}
-              className="mt-6 rounded-lg bg-amber-500 px-6 py-3 font-semibold text-black hover:bg-amber-400"
-            >
-              Voir mes résultats
-            </button>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

@@ -3,7 +3,7 @@
 import { FillGapsData } from "@/types/fillGapsTypes";
 
 export const episode2Data: FillGapsData = {
-  title: "✍️ EPISODE 2 — L’agence matrimoniale",
+  title: "✍️ Exercice 2",
 
   activityType: "type",
 
