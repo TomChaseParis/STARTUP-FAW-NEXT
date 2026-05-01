@@ -31,8 +31,14 @@ const normalize = (text: string) =>
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[’']/g, "")
-    .replace(/[^a-z]/g, "");
+    .replace(/[’']/g, " ")
+    .replace(/[^a-z\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+/* ---------------- TOKENIZE ---------------- */
+
+const tokenize = (text: string) => normalize(text).split(" ");
 
 /* ---------------- LEVENSHTEIN ---------------- */
 
@@ -56,6 +62,39 @@ const levenshtein = (a: string, b: string) => {
   }
 
   return matrix[b.length][a.length];
+};
+
+/* ---------------- STRICT MATCH ---------------- */
+
+const isStrictMatch = (spoken: string, expected: string) => {
+  const spokenWords = tokenize(spoken);
+  const expectedWords = tokenize(expected);
+
+  if (!spokenWords.length) return false;
+
+  /* 🔥 1. PRONOM STRICT (ultra important) */
+  if (spokenWords[0] !== expectedWords[0]) {
+    return false;
+  }
+
+  let match = 0;
+
+  for (let i = 0; i < expectedWords.length; i++) {
+    const exp = expectedWords[i];
+    const sp = spokenWords[i];
+
+    if (!sp) continue;
+
+    const dist = levenshtein(exp, sp);
+
+    if (dist <= 1) {
+      match++;
+    }
+  }
+
+  const ratio = match / expectedWords.length;
+
+  return ratio >= 0.8;
 };
 
 /* ---------------- COMPONENT ---------------- */
@@ -96,13 +135,10 @@ const Exercice3: React.FC = () => {
     recognition.onend = () => {
       setListeningId(null);
 
-      const spoken = normalize(transcript);
-      const expected = normalize(questions[index].answer);
-
-      const isCorrect =
-        spoken === expected ||
-        spoken.includes(expected) ||
-        levenshtein(spoken, expected) <= 2;
+      const isCorrect = isStrictMatch(
+        transcript,
+        questions[index].answer
+      );
 
       setResults((prev) => ({
         ...prev,
@@ -137,7 +173,7 @@ const Exercice3: React.FC = () => {
         description={
           <div className="space-y-5 text-black">
             <p className="font-medium">
-              👉 Transforme chaque question en utilisant <strong>tu</strong> au lieu de <strong>vous</strong>.
+              👉 Transforme chaque question avec <strong>tu</strong> au lieu de <strong>vous</strong>.
             </p>
 
             <div className="rounded-xl bg-slate-50 border p-4">
@@ -197,9 +233,7 @@ const Exercice3: React.FC = () => {
               {/* RESULT */}
               {result && (
                 <div className="mt-4 text-sm space-y-2">
-                  <p className="text-black">
-                    {result.text}
-                  </p>
+                  <p className="text-black">{result.text}</p>
 
                   {result.correct ? (
                     <p className="text-green-600 font-semibold">
