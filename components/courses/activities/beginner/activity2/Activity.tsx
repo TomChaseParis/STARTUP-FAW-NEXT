@@ -86,10 +86,7 @@ export default function Activity() {
         <Exercice2 />
       </ExerciseSection>
 
-      <ExerciseSection>
-        <Exercice3 />
-      </ExerciseSection>
-
+  
    
     </ActivityLayout>
   );
