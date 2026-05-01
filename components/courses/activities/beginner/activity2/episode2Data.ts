@@ -22,7 +22,7 @@ export const episode2Data: FillGapsData = {
         {
           type: "text",
           value:
-            "L’agence matrimoniale : Bonjour monsieur, vous vous appelez comment s’il vous plaît ?\nFabien : Je m’appelle Monsieur Delpêche.\nL’agence matrimoniale : Vous pouvez l’épeler s’il vous plaît ?\nFabien : Bien sûr. D-E-L-P-E accent circonflexe – C-H-E.\nL’agence matrimoniale : Merci. Et quel ",
+            "L’agence matrimoniale : Bonjour monsieur, vous vous appelez comment s’il vous plaît ?\ Xavier : Je m’appelle Monsieur Plantu.\nL’agence matrimoniale : Vous pouvez l’épeler s’il vous plaît ?\nXavier  : Bien sûr. P-L-A-N-T-U. \nL’agence matrimoniale : Merci. Et quel ",
         },
         {
           type: "input",
@@ -39,7 +39,7 @@ export const episode2Data: FillGapsData = {
     {
       id: 2,
       parts: [
-        { type: "text", value: "Fabien : Fabien.\nL’agence matrimoniale : Merci. Vous " },
+        { type: "text", value: "Xavier : Xavier.\nL’agence matrimoniale : Merci. Vous " },
         { type: "input", answer: "êtes", hint: "être" },
         { type: "text", value: " français ?" },
       ],
@@ -48,7 +48,7 @@ export const episode2Data: FillGapsData = {
     {
       id: 3,
       parts: [
-        { type: "text", value: "Fabien : Euh non.\nL’agence matrimoniale : Vous " },
+        { type: "text", value: "Xavier : Euh non.\nL’agence matrimoniale : Vous " },
         { type: "input", answer: "êtes", hint: "être" },
         { type: "text", value: " d’où ?" },
       ],
@@ -60,12 +60,12 @@ export const episode2Data: FillGapsData = {
         {
           type: "text",
           value:
-            "Fabien : Je suis canadien.\nL’agence matrimoniale : Vous parlez très bien français.\nFabien : Merci.\nL’agence matrimoniale : Alors, quelle ",
+            "Xavier : Je suis canadien.\nL’agence matrimoniale : Vous parlez très bien français.\nXavier : Merci.\nL’agence matrimoniale : Alors, quelle ",
         },
         { type: "input", answer: "est", hint: "être" },
         {
           type: "text",
-          value: " votre date de naissance, Monsieur Delpêche ?",
+          value: " votre date de naissance, Monsieur Plantu ?",
         },
       ],
     },
@@ -76,7 +76,7 @@ export const episode2Data: FillGapsData = {
         {
           type: "text",
           value:
-            "Fabien : Je suis né le 24 mars 1965.\nL’agence matrimoniale : Donc, voyons, vous ",
+            "Xavier : Je suis né le 24 mars 1980.\nL’agence matrimoniale : Donc, voyons, vous ",
         },
         { type: "input", answer: "avez", hint: "avoir" },
         { type: "text", value: " quel âge ?" },
@@ -89,7 +89,7 @@ export const episode2Data: FillGapsData = {
         {
           type: "text",
           value:
-            "Fabien : J’ai 47 ans.\nL’agence matrimoniale : Vous ne les faites pas.\nFabien : Merci.\nL’agence matrimoniale : Quel ",
+            "Xavier : J’ai 46 ans.\nL’agence matrimoniale : Vous ne les faites pas.\nXavier : Merci.\nL’agence matrimoniale : Quel ",
         },
         { type: "input", answer: "est", hint: "être" },
         {
@@ -103,7 +103,7 @@ export const episode2Data: FillGapsData = {
     {
       id: 7,
       parts: [
-        { type: "text", value: "Fabien : Je " },
+        { type: "text", value: "Xavier : Je " },
         { type: "input", answer: "suis", hint: "être" },
         { type: "text", value: " divorcé." },
       ],
@@ -121,7 +121,7 @@ export const episode2Data: FillGapsData = {
     {
       id: 9,
       parts: [
-        { type: "text", value: "Fabien : Oui. J’" },
+        { type: "text", value: "Xavier : Oui. J’" },
         { type: "input", answer: "ai", hint: "avoir" },
         {
           type: "text",
@@ -137,7 +137,7 @@ export const episode2Data: FillGapsData = {
         {
           type: "text",
           value:
-            "L’agence matrimoniale : Vous faites quoi dans la vie, monsieur Delpêche ?\nFabien : Je ",
+            "L’agence matrimoniale : Vous faites quoi dans la vie, monsieur Plantu ?\nXavier : Je ",
         },
         { type: "input", answer: "suis", hint: "être" },
         { type: "text", value: " ingénieur." },
@@ -159,7 +159,7 @@ export const episode2Data: FillGapsData = {
         {
           type: "text",
           value:
-            "Fabien : J’habite à Paris, au 45 rue Vaugirard. Deuxième étage, porte B.\nL’agence matrimoniale : Le code postal, s’il vous plaît ?\nFabien : 75006.\nL’agence matrimoniale : Merci. Quel ",
+            "Xavier : J’habite à Paris, au 34 rue des entrepreneurs.\nL’agence matrimoniale : Le code postal, s’il vous plaît ?\nFabien : 75006.\nL’agence matrimoniale : Merci. Quel ",
         },
         { type: "input", answer: "est", hint: "être" },
         { type: "text", value: " votre numéro de téléphone ?" },
@@ -172,7 +172,7 @@ export const episode2Data: FillGapsData = {
         {
           type: "text",
           value:
-            "Fabien : Mon portable ou mon fixe ?\nL’agence matrimoniale : Les deux.\nFabien : Alors le portable, c’est 06 23 92 62 34. Et le fixe : 01 20 00 76 88.\nL’agence matrimoniale : Vous ",
+            "Xavier : Mon portable ou mon fixe ?\nL’agence matrimoniale : Les deux.\nFabien : Alors le portable, c’est 06 32 15 45 30. Et le fixe : 01 20 00 76 88.\nL’agence matrimoniale : Vous ",
         },
         { type: "input", answer: "avez", hint: "avoir" },
         { type: "text", value: " une adresse email ?" },
@@ -182,9 +182,9 @@ export const episode2Data: FillGapsData = {
     {
       id: 14,
       parts: [
-        { type: "text", value: "Fabien : Oui, c’" },
+        { type: "text", value: "Xavier : Oui, c’" },
         { type: "input", answer: "est", hint: "être" },
-        { type: "text", value: " delpêche23@yahoo.fr." },
+        { type: "text", value: " plantu.xavier@gmail.com." },
       ],
     },
 
@@ -207,7 +207,7 @@ export const episode2Data: FillGapsData = {
         {
           type: "text",
           value:
-            "Fabien : J’aime la musique et le sport.\nL’agence matrimoniale : Très bien. Alors voyons, vous cherchez une femme d’environ 30 ans, mince, plutôt blonde, sympathique et sportive.",
+            "Xavier : J’aime la musique et le sport.\nL’agence matrimoniale : Très bien. Alors voyons, vous cherchez une femme d’environ 30 ans, mince, plutôt blonde, sympathique et sportive.",
         },
       ],
     },

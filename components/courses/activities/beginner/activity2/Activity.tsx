@@ -21,7 +21,11 @@ export default function Activity() {
         poster="/images/courses/beginner/activities/activity2/header.png"
         info={{
           objectifs: ["Se présenter", "Répondre à des questions"],
-          competences: ["Compréhension orale", "Phonie / graphie", "Expression orale"],
+          competences: [
+            "Compréhension orale",
+            "Phonie / graphie",
+            "Expression orale",
+          ],
           prerequis: [
             `Conjugaison au présent à la forme "tu" et "vous" des verbes de base pour savoir se présenter :
             avoir, être, faire, habiter, parler, etc.`,
@@ -32,8 +36,7 @@ export default function Activity() {
         }}
       />
 
- 
-    <AudioBlock
+      <AudioBlock
         title="Écoute la conversation"
         audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
         levelColor="amber"
@@ -41,43 +44,40 @@ export default function Activity() {
       />
 
       <ExerciseSection>
-      <InstructionBlock
-  title="✍️ EXERCICE 2 : Compréhension"
-  activityType="click"
-  description={
-    <div className="space-y-5 text-black">
+        <InstructionBlock
+          title="✍️ EXERCICE 2 : Compréhension"
+          activityType="click"
+          description={
+            <div className="space-y-5 text-black">
+              {/* INTRO */}
+              <p className="font-medium">
+                👉 Réponds aux questions à partir de la conversation que tu
+                viens d’écouter.
+              </p>
 
-      {/* INTRO */}
-      <p className="font-medium">
-        👉 Réponds aux questions à partir de la conversation que tu viens d’écouter.
-      </p>
+              {/* CONSIGNE */}
+              <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-sm text-slate-700">Pour réussir :</p>
 
-      {/* CONSIGNE */}
-      <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 space-y-2">
-        <p className="text-sm text-slate-700">
-          Pour réussir :
-        </p>
+                <ul className="space-y-1 text-sm text-slate-700">
+                  <li>• Lis bien chaque question</li>
+                  <li>• Choisis la bonne réponse</li>
+                  <li>• Aide-toi de ce que tu as compris à l’écoute</li>
+                </ul>
+              </div>
 
-        <ul className="text-sm text-slate-700 space-y-1">
-          <li>• Lis bien chaque question</li>
-          <li>• Choisis la bonne réponse</li>
-          <li>• Aide-toi de ce que tu as compris à l’écoute</li>
-        </ul>
-      </div>
-
-      {/* CONSEIL */}
-      <div className="rounded-xl bg-amber-50 border border-amber-300 p-4">
-        <p className="text-sm font-semibold text-amber-800 mb-1">
-          💡 Astuce
-        </p>
-        <p className="text-sm text-amber-900">
-          Si tu hésites, réécoute l’audio pour vérifier ta réponse.
-        </p>
-      </div>
-
-    </div>
-  }
-/>
+              {/* CONSEIL */}
+              <div className="rounded-xl border border-amber-300 bg-amber-50 p-4">
+                <p className="mb-1 text-sm font-semibold text-amber-800">
+                  💡 Astuce
+                </p>
+                <p className="text-sm text-amber-900">
+                  Si tu hésites, réécoute l’audio pour vérifier ta réponse.
+                </p>
+              </div>
+            </div>
+          }
+        />
         <Exercice />
       </ExerciseSection>
 
@@ -85,9 +85,6 @@ export default function Activity() {
       <ExerciseSection>
         <Exercice2 />
       </ExerciseSection>
-
-  
-   
     </ActivityLayout>
   );
 }
