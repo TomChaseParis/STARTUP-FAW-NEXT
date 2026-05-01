@@ -1,24 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
-type Props = {
-  expectedSentences: string[];
-  requiredPronoun: string;
-  onResult: (results: { text: string; isCorrect: boolean }[]) => void;
-};
-
-export default function SpeechRecognitionEngine({
-  expectedSentences,
-  requiredPronoun,
-  onResult,
-}: Props) {
+export default function useSpeechRecognition() {
   const recognitionRef = useRef<any>(null);
-  const [isListening, setIsListening] = useState(false);
 
   /* ---------------- NORMALIZE ---------------- */
-  const normalize = (text: string) => {
-    return text
+  const normalize = (text: string) =>
+    text
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
@@ -26,9 +15,7 @@ export default function SpeechRecognitionEngine({
       .replace(/[^a-z\s]/g, "")
       .replace(/\s+/g, " ")
       .trim();
-  };
 
-  /* ---------------- TOKENIZE ---------------- */
   const tokenize = (text: string) => normalize(text).split(" ");
 
   /* ---------------- LEVENSHTEIN ---------------- */
@@ -40,7 +27,7 @@ export default function SpeechRecognitionEngine({
 
     for (let i = 1; i <= b.length; i++) {
       for (let j = 1; j <= a.length; j++) {
-        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        if (b[i - 1] === a[j - 1]) {
           matrix[i][j] = matrix[i - 1][j - 1];
         } else {
           matrix[i][j] = Math.min(
@@ -55,126 +42,64 @@ export default function SpeechRecognitionEngine({
     return matrix[b.length][a.length];
   };
 
-  /* ---------------- WORD MATCH ---------------- */
-  const isWordMatch = (expected: string, spoken: string) => {
-    const dist = levenshtein(expected, spoken);
-    const maxLen = Math.max(expected.length, spoken.length);
+  /* ---------------- STRICT MATCH ---------------- */
+  const scoreSentence = (expected: string, spoken: string) => {
+    const expectedWords = tokenize(expected);
+    const spokenWords = tokenize(spoken);
 
-    return dist / maxLen < 0.4; // tolérance phonétique
-  };
+    if (!spokenWords.length) return 0;
 
-  /* ---------------- SENTENCE SCORE ---------------- */
-  const scoreSentence = (expectedWords: string[], spokenWords: string[]) => {
-    let matchCount = 0;
+    /* 🔥 PRONOM STRICT */
+    if (spokenWords[0] !== expectedWords[0]) return 0;
 
-    expectedWords.forEach((expWord) => {
-      const found = spokenWords.some((spWord) =>
-        isWordMatch(expWord, spWord)
-      );
+    let matches = 0;
 
-      if (found) matchCount++;
+    expectedWords.forEach((word) => {
+      const found = spokenWords.some((sp) => levenshtein(word, sp) <= 1);
+      if (found) matches++;
     });
 
-    return matchCount / expectedWords.length;
-  };
-
-  /* ---------------- SPLIT PHRASES ---------------- */
-  const splitIntoChunks = (text: string) => {
-    return text
-      .split(/\.|\n/)
-      .map((t) => t.trim())
-      .filter(Boolean);
+    return matches / expectedWords.length;
   };
 
   /* ---------------- START ---------------- */
-  const start = () => {
+  const start = (
+    expected: string,
+    callback: (result: { transcript: string; isCorrect: boolean }) => void
+  ) => {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      alert("Speech recognition non supportée");
+      alert("⚠️ Reconnaissance vocale non supportée");
       return;
     }
 
     const recognition = new SpeechRecognition();
     recognition.lang = "fr-FR";
-    recognition.continuous = true;
     recognition.interimResults = false;
 
-    let finalTranscript = "";
-
-    recognition.onstart = () => setIsListening(true);
+    let transcript = "";
 
     recognition.onresult = (event: any) => {
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        finalTranscript += event.results[i][0].transcript + " ";
-      }
+      transcript = event.results[0][0].transcript;
     };
 
     recognition.onend = () => {
-      setIsListening(false);
+      const score = scoreSentence(expected, transcript);
 
-      const chunks = splitIntoChunks(finalTranscript);
+      const isCorrect = score >= 0.85;
 
-      const results = expectedSentences.map((sentence) => {
-        const expectedWords = tokenize(sentence);
-        const expectedPronoun = expectedWords[0];
-
-        let bestScore = 0;
-        let pronounValid = false;
-
-        chunks.forEach((chunk) => {
-          const spokenWords = tokenize(chunk);
-
-          if (spokenWords.length === 0) return;
-
-          // 🔥 PRONOM STRICT AU DÉBUT
-          if (
-            isWordMatch(expectedPronoun, spokenWords[0])
-          ) {
-            pronounValid = true;
-
-            const score = scoreSentence(expectedWords, spokenWords);
-            if (score > bestScore) bestScore = score;
-          }
-        });
-
-        const isCorrect =
-          pronounValid &&
-          bestScore >= 0.75; // 🔥 très strict
-
-        return {
-          text: sentence,
-          isCorrect,
-        };
+      callback({
+        transcript,
+        isCorrect,
       });
-
-      onResult(results);
     };
 
     recognition.start();
     recognitionRef.current = recognition;
   };
 
-  /* ---------------- STOP ---------------- */
-  const stop = () => {
-    recognitionRef.current?.stop();
-  };
-
-  return (
-    <button
-      onClick={isListening ? stop : start}
-      className={`
-        px-6 py-4 rounded-xl font-semibold transition
-        ${
-          isListening
-            ? "bg-red-500 text-white scale-105"
-            : "bg-amber-400 text-black hover:scale-105"
-        }
-      `}
-    >
-      {isListening ? "STOP" : "PARLER"}
-    </button>
-  );
+  return { start };
 }

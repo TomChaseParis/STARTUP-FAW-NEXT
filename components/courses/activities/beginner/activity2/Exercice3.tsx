@@ -11,50 +11,17 @@ type Question = {
 };
 
 const questions: Question[] = [
-  {
-    original: "Est-ce que vous êtes célibataire ?",
-    answer: "Est-ce que tu es célibataire ?",
-  },
-  {
-    original: "Quel est votre nom ?",
-    answer: "Quel est ton nom ?",
-  },
-  {
-    original: "Vous vous appelez comment ?",
-    answer: "Tu t’appelles comment ?",
-  },
-  {
-    original: "Quel est votre prénom ?",
-    answer: "Quel est ton prénom ?",
-  },
-  {
-    original: "Est-ce que vous êtes français ?",
-    answer: "Est-ce que tu es français ?",
-  },
-  {
-    original: "D’où est-ce que vous venez ?",
-    answer: "D’où est-ce que tu viens ?",
-  },
-  {
-    original: "Vous avez quel âge ?",
-    answer: "Tu as quel âge ?",
-  },
-  {
-    original: "Est-ce que vous êtes marié ?",
-    answer: "Est-ce que tu es marié ?",
-  },
-  {
-    original: "Est-ce que vous avez des enfants ?",
-    answer: "Est-ce que tu as des enfants ?",
-  },
-  {
-    original: "Vous habitez où ?",
-    answer: "Tu habites où ?",
-  },
-  {
-    original: "Vous faites quoi dans la vie ?",
-    answer: "Tu fais quoi dans la vie ?",
-  },
+  { original: "Est-ce que vous êtes célibataire ?", answer: "Est-ce que tu es célibataire ?" },
+  { original: "Quel est votre nom ?", answer: "Quel est ton nom ?" },
+  { original: "Vous vous appelez comment ?", answer: "Tu t’appelles comment ?" },
+  { original: "Quel est votre prénom ?", answer: "Quel est ton prénom ?" },
+  { original: "Est-ce que vous êtes français ?", answer: "Est-ce que tu es français ?" },
+  { original: "D’où est-ce que vous venez ?", answer: "D’où est-ce que tu viens ?" },
+  { original: "Vous avez quel âge ?", answer: "Tu as quel âge ?" },
+  { original: "Est-ce que vous êtes marié ?", answer: "Est-ce que tu es marié ?" },
+  { original: "Est-ce que vous avez des enfants ?", answer: "Est-ce que tu as des enfants ?" },
+  { original: "Vous habitez où ?", answer: "Tu habites où ?" },
+  { original: "Vous faites quoi dans la vie ?", answer: "Tu fais quoi dans la vie ?" },
 ];
 
 /* ---------------- NORMALIZE ---------------- */
@@ -67,98 +34,174 @@ const normalize = (text: string) =>
     .replace(/[’']/g, "")
     .replace(/[^a-z]/g, "");
 
+/* ---------------- LEVENSHTEIN ---------------- */
+
+const levenshtein = (a: string, b: string) => {
+  const matrix = Array.from({ length: b.length + 1 }, () => []);
+
+  for (let i = 0; i <= b.length; i++) matrix[i][0] = i;
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      matrix[i][j] =
+        b[i - 1] === a[j - 1]
+          ? matrix[i - 1][j - 1]
+          : Math.min(
+              matrix[i - 1][j - 1] + 1,
+              matrix[i][j - 1] + 1,
+              matrix[i - 1][j] + 1
+            );
+    }
+  }
+
+  return matrix[b.length][a.length];
+};
+
 /* ---------------- COMPONENT ---------------- */
 
 const Exercice3: React.FC = () => {
-  const [answers, setAnswers] = useState<string[]>(questions.map(() => ""));
-  const [validated, setValidated] = useState(false);
+  const [results, setResults] = useState<
+    Record<number, { text: string; correct: boolean }>
+  >({});
 
-  const handleChange = (value: string, index: number) => {
-    const newAnswers = [...answers];
-    newAnswers[index] = value;
-    setAnswers(newAnswers);
+  const [listeningId, setListeningId] = useState<number | null>(null);
+
+  /* ---------------- SPEECH ---------------- */
+
+  const startRecognition = (index: number) => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert("⚠️ Reconnaissance vocale non supportée");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "fr-FR";
+    recognition.interimResults = false;
+
+    let transcript = "";
+
+    recognition.onstart = () => {
+      setListeningId(index);
+    };
+
+    recognition.onresult = (event: any) => {
+      transcript = event.results[0][0].transcript;
+    };
+
+    recognition.onend = () => {
+      setListeningId(null);
+
+      const spoken = normalize(transcript);
+      const expected = normalize(questions[index].answer);
+
+      const isCorrect =
+        spoken === expected ||
+        spoken.includes(expected) ||
+        levenshtein(spoken, expected) <= 2;
+
+      setResults((prev) => ({
+        ...prev,
+        [index]: {
+          text: transcript,
+          correct: isCorrect,
+        },
+      }));
+    };
+
+    recognition.start();
   };
 
-  const checkAnswer = (user: string, correct: string) => {
-    return normalize(user) === normalize(correct);
-  };
+  /* ---------------- SCORE ---------------- */
 
-  const correctCount = answers.filter((ans, i) =>
-    checkAnswer(ans, questions[i].answer)
+  const correctCount = Object.values(results).filter(
+    (r) => r.correct
   ).length;
 
-  const score = Math.round((correctCount / questions.length) * 100);
+  const score = Math.round(
+    (correctCount / questions.length) * 100
+  );
+
+  /* ---------------- RENDER ---------------- */
 
   return (
     <section className="mt-12">
 
-      {/* ================= INSTRUCTION ================= */}
-
       <InstructionBlock
-        title="✍️ EXERCICE 3 : Tu vs Vous"
-        activityType="type"
+        title="🎤 EXERCICE 3 : Tu vs Vous"
+        activityType="click-speak"
         description={
           <div className="space-y-5 text-black">
-
             <p className="font-medium">
-              👉 Transforme chaque question du registre formel <strong>(vous)</strong> vers le registre informel <strong>(tu)</strong>.
+              👉 Transforme chaque question en utilisant <strong>tu</strong> au lieu de <strong>vous</strong>.
             </p>
 
-            <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 space-y-2">
-              <p className="text-sm text-slate-700">
-                Fais attention aux changements :
-              </p>
-
-              <ul className="text-sm text-slate-700 space-y-1">
+            <div className="rounded-xl bg-slate-50 border p-4">
+              <ul className="text-sm space-y-1">
                 <li>• vous → tu</li>
                 <li>• votre → ton</li>
-                <li>• conjugaison du verbe</li>
+                <li>• adapte le verbe</li>
               </ul>
             </div>
 
-            <div className="rounded-xl bg-blue-50 border border-blue-200 p-4">
-              <p className="text-sm font-semibold text-blue-700 mb-2">
-                Exemple
-              </p>
-
-              <p className="text-sm text-blue-900">
+            <div className="rounded-xl bg-blue-50 border p-4">
+              <p className="text-sm font-semibold mb-2">Exemple</p>
+              <p className="text-sm">
                 Est-ce que vous êtes célibataire ?<br />
                 → Est-ce que tu es célibataire ?
               </p>
             </div>
-
           </div>
         }
       />
 
-      {/* ================= QUESTIONS ================= */}
-
+      {/* QUESTIONS */}
       <div className="mt-10 max-w-3xl mx-auto space-y-6 px-4">
 
         {questions.map((q, index) => {
-          const isCorrect = checkAnswer(answers[index], q.answer);
+          const result = results[index];
 
           return (
             <div
               key={index}
               className="bg-white rounded-2xl p-6 shadow-lg ring-1 ring-black/5"
             >
-              <p className="text-black font-medium mb-3">
+              <p className="text-black font-medium mb-4">
                 {q.original}
               </p>
 
-              <input
-                type="text"
-                value={answers[index]}
-                onChange={(e) => handleChange(e.target.value, index)}
-                disabled={validated}
-                className="w-full border rounded-lg px-4 py-3 text-black"
-                placeholder="Ta réponse..."
-              />
+              {/* MICRO */}
+              <button
+                onClick={() => startRecognition(index)}
+                className={`
+                  relative flex h-14 w-14 items-center justify-center
+                  rounded-full shadow-md transition
+                  ${
+                    listeningId === index
+                      ? "bg-amber-400 scale-105"
+                      : "bg-white text-amber-600 hover:bg-amber-100"
+                  }
+                `}
+              >
+                🎤
 
-              {validated && (
-                <div className="mt-3 text-sm">
-                  {isCorrect ? (
+                {listeningId === index && (
+                  <span className="absolute inset-0 rounded-full animate-ping bg-amber-300 opacity-70"></span>
+                )}
+              </button>
+
+              {/* RESULT */}
+              {result && (
+                <div className="mt-4 text-sm space-y-2">
+                  <p className="text-black">
+                    {result.text}
+                  </p>
+
+                  {result.correct ? (
                     <p className="text-green-600 font-semibold">
                       ✔ Bonne réponse
                     </p>
@@ -173,20 +216,8 @@ const Exercice3: React.FC = () => {
           );
         })}
 
-        {/* VALIDATION */}
-        {!validated && (
-          <div className="text-center mt-6">
-            <button
-              onClick={() => setValidated(true)}
-              className="bg-black text-white px-8 py-3 rounded-xl"
-            >
-              Valider
-            </button>
-          </div>
-        )}
-
         {/* SCORE */}
-        {validated && (
+        {Object.keys(results).length === questions.length && (
           <div className="text-center mt-10">
             <p className="text-4xl font-bold text-black">
               {score} / 100
