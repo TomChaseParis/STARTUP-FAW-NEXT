@@ -27,5 +27,12 @@
     "subtitle": "Activité 4",
     "description": "Compréhension orale et exercices interactifs",
     "components": ["Description", "Audio", "Exercice", "Exercice2"]
+  },
+  {
+    "slug": "activity5",
+    "title": "Le présent des verbes des premiers groupes.",
+    "subtitle": "Activité 5",
+    "description": "Compréhension orale et exercices interactifs",
+    "components": ["Description", "Audio", "Exercice", "Exercice2"]
   }
 ]

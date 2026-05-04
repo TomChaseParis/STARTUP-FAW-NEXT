@@ -134,58 +134,81 @@ const FillGapsEngine: React.FC<Props> = ({ data, teacherImage = '/images/teacher
 
       {/* ================= DETAIL ================= */}
 
-      {isFinished && showReport && (
-        <div className="bg-slate-50 py-20 text-slate-900">
-          <div className="mx-auto max-w-4xl px-6">
-            <h2 className="mb-10 text-center text-3xl font-bold">
-              📊 Détail de tes réponses
-            </h2>
+    {/* ================= DETAIL ================= */}
 
-            <div className="space-y-8">
-              {history.map((h, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-slate-200"
-                >
-                  <p className="mb-2 text-slate-700">
-                    Ta réponse :
-                    <span
-                      className={
-                        h.isCorrect
-                          ? "font-semibold text-green-600"
-                          : "font-semibold text-red-600"
-                      }
-                    >
-                      {" "}
-                      {h.user}
-                    </span>
-                  </p>
+{/* ================= DETAIL ================= */}
 
-                  {!h.isCorrect && (
-                    <p className="font-semibold text-green-700">
-                      Bonne réponse : {h.correct}
-                    </p>
-                  )}
-                </div>
-              ))}
+{isFinished && showReport && (
+  <div className="bg-slate-50 py-20 text-slate-900">
+    <div className="mx-auto max-w-4xl px-6">
+      <h2 className="mb-10 text-center text-3xl font-bold">
+        📊 Détail de tes réponses
+      </h2>
+
+      <div className="space-y-8">
+        {history.map((h, i) => (
+          <div
+            key={i}
+            className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-slate-200"
+          >
+            {/* 🔥 PROF + QUESTION */}
+            <div className="mb-4 flex items-center gap-4">
+              <div className="relative h-14 w-14 overflow-hidden rounded-full shadow ring-2 ring-amber-400">
+                <Image
+                  src={teacherImage}
+                  alt="Professeur"
+                  width={56}
+                  height={56}
+                  className="object-cover"
+                />
+              </div>
+
+              <p className="font-semibold text-slate-700">
+                Question {i + 1}
+              </p>
             </div>
 
-            <div className="mt-12 text-center">
-              <button
-                onClick={() => {
-                  reset();
-                  setIsFinished(false);
-                  setShowReport(false);
-                  setIsTeacherAnnouncingScore(false);
-                }}
-                className="rounded-xl bg-amber-500 px-8 py-3 font-semibold text-black shadow-md transition hover:bg-amber-400"
+            {/* TA REPONSE */}
+            <p className="mb-2 text-slate-700">
+              Ta réponse :
+              <span
+                className={
+                  h.isCorrect
+                    ? "font-semibold text-green-600"
+                    : "font-semibold text-red-600"
+                }
               >
-                Recommencer
-              </button>
-            </div>
+                {" "}
+                {h.user}
+              </span>
+            </p>
+
+            {/* BONNE REPONSE */}
+            {!h.isCorrect && (
+              <p className="font-semibold text-green-700">
+                ✔ Bonne réponse : {h.correct}
+              </p>
+            )}
           </div>
-        </div>
-      )}
+        ))}
+      </div>
+
+      <div className="mt-12 text-center">
+        <button
+          onClick={() => {
+            reset();
+            setIsFinished(false);
+            setShowReport(false);
+            setIsTeacherAnnouncingScore(false);
+          }}
+          className="rounded-xl bg-amber-500 px-8 py-3 font-semibold text-black shadow-md transition hover:bg-amber-400"
+        >
+          Recommencer
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* ================= EXERCICE ================= */}
 

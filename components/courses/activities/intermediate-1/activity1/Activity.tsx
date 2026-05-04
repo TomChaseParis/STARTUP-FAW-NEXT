@@ -19,8 +19,8 @@ export default function Activity() {
         badge="Compréhension orale"
         title="Les vacances au bord de la mer"
         description="Écoute la chanson puis réponds aux questions."
-        videoSrc="/videos/etienneactivity1.mp4"
-        poster="/images/courses/teacher/wide-etienne.png"
+        videoSrc="/videos/courses/intermediate-1/activity1/presentation.mp4"
+        poster="/images/courses/intermediate/activity1/posteretienne.png"
         info={{
           objectifs: ["Comprendre un texte chanté"],
           competences: ["Compréhension orale"],

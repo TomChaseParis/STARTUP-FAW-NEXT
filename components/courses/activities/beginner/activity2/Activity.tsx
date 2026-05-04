@@ -18,7 +18,7 @@ export default function Activity() {
         title="À l’agence matrimoniale"
         description="Regarde la vidéo puis réponds aux questions."
         videoSrc="/videos/courses/beginner/activities/activity2/presentation.mp4"
-        poster="/images/courses/beginner/activities/activity2/header.png"
+        poster="/images/courses/beginner/activities/activity2/postermarie.png"
         info={{
           objectifs: ["Se présenter", "Répondre à des questions"],
           competences: [

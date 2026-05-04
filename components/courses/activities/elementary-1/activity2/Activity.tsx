@@ -15,8 +15,8 @@ export default function Activity() {
         badge="Compréhension orale"
         title="Les loisirs des Français"
         description="Regarde les images et choisis la bonne réponse."
-        videoSrc="/videos/jeanactivity2subtitlefrench.mp4"
-        poster="/images/courses/teacher/jeangood.png"
+        videoSrc="/videos/courses/elementary-1/activities/activity2/presentation.mp4"
+        poster="/images/courses/elementary/activities/activity2/poster.png"
         info={{
           objectifs: ["Parler des loisirs"],
           competences: ["Compréhension orale", "Vocabulaire"],

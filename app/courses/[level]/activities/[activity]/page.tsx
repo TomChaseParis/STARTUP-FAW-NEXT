@@ -20,6 +20,10 @@ const activityMap: Record<string, ActivityComponent> = {
     () => import("@/components/courses/activities/beginner/activity4/Activity"),
     { ssr: false },
   ),
+  "beginner/activity5": dynamic(
+    () => import("@/components/courses/activities/beginner/activity5/Activity"),
+    { ssr: false },
+  ),
   "elementary-1/activity1": dynamic(
     () =>
       import("@/components/courses/activities/elementary-1/activity1/Activity"),

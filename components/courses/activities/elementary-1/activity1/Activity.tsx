@@ -18,8 +18,8 @@ export default function Activity() {
         badge="Compréhension orale"
         title="Questions - Réponses"
         description="Regarde la vidéo, puis écoute l'audio et complète le texte."
-        videoSrc="/videos/jeanactivity1subtitlefrench.mp4"
-        poster="/images/courses/teacher/jeangood.png"
+        videoSrc="/videos/courses/elementary-1/activities/activity1/presentation.mp4"
+        poster="/images/courses/elementary/activities/activity1/poster.png"
         info={{
           objectifs: ["Pratiquer les questions"],
           competences: ["Compréhension écrite", "Compréhension orale"],
@@ -29,28 +29,20 @@ export default function Activity() {
       />
       <ExerciseSection>
         <InstructionBlock
-          title="✍️ Exercice"
+          title="✍️ Exercice -"
           subtitle=""
-          description="Écoutez le texte et conjuguez tous les verbes à la troisième personne du pluriel.
-    Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet."
-    activityType="click-or-speak"
+          description="Testez vos connaissances en choisissant la bonne réponse à chaque question."
+          activityType="click-or-speak"
         />
         <Exercice />
       </ExerciseSection>
 
       {/* ================= PARTIE 2 ================= */}
 
-      <LessonBlock
-        badge="Compréhension orale"
-        videoSrc=""
-        title="Exercice 2 — Trouver la bonne question"
-        poster="/images/courses/elementary/questions-reponses/adrien.png"
-      />
+    
       <ExerciseSection>
-              <Exercice2 />
-
+        <Exercice2 />
       </ExerciseSection>
-
     </ActivityLayout>
   );
 }

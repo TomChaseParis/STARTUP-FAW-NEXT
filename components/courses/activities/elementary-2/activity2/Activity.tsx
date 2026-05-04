@@ -19,8 +19,8 @@ export default function Activity() {
         badge="Niveau Élémentaire 2"
         title="Activité 1 — La famille déménage"
         description="Découvrez la journée quotidienne de Clara. Travail sur les heures, les verbes pronominaux et les transformations."
-        videoSrc="/videos/ireneactivity2subtitlefrench.mp4"
-        poster="/images/courses/teacher/irenegood.png"
+        videoSrc="/videos/courses/elementary-2/activity2/presentation.mp4"
+        poster="/images/courses/elementary2/activity2/posterirene.png"
         info={{
           objectifs: ["Parler d’un déménagement"],
           competences: [

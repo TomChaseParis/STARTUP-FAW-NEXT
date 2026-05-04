@@ -20,7 +20,7 @@ export default function Activity() {
           title="Les 4 verbes essentiels : Être – Avoir – Faire – Aller"
           description="Regarde la vidéo puis écoute et répète les conjugaisons."
           videoSrc="/videos/courses/beginner/activities/activity1/presentation.mp4"
-          poster="/images/courses/beginner/activities/activity1/presentation.png"
+          poster="/images/courses/beginner/activities/activity1/postermarie.png"
           info={{
             objectifs: [
               "Conjuguer des verbes de base pour faire des phrases simples",

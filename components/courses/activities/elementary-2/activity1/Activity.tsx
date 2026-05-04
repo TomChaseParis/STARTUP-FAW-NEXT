@@ -14,8 +14,8 @@ export default function Activity() {
         badge="Niveau Élémentaire 2"
         title="Activité 1 — L’emploi du temps mouvementé de Clara"
         description="Dans cette activité, vous allez découvrir la journée quotidienne de Clara. Vous réviserez les heures, les moments de la journée, les verbes pronominaux et la conjugaison au présent."
-        videoSrc="/videos/ireneactivity1subtitlefrench.mp4"
-        poster="/images/courses/teacher/irenegood.png"
+        videoSrc="/videos/courses/elementary-2/activity1/presentation.mp4"
+        poster="/images/courses/elementary2/activity1/posterirene.png"
         info={{
           objectifs: [
             "Comprendre une journée type",

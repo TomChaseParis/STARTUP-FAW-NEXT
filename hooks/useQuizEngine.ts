@@ -47,14 +47,12 @@ export type QuizResult = {
 /* ----------------------------- */
 
 function normalize(text: string) {
-
   return text
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^\w\s]/g, "")
     .trim();
-
 }
 
 /* ----------------------------- */
@@ -62,21 +60,15 @@ function normalize(text: string) {
 /* ----------------------------- */
 
 function similarity(a: string, b: string): number {
-
   let matches = 0;
 
   for (let i = 0; i < Math.min(a.length, b.length); i++) {
-
     if (a[i] === b[i]) {
-
       matches++;
-
     }
-
   }
 
   return matches / Math.max(a.length, b.length);
-
 }
 
 /* ----------------------------- */
@@ -84,7 +76,6 @@ function similarity(a: string, b: string): number {
 /* ----------------------------- */
 
 function detectLetter(speech: string): string | null {
-
   const map: Record<string, string> = {
     a: "A",
     b: "B",
@@ -93,7 +84,6 @@ function detectLetter(speech: string): string | null {
   };
 
   for (const key in map) {
-
     if (
       speech === key ||
       speech.includes(` ${key} `) ||
@@ -102,15 +92,11 @@ function detectLetter(speech: string): string | null {
       speech.includes(`choisis ${key}`) ||
       speech.includes(`choix ${key}`)
     ) {
-
       return map[key];
-
     }
-
   }
 
   return null;
-
 }
 
 /* ----------------------------- */
@@ -121,75 +107,42 @@ function detectChoiceFromSpeech(
   speech: string,
   choices: Choice[]
 ): Choice | null {
-
   const normalizedSpeech = normalize(speech);
-
-  /* 1️⃣ detection lettre */
 
   const letter = detectLetter(normalizedSpeech);
 
   if (letter) {
-
     const found = choices.find((c) => c.id === letter);
-
     if (found) return found;
-
   }
 
-  /* 2️⃣ detection label exact */
-
   for (const choice of choices) {
-
     const label = normalize(choice.label);
-
     if (normalizedSpeech.includes(label)) {
-
       return choice;
-
     }
-
   }
 
-  /* 3️⃣ detection variantes parlées */
-
   for (const choice of choices) {
-
     if (choice.spokenVariants) {
-
       for (const variant of choice.spokenVariants) {
-
         const v = normalize(variant);
-
         if (normalizedSpeech.includes(v)) {
-
           return choice;
-
         }
-
       }
-
     }
-
   }
 
-  /* 4️⃣ detection similarité */
-
   for (const choice of choices) {
-
     const label = normalize(choice.label);
-
     const score = similarity(normalizedSpeech, label);
-
     if (score > 0.7) {
-
       return choice;
-
     }
-
   }
 
   return null;
-
 }
 
 /* ----------------------------- */
@@ -197,7 +150,6 @@ function detectChoiceFromSpeech(
 /* ----------------------------- */
 
 export function useQuizEngine(questions: Question[]) {
-
   const safeQuestions = useMemo(() => questions ?? [], [questions]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -212,36 +164,16 @@ export function useQuizEngine(questions: Question[]) {
       ? safeQuestions[currentIndex]
       : null;
 
+  /* ================= SELECT ================= */
+
   const selectChoice = (choiceId: string) => {
-
     if (!currentQuestion || selectedChoiceId !== null) return;
-
-    const correctChoice = currentQuestion.choices.find((c) => c.isCorrect);
-
-    const result: QuizResult = {
-      questionId: currentQuestion.id,
-      selectedChoiceId: choiceId,
-      correctChoiceId: correctChoice?.id ?? "",
-      isCorrect: choiceId === correctChoice?.id,
-    };
-
     setSelectedChoiceId(choiceId);
-
-    setHistory((prev) => [
-
-      ...prev,
-      result
-
-    ]);
-
   };
 
-  /* ----------------------------- */
-  /* TRAITEMENT REPONSE VOCALE */
-  /* ----------------------------- */
+  /* ================= SPEECH ================= */
 
   const processSpeechAnswer = (speech: string) => {
-
     if (!currentQuestion) return;
 
     const detectedChoice = detectChoiceFromSpeech(
@@ -250,39 +182,47 @@ export function useQuizEngine(questions: Question[]) {
     );
 
     if (detectedChoice) {
-
       selectChoice(detectedChoice.id);
-
     }
-
   };
 
+  /* ================= NEXT ================= */
+
   const nextQuestion = () => {
+    if (!currentQuestion || !selectedChoiceId) return;
+
+    const correctChoice = currentQuestion.choices.find((c) => c.isCorrect);
+
+    const result: QuizResult = {
+      questionId: currentQuestion.id,
+      selectedChoiceId,
+      correctChoiceId: correctChoice?.id ?? "",
+      isCorrect: selectedChoiceId === correctChoice?.id,
+    };
+
+    setHistory((prev) => [...prev, result]);
 
     if (currentIndex >= totalQuestions - 1) {
-
       setIsFinished(true);
       return;
-
     }
 
     setSelectedChoiceId(null);
-
     setCurrentIndex((prev) => prev + 1);
-
   };
 
-  const resetQuiz = () => {
+  /* ================= RESET ================= */
 
+  const resetQuiz = () => {
     setCurrentIndex(0);
     setSelectedChoiceId(null);
     setHistory([]);
     setIsFinished(false);
-
   };
 
-  const correctAnswers =
-    history.filter((h) => h.isCorrect).length;
+  /* ================= SCORE ================= */
+
+  const correctAnswers = history.filter((h) => h.isCorrect).length;
 
   const scorePercentage =
     totalQuestions > 0
@@ -290,7 +230,6 @@ export function useQuizEngine(questions: Question[]) {
       : 0;
 
   return {
-
     currentIndex,
     currentQuestion,
     selectedChoiceId,
@@ -302,8 +241,6 @@ export function useQuizEngine(questions: Question[]) {
     correctAnswers,
     scorePercentage,
     isFinished,
-    processSpeechAnswer
-
+    processSpeechAnswer,
   };
-
 }

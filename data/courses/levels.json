@@ -4,28 +4,28 @@
     "title": "Débutant",
     "description": "Premiers pas en français",
     "badge": "A1",
-    "image": "/images/courses/teacher/wide-marie.png"
+    "image": "/images/courses/teacher/marie-pull-red.png"
   },
   {
     "slug": "elementary-1",
     "title": "Élémentaire 1",
     "description": "Bases consolidées du français",
     "badge": "A2",
-    "image": "/images/courses/teacher/wide-jean.png"
+    "image": "/images/courses/teacher/jean-orange.png"
   },
   {
     "slug": "elementary-2",
     "title": "Élémentaire 2",
     "description": "Renforcement des fondamentaux",
     "badge": "A2+",
-    "image": "/images/courses/teacher/wide-irene.png"
+    "image": "/images/courses/teacher/irene-jacket.png"
   },
   {
     "slug": "intermediate-1",
     "title": "Intermédiaire 1",
     "description": "Communication fluide",
     "badge": "B1",
-    "image": "/images/courses/teacher/wide-etienne.png"
+    "image": "/images/courses/teacher/etienne-shirt-blue.png"
   },
   {
     "slug": "intermediate-2",

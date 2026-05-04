@@ -91,45 +91,49 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
 
   useEffect(() => {
     if (!selectedChoiceId || !currentQuestion) return;
-
+  
     const choice = currentQuestion.choices.find(
       (c) => c.id === selectedChoiceId,
     );
-
+  
     if (!choice) return;
-
+  
     let audioSrc: string | undefined;
-
+  
     if (choice.isCorrect && choice.teacherAudioCorrect) {
       audioSrc = choice.teacherAudioCorrect;
     }
-
+  
     if (!choice.isCorrect && choice.teacherAudioWrong) {
       audioSrc = choice.teacherAudioWrong;
     }
-
-    if (!audioSrc) return;
-
+  
+    // ✅ CAS SANS AUDIO → on débloque direct
+    if (!audioSrc) {
+      setIsTeacherTalking(false);
+      setAudioFinished(true);
+      return;
+    }
+  
     const audio = new Audio(audioSrc);
     audioRef.current = audio;
-
+  
     setIsTeacherTalking(true);
     setAudioFinished(false);
-
+  
     audio.play();
-
+  
     audio.onended = () => {
       setIsTeacherTalking(false);
       setAudioFinished(true);
-
-      const isLastQuestion = currentIndex === totalQuestions - 1;
-
-      if (isLastQuestion) {
-        setTimeout(() => {
-          nextQuestion();
-        }, 500);
-      }
     };
+  
+    audio.onerror = () => {
+      // ✅ fallback si audio cassé
+      setIsTeacherTalking(false);
+      setAudioFinished(true);
+    };
+  
   }, [selectedChoiceId, currentQuestion]);
 
   if (!currentQuestion) return null;
@@ -488,18 +492,18 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
           )}
         </div>
 
-        {selectedChoiceId &&
-          audioFinished &&
-          currentIndex < totalQuestions - 1 && (
-            <div className="mt-10 text-right">
-              <button
-                onClick={nextQuestion}
-                className="rounded-xl bg-black px-6 py-3 text-white shadow-md hover:bg-black/90"
-              >
-                Question suivante →
-              </button>
-            </div>
-          )}
+        {selectedChoiceId && (
+  <div className="mt-10 text-right">
+    <button
+      onClick={nextQuestion}
+      className="rounded-xl bg-black px-6 py-3 text-white shadow-md hover:bg-black/90"
+    >
+      {currentIndex === totalQuestions - 1
+        ? "Voir mon score →"
+        : "Question suivante →"}
+    </button>
+  </div>
+)}
       </div>
     </section>
   );
