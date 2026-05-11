@@ -3,6 +3,12 @@
 import { ReactNode } from "react";
 import { ActivityType } from "@/types/activityTypes";
 import { activitySignals } from "@/data/courses/activitySignals";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
 
 interface InstructionBlockProps {
   icon?: ReactNode;
@@ -12,6 +18,7 @@ interface InstructionBlockProps {
   reminder?: string;
   children?: ReactNode;
   activityType?: ActivityType;
+  stampLabel?: string;
 }
 
 export default function InstructionBlock({
@@ -22,26 +29,27 @@ export default function InstructionBlock({
   reminder,
   children,
   activityType,
+  stampLabel,
 }: InstructionBlockProps) {
   return (
     <div className="flex w-full justify-center">
       <div className="relative w-full max-w-5xl">
-
         {/* ================= TAMPON ================= */}
 
-        <div className="absolute -left-6 -top-6 z-20 rotate-[-10deg] sm:-left-10 sm:-top-8">
-          <div className="rounded-md border-2 border-white bg-amber-400 px-4 py-1 text-sm sm:px-6 sm:py-2 sm:text-lg font-bold tracking-wide text-white shadow-lg">
-            À toi de jouer !
+        <div className="absolute -left-6 -top-6 z-20 rotate-[-10deg] sm:-left-10 sm:-top-12">
+          <div
+            className={`${poppins.className} rounded-md border-2 border-white bg-amber-400 px-5 py-2 text-lg font-semibold tracking-wider text-black shadow-lg sm:px-8 sm:py-3 sm:text-2xl`}
+          >
+            {stampLabel || "EXERCICE"}
           </div>
         </div>
 
         {/* ================= BLOC ================= */}
 
-        <div className="relative z-10 rounded-xl border border-amber-200 bg-[#f7f4ea] p-5 sm:p-8 shadow-sm">
-
-          {/* ===== SIGNAL MOBILE (AU DESSUS) ===== */}
+        <div className="relative z-10 rounded-xl border border-amber-200 bg-[#f7f4ea] p-5 shadow-sm sm:p-8">
+          {/* ===== SIGNAL MOBILE ===== */}
           {activityType && (
-            <div className="flex justify-center mb-4 md:hidden">
+            <div className="mb-4 flex justify-center md:hidden">
               <img
                 src={activitySignals[activityType]}
                 alt="signal"
@@ -52,26 +60,25 @@ export default function InstructionBlock({
 
           {/* ===== CONTENU ===== */}
           <div className="md:pr-40">
-
             {/* ===== TITLE ===== */}
-            <div className="mb-3 flex items-start gap-3 text-xl sm:text-2xl font-semibold text-neutral-900">
+            <div
+              className={`${poppins.className} mb-3 flex items-start gap-3 text-xl font-semibold text-neutral-900 sm:text-xl`}
+            >
               {icon && <span className="text-xl">{icon}</span>}
 
-              <span className="leading-snug">
-                {title}
-              </span>
+              <span className="leading-snug">{title}</span>
             </div>
 
             {/* ===== SUBTITLE ===== */}
             {subtitle && (
-              <p className="mb-3 text-[14px] sm:text-[15px] leading-relaxed text-neutral-800">
+              <p className="mb-3 text-[14px] leading-relaxed text-neutral-800 sm:text-[15px]">
                 {subtitle}
               </p>
             )}
 
             {/* ===== DESCRIPTION ===== */}
             {description && (
-              <div className="mb-5 max-w-3xl leading-relaxed text-neutral-700 text-sm sm:text-base">
+              <div className="mb-5 max-w-3xl text-sm leading-relaxed text-neutral-700 sm:text-base">
                 {description}
               </div>
             )}
@@ -86,17 +93,16 @@ export default function InstructionBlock({
             {children}
           </div>
 
-          {/* ===== SIGNAL DESKTOP (A DROITE) ===== */}
+          {/* ===== SIGNAL DESKTOP ===== */}
           {activityType && (
-            <div className="pointer-events-none hidden md:block absolute right-6 top-6">
+            <div className="pointer-events-none absolute right-6 top-6 hidden md:block">
               <img
                 src={activitySignals[activityType]}
                 alt="signal"
-                className="h-28 lg:h-32 w-auto drop-shadow-md"
+                className="h-28 w-auto drop-shadow-md lg:h-32"
               />
             </div>
           )}
-
         </div>
       </div>
     </div>

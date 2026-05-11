@@ -51,7 +51,7 @@ export default function Exercice4() {
 
   const handleSpeechResult = (
     id: number,
-    results: { text: string; isCorrect: boolean }[]
+    results: { text: string; isCorrect: boolean }[],
   ) => {
     const normalized = results.map((r) => ({
       text: r.text,
@@ -66,70 +66,69 @@ export default function Exercice4() {
 
   return (
     <section className="mt-12">
-
       {/* ================= INSTRUCTION ================= */}
       <InstructionBlock
-  title="🎤 EXERCICE 4 : Présente les personnages"
-  subtitle="Parle à voix haute en utilisant le bon pronom"
-  description={
-    <div className="space-y-5 text-black">
+        stampLabel="EXERCICE 4"
+        title="Présente les personnages"
+        subtitle="Parle à voix haute en utilisant le bon pronom"
+        description={
+          <div className="space-y-5 text-black">
+            {/* INTRO */}
+            <p className="font-medium">
+              👉 Présente chaque personnage en conjuguant les verbes à la bonne
+              forme.
+            </p>
 
-      {/* INTRO */}
-      <p className="font-medium">
-        👉 Présente chaque personnage en conjuguant les verbes à la bonne forme.
-      </p>
+            {/* EXPLICATION */}
+            <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm text-slate-700">
+                Utilise le pronom indiqué :
+              </p>
 
-      {/* EXPLICATION */}
-      <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 space-y-2">
-        <p className="text-sm text-slate-700">
-          Utilise le pronom indiqué :
-        </p>
+              <div className="flex flex-wrap gap-2 text-sm">
+                {["JE", "TU", "IL", "ELLE", "NOUS", "VOUS", "ILS"].map((p) => (
+                  <span
+                    key={p}
+                    className="rounded-full bg-black px-3 py-1 font-semibold text-white"
+                  >
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-        <div className="flex flex-wrap gap-2 text-sm">
-          {["JE", "TU", "IL", "ELLE", "NOUS", "VOUS", "ILS"].map((p) => (
-            <span
-              key={p}
-              className="px-3 py-1 rounded-full bg-black text-white font-semibold"
-            >
-              {p}
-            </span>
-          ))}
-        </div>
-      </div>
+            {/* EXEMPLE */}
+            <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+              <p className="mb-2 text-sm font-semibold text-blue-700">
+                Exemple
+              </p>
 
-      {/* EXEMPLE */}
-      <div className="rounded-xl bg-blue-50 border border-blue-200 p-4">
-        <p className="text-sm font-semibold text-blue-700 mb-2">
-          Exemple
-        </p>
+              <p className="text-sm text-blue-900">
+                <strong>Ils sont mariés.</strong>
+                <br />
+                <strong>Ils font une croisière.</strong>
+              </p>
+            </div>
 
-        <p className="text-sm text-blue-900">
-          <strong>Ils sont mariés.</strong><br />
-          <strong>Ils font une croisière.</strong>
-        </p>
-      </div>
+            {/* CONSIGNE ACTION */}
+            <div className="rounded-xl border border-amber-300 bg-amber-50 p-4">
+              <p className="mb-2 flex items-center gap-2 text-sm font-semibold text-amber-800">
+                🎯 À toi de jouer
+              </p>
 
-      {/* CONSIGNE ACTION */}
-      <div className="rounded-xl bg-amber-50 border border-amber-300 p-4">
-        <p className="text-sm font-semibold text-amber-800 mb-2 flex items-center gap-2">
-          🎯 À toi de jouer
-        </p>
-
-        <ul className="text-sm text-amber-900 space-y-1">
-          <li>• Observe l’image</li>
-          <li>• Utilise le pronom indiqué</li>
-          <li>• Clique sur le micro et parle</li>
-        </ul>
-      </div>
-
-    </div>
-  }
-  activityType="click-speak"
-/>
+              <ul className="space-y-1 text-sm text-amber-900">
+                <li>• Observe l’image</li>
+                <li>• Utilise le pronom indiqué</li>
+                <li>• Clique sur le micro et parle</li>
+              </ul>
+            </div>
+          </div>
+        }
+        activityType="click-speak"
+      />
 
       {/* ================= LISTE ================= */}
       <div className="mx-auto mt-10 max-w-6xl space-y-10 px-4">
-
         {exercice4Data.map((item) => {
           const speechItem = exercice4SpeechData.find((s) => s.id === item.id);
           const isExample = item.id === 1;
@@ -139,12 +138,11 @@ export default function Exercice4() {
             <div
               key={item.id}
               className="
-                relative grid md:grid-cols-3 gap-6
-                bg-white rounded-2xl shadow-lg ring-1 ring-black/5 overflow-hidden
-                h-[450px]
-              "
+              relative grid h-[450px] gap-6
+              overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-black/5
+              md:grid-cols-[1.8fr_1fr_1fr]
+            "
             >
-
               {/* ================= IMAGE ================= */}
               <div className="relative h-full w-full">
                 <Image
@@ -156,8 +154,8 @@ export default function Exercice4() {
               </div>
 
               {/* ================= TEXTE STATIQUE ================= */}
-              <div className="relative p-6 flex flex-col justify-center overflow-hidden">
-                <div className="space-y-2 text-black text-[16px] leading-relaxed overflow-y-auto custom-scrollbar">
+              <div className="relative flex flex-col justify-center overflow-hidden p-6">
+                <div className="custom-scrollbar space-y-2 overflow-y-auto text-[16px] leading-relaxed text-black">
                   {item.sentences.map((sentence, index) => {
                     const words = sentence.split(" ");
                     const firstWord = words[0];
@@ -172,35 +170,35 @@ export default function Exercice4() {
                 </div>
 
                 {/* gradient scroll hint */}
-                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-10 bg-gradient-to-t from-white to-transparent" />
+                <div className="pointer-events-none absolute bottom-0 left-0 h-10 w-full bg-gradient-to-t from-white to-transparent" />
               </div>
 
               {/* ================= COLONNE DROITE ================= */}
               <div
                 className={`
-                  relative bg-slate-50 p-6 flex flex-col overflow-y-auto custom-scrollbar
+                  custom-scrollbar relative flex flex-col overflow-y-auto bg-slate-50 p-6
                   ${isExample ? "justify-center" : "items-center justify-center"}
                 `}
               >
-
                 {/* ================= MODE EXEMPLE ================= */}
                 {isExample ? (
                   <>
                     <button
                       onClick={() => handlePlay(item.id, item.audio)}
                       className={`
-                        mb-5 flex items-center gap-2 w-fit
-                        px-5 py-3 rounded-xl
-                        font-semibold text-sm tracking-wide
+                        mb-5 flex w-fit items-center gap-2
+                        rounded-xl px-5 py-3
+                        text-sm font-semibold tracking-wide
                         shadow-md transition-all duration-200
                         ${
                           playingId === item.id
-                            ? "bg-green-500 text-white scale-105"
+                            ? "scale-105 bg-green-500 text-white"
                             : "bg-black text-white hover:bg-green-600"
                         }
                       `}
                     >
-                      ▶ {playingId === item.id ? "EN COURS..." : "EXEMPLE AUDIO"}
+                      ▶{" "}
+                      {playingId === item.id ? "EN COURS..." : "EXEMPLE AUDIO"}
                     </button>
 
                     <div className="space-y-2 text-[16px]">
@@ -208,21 +206,19 @@ export default function Exercice4() {
                         const isActive =
                           playingId === item.id &&
                           currentTime >= sentence.start &&
-                          (
-                            !speechItem.sentences[index + 1] ||
-                            currentTime < speechItem.sentences[index + 1].start
-                          );
+                          (!speechItem.sentences[index + 1] ||
+                            currentTime <
+                              speechItem.sentences[index + 1].start);
 
                         return (
                           <div key={index} className="flex items-start gap-2">
-
                             {/* marker animé */}
                             <span
                               className={`
                                 mt-1 h-2.5 w-2.5 rounded-full transition
                                 ${
                                   isActive
-                                    ? "bg-green-500 scale-125 animate-pulse"
+                                    ? "scale-125 animate-pulse bg-green-500"
                                     : "bg-slate-300"
                                 }
                               `}
@@ -231,31 +227,29 @@ export default function Exercice4() {
                             {/* texte highlight */}
                             <p
                               className={`
-                                px-2 py-1 rounded-md transition-all duration-200
+                                rounded-md px-2 py-1 transition-all duration-200
                                 ${
                                   isActive
-                                    ? "bg-amber-200 text-black font-semibold shadow-sm"
+                                    ? "bg-amber-200 font-semibold text-black shadow-sm"
                                     : "text-slate-400"
                                 }
                               `}
                             >
                               {sentence.text}
                             </p>
-
                           </div>
                         );
                       })}
                     </div>
                   </>
                 ) : (
-                  <div className="flex flex-col items-center gap-6 w-full">
-
+                  <div className="flex w-full flex-col items-center gap-6">
                     {/* PRONOM */}
                     <div className="text-center">
-                      <p className="text-xs text-slate-500 mb-1">
+                      <p className="mb-1 text-xs text-slate-500">
                         Utilise le pronom :
                       </p>
-                      <div className="px-4 py-2 rounded-lg bg-black text-white font-bold text-lg shadow">
+                      <div className="rounded-lg bg-black px-4 py-2 text-lg font-bold text-white shadow">
                         {pronoun}
                       </div>
                     </div>
@@ -271,7 +265,7 @@ export default function Exercice4() {
 
                     {/* RESULTATS */}
                     {resultsByCard[item.id] && (
-                      <div className="w-full mt-4 space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar">
+                      <div className="custom-scrollbar mt-4 max-h-[200px] w-full space-y-2 overflow-y-auto">
                         <p className="text-sm font-semibold text-green-600">
                           Correction :
                         </p>
@@ -280,7 +274,7 @@ export default function Exercice4() {
                           <p
                             key={index}
                             className={`
-                              text-sm px-3 py-2 rounded-lg
+                              rounded-lg px-3 py-2 text-sm
                               ${
                                 res.correct
                                   ? "bg-green-100 text-green-700"
@@ -293,18 +287,13 @@ export default function Exercice4() {
                         ))}
                       </div>
                     )}
-
                   </div>
                 )}
-
               </div>
-
             </div>
           );
         })}
-
       </div>
-
     </section>
   );
 }

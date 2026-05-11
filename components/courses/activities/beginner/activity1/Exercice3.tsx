@@ -7,14 +7,13 @@ import { exercice3Data } from "./exercice3Data";
 export default function Exercice3() {
   return (
     <section className="mt-12">
-
       {/* ================= INSTRUCTION ================= */}
       <InstructionBlock
-        title="✍️ EXERCICE 3 : Choisis le bon verbe à la bonne forme pour chacune des phrases proposées"
+        stampLabel="EXERCICE 3"
+        title="Choisis le bon verbe à la bonne forme pour chacune des phrases proposées"
         activityType="type"
         description={
           <div className="space-y-5 text-black">
-
             {/* CONSIGNE */}
             <p className="text-base font-medium">
               👉 Complète chaque phrase avec le bon verbe.
@@ -22,7 +21,7 @@ export default function Exercice3() {
 
             {/* 🔥 VERBES À UTILISER */}
             <div>
-              <p className="text-sm font-semibold text-slate-600 mb-3">
+              <p className="mb-3 text-sm font-semibold text-slate-600">
                 Verbes à utiliser :
               </p>
 
@@ -31,12 +30,12 @@ export default function Exercice3() {
                   <span
                     key={verb}
                     className="
-                      px-4 py-2
+                      rounded-xl border
+                      border-amber-200
                       bg-amber-50
-                      text-amber-800
-                      text-base font-semibold
-                      rounded-xl
-                      border border-amber-200
+                      px-4 py-2
+                      text-base
+                      font-semibold text-amber-800
                       shadow-sm
                     "
                   >
@@ -47,8 +46,8 @@ export default function Exercice3() {
             </div>
 
             {/* ASTUCE */}
-            <div className="rounded-xl bg-blue-50 border border-blue-200 p-4">
-              <p className="text-base font-semibold text-blue-700 mb-2 flex items-center gap-2">
+            <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+              <p className="mb-2 flex items-center gap-2 text-base font-semibold text-blue-700">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm">
                   💡
                 </span>
@@ -56,10 +55,10 @@ export default function Exercice3() {
               </p>
 
               <p className="text-base text-blue-900">
-                Repère d’abord le sujet (je, tu, il, nous…) puis choisis le bon verbe.
+                Repère d’abord le sujet (je, tu, il, nous…) puis choisis le bon
+                verbe.
               </p>
             </div>
-
           </div>
         }
       />
@@ -71,7 +70,6 @@ export default function Exercice3() {
           teacherImage="/images/courses/teacher/marietalkquestion.png"
         />
       </div>
-
     </section>
   );
 }
