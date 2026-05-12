@@ -44,7 +44,7 @@ const Exercice: React.FC = () => {
             : Math.min(
                 matrix[i - 1][j - 1] + 1,
                 matrix[i][j - 1] + 1,
-                matrix[i - 1][j] + 1
+                matrix[i - 1][j] + 1,
               );
       }
     }
@@ -90,7 +90,6 @@ const Exercice: React.FC = () => {
       const a = attempts.map((c) => [...c]);
       const fi = filled.map((c) => [...c]);
 
-      /* ---------------- MATCH ULTRA FIABLE ---------------- */
       const isCorrect = (() => {
         if (spoken === expected) return true;
 
@@ -103,10 +102,9 @@ const Exercice: React.FC = () => {
         return levenshtein(spoken, expected) <= 2;
       })();
 
-      /* ---------------- SUCCESS ---------------- */
       if (isCorrect) {
         playAudio(
-          audio.correct[Math.floor(Math.random() * audio.correct.length)]
+          audio.correct[Math.floor(Math.random() * audio.correct.length)],
         );
 
         f[catIndex][itemIndex] = "✅ Bonne réponse !";
@@ -117,19 +115,21 @@ const Exercice: React.FC = () => {
 
         if (a[catIndex][itemIndex] === 1) {
           playAudio(
-            audio.wrong1[Math.floor(Math.random() * audio.wrong1.length)]
+            audio.wrong1[Math.floor(Math.random() * audio.wrong1.length)],
           );
           f[catIndex][itemIndex] = "❌ Mauvaise réponse.";
         } else if (a[catIndex][itemIndex] === 2) {
           playAudio(
-            audio.wrong2[Math.floor(Math.random() * audio.wrong2.length)]
+            audio.wrong2[Math.floor(Math.random() * audio.wrong2.length)],
           );
           f[catIndex][itemIndex] = "❌ Essaie encore.";
         } else {
           playAudio(audio.solution);
 
-          f[catIndex][itemIndex] =
-            `💡 Correction : « ${phrase.replace(".......", item.answer)} »`;
+          f[catIndex][itemIndex] = `💡 Correction : « ${phrase.replace(
+            ".......",
+            item.answer,
+          )} »`;
 
           fi[catIndex][itemIndex] = item.answer;
           a[catIndex][itemIndex] = 0;
@@ -144,18 +144,23 @@ const Exercice: React.FC = () => {
     recognition.start();
   };
 
-  /* ---------------- RENDER ---------------- */
   return (
     <section className="bg-white">
       <div className="mt-14 pb-20">
         <div className="grid gap-10 sm:grid-cols-2">
-
           {exercice2Data.map((cat, catIndex) => (
             <div
               key={cat.title}
-              className="overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition"
+              className="
+                group overflow-hidden rounded-3xl
+                border border-white/60 bg-white/95
+                shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+                backdrop-blur-sm
+                transition-all duration-300
+                hover:-translate-y-1.5
+                hover:shadow-[0_20px_60px_rgba(0,0,0,0.14)]
+              "
             >
-
               {/* IMAGE */}
               <div className="relative flex h-[390px] w-full items-center justify-center bg-white">
                 <Image
@@ -167,70 +172,132 @@ const Exercice: React.FC = () => {
               </div>
 
               {/* TITLE */}
-              <div className="border-t border-black/10 bg-amber-50 px-6 py-4">
-                <h3 className="text-xl font-semibold text-black">
+              <div
+                className="
+                  border-t border-amber-100
+                  bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50
+                  px-7 py-5
+                "
+              >
+                <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  Verbes essentiels
+                </p>
+
+                <h3 className="text-2xl font-bold tracking-tight text-slate-900">
                   {cat.title}
                 </h3>
               </div>
 
               {/* ITEMS */}
-              <div className="space-y-4 p-5">
-
+              <div className="space-y-5 p-6">
                 {cat.items.map((item, itemIndex) => {
                   const solved = filled[catIndex][itemIndex];
+                  const isListening =
+                    feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…";
 
                   return (
                     <div
                       key={itemIndex}
                       className="
-                        flex items-start gap-4
-                        rounded-2xl bg-white px-5 py-5
-                        shadow-sm ring-1 ring-black/5
-                        hover:-translate-y-[2px] hover:shadow-lg transition
+                        flex items-start gap-5
+                        rounded-3xl
+                        border border-slate-200/70
+                        bg-slate-50/70
+                        px-6 py-6
+                        transition-all duration-300
+                        hover:-translate-y-[2px]
+                        hover:border-amber-200
+                        hover:bg-white
+                        hover:shadow-lg
                       "
                     >
-
                       {/* MICRO */}
                       <button
                         onClick={() => startRecognition(catIndex, itemIndex)}
+                        aria-label="Parler"
                         className={`
-                          relative flex h-12 w-12 shrink-0 items-center justify-center
-                          rounded-full shadow-md transition
+                          group/button relative flex h-14 w-14 shrink-0
+                          items-center justify-center overflow-hidden rounded-2xl
+                          transition-all duration-300 active:scale-[0.97]
                           ${
-                            feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…"
-                              ? "bg-amber-400 text-black scale-105"
-                              : "bg-white text-amber-600 hover:bg-amber-100"
+                            isListening
+                              ? `
+                                bg-gradient-to-br from-amber-300 via-yellow-300 to-amber-400
+                                shadow-[0_16px_32px_rgba(245,158,11,0.28)]
+                                scale-105
+                              `
+                              : `
+                                bg-gradient-to-br from-white via-amber-50 to-yellow-50
+                                border border-amber-100
+                                shadow-[0_8px_20px_rgba(0,0,0,0.06)]
+                                hover:-translate-y-1
+                                hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
+                              `
                           }
                         `}
                       >
-                        🎤
-
-                        {feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…" && (
-                          <span className="absolute inset-0 rounded-full animate-ping bg-amber-300 opacity-70"></span>
+                        {isListening && (
+                          <>
+                            <span className="absolute h-12 w-12 rounded-full border-2 border-white/50 animate-ping" />
+                            <span className="absolute h-16 w-16 rounded-full border border-white/30 animate-ping [animation-delay:300ms]" />
+                          </>
                         )}
+
+                        <div
+                          className={`
+                            relative text-slate-800 transition-transform duration-300
+                            ${isListening ? "animate-pulse scale-110" : "group-hover/button:scale-110"}
+                          `}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-7 w-7"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 14a3 3 0 003-3V7a3 3 0 10-6 0v4a3 3 0 003 3z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M19 11a7 7 0 01-14 0M12 18v3"
+                            />
+                          </svg>
+                        </div>
                       </button>
 
                       {/* TEXTE */}
                       <div className="flex-1">
-
                         <p
-                          className="text-[16px] font-medium leading-relaxed text-black"
+                          className="text-[16px] font-medium leading-relaxed text-slate-800"
                           dangerouslySetInnerHTML={{
                             __html: item.phrase.replace(
                               ".......",
                               solved
                                 ? `<span style="
-                                    color:#22c55e;
-                                    font-weight:bold;
+                                    color:#16a34a;
+                                    font-weight:700;
+                                    background:#dcfce7;
+                                    padding:4px 10px;
+                                    border-radius:12px;
                                   ">${solved}</span>`
                                 : `<span style="
-                                    display:inline-block;
-                                    min-width:70px;
-                                    border-bottom:3px solid #f59e0b;
-                                    text-align:center;
+                                    display:inline-flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    min-width:90px;
+                                    padding:6px 14px;
+                                    border-radius:12px;
+                                    background:#fffaf0;
+                                    border:1px solid #fde68a;
+                                    color:#92400e;
                                     font-weight:600;
-                                    letter-spacing:1px;
-                                  ">___</span>`
+                                  ">Réponse</span>`,
                             ),
                           }}
                         />
@@ -239,31 +306,28 @@ const Exercice: React.FC = () => {
                         {feedbacks[catIndex][itemIndex] && (
                           <div
                             className={`
-                              mt-3 text-sm px-3 py-2 rounded-lg
+                              mt-4 rounded-2xl px-4 py-3 text-sm font-medium
                               ${
                                 feedbacks[catIndex][itemIndex].includes("Bonne")
-                                  ? "bg-green-100 text-green-700"
+                                  ? "border border-green-200 bg-green-50 text-green-700"
                                   : feedbacks[catIndex][itemIndex].includes("Correction")
-                                  ? "bg-blue-100 text-blue-700"
-                                  : "bg-red-100 text-red-700"
+                                    ? "border border-blue-200 bg-blue-50 text-blue-700"
+                                    : feedbacks[catIndex][itemIndex].includes("Parlez")
+                                      ? "border border-amber-200 bg-amber-50 text-amber-700"
+                                      : "border border-red-200 bg-red-50 text-red-700"
                               }
                             `}
                           >
                             {feedbacks[catIndex][itemIndex]}
                           </div>
                         )}
-
                       </div>
-
                     </div>
                   );
                 })}
-
               </div>
-
             </div>
           ))}
-
         </div>
       </div>
     </section>
