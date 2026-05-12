@@ -45,13 +45,26 @@ export default function Exercice3() {
               </div>
             </div>
 
-            {/* ASTUCE */}
+            {/* CONSEIL */}
             <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
               <p className="mb-2 flex items-center gap-2 text-base font-semibold text-blue-700">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm">
-                  💡
-                </span>
-                Astuce
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12c.5.5 1 1.5 1 2h6c0-.5.5-1.5 1-2a7 7 0 00-4-12z"
+                      />
+                    </svg>
+                  </span>
+                Conseil
               </p>
 
               <p className="text-base text-blue-900">

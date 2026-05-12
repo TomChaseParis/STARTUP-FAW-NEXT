@@ -100,7 +100,7 @@ export const exercice2Data: ExerciseCategory[] = [
   /* ================= AVOIR ================= */
   {
     title: "2. AVOIR",
-    image: "/images/courses/beginner/activities/activity1/assets-avoir.png",
+    image: "/images/courses/beginner/activities/activity1/asset-avoir.png",
     items: [
       {
         phrase: "Tu ....... quel âge ?",
@@ -188,7 +188,7 @@ export const exercice2Data: ExerciseCategory[] = [
   /* ================= FAIRE ================= */
   {
     title: "3. FAIRE",
-    image: "/images/courses/beginner/activities/activity1/assets-faire.png",
+    image: "/images/courses/beginner/activities/activity1/asset-faire.png",
     items: [
       {
         phrase: "Qu'est-ce qu'elle ....... comme études ?",
@@ -266,7 +266,7 @@ export const exercice2Data: ExerciseCategory[] = [
   /* ================= ALLER ================= */
   {
     title: "4. ALLER",
-    image: "/images/courses/beginner/activities/activity1/assets-aller.png",
+    image: "/images/courses/beginner/activities/activity1/asset-aller.png",
     items: [
       {
         phrase: "Vous ....... bien ?",
