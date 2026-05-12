@@ -227,8 +227,7 @@ const Exercice: React.FC = () => {
                                 scale-105
                               `
                               : `
-                                bg-gradient-to-br from-white via-amber-50 to-yellow-50
-                                border border-amber-100
+                                bg-amber-300
                                 shadow-[0_8px_20px_rgba(0,0,0,0.06)]
                                 hover:-translate-y-1
                                 hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
@@ -297,7 +296,7 @@ const Exercice: React.FC = () => {
                                     border:1px solid #fde68a;
                                     color:#92400e;
                                     font-weight:600;
-                                  ">Réponse</span>`,
+                                  ">...</span>`,
                             ),
                           }}
                         />

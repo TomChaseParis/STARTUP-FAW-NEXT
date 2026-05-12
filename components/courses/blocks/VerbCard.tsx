@@ -74,15 +74,10 @@ const VerbCard: React.FC<VerbCardProps> = ({
                     scale-105
                   `
                   : `
-                    bg-gradient-to-br
-                    from-amber-50
-                    via-yellow-50
-                    to-amber-100
-                    border border-amber-100
-                    shadow-[0_8px_20px_rgba(251,191,36,0.10)]
-                    hover:-translate-y-0.5
-                    hover:scale-[1.02]
-                    hover:shadow-[0_14px_28px_rgba(251,191,36,0.16)]
+                  bg-amber-300
+                  shadow-[0_8px_20px_rgba(0,0,0,0.06)]
+                  hover:-translate-y-1
+                  hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
                   `
               }
             `}
@@ -121,7 +116,7 @@ const VerbCard: React.FC<VerbCardProps> = ({
                 ${
                   isPlaying
                     ? "animate-pulse scale-110 text-amber-700"
-                    : "text-amber-600 group-hover/button:scale-110 group-hover/button:rotate-3"
+                    : "text-black group-hover/button:scale-110 group-hover/button:rotate-3"
                 }
               `}
             >
