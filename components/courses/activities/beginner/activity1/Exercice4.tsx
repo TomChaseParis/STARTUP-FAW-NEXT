@@ -66,20 +66,17 @@ export default function Exercice4() {
 
   return (
     <section className="mt-12">
-      {/* ================= INSTRUCTION ================= */}
       <InstructionBlock
         stampLabel="EXERCICE 4"
         title="Présente les personnages"
         subtitle="Parle à voix haute en utilisant le bon pronom"
         description={
           <div className="space-y-5 text-black">
-            {/* INTRO */}
             <p className="font-medium">
               👉 Présente chaque personnage en conjuguant les verbes à la bonne
               forme.
             </p>
 
-            {/* EXPLICATION */}
             <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm text-slate-700">
                 Utilise le pronom indiqué :
@@ -97,7 +94,6 @@ export default function Exercice4() {
               </div>
             </div>
 
-            {/* EXEMPLE */}
             <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
               <p className="mb-2 text-sm font-semibold text-blue-700">
                 Exemple
@@ -110,7 +106,6 @@ export default function Exercice4() {
               </p>
             </div>
 
-            {/* CONSIGNE ACTION */}
             <div className="rounded-xl border border-amber-300 bg-amber-50 p-4">
               <p className="mb-2 flex items-center gap-2 text-sm font-semibold text-amber-800">
                 🎯 À toi de jouer
@@ -127,7 +122,6 @@ export default function Exercice4() {
         activityType="click-speak"
       />
 
-      {/* ================= LISTE ================= */}
       <div className="mx-auto mt-10 max-w-6xl space-y-10 px-4">
         {exercice4Data.map((item) => {
           const speechItem = exercice4SpeechData.find((s) => s.id === item.id);
@@ -138,13 +132,14 @@ export default function Exercice4() {
             <div
               key={item.id}
               className="
-              relative grid h-[450px] gap-6
-              overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-black/5
-              md:grid-cols-[1.8fr_1fr_1fr]
-            "
+                relative grid h-auto gap-6
+                overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-black/5
+                md:h-[450px]
+                md:grid-cols-[1.8fr_1fr_1fr]
+              "
             >
-              {/* ================= IMAGE ================= */}
-              <div className="relative h-[400px] w-full">
+              {/* IMAGE */}
+              <div className="relative h-[220px] w-full md:h-full">
                 <Image
                   src={item.image}
                   alt="illustration"
@@ -153,9 +148,9 @@ export default function Exercice4() {
                 />
               </div>
 
-              {/* ================= TEXTE STATIQUE ================= */}
+              {/* TEXTE */}
               <div className="relative flex flex-col justify-center overflow-hidden p-6">
-                <div className="custom-scrollbar space-y-2 overflow-y-auto text-[16px] leading-relaxed text-black">
+                <div className="space-y-2 text-[16px] leading-relaxed text-black md:custom-scrollbar md:overflow-y-auto">
                   {item.sentences.map((sentence, index) => {
                     const words = sentence.split(" ");
                     const firstWord = words[0];
@@ -169,18 +164,17 @@ export default function Exercice4() {
                   })}
                 </div>
 
-                {/* gradient scroll hint */}
-                <div className="pointer-events-none absolute bottom-0 left-0 h-10 w-full bg-gradient-to-t from-white to-transparent" />
+                <div className="pointer-events-none absolute bottom-0 left-0 hidden h-10 w-full bg-gradient-to-t from-white to-transparent md:block" />
               </div>
 
-              {/* ================= COLONNE DROITE ================= */}
+              {/* COLONNE DROITE */}
               <div
                 className={`
-                  custom-scrollbar relative flex flex-col overflow-y-auto bg-slate-50 p-6
+                  relative flex flex-col bg-slate-50 p-6
+                  md:custom-scrollbar md:overflow-y-auto
                   ${isExample ? "justify-center" : "items-center justify-center"}
                 `}
               >
-                {/* ================= MODE EXEMPLE ================= */}
                 {isExample ? (
                   <>
                     <button
@@ -212,7 +206,6 @@ export default function Exercice4() {
 
                         return (
                           <div key={index} className="flex items-start gap-2">
-                            {/* marker animé */}
                             <span
                               className={`
                                 mt-1 h-2.5 w-2.5 rounded-full transition
@@ -224,7 +217,6 @@ export default function Exercice4() {
                               `}
                             />
 
-                            {/* texte highlight */}
                             <p
                               className={`
                                 rounded-md px-2 py-1 transition-all duration-200
@@ -244,17 +236,16 @@ export default function Exercice4() {
                   </>
                 ) : (
                   <div className="flex w-full flex-col items-center gap-6">
-                    {/* PRONOM */}
                     <div className="text-center">
                       <p className="mb-1 text-xs text-slate-500">
                         Utilise le pronom :
                       </p>
+
                       <div className="rounded-lg bg-black px-4 py-2 text-lg font-bold text-white shadow">
                         {pronoun}
                       </div>
                     </div>
 
-                    {/* MICRO */}
                     <SpeechRecognitionEngine
                       expectedSentences={
                         speechItem?.sentences.map((s) => s.text) || []
@@ -263,7 +254,6 @@ export default function Exercice4() {
                       onResult={(res) => handleSpeechResult(item.id, res)}
                     />
 
-                    {/* RESULTATS */}
                     {resultsByCard[item.id] && (
                       <div className="custom-scrollbar mt-4 max-h-[200px] w-full space-y-2 overflow-y-auto">
                         <p className="text-sm font-semibold text-green-600">
