@@ -1,15 +1,43 @@
 "use client";
 
+import { useRef, useState } from "react";
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import VerbCard from "@/components/courses/blocks/VerbCard";
 import Exercice from "./Exercice";
-import Exercice3 from "./Exercice3"; // ✅ AJOUT
+import Exercice3 from "./Exercice3";
 import Exercice4 from "./Exercice4";
 
 export default function Activity() {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [currentlyPlayingId, setCurrentlyPlayingId] = useState<string | null>(
+    null,
+  );
+
+  const playVerbAudio = (id: string, src: string) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+
+    const audio = new Audio(src);
+    audioRef.current = audio;
+
+    setCurrentlyPlayingId(id);
+
+    audio.play();
+
+    audio.onended = () => {
+      setCurrentlyPlayingId(null);
+    };
+
+    audio.onerror = () => {
+      setCurrentlyPlayingId(null);
+    };
+  };
+
   return (
     <ActivityLayout>
       {/* ================= HEADER + VIDEO ================= */}
@@ -91,11 +119,14 @@ export default function Activity() {
                 "Ils/Elles sont",
               ]}
               onPlay={() =>
-                new Audio(
+                playVerbAudio(
+                  "etre",
                   "/audios/courses/beginner/activity1/exercice4/etreverbe.mp3",
-                ).play()
+                )
               }
+              isPlaying={currentlyPlayingId === "etre"}
             />
+
             <VerbCard
               title="AVOIR"
               forms={[
@@ -107,11 +138,14 @@ export default function Activity() {
                 "Ils/Elles ont",
               ]}
               onPlay={() =>
-                new Audio(
+                playVerbAudio(
+                  "avoir",
                   "/audios/courses/beginner/activity1/exercice4/avoirverbe.mp3",
-                ).play()
+                )
               }
+              isPlaying={currentlyPlayingId === "avoir"}
             />
+
             <VerbCard
               title="FAIRE"
               forms={[
@@ -123,11 +157,14 @@ export default function Activity() {
                 "Ils/Elles font",
               ]}
               onPlay={() =>
-                new Audio(
+                playVerbAudio(
+                  "faire",
                   "/audios/courses/beginner/activity1/exercice4/faireverbe.mp3",
-                ).play()
+                )
               }
+              isPlaying={currentlyPlayingId === "faire"}
             />
+
             <VerbCard
               title="ALLER"
               forms={[
@@ -139,10 +176,12 @@ export default function Activity() {
                 "Ils/Elles vont",
               ]}
               onPlay={() =>
-                new Audio(
+                playVerbAudio(
+                  "aller",
                   "/audios/courses/beginner/activity1/exercice4/allerverbe.mp3",
-                ).play()
+                )
               }
+              isPlaying={currentlyPlayingId === "aller"}
             />
           </div>
         </div>
@@ -161,10 +200,9 @@ export default function Activity() {
                 <strong> être, avoir, faire ou aller</strong>.
               </p>
 
-                 {/* CONSEIL */}
-            <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
-              <p className="mb-2 flex items-center gap-2 text-base font-semibold text-blue-700">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm">
+              <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+                <p className="mb-2 flex items-center gap-2 text-base font-semibold text-blue-700">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -180,13 +218,13 @@ export default function Activity() {
                       />
                     </svg>
                   </span>
-                Conseil
-              </p>
+                  Conseil
+                </p>
 
-              <p className="text-base text-blue-900">
-              Fais attention au sujet pour choisir la bonne forme.
-              </p>
-            </div>
+                <p className="text-base text-blue-900">
+                  Fais attention au sujet pour choisir la bonne forme.
+                </p>
+              </div>
 
               <div className="rounded-xl border border-amber-300 bg-amber-50 p-4">
                 <p className="mb-3 flex items-center gap-2 text-base font-bold text-amber-800">
@@ -199,13 +237,11 @@ export default function Activity() {
                 <ul className="space-y-1 text-sm text-amber-900">
                   <li>Lis la phrase en entier.</li>
                   <li>
-                  Par exemple :  <strong> « Ils n’ont pas d’argent »</strong>
+                    Par exemple : <strong>« Ils n’ont pas d’argent »</strong>
                   </li>
                 </ul>
               </div>
-              
             </div>
-            
           }
           activityType="click-speak"
         />
@@ -218,6 +254,7 @@ export default function Activity() {
         <Exercice3 />
       </ExerciseSection>
 
+      {/* ================= EXERCICE 4 ================= */}
       <ExerciseSection>
         <Exercice4 />
       </ExerciseSection>
