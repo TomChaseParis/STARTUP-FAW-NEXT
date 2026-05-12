@@ -85,7 +85,7 @@ export default function Activity() {
               forms={[
                 "Je suis",
                 "Tu es",
-                "Il/Elle est",
+                "Il/Elle/On est",
                 "Nous sommes",
                 "Vous êtes",
                 "Ils/Elles sont",
@@ -101,7 +101,7 @@ export default function Activity() {
               forms={[
                 "J’ai",
                 "Tu as",
-                "Il/Elle a",
+                "Il/Elle/On a",
                 "Nous avons",
                 "Vous avez",
                 "Ils/Elles ont",
@@ -117,7 +117,7 @@ export default function Activity() {
               forms={[
                 "Je fais",
                 "Tu fais",
-                "Il/Elle fait",
+                "Il/Elle/On fait",
                 "Nous faisons",
                 "Vous faites",
                 "Ils/Elles font",
@@ -133,7 +133,7 @@ export default function Activity() {
               forms={[
                 "Je vais",
                 "Tu vas",
-                "Il/Elle va",
+                "Il/Elle/On va",
                 "Nous allons",
                 "Vous allez",
                 "Ils/Elles vont",
@@ -161,7 +161,32 @@ export default function Activity() {
                 <strong> être, avoir, faire ou aller</strong>.
               </p>
 
-              <p>Fais attention au sujet pour choisir la bonne forme.</p>
+                 {/* CONSEIL */}
+            <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+              <p className="mb-2 flex items-center gap-2 text-base font-semibold text-blue-700">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12c.5.5 1 1.5 1 2h6c0-.5.5-1.5 1-2a7 7 0 00-4-12z"
+                      />
+                    </svg>
+                  </span>
+                Conseil
+              </p>
+
+              <p className="text-base text-blue-900">
+              Fais attention au sujet pour choisir la bonne forme.
+              </p>
+            </div>
 
               <div className="rounded-xl border border-amber-300 bg-amber-50 p-4">
                 <p className="mb-3 flex items-center gap-2 text-base font-bold text-amber-800">
@@ -172,14 +197,15 @@ export default function Activity() {
                 </p>
 
                 <ul className="space-y-1 text-sm text-amber-900">
-                  <li>Active le micro en cliquant sur l’icône.</li>
                   <li>Lis la phrase en entier.</li>
                   <li>
-                    <strong>« Ils n’ont pas d’argent »</strong>
+                  Par exemple :  <strong> « Ils n’ont pas d’argent »</strong>
                   </li>
                 </ul>
               </div>
+              
             </div>
+            
           }
           activityType="click-speak"
         />

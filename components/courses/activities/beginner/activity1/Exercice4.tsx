@@ -144,7 +144,7 @@ export default function Exercice4() {
             "
             >
               {/* ================= IMAGE ================= */}
-              <div className="relative h-full w-full">
+              <div className="relative h-[400px] w-full">
                 <Image
                   src={item.image}
                   alt="illustration"
