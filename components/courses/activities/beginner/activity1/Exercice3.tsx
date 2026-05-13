@@ -72,6 +72,31 @@ export default function Exercice3() {
                 verbe.
               </p>
             </div>
+            <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm text-slate-700">
+               Selon le pays d'où tu viens et le clavier que utilises, tu n'as peut-être pas certains accents présents sur ton clavier. Tu peux les copier coller dans la liste ci-dessous, tu en auras besoin pour l'exercice qui suit.
+              </p>
+
+              <div className="flex flex-wrap gap-2 text-sm">
+                {["à", "â", "è", "ê", "é", "ô", "î", "'"].map((p) => (
+                  <span
+                    key={p}
+                    className="
+                    rounded-xl border
+                    border-amber-200
+                    bg-amber-50
+                    px-4 py-2
+                    text-base
+                    font-semibold text-amber-800
+                    shadow-sm
+                  "
+                  >
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </div>
+
           </div>
         }
       />

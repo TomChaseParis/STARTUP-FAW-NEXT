@@ -15,7 +15,7 @@ export default function Activity() {
       {/* ================= HEADER + VIDEO + INFO ================= */}
       <LessonBlock
         badge="Compréhension orale"
-        title="À l’agence matrimoniale"
+        title="A l’Agence matrimoniale"
         description="Regarde la vidéo puis réponds aux questions."
         videoSrc="/videos/courses/beginner/activities/activity2/presentation.mp4"
         poster="/images/courses/beginner/activities/activity2/postermarie.png"
@@ -36,6 +36,32 @@ export default function Activity() {
         }}
       />
 
+      <ExerciseSection>
+        <InstructionBlock
+          stampLabel="EXERCICE 1"
+          title="DÉCOUVERTE"
+          activityType="listen"
+          description={
+            <div className="space-y-5 text-black">
+              {/* INTRO */}
+              <p className="font-medium">
+            
+              </p>
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+              <p className="text-sm font-medium text-slate-600 mb-2">
+                💡 Consigne :
+              </p>
+              <p className="text-base">
+              Ecoute une première fois ce dialogue entre un homme et une
+                conseillère matrimoniale et réponds aux questions.              </p>
+            </div>
+
+            </div>
+            
+          }
+        />
+      </ExerciseSection>
+
       <AudioBlock
         title="Écoute la conversation"
         audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
@@ -45,36 +71,22 @@ export default function Activity() {
 
       <ExerciseSection>
         <InstructionBlock
-          title="✍️ EXERCICE 2 : Compréhension"
+          stampLabel="EXERCICE 2"
+          title="COMPRÉHENSION"
           activityType="click"
           description={
             <div className="space-y-5 text-black">
               {/* INTRO */}
-              <p className="font-medium">
-                👉 Réponds aux questions à partir de la conversation que tu
-                viens d’écouter.
+            
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+              <p className="text-sm font-medium text-slate-600 mb-2">
+                💡 Consigne :
               </p>
-
-              {/* CONSIGNE */}
-              <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-sm text-slate-700">Pour réussir :</p>
-
-                <ul className="space-y-1 text-sm text-slate-700">
-                  <li>• Lis bien chaque question</li>
-                  <li>• Choisis la bonne réponse</li>
-                  <li>• Aide-toi de ce que tu as compris à l’écoute</li>
-                </ul>
-              </div>
-
-              {/* CONSEIL */}
-              <div className="rounded-xl border border-amber-300 bg-amber-50 p-4">
-                <p className="mb-1 text-sm font-semibold text-amber-800">
-                  💡 Astuce
-                </p>
-                <p className="text-sm text-amber-900">
-                  Si tu hésites, réécoute l’audio pour vérifier ta réponse.
-                </p>
-              </div>
+              <p className="text-base">
+              Ecoute  une seconde fois ce dialogue et réponds aux questions.
+          </p>
+            </div>
+            
             </div>
           }
         />

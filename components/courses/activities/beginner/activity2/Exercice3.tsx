@@ -168,6 +168,7 @@ const Exercice3: React.FC = () => {
     <section className="mt-12">
 
       <InstructionBlock
+      stampLabel="EXERCICE 2"
         title="🎤 EXERCICE 3 : Tu vs Vous"
         activityType="click-speak"
         description={

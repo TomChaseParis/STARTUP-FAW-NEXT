@@ -9,7 +9,7 @@
 
   {
     "slug": "activity2",
-    "title": "A l'agence matrimoniale",
+    "title": "A l'Agence matrimoniale",
     "subtitle": "Activité 2",
     "description": "Compréhension orale et exercices interactifs",
     "components": ["Description", "Audio", "Exercice", "Exercice2"]
