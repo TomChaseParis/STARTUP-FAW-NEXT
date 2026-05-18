@@ -30,7 +30,6 @@ export default function Activity() {
       />
 
       <AudioBlock
-        title="Écoute la chanson"
         audioSrc="/audios/courses/intermediate/lesvacancesauborddemer.mp3"
         badge="Audio"
         tip="Écoute une première fois avant de répondre."

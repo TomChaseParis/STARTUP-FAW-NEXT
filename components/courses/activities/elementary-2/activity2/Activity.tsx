@@ -37,7 +37,6 @@ export default function Activity() {
       />
 
       <AudioBlock
-        title="Écoute la conversation"
         audioSrc="/audios/courses/elementary/audioloisirs.mp3"
         levelColor="amber"
         tip="Écoute deux fois avant de répondre."
