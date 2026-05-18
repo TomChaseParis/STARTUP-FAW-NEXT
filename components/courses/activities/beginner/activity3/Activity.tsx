@@ -29,7 +29,6 @@ export default function Activity() {
 
       {/* 🔊 AUDIO */}
       <AudioBlock
-        title="Écoute les exemples"
         audioSrc="/audios/courses/beginner/audioactivity-3.mp3"
         levelColor="amber"
         tip="Écoute avant de répondre."
