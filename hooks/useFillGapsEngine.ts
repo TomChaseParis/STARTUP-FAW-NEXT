@@ -26,6 +26,7 @@ export type FillGapsData = {
 
 export type GapResult = {
   index: number;
+  question: string;
   user: string;
   correct: string;
   isCorrect: boolean;
@@ -42,47 +43,45 @@ const normalizeText = (str: string) =>
     .replace(/\s+/g, " ")
     .trim();
 
+const sentenceToQuestion = (parts: GapPart[]) => {
+  return parts
+    .map((part) => {
+      if (part.type === "text") {
+        return part.value;
+      }
+
+      return "_____";
+    })
+    .join("");
+};
+
 /* ================= HOOK ================= */
 
 export function useFillGapsEngine(data: FillGapsData) {
-  const sentences = useMemo(
-    () => data.sentences ?? [],
-    [data]
-  );
+  const sentences = useMemo(() => data.sentences ?? [], [data]);
 
   const totalInputs = useMemo(() => {
     let count = 0;
 
-    sentences.forEach((s) => {
-      s.parts.forEach((p) => {
-        if (p.type === "input") count++;
+    sentences.forEach((sentence) => {
+      sentence.parts.forEach((part) => {
+        if (part.type === "input") {
+          count++;
+        }
       });
     });
 
     return count;
   }, [sentences]);
 
-  const [answers, setAnswers] = useState<
-    Record<number, string>
-  >({});
-
-  const [showCorrection, setShowCorrection] =
-    useState(false);
-
-  const [score, setScore] = useState<number | null>(
-    null
-  );
-
-  const [history, setHistory] = useState<
-    GapResult[]
-  >([]);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [showCorrection, setShowCorrection] = useState(false);
+  const [score, setScore] = useState<number | null>(null);
+  const [history, setHistory] = useState<GapResult[]>([]);
 
   /* ================= ANSWER ================= */
 
-  const setAnswer = (
-    index: number,
-    value: string
-  ) => {
+  const setAnswer = (index: number, value: string) => {
     setAnswers((prev) => ({
       ...prev,
       [index]: value,
@@ -91,56 +90,52 @@ export function useFillGapsEngine(data: FillGapsData) {
 
   /* ================= PROGRESS ================= */
 
-  const answeredCount = Object.values(
-    answers
-  ).filter((v) => v.trim() !== "").length;
+  const answeredCount = Object.values(answers).filter(
+    (value) => value.trim() !== "",
+  ).length;
 
   const progress =
-    totalInputs > 0
-      ? (answeredCount / totalInputs) * 100
-      : 0;
+    totalInputs > 0 ? (answeredCount / totalInputs) * 100 : 0;
 
-  const allAnswered =
-    answeredCount === totalInputs;
+  const allAnswered = answeredCount === totalInputs;
 
   /* ================= CHECK ================= */
 
   const checkAnswers = () => {
     let correct = 0;
-    let idx = 0;
+    let globalIndex = 0;
 
     const results: GapResult[] = [];
 
     sentences.forEach((sentence) => {
-      sentence.parts.forEach((p) => {
-        if (p.type === "input") {
-          const user = normalizeText(
-            answers[idx] || ""
-          );
+      const questionText = sentenceToQuestion(sentence.parts);
 
-          const good = normalizeText(
-            p.answer
-          );
+      sentence.parts.forEach((part) => {
+        if (part.type === "input") {
+          const userAnswer = answers[globalIndex] || "";
+          const normalizedUser = normalizeText(userAnswer);
+          const normalizedCorrect = normalizeText(part.answer);
 
-          const ok = user === good;
+          const isCorrect = normalizedUser === normalizedCorrect;
 
-          if (ok) correct++;
+          if (isCorrect) {
+            correct++;
+          }
 
           results.push({
-            index: idx,
-            user: answers[idx] || "",
-            correct: p.answer,
-            isCorrect: ok,
+            index: globalIndex,
+            question: questionText,
+            user: userAnswer,
+            correct: part.answer,
+            isCorrect,
           });
 
-          idx++;
+          globalIndex++;
         }
       });
     });
 
-    const finalScore = Math.round(
-      (correct / totalInputs) * 100
-    );
+    const finalScore = Math.round((correct / totalInputs) * 100);
 
     setHistory(results);
     setScore(finalScore);

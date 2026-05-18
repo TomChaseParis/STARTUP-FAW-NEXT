@@ -3,6 +3,7 @@
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import FillGapsEngine from "@/components/courses/blocks/FillGapsEngine";
 import { episode2Data } from "./episode2Data";
+import AccentHelper from "@/components/courses/blocks/AccentHelper";
 
 export default function Exercice2() {
   return (
@@ -13,44 +14,76 @@ export default function Exercice2() {
         activityType="type"
         description={
           <div className="space-y-5 text-black">
-            <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-              <p className="mb-2 text-sm font-medium text-slate-600">
-                💡 Consigne :
-              </p>
+            {/* CONSIGNE */}
+            <div
+              className="
+                rounded-2xl
+                border border-amber-200
+                bg-gradient-to-br from-amber-50 via-white to-amber-50
+                p-5
+                shadow-sm
+              "
+            >
+              {/* HEADER */}
+              <div className="mb-4 flex items-center gap-4">
+                <div
+                  className="
+                    flex h-12 w-12 shrink-0 items-center justify-center
+                    rounded-2xl
+                    bg-gradient-to-br from-amber-300 to-yellow-400
+                    shadow-[0_10px_20px_rgba(245,158,11,0.25)]
+                  "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 3h6v4H9z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 12h6"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 16h4"
+                    />
+                  </svg>
+                </div>
 
-              <p className="text-base">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
+                    Consigne
+                  </p>
+
+                  <p className="text-sm text-slate-500">
+                    Suis les instructions avant de commencer
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-base leading-relaxed text-slate-800">
                 Ecoute à nouveau le dialogue et complète le dialogue avec les
                 verbes « être » et « avoir » à la bonne forme.
               </p>
             </div>
 
-            <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm text-slate-700">
-                Selon le pays d&apos;où tu viens et le clavier que tu utilises,
-                tu n&apos;as peut-être pas certains accents présents sur ton
-                clavier. Tu peux les copier-coller dans la liste ci-dessous, tu
-                en auras besoin pour l&apos;exercice qui suit.
-              </p>
-
-              <div className="flex flex-wrap gap-2 text-sm">
-                {["à", "â", "è", "ê", "é", "ô", "î", "&apos;"].map((p) => (
-                  <span
-                    key={p}
-                    className="
-                      rounded-xl border
-                      border-amber-200
-                      bg-amber-50
-                      px-4 py-2
-                      text-base
-                      font-semibold text-amber-800
-                      shadow-sm
-                    "
-                  >
-                    {p === "&apos;" ? "'" : p}
-                  </span>
-                ))}
-              </div>
-            </div>
+            {/* AIDE CLAVIER */}
+            <AccentHelper />
           </div>
         }
       />

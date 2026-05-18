@@ -66,69 +66,190 @@ export default function Exercice4() {
 
   return (
     <section className="mt-12">
-      <InstructionBlock
-        stampLabel="EXERCICE 4"
-        title="Présente les personnages"
-        subtitle="Parle à voix haute en utilisant le bon pronom"
-        description={
-          <div className="space-y-5 text-black">
-            <p className="font-medium">
-              👉 Présente chaque personnage en conjuguant les verbes à la bonne
-              forme.
+     <InstructionBlock
+  stampLabel="EXERCICE 4"
+  title="Présente les personnages"
+  subtitle="Parle à voix haute en utilisant le bon pronom"
+  description={
+    <div className="space-y-5 text-black">
+      {/* CONSIGNE + PRONOMS + ACTION */}
+      <div
+        className="
+          rounded-2xl
+          border border-amber-200
+          bg-gradient-to-br from-amber-50 via-white to-amber-50
+          p-5
+          shadow-sm
+        "
+      >
+        {/* HEADER */}
+        <div className="mb-4 flex items-center gap-4">
+          <div
+            className="
+              flex h-12 w-12 shrink-0 items-center justify-center
+              rounded-2xl
+              bg-gradient-to-br from-amber-300 to-yellow-400
+              shadow-[0_10px_20px_rgba(245,158,11,0.25)]
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2.2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 3h6v4H9z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12h6"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 16h4"
+              />
+            </svg>
+          </div>
+  
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
+              Consigne
             </p>
-
-            <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm text-slate-700">
-                Utilise le pronom indiqué :
-              </p>
-
-              <div className="flex flex-wrap gap-2 text-sm">
-                {["JE", "TU", "IL", "ELLE", "NOUS", "VOUS", "ILS"].map((p) => (
-                  <span
-                    key={p}
-                    className="
-                    rounded-xl border
-                    border-amber-200
-                    bg-amber-50
-                    px-4 py-2
-                    text-base
-                    font-semibold text-amber-800
-                    shadow-sm
-                  "
-                  >
-                    {p}
-                  </span>
-                ))}
-              </div>
+  
+            <p className="text-sm text-slate-500">
+              Suis les instructions avant de commencer
+            </p>
+          </div>
+        </div>
+  
+        {/* TEXTE */}
+        <p className="text-base leading-relaxed text-slate-800">
+          Présente chaque personnage en conjuguant les verbes à la bonne forme.
+        </p>
+  
+        {/* SÉPARATEUR */}
+        <div className="my-5 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent" />
+  
+        {/* PRONOMS */}
+        <div>
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-amber-100">
+              👤
             </div>
-
-            <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
-              <p className="mb-2 text-sm font-semibold text-blue-700">
-                Exemple
+  
+            <div>
+              <p className="text-sm font-semibold text-slate-800">
+                Pronoms à utiliser
               </p>
-
-              <p className="text-sm text-blue-900">
-                <strong>Ils sont mariés.</strong>
-                <br />
-                <strong>Ils font une croisière.</strong>
+  
+              <p className="text-sm text-slate-600">
+                Utilise le pronom indiqué pour construire ta phrase.
               </p>
-            </div>
-
-            <div className="rounded-xl border border-amber-300 bg-amber-50 p-4">
-              <p className="mb-2 flex items-center gap-2 text-sm font-semibold text-amber-800">
-                🎯 À toi de jouer
-              </p>
-
-              <ul className="space-y-1 text-sm text-amber-900">
-                <li>• Observe l’image</li>
-                <li>• Utilise le pronom indiqué</li>
-                <li>• Clique sur le micro et parle</li>
-              </ul>
             </div>
           </div>
-        }
-        activityType="click-speak"
-      />
+  
+          <div className="flex flex-wrap gap-3">
+            {["JE", "TU", "IL", "ELLE", "NOUS", "VOUS", "ILS"].map((p) => (
+              <span
+                key={p}
+                className="
+                  rounded-2xl border
+                  border-amber-200
+                  bg-white
+                  px-5 py-3
+                  text-base
+                  font-semibold text-amber-800
+                  shadow-sm
+                "
+              >
+                {p}
+              </span>
+            ))}
+          </div>
+        </div>
+  
+        {/* SÉPARATEUR */}
+        <div className="my-5 h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent" />
+  
+     
+      </div>
+  
+      {/* EXEMPLE */}
+      <div
+        className="
+          rounded-2xl
+          border border-blue-200
+          bg-gradient-to-br from-blue-50 via-white to-blue-50
+          p-5
+          shadow-sm
+        "
+      >
+        <div className="mb-4 flex items-center gap-4">
+          <div
+            className="
+              flex h-12 w-12 shrink-0 items-center justify-center
+              rounded-2xl
+              bg-gradient-to-br from-blue-400 to-cyan-500
+              shadow-[0_10px_20px_rgba(59,130,246,0.25)]
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2.2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13 16h-1v-4h-1m1-4h.01"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 22a10 10 0 100-20 10 10 0 000 20z"
+              />
+            </svg>
+          </div>
+  
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">
+              Exemple
+            </p>
+  
+            <p className="text-sm text-slate-500">
+              Observe le modèle avant de répondre
+            </p>
+          </div>
+        </div>
+  
+        <div className="space-y-2 text-base leading-relaxed text-slate-800">
+          <p>
+            <strong>Ils sont mariés.</strong>
+          </p>
+          <p>
+            <strong>Ils font une croisière.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  }
+  activityType="click-speak"
+/>
 
       <div className="mx-auto mt-10 max-w-6xl space-y-10 px-4">
         {exercice4Data.map((item) => {
