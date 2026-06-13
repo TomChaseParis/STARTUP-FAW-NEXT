@@ -117,7 +117,8 @@ export default function Activity() {
   />
 </ExerciseSection>
       <AudioBlock
-        imageSrc="/images/courses/beginner/activities/activity2/agence-matrimoniale.png"
+
+imageSrc="/images/courses/beginner/activities/activity2/agence-matrimoniale.png"
         audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
         levelColor="amber"
         tip="Écoute deux fois avant de répondre."

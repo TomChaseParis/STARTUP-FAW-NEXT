@@ -4,6 +4,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { exercice2Data } from "./exercice2Data";
 
+import {
+  validateSingleWord,
+} from "@/components/courses/speech/scoring";
+
+
+import {
+  useSpeechRecognition,
+} from "@/components/courses/speech/useSpeechRecognition";
+
 const Exercice: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<string[][]>(
     exercice2Data.map((cat) => cat.items.map(() => "")),
@@ -19,130 +28,123 @@ const Exercice: React.FC = () => {
 
   const playAudio = (file: string) => new Audio(file).play();
 
-  /* ---------------- NORMALIZE ---------------- */
-  const normalize = (text: string) => {
-    return text
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[’']/g, "")
-      .replace(/[^a-z]/g, "");
-  };
 
-  /* ---------------- LEVENSHTEIN ---------------- */
-  const levenshtein = (a: string, b: string) => {
-    const matrix = Array.from({ length: b.length + 1 }, () => []);
-
-    for (let i = 0; i <= b.length; i++) matrix[i][0] = i;
-    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
-
-    for (let i = 1; i <= b.length; i++) {
-      for (let j = 1; j <= a.length; j++) {
-        matrix[i][j] =
-          b[i - 1] === a[j - 1]
-            ? matrix[i - 1][j - 1]
-            : Math.min(
-                matrix[i - 1][j - 1] + 1,
-                matrix[i][j - 1] + 1,
-                matrix[i - 1][j] + 1,
-              );
-      }
-    }
-
-    return matrix[b.length][a.length];
-  };
 
   /* ---------------- RECOGNITION ---------------- */
-  const startRecognition = (catIndex: number, itemIndex: number) => {
-    const Recognition =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
-
-    if (!Recognition) {
-      alert("⚠️ Reconnaissance vocale non supportée");
-      return;
-    }
-
-    const recognition = new Recognition();
-    recognition.lang = "fr-FR";
-    recognition.interimResults = false;
-
-    let finalTranscript = "";
-
-    recognition.onstart = () => {
-      const f = feedbacks.map((c) => [...c]);
-      f[catIndex][itemIndex] = "🎤 Parlez maintenant…";
-      setFeedbacks(f);
-    };
-
-    recognition.onresult = (event: any) => {
-      finalTranscript = event.results[0][0].transcript;
-    };
-
-    recognition.onend = () => {
-      const spoken = normalize(finalTranscript);
-      const item = exercice2Data[catIndex].items[itemIndex];
-      const expected = normalize(item.answer);
+  const startRecognition = (
+    catIndex: number,
+    itemIndex: number,
+  ) => {
+    const f = feedbacks.map((c) => [...c]);
+  
+    f[catIndex][itemIndex] =
+      "🎤 Parlez maintenant…";
+  
+    setFeedbacks(f);
+  
+    start((spokenText) => {
+      const item =
+        exercice2Data[catIndex].items[itemIndex];
+  
       const phrase = item.phrase;
+  
       const audio = item.audio;
-
-      const f = feedbacks.map((c) => [...c]);
-      const a = attempts.map((c) => [...c]);
-      const fi = filled.map((c) => [...c]);
-
-      const isCorrect = (() => {
-        if (spoken === expected) return true;
-
-        if (expected.length <= 3) return false;
-
-        if (expected.length <= 5) {
-          return levenshtein(spoken, expected) <= 1;
-        }
-
-        return levenshtein(spoken, expected) <= 2;
-      })();
-
-      if (isCorrect) {
-        playAudio(
-          audio.correct[Math.floor(Math.random() * audio.correct.length)],
+  
+      const result =
+        validateSingleWord(
+          spokenText,
+          item.answer,
         );
-
-        f[catIndex][itemIndex] = "✅ Bonne réponse !";
-        fi[catIndex][itemIndex] = item.answer;
+  
+      const f = feedbacks.map((c) => [...c]);
+  
+      const a = attempts.map((c) => [...c]);
+  
+      const fi = filled.map((c) => [...c]);
+  
+      if (result.isCorrect) {
+        playAudio(
+          audio.correct[
+            Math.floor(
+              Math.random() *
+                audio.correct.length,
+            )
+          ],
+        );
+  
+        f[catIndex][itemIndex] =
+          `✅ Bonne réponse (${result.similarity}%)`;
+  
+        fi[catIndex][itemIndex] =
+          item.answer;
+  
         a[catIndex][itemIndex] = 0;
       } else {
         a[catIndex][itemIndex]++;
-
-        if (a[catIndex][itemIndex] === 1) {
+  
+        if (
+          a[catIndex][itemIndex] === 1
+        ) {
           playAudio(
-            audio.wrong1[Math.floor(Math.random() * audio.wrong1.length)],
+            audio.wrong1[
+              Math.floor(
+                Math.random() *
+                  audio.wrong1.length,
+              )
+            ],
           );
-          f[catIndex][itemIndex] = "❌ Mauvaise réponse.";
-        } else if (a[catIndex][itemIndex] === 2) {
+  
+          f[catIndex][itemIndex] =
+            `❌ Mauvaise réponse (${result.similarity}%)`;
+        } else if (
+          a[catIndex][itemIndex] === 2
+        ) {
           playAudio(
-            audio.wrong2[Math.floor(Math.random() * audio.wrong2.length)],
+            audio.wrong2[
+              Math.floor(
+                Math.random() *
+                  audio.wrong2.length,
+              )
+            ],
           );
-          f[catIndex][itemIndex] = "❌ Essaie encore.";
+  
+          f[catIndex][itemIndex] =
+            "❌ Essaie encore.";
         } else {
           playAudio(audio.solution);
-
-          f[catIndex][itemIndex] = `💡 Correction : « ${phrase.replace(
-            ".......",
-            item.answer,
-          )} »`;
-
-          fi[catIndex][itemIndex] = item.answer;
+  
+          f[catIndex][itemIndex] =
+            `💡 Correction : « ${phrase.replace(
+              ".......",
+              item.answer,
+            )} »`;
+  
+          fi[catIndex][itemIndex] =
+            item.answer;
+  
           a[catIndex][itemIndex] = 0;
         }
       }
-
+  
       setFilled(fi);
+  
       setFeedbacks(f);
+  
       setAttempts(a);
-    };
-
-    recognition.start();
+  
+      console.log({
+        expected: item.answer,
+        transcript: spokenText,
+        similarity:
+          result.similarity,
+      });
+    });
   };
+
+  const {
+    start,
+    isListening,
+  } = useSpeechRecognition();
 
   return (
     <section className="bg-white">
@@ -192,9 +194,7 @@ const Exercice: React.FC = () => {
               <div className="space-y-5 p-6">
                 {cat.items.map((item, itemIndex) => {
                   const solved = filled[catIndex][itemIndex];
-                  const isListening =
-                    feedbacks[catIndex][itemIndex] === "🎤 Parlez maintenant…";
-
+               
                   return (
                     <div
                       key={itemIndex}

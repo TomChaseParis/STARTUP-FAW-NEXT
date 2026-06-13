@@ -7,6 +7,8 @@ type VerbCardProps = {
   forms: string[];
   onPlay: () => void;
   isPlaying?: boolean;
+  currentTime?: number;
+  timings?: number[];
 };
 
 const VerbCard: React.FC<VerbCardProps> = ({
@@ -14,7 +16,22 @@ const VerbCard: React.FC<VerbCardProps> = ({
   forms,
   onPlay,
   isPlaying = false,
+  currentTime = 0,
+  timings = [0, 2, 4, 6, 8, 10],
 }) => {
+  const activeIndex = (() => {
+    if (!isPlaying) return -1;
+  
+    return timings.findIndex((start, index) => {
+      const next = timings[index + 1];
+  
+      return (
+        currentTime >= start &&
+        (next === undefined || currentTime < next)
+      );
+    });
+  })();
+
   return (
     <div
       className="
@@ -27,7 +44,6 @@ const VerbCard: React.FC<VerbCardProps> = ({
         hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)]
       "
     >
-      {/* glow décoratif */}
       <div
         className="
           pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500
@@ -38,9 +54,7 @@ const VerbCard: React.FC<VerbCardProps> = ({
         <div className="absolute -left-8 bottom-0 h-24 w-24 rounded-full bg-slate-100/60 blur-2xl" />
       </div>
 
-      {/* contenu */}
       <div className="relative px-7 py-7">
-        {/* HEADER */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
@@ -52,7 +66,6 @@ const VerbCard: React.FC<VerbCardProps> = ({
             </h3>
           </div>
 
-          {/* BOUTON AUDIO */}
           <button
             onClick={onPlay}
             aria-label={`Écouter ${title}`}
@@ -74,49 +87,28 @@ const VerbCard: React.FC<VerbCardProps> = ({
                     scale-105
                   `
                   : `
-                  bg-amber-300
-                  shadow-[0_8px_20px_rgba(0,0,0,0.06)]
-                  hover:-translate-y-1
-                  hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
+                    bg-amber-300
+                    shadow-[0_8px_20px_rgba(0,0,0,0.06)]
+                    hover:-translate-y-1
+                    hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
                   `
               }
             `}
           >
-            {/* glow subtil */}
-            <div
-              className={`
-                absolute inset-0 transition-opacity duration-300
-                ${
-                  isPlaying
-                    ? "opacity-100"
-                    : "opacity-0 group-hover/button:opacity-100"
-                }
-              `}
-            >
-              <div
-                className={`
-                  absolute -left-10 top-0 h-full w-20 rotate-12 bg-white/40 blur-xl
-                  ${isPlaying ? "animate-pulse" : ""}
-                `}
-              />
-            </div>
-
-            {/* ondes audio */}
             {isPlaying && (
               <>
-                <span className="absolute h-12 w-12 rounded-full border border-amber-300/50 animate-ping" />
-                <span className="absolute h-16 w-16 rounded-full border border-amber-200/40 animate-ping [animation-delay:300ms]" />
+                <span className="absolute h-12 w-12 animate-ping rounded-full border border-amber-300/50" />
+                <span className="absolute h-16 w-16 animate-ping rounded-full border border-amber-200/40 [animation-delay:300ms]" />
               </>
             )}
 
-            {/* icon */}
             <div
               className={`
                 relative flex items-center justify-center transition-transform duration-300
                 ${
                   isPlaying
                     ? "animate-pulse scale-110 text-amber-700"
-                    : "text-black group-hover/button:scale-110 group-hover/button:rotate-3"
+                    : "text-black"
                 }
               `}
             >
@@ -148,30 +140,53 @@ const VerbCard: React.FC<VerbCardProps> = ({
           </button>
         </div>
 
-        {/* séparateur */}
         <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
-        {/* CONJUGAISONS */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {forms.map((form, index) => (
-            <div
-              key={index}
-              className="
-                flex items-center
-                rounded-2xl
-                border border-slate-100
-                bg-gradient-to-br from-slate-50 to-white
-                px-5 py-4
-                transition-all duration-200
-                hover:border-amber-100
-                hover:shadow-[0_8px_18px_rgba(15,23,42,0.06)]
-              "
-            >
-              <p className="text-base font-medium leading-relaxed text-slate-700">
-                {form}
-              </p>
-            </div>
-          ))}
+          {forms.map((form, index) => {
+            const isActive = index === activeIndex;
+
+            return (
+              <div
+                key={index}
+                className={`
+                  flex items-center
+                  rounded-2xl
+                  px-5 py-4
+                  transition-all duration-300
+
+                  ${
+                    isActive
+                      ? `
+                        border border-green-300
+                        bg-gradient-to-br from-green-50 to-emerald-50
+                        shadow-[0_8px_20px_rgba(34,197,94,0.18)]
+                        scale-[1.02]
+                      `
+                      : `
+                        border border-slate-100
+                        bg-gradient-to-br from-slate-50 to-white
+                        hover:border-amber-100
+                        hover:shadow-[0_8px_18px_rgba(15,23,42,0.06)]
+                      `
+                  }
+                `}
+              >
+                <p
+                  className={`
+                    text-base font-medium leading-relaxed transition-all duration-300
+                    ${
+                      isActive
+                        ? "font-bold text-green-700"
+                        : "text-slate-700"
+                    }
+                  `}
+                >
+                  {form}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
