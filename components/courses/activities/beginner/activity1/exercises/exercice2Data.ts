@@ -218,6 +218,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Qu'est-ce qu'elle ....... comme études ?",
         answer: "fait",
+        expectedSentence: "Qu'est-ce qu'elle fait comme études ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q1/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q1/badanswermarie1.mp3"],
@@ -228,6 +229,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Vous ....... du sport ?",
         answer: "faites",
+        expectedSentence: "Vous faites du sport ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q2/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q2/badanswermarie1.mp3"],
@@ -238,6 +240,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Elles ....... un voyage en Asie",
         answer: "font",
+        expectedSentence: "Elles font un voyage en Asie",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q3/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q3/badanswermarie1.mp3"],
@@ -248,6 +251,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Je vous ....... un café ?",
         answer: "fais",
+        expectedSentence: "Je vous fais un café ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q4/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q4/badanswermarie1.mp3"],
@@ -258,6 +262,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Il ....... froid aujourd'hui ?",
         answer: "fait",
+        expectedSentence: "Il fait froid aujourd'hui ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q5/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q5/badanswermarie1.mp3"],
@@ -268,6 +273,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Nous ....... des études en France",
         answer: "faisons",
+        expectedSentence: "Nous faisons des études en France",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q6/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q6/badanswermarie1.mp3"],
@@ -278,6 +284,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Qu'est-ce que tu ....... ce soir ?",
         answer: "fais",
+        expectedSentence: "Qu'est-ce que tu fais ce soir ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q7/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q7/badanswermarie1.mp3"],
@@ -296,6 +303,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Vous ....... bien ?",
         answer: "allez",
+        expectedSentence: "Vous allez bien ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q1/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q1/badanswermarie1.mp3"],
@@ -306,6 +314,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Elle ....... où ?",
         answer: "va",
+        expectedSentence: "Elle va où ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q2/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q2/badanswermarie1.mp3"],
@@ -316,6 +325,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "On ....... au cinéma ?",
         answer: "va",
+        expectedSentence: "On va au cinéma ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q3/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q3/badanswermarie1.mp3"],
@@ -326,6 +336,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Tu ....... téléphoner ?",
         answer: "vas",
+        expectedSentence: "Tu vas téléphoner ?",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q4/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q4/badanswermarie1.mp3"],
@@ -336,6 +347,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Mes parents ne ....... pas bien",
         answer: "vont",
+        expectedSentence: "Mes parents ne vont pas bien",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q5/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q5/badanswermarie1.mp3"],
@@ -346,6 +358,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Je ....... avec toi",
         answer: "vais",
+        expectedSentence: "Je vais avec toi",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q6/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q6/badanswermarie1.mp3"],
@@ -356,6 +369,7 @@ export const exercice2Data: ExerciseCategory[] = [
       {
         phrase: "Nous ....... à la banque",
         answer: "allons",
+        expectedSentence: "Nous allons à la banque",
         audio: {
           correct: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q7/goodanswermarie.mp3"],
           wrong1: ["/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q7/badanswermarie1.mp3"],
