@@ -5,7 +5,7 @@ export type ExerciseItem = {
 
   answer: string;
 
-  expectedSentence: string;
+  expectedSentence?: string;
 
   audio: {
     correct: string[];
