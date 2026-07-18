@@ -77,10 +77,10 @@ export default function MatchingSection() {
               </div>
 
               <p className="text-base leading-relaxed text-slate-800">
-                Marc revient d'un voyage au Venezuela. Pour chaque question,
-                choisis la réponse qui correspond le mieux à ce qu'il pourrait
-                répondre.
-              </p>
+  {
+    "Marc revient d'un voyage au Venezuela. Pour chaque question, choisis la réponse qui correspond le mieux à ce qu'il pourrait répondre."
+  }
+</p>
             </div>
           </div>
         }

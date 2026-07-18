@@ -40,8 +40,8 @@ export default function ImageChoiceSection() {
                   </p>
 
                   <p className="text-sm text-slate-500">
-                    Observe l'image puis choisis le dialogue correspondant.
-                  </p>
+  {"Observe l'image puis choisis le dialogue correspondant."}
+</p>
                 </div>
               </div>
 

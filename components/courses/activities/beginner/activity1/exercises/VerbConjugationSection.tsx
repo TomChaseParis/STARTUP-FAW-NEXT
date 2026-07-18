@@ -38,8 +38,8 @@ export default function VerbConjugationSection() {
               <ul className="list-disc space-y-1 pl-5 text-base">
                 <li>Lis la phrase en entier avant de répondre.</li>
                 <li>
-                  Exemple : <strong>« Ils n'ont pas d'argent. »</strong>
-                </li>
+  Exemple : <strong>{"« Ils n'ont pas d'argent. »"}</strong>
+</li>
               </ul>
             </div>
           </div>

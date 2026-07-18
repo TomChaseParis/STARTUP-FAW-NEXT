@@ -33,9 +33,10 @@ export default function VerbSelectionSection() {
               </p>
 
               <p className="text-base">
-                Repère d'abord le sujet (je, tu, il, nous…) puis choisis le bon
-                verbe.
-              </p>
+  {
+    "Repère d'abord le sujet (je, tu, il, nous…) puis choisis le bon verbe."
+  }
+</p>
             </div>
           </div>
         }
