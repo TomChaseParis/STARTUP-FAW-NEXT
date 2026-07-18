@@ -1,13 +1,13 @@
 "use client";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import ImageWordInputSlider from "@/components/courses/engines/ImageFillGapsSliderEngine";
-import { poolRulesData } from "./data/prohibitionExpressionsData";
+import { prohibitionExpressionsData } from "./data/prohibitionExpressionsData";
 export default function Exercice() {
   return (
     <section className="mt-12">
       {" "}
       <InstructionBlock
-        title={poolRulesData.title}
+        title={prohibitionExpressionsData.title}
         activityType="type"
         description={
           <div className="space-y-4 text-black">
@@ -58,7 +58,7 @@ export default function Exercice() {
       />{" "}
       <div className="mt-8">
         {" "}
-        <ImageWordInputSlider data={poolRulesData} />{" "}
+        <ImageWordInputSlider data={prohibitionExpressionsData} />{" "}
       </div>{" "}
     </section>
   );
