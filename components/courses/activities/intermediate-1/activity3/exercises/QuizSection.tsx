@@ -26,9 +26,10 @@ export default function QuizSection() {
               </p>
 
               <p className="text-base">
-                Observe bien l'image et réfléchis à la fonction du groupe
-                nominal (COD, COI ou pronom tonique) avant de répondre.
-              </p>
+  {
+    "Observe bien l'image et réfléchis à la fonction du groupe nominal (COD, COI ou pronom tonique) avant de répondre."
+  }
+</p>
             </div>
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
@@ -37,9 +38,9 @@ export default function QuizSection() {
               </p>
 
               <p className="text-2xl tracking-wider">
-                é &nbsp; è &nbsp; ê &nbsp; à &nbsp; â &nbsp; ç &nbsp; î
-                &nbsp; ï &nbsp; ô &nbsp; ù &nbsp; '
-              </p>
+  é &nbsp; è &nbsp; ê &nbsp; à &nbsp; â &nbsp; ç &nbsp; î
+  &nbsp; ï &nbsp; ô &nbsp; ù &nbsp; {"'"}
+</p>
             </div>
           </div>
         }

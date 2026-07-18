@@ -50,11 +50,13 @@ export default function ClassificationSection() {
               </div>
 
               <div className="space-y-4 text-base leading-relaxed text-slate-800">
-                <p>
-                  Dans la première partie, décide si chaque phrase décrit le
-                  comportement d'un <strong>ange 😇</strong> ou d'un{" "}
-                  <strong>démon 😈</strong>.
-                </p>
+              <p>
+  {"Dans la première partie, décide si chaque phrase décrit le comportement "}
+  {"d'un "}
+  <strong>ange 😇</strong>
+  {" ou d'un "}
+  <strong>démon 😈</strong>.
+</p>
 
                 <p>
                   Dans la seconde partie, classe les mêmes phrases selon le

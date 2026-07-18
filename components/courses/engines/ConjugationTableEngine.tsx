@@ -196,8 +196,8 @@ export default function ConjugationTableEngine({ data }: Props) {
                 </h3>
 
                 <p className="mt-2 text-sm text-slate-600">
-                  Complète les conjugaisons en t'aidant de cette image.
-                </p>
+  {"Complète les conjugaisons en t'aidant de cette image."}
+</p>
               </div>
               <div className="p-6">
                 <Image

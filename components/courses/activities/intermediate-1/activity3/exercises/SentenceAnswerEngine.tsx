@@ -189,8 +189,7 @@ export default function SentenceAnswerEngine({ data }: Props) {
                   hover:bg-slate-50
                 "
               >
-                🎤 Répondre à l'oral
-              </button>
+{"🎤 Répondre à l'oral"}              </button>
             </div>
   
             {/* CORRECTION */}

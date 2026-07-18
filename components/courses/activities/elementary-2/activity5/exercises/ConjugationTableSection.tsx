@@ -59,12 +59,11 @@ export default function ConjugationTableSection() {
                 <p className="font-semibold text-blue-800">
                   💡 Conseil
                 </p>
-
                 <p className="mt-2 text-sm text-blue-700">
-                  Certaines lignes comportent une seule réponse à écrire,
-                  d'autres en comportent deux. Observe attentivement les trois
-                  colonnes avant de commencer.
-                </p>
+  {
+    "Certaines lignes comportent une seule réponse à écrire, d'autres en comportent deux. Observe attentivement les trois colonnes avant de commencer."
+  }
+</p>
               </div>
             </div>
           </div>

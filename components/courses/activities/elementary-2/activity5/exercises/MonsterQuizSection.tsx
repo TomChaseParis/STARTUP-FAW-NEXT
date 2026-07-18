@@ -48,15 +48,14 @@ export default function MonsterQuizSection() {
                   </p>
                 </div>
               </div>
-
               <p className="text-base leading-relaxed text-slate-800">
-                Zap est un petit monstre qui fait des bêtises toute la journée.
-                Pour chaque image, choisis la phrase correctement conjuguée en
-                tenant compte des indicateurs de temps comme{" "}
-                <span className="font-semibold">
-                  aujourd'hui, hier, demain, tous les jours...
-                </span>
-              </p>
+  Zap est un petit monstre qui fait des bêtises toute la journée.
+  Pour chaque image, choisis la phrase correctement conjuguée en
+  tenant compte des indicateurs de temps comme{" "}
+  <span className="font-semibold">
+    {"aujourd'hui, hier, demain, tous les jours..."}
+  </span>
+</p>
             </div>
           </div>
         }

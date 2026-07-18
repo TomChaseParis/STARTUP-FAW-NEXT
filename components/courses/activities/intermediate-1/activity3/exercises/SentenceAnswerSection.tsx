@@ -54,11 +54,10 @@ export default function SentenceAnswerSection() {
               </div>
 
               <div className="space-y-4 text-base leading-relaxed text-slate-800">
-                <p>
-                  Réponds aux questions d'Étienne en utilisant le
-                  <strong> bon pronom complément</strong>.
-                </p>
-
+              <p>
+  {"Réponds aux questions d'Étienne en utilisant le "}
+  <strong>bon pronom complément</strong>.
+</p>
                 <p>
                   Ta réponse doit être une
                   <strong> phrase complète</strong>, à la forme
@@ -77,15 +76,15 @@ export default function SentenceAnswerSection() {
                     </p>
 
                     <p className="text-green-700">
-                      <strong>Réponse :</strong> Oui, je l'ai vue.
-                    </p>
+  <strong>Réponse :</strong> {"Oui, je l'ai vue."}
+</p>
                   </div>
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white p-4">
-                  <p className="font-semibold text-slate-700">
-                    🎤 Tu peux également répondre à l'oral.
-                  </p>
+                <p className="font-semibold text-slate-700">
+  {"🎤 Tu peux également répondre à l'oral."}
+</p>
 
                   <p className="mt-2">
                     Si le microphone est disponible, tu pourras choisir entre
