@@ -2,13 +2,12 @@
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
-import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-import Exercice from "./Exercice";
+
+import FillInTheBlankSection from "./exercises/FillInTheBlankSection";
 
 export default function Activity() {
   return (
     <ActivityLayout>
-
       <LessonBlock
         badge="Compréhension écrite"
         title="Les expressions de l’interdiction"
@@ -32,10 +31,7 @@ export default function Activity() {
         }}
       />
 
-      <ExerciseSection>
-        <Exercice />
-      </ExerciseSection>
-
+      <FillInTheBlankSection />
     </ActivityLayout>
   );
 }

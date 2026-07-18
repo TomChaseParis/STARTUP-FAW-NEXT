@@ -1,6 +1,6 @@
 "use client";
 
-import QuizEngine from "@/components/courses/blocks/QuizEngine";
+import QuizEngine from "@/components/courses/engines/QuizEngine";
 import { quizData } from "./quizData";
 
 export default function Exercice() {

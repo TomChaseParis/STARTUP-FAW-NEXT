@@ -16,5 +16,17 @@
     "title": "Les Articles définis et indefinis",
     "subtitle": "Activité 3",
     "description": "Écoute l'audio et cdomplète le texte"
+  },
+  {
+    "slug": "activity4",
+    "title": "NON, NON, NON !",
+    "subtitle": "Activité 4",
+    "description": "(Emploi des tournures négatives)"
+  },
+  {
+    "slug": "activity5",
+    "title": "ANGES ET DEMONS",
+    "subtitle": "Activité 5",
+    "description": "(Emploi des tournures négatives)"
   }
 ]

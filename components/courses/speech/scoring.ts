@@ -2,6 +2,7 @@ import {
   calculateSimilarity,
   normalize,
   tokenize,
+  scoreSentence,
 } from "./speech-utils";
 
 import { forbiddenWords } from "./forbiddenWords";
@@ -42,4 +43,26 @@ return {
   isCorrect:
     !forbidden && bestScore >= 85,
 };
+}
+
+export function validateSentence(
+  transcript: string,
+  expectedSentence: string,
+) {
+  const spoken = normalize(transcript);
+
+  const expected =
+    normalize(expectedSentence);
+
+  const similarity = scoreSentence(
+    tokenize(expected),
+    tokenize(spoken),
+  );
+
+  return {
+    expected,
+    spoken,
+    similarity,
+    isCorrect: similarity >= 95,
+  };
 }

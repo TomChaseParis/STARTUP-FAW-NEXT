@@ -1,11 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
-export type Teacher = {
-  name: string;
-  avatar: string;
-};
+import { useExerciseSession } from "@/components/courses/common/hooks/useExerciseSession";
 
 export type Choice = {
   id: string;
@@ -13,7 +9,6 @@ export type Choice = {
   isCorrect: boolean;
   explanation?: string;
   spokenVariants?: string[];
-
   teacherAudioCorrect?: string;
   teacherAudioWrong?: string;
 };
@@ -27,19 +22,13 @@ export type Question = {
 
   image?: string;
 
-  teacherAudioQuestion?: string;
-
   teacherImage?: string;
 
-  correctAudio?: string;
-  wrongAudio?: string;
-};
+  teacherAudioQuestion?: string;
 
-export type QuizResult = {
-  questionId: number;
-  selectedChoiceId: string;
-  correctChoiceId: string;
-  isCorrect: boolean;
+  correctAudio?: string;
+
+  wrongAudio?: string;
 };
 
 /* ----------------------------- */
@@ -105,7 +94,7 @@ function detectLetter(speech: string): string | null {
 
 function detectChoiceFromSpeech(
   speech: string,
-  choices: Choice[]
+  choices: Choice[],
 ): Choice | null {
   const normalizedSpeech = normalize(speech);
 
@@ -113,30 +102,37 @@ function detectChoiceFromSpeech(
 
   if (letter) {
     const found = choices.find((c) => c.id === letter);
-    if (found) return found;
+
+    if (found) {
+      return found;
+    }
   }
 
   for (const choice of choices) {
     const label = normalize(choice.label);
+
     if (normalizedSpeech.includes(label)) {
       return choice;
     }
   }
 
   for (const choice of choices) {
-    if (choice.spokenVariants) {
-      for (const variant of choice.spokenVariants) {
-        const v = normalize(variant);
-        if (normalizedSpeech.includes(v)) {
-          return choice;
-        }
+    if (!choice.spokenVariants) continue;
+
+    for (const variant of choice.spokenVariants) {
+      const normalizedVariant = normalize(variant);
+
+      if (normalizedSpeech.includes(normalizedVariant)) {
+        return choice;
       }
     }
   }
 
   for (const choice of choices) {
     const label = normalize(choice.label);
+
     const score = similarity(normalizedSpeech, label);
+
     if (score > 0.7) {
       return choice;
     }
@@ -149,37 +145,51 @@ function detectChoiceFromSpeech(
 /* HOOK QUIZ ENGINE */
 /* ----------------------------- */
 
-export function useQuizEngine(questions: Question[]) {
-  const safeQuestions = useMemo(() => questions ?? [], [questions]);
+export function useQuizEngine(
+  questions: Question[],
+) {
+  const safeQuestions = useMemo(
+    () => questions ?? [],
+    [questions],
+  );
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
-  const [history, setHistory] = useState<QuizResult[]>([]);
-  const [isFinished, setIsFinished] = useState(false);
+
+  const [selectedChoiceId, setSelectedChoiceId] =
+    useState<string | null>(null);
 
   const totalQuestions = safeQuestions.length;
 
+  const session = useExerciseSession(totalQuestions);
+
   const currentQuestion =
-    totalQuestions > 0 && currentIndex < totalQuestions
+    totalQuestions > 0 &&
+    currentIndex < totalQuestions
       ? safeQuestions[currentIndex]
       : null;
 
   /* ================= SELECT ================= */
 
   const selectChoice = (choiceId: string) => {
-    if (!currentQuestion || selectedChoiceId !== null) return;
+    if (!currentQuestion) return;
+
+    if (selectedChoiceId !== null) return;
+
     setSelectedChoiceId(choiceId);
   };
 
   /* ================= SPEECH ================= */
 
-  const processSpeechAnswer = (speech: string) => {
+  const processSpeechAnswer = (
+    speech: string,
+  ) => {
     if (!currentQuestion) return;
 
-    const detectedChoice = detectChoiceFromSpeech(
-      speech,
-      currentQuestion.choices
-    );
+    const detectedChoice =
+      detectChoiceFromSpeech(
+        speech,
+        currentQuestion.choices,
+      );
 
     if (detectedChoice) {
       selectChoice(detectedChoice.id);
@@ -189,58 +199,86 @@ export function useQuizEngine(questions: Question[]) {
   /* ================= NEXT ================= */
 
   const nextQuestion = () => {
-    if (!currentQuestion || !selectedChoiceId) return;
+    if (!currentQuestion) return;
 
-    const correctChoice = currentQuestion.choices.find((c) => c.isCorrect);
+    if (!selectedChoiceId) return;
 
-    const result: QuizResult = {
+    const correctChoice =
+      currentQuestion.choices.find(
+        (choice) => choice.isCorrect,
+      );
+
+    session.addAnswer({
       questionId: currentQuestion.id,
-      selectedChoiceId,
-      correctChoiceId: correctChoice?.id ?? "",
-      isCorrect: selectedChoiceId === correctChoice?.id,
-    };
 
-    setHistory((prev) => [...prev, result]);
+      question: currentQuestion.question,
 
-    if (currentIndex >= totalQuestions - 1) {
-      setIsFinished(true);
-      return;
+      selectedAnswer:
+        currentQuestion.choices.find(
+          (choice) =>
+            choice.id === selectedChoiceId,
+        )?.label ?? "",
+
+      correctAnswer:
+        correctChoice?.label ?? "",
+
+      isCorrect:
+        selectedChoiceId ===
+        correctChoice?.id,
+
+      explanation:
+        correctChoice?.explanation,
+    });
+
+    session.next();
+
+    if (
+      currentIndex <
+      totalQuestions - 1
+    ) {
+      setCurrentIndex(
+        (previous) => previous + 1,
+      );
     }
 
     setSelectedChoiceId(null);
-    setCurrentIndex((prev) => prev + 1);
   };
 
-  /* ================= RESET ================= */
+    /* ================= RESET ================= */
 
-  const resetQuiz = () => {
-    setCurrentIndex(0);
-    setSelectedChoiceId(null);
-    setHistory([]);
-    setIsFinished(false);
-  };
-
-  /* ================= SCORE ================= */
-
-  const correctAnswers = history.filter((h) => h.isCorrect).length;
-
-  const scorePercentage =
-    totalQuestions > 0
-      ? Math.round((correctAnswers / totalQuestions) * 100)
-      : 0;
-
-  return {
-    currentIndex,
-    currentQuestion,
-    selectedChoiceId,
-    selectChoice,
-    nextQuestion,
-    resetQuiz,
-    history,
-    totalQuestions,
-    correctAnswers,
-    scorePercentage,
-    isFinished,
-    processSpeechAnswer,
-  };
-}
+    const resetQuiz = () => {
+      setCurrentIndex(0);
+  
+      setSelectedChoiceId(null);
+  
+      session.reset();
+    };
+  
+    /* ================= RETURN ================= */
+  
+    return {
+      currentIndex,
+  
+      currentQuestion,
+  
+      selectedChoiceId,
+  
+      selectChoice,
+  
+      nextQuestion,
+  
+      resetQuiz,
+  
+      totalQuestions,
+  
+      history: session.history,
+  
+      correctAnswers: session.correctAnswers,
+  
+      isFinished: session.isFinished,
+  
+      processSpeechAnswer,
+  
+      session,
+    };
+  }

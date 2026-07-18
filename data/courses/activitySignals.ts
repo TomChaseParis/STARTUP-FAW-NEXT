@@ -6,7 +6,7 @@ export const activitySignals: Record<ActivityType, string> = {
     "/images/signals/listen.png",
 
   "listen-click":
-    "/images/signals/listen-click.png",
+    "/images/signals/listenandclick.png",
 
   "listen-type":
     "/images/signals/listen-type.png",

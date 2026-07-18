@@ -1,7 +1,7 @@
 "use client";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
-import ImageWordInputSlider from "@/components/courses/blocks/ImageFillGapsSliderEngine";
-import { poolRulesData } from "./poolRules.data.";
+import ImageWordInputSlider from "@/components/courses/engines/ImageFillGapsSliderEngine";
+import { poolRulesData } from "./data/prohibitionExpressionsData";
 export default function Exercice() {
   return (
     <section className="mt-12">
@@ -24,34 +24,34 @@ export default function Exercice() {
                 Les mots à utiliser sont les suivants :{" "}
               </p>{" "}
               <div className="flex flex-wrap gap-3">
-  {[
-    "admis",
-    "défense",
-    "obligatoire",
-    "interdiction",
-    "interdit",
-    "interdite",
-    "interdits",
-    "interdites",
-  ].map((word) => (
-    <span
-      key={word}
-      className="
-        px-4 py-2
+                {[
+                  "admis",
+                  "défense",
+                  "obligatoire",
+                  "interdiction",
+                  "interdit",
+                  "interdite",
+                  "interdits",
+                  "interdites",
+                ].map((word) => (
+                  <span
+                    key={word}
+                    className="
+        rounded-xl border
+        border-amber-200
         bg-amber-50
-        text-amber-800
-        text-base font-semibold
-        rounded-xl
-        border border-amber-200
+        px-4 py-2
+        text-base
+        font-semibold text-amber-800
         shadow-sm
         transition-all duration-200
         hover:bg-amber-100 hover:shadow-md
       "
-    >
-      {word}
-    </span>
-  ))}
-</div>
+                  >
+                    {word}
+                  </span>
+                ))}
+              </div>
             </div>{" "}
           </div>
         }

@@ -5,7 +5,7 @@ import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import AudioBlock from "@/components/courses/blocks/AudioBlock";
-import QuizEngine from "@/components/courses/blocks/QuizEngine";
+import QuizEngine from "@/components/courses/engines/QuizEngine";
 import { quizData } from "./quizData";
 import Exercice from "./Exercice";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";

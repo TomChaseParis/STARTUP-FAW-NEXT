@@ -21,23 +21,21 @@ export default function AccentHelper() {
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+    <div className="mx-auto w-full max-w-5xl rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+      {" "}
       <div className="mb-4 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
           ⌨️
         </div>
 
         <div>
-          <p className="text-sm font-semibold text-slate-800">
-            Aide clavier
-          </p>
+          <p className="text-sm font-semibold text-slate-800">Aide clavier</p>
 
           <p className="text-sm text-slate-600">
             Clique sur un accent pour le copier.
           </p>
         </div>
       </div>
-
       <div className="flex flex-wrap gap-3">
         {accentChars.map((char) => {
           const isCopied = copiedChar === char;
@@ -57,11 +55,11 @@ export default function AccentHelper() {
                 ${
                   isCopied
                     ? `
+                      scale-105
                       border-green-200
                       bg-green-50
                       text-green-700
                       shadow-md
-                      scale-105
                     `
                     : `
                       border-slate-200

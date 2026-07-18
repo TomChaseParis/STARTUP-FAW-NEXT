@@ -1,0 +1,65 @@
+[
+  {
+    "slug": "lesson1",
+    "title": "DEVOIR, VOULOIR, POUVOIR",
+    "subtitle": "Leçon 1",
+    "description": "Utiliser les verbes devoir, vouloir et pouvoir au présent",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "lesson2",
+    "title": "LES VERBES PRONOMINAUX",
+    "subtitle": "Leçon 2",
+    "description": "Comprendre et conjuguer les verbes pronominaux",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "lesson3",
+    "title": "LE PASSÉ COMPOSÉ AVEC AVOIR",
+    "subtitle": "Leçon 3",
+    "description": "Former le passé composé avec l'auxiliaire avoir",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "lesson4",
+    "title": "SAVOIR ET CONNAÎTRE",
+    "subtitle": "Leçon 4",
+    "description": "Comprendre la différence entre savoir et connaître",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "lesson5",
+    "title": "LES 3 TOURNURES INTERROGATIVES",
+    "subtitle": "Leçon 5",
+    "description": "Poser des questions de différentes façons",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "lesson6",
+    "title": "À LA VILLE",
+    "subtitle": "Leçon 6",
+    "description": "Le vocabulaire des lieux et des déplacements en ville",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "lesson7",
+    "title": "DANS LES MAGASINS",
+    "subtitle": "Leçon 7",
+    "description": "Acheter, demander et communiquer dans les commerces",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "lesson8",
+    "title": "LE FUTUR PROCHE",
+    "subtitle": "Leçon 8",
+    "description": "Exprimer une action qui va bientôt se produire",
+    "components": ["Description", "Exercice"]
+  },
+  {
+    "slug": "lesson9",
+    "title": "CUISINE ET QUANTITÉS",
+    "subtitle": "Leçon 9",
+    "description": "Parler des aliments, des recettes et des quantités",
+    "components": ["Description", "Exercice"]
+  }
+]

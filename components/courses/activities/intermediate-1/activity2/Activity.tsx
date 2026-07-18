@@ -3,12 +3,11 @@
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
-import QuizEngine from "@/components/courses/blocks/QuizEngine";
+import QuizEngine from "@/components/courses/engines/QuizEngine";
 import { quizData } from "./quizData";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 
 export default function Activity() {
-
   const questions = quizData;
 
   return (
@@ -28,43 +27,41 @@ export default function Activity() {
       />
 
       <ExerciseSection>
-
         <InstructionBlock
           title="✍️ Exercice"
           activityType="click-or-speak"
           description={
             <div className="space-y-5 text-black">
-
               <p>
-                Écoute la chanson puis choisis la bonne réponse pour chaque question.
+                Écoute la chanson puis choisis la bonne réponse pour chaque
+                question.
               </p>
 
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                <p className="text-sm font-medium text-slate-600 mb-2">
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <p className="mb-2 text-sm font-medium text-slate-600">
                   💡 Astuce :
                 </p>
                 <p className="text-base">
-                  Concentre-toi sur les habitudes décrites dans la chanson (actions répétées dans le passé).
+                  Concentre-toi sur les habitudes décrites dans la chanson
+                  (actions répétées dans le passé).
                 </p>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-                <p className="text-sm font-medium text-slate-600 mb-2">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="mb-2 text-sm font-medium text-slate-600">
                   🎯 Conseil :
                 </p>
                 <p className="text-base">
-                  Tu peux écouter plusieurs fois pour mieux comprendre les détails.
+                  Tu peux écouter plusieurs fois pour mieux comprendre les
+                  détails.
                 </p>
               </div>
-
             </div>
           }
         />
 
         <QuizEngine questions={questions} />
-
       </ExerciseSection>
-
     </ActivityLayout>
   );
 }

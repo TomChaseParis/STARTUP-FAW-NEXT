@@ -9,7 +9,7 @@ export function normalize(text: string): string {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[’']/g, " ")
-    .replace(/[^a-z\s]/g, " ")
+    .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
@@ -99,25 +99,34 @@ export function scoreSentence(
   expectedWords: string[],
   spokenWords: string[],
 ): number {
-  let matchedWords = 0;
+  const maxLength = Math.max(
+    expectedWords.length,
+    spokenWords.length,
+  );
 
-  expectedWords.forEach((expectedWord) => {
-    const found = spokenWords.some(
-      (spokenWord) =>
-        isWordMatch(
-          expectedWord,
-          spokenWord,
-        ),
-    );
+  let matched = 0;
 
-    if (found) {
-      matchedWords++;
+  for (let i = 0; i < maxLength; i++) {
+    const expected =
+      expectedWords[i] ?? "";
+
+    const spoken =
+      spokenWords[i] ?? "";
+
+    if (
+      expected &&
+      spoken &&
+      isWordMatch(
+        expected,
+        spoken,
+      )
+    ) {
+      matched++;
     }
-  });
+  }
 
   return Math.round(
-    (matchedWords / expectedWords.length) *
-      100,
+    (matched / maxLength) * 100,
   );
 }
 

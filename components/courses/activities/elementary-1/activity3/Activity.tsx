@@ -2,11 +2,8 @@
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
-import QuizEngine from "@/components/courses/blocks/QuizEngine";
-import Exercice2 from "./Exercice";
-import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-import Exercice from "./Exercice";
+
+import FillInTheBlankSection from "./exercises/FillInTheBlankSection";
 
 export default function Activity() {
   return (
@@ -14,18 +11,18 @@ export default function Activity() {
       <LessonBlock
         badge="Compréhension orale"
         title="Les 4 verbes au présent : Devoir, Vouloir, Pouvoir, Savoir"
-        description="Regarde les images et choisis la bonne réponse."
+        description="Regarde les images et complète les phrases avec le bon verbe."
         videoSrc="/videos/jeanactivity2subtitlefrench.mp4"
         poster="/images/courses/teacher/jeangood.png"
         info={{
-          objectifs: ["Parler des loisirs"],
-          competences: ["Compréhension orale", "Vocabulaire"],
-          prerequis: ["Présent — 3e personne du pluriel"],
+          objectifs: ["Utiliser les verbes devoir, vouloir, pouvoir et savoir au présent"],
+          competences: ["Compréhension orale", "Conjugaison"],
+          prerequis: ["Présent des verbes réguliers"],
           duree: "25 minutes",
         }}
       />
 
-     <Exercice />
+      <FillInTheBlankSection />
     </ActivityLayout>
   );
 }

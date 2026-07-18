@@ -1,6 +1,6 @@
 "use client";
 
-import PronunciationEngine from "@/components/courses/blocks/PronunciationEngine";
+import PronunciationEngine from "@/components/courses/engines/PronunciationEngine";
 import { episode4Data } from "./episode4Data";
 
 export default function Exercice4() {

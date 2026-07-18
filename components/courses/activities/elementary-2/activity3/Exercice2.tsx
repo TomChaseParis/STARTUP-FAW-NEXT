@@ -1,6 +1,6 @@
 "use client";
 
-import FillGapsEngine from "@/components/courses/blocks/FillGapsEngine";
+import FillGapsEngine from "@/components/courses/engines/FillGapsEngine";
 import { articlesExercice2Data } from "./articlesExercice2Data";
 
 export default function Exercice2() {
