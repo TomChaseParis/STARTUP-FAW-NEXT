@@ -5,6 +5,7 @@ import { ActivityType } from "@/types/activityTypes";
 import { activitySignals } from "@/data/courses/activitySignals";
 import { Poppins } from "next/font/google";
 import { courseThemes } from "../common/theme/courseThemes";
+import Image from "next/image";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -83,11 +84,13 @@ export default function InstructionBlock({
 
           {activityType && (
             <div className="mb-4 flex justify-center md:hidden">
-              <img
-                src={activitySignals[activityType]}
-                alt="signal"
-                className="h-20 w-auto drop-shadow-md"
-              />
+            <Image
+  src={activitySignals[activityType]}
+  alt="signal"
+  width={80}
+  height={80}
+  className="h-20 w-auto drop-shadow-md"
+/>
             </div>
           )}
 
@@ -346,15 +349,17 @@ export default function InstructionBlock({
 
           {activityType && (
             <div className="pointer-events-none absolute right-6 top-6 hidden md:block">
-              <img
-                src={
-                  activitySignals[
-                    activityType
-                  ]
-                }
-                alt="signal"
-                className="h-28 w-auto drop-shadow-md lg:h-32"
-              />
+             {activityType && (
+  <div className="pointer-events-none absolute right-6 top-6 hidden md:block">
+    <Image
+      src={activitySignals[activityType]}
+      alt="signal"
+      width={128}
+      height={128}
+      className="h-28 w-auto drop-shadow-md lg:h-32"
+    />
+  </div>
+)}
             </div>
           )}
         </div>

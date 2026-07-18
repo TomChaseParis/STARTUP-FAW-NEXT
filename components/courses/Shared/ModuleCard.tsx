@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 type ModuleCardProps = {
   title: string;
@@ -39,11 +40,12 @@ export default function ModuleCard({
           hover:scale-[1.02]
         `}
       >
-        <img
-          src={image}
-          alt={title}
-          className="absolute inset-0 h-full w-full object-cover opacity-20 transition duration-700 group-hover:scale-110"
-        />
+       <Image
+  src={image}
+  alt={title}
+  fill
+  className="absolute inset-0 object-cover opacity-20 transition duration-700 group-hover:scale-110"
+/>
 
         <div className="absolute inset-0 bg-black/20" />
 

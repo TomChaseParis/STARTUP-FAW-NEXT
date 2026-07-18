@@ -44,6 +44,22 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
     isListening,
   } = teacher;
 
+
+  useEffect(() => {
+    if (!currentQuestion || !selectedChoiceId) return;
+  
+    const choice = currentQuestion.choices.find(
+      (c) => c.id === selectedChoiceId,
+    );
+  
+    if (!choice) return;
+  
+    teacher.handleAnswer(
+      choice.isCorrect,
+      choice.teacherAudioCorrect,
+      choice.teacherAudioWrong,
+    );
+  }, [currentQuestion, selectedChoiceId, teacher]);
   /* ================= FINAL TEACHER ANNOUNCEMENT ================= */
 
 
@@ -69,26 +85,6 @@ const teacherImage = currentQuestion.teacherImage;
 const teacherAudioQuestion =
   currentQuestion.teacherAudioQuestion;
 
-
-  useEffect(() => {
-    if (!selectedChoiceId) return;
-  
-    const choice = choices.find(
-      (c) => c.id === selectedChoiceId,
-    );
-  
-    if (!choice) return;
-  
-    teacher.handleAnswer(
-      choice.isCorrect,
-      choice.teacherAudioCorrect,
-      choice.teacherAudioWrong,
-    );
-  }, [
-    selectedChoiceId,
-    choices,
-    teacher,
-  ]);
 
   if (session.isFinished) {
     if (showReport) {
