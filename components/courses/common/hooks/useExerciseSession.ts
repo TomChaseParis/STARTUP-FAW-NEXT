@@ -8,7 +8,7 @@ import {
 import { computeScore } from "@/components/courses/common/utils/quizScoring";
 
 export function useExerciseSession(totalQuestions: number) {
-  const startedAt = useRef(new Date());
+  const startedAt = useRef<Date | null>(null);
 
   const [finishedAt, setFinishedAt] = useState<Date | null>(null);
 
@@ -24,6 +24,12 @@ export function useExerciseSession(totalQuestions: number) {
     () => computeScore(correctAnswers, totalQuestions),
     [correctAnswers, totalQuestions],
   );
+
+  function start() {
+    if (startedAt.current !== null) return;
+
+    startedAt.current = new Date();
+  }
 
   function addAnswer(answer: ExerciseHistoryItem) {
     setHistory((previous) => [...previous, answer]);
@@ -49,24 +55,23 @@ export function useExerciseSession(totalQuestions: number) {
   }
 
   function reset() {
-    startedAt.current = new Date();
-
+    startedAt.current = null;
+  
     setFinishedAt(null);
-
+  
     setCurrentIndex(0);
-
+  
     setCorrectAnswers(0);
-
+  
     setHistory([]);
-
+  
     setIsFinished(false);
   }
 
   const duration =
-    finishedAt === null
+    finishedAt === null || startedAt.current === null
       ? 0
       : Math.round((finishedAt.getTime() - startedAt.current.getTime()) / 1000);
-
   const result: ExerciseResult = {
     score,
     correctAnswers,
@@ -103,5 +108,7 @@ export function useExerciseSession(totalQuestions: number) {
     complete,
 
     reset,
+
+    start,
   };
 }

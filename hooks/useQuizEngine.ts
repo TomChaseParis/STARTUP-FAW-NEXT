@@ -175,6 +175,8 @@ export function useQuizEngine(
 
     if (selectedChoiceId !== null) return;
 
+    session.start();
+
     setSelectedChoiceId(choiceId);
   };
 

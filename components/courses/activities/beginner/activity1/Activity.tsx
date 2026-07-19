@@ -3,14 +3,14 @@
 import { useRef, useState } from "react";
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
-import VerbListeningExercise from "./exercises/VerbListeningExercise";
+import VerbListeningExercise from "./exercises/exercice-1/VerbListeningExercise";
 import ExerciseBlock from "@/components/courses/layout/ExerciseBlock";
 import VerbConjugationExercise from "./exercises/VerbConjugationExercise";
-import VerbSelectionExercise from "./exercises/VerbSelectionExercise";
+import VerbSelectionExercise from "./exercises/exercice-3/VerbSelectionExercise";
 import CharacterPresentationExercise from "./exercises/CharacterPresentationExercise";
-import VerbListeningSection from "./exercises/VerbListeningSection";
+import VerbListeningSection from "./exercises/exercice-1/VerbListeningSection";
 import VerbConjugationSection from "./exercises/VerbConjugationSection";
-import VerbSelectionSection from "./exercises/VerbListeningSection";
+import VerbSelectionSection from "./exercises/exercice-3/VerbSelectionSection";
 import CharacterPresentationSection from "./exercises/CharacterPresentationSection";
 
 export default function Activity() {
@@ -78,8 +78,6 @@ export default function Activity() {
         />
       </div>
 
-      {/* ================= EXERCICE 1 ================= */}
-
       <VerbListeningSection />
 
       {/* ================= EXERCICE 2 ================= */}
@@ -87,8 +85,8 @@ export default function Activity() {
       <VerbConjugationSection />
 
       {/* ================= EXERCICE 3 ================= */}
+<VerbSelectionSection />
 
-      <VerbSelectionSection />
       {/* ================= EXERCICE 4 ================= */}
 
       <CharacterPresentationSection />
