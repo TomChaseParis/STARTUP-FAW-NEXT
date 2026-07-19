@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { FillGapsData } from "@/types/fillGapsTypes";
 import { useFillGapsEngine } from "@/hooks/useFillGapsEngine";
-import { getScoreLevel } from "@/components/courses/common/utils/quizScoring";
+import ExerciseResult from "@/components/courses/common/result/ExerciseResult";
+import ExerciseReport from "@/components/courses/common/result/ExerciseReport";
 
 type Props = {
   data: FillGapsData;
@@ -25,7 +26,6 @@ const FillGapsEngine: React.FC<Props> = ({ data }) => {
     answers,
     setAnswer,
     showCorrection,
-    score,
     checkAnswers,
     reset,
     progress,
@@ -33,105 +33,40 @@ const FillGapsEngine: React.FC<Props> = ({ data }) => {
     answeredCount,
     allAnswered,
     history,
+    session,
   } = useFillGapsEngine(data);
 
-  const [isFinished, setIsFinished] = useState(false);
   const [showReport, setShowReport] = useState(false);
 
   const handleCheck = () => {
     checkAnswers();
-    setIsFinished(true);
   };
 
-  const finalScore = score ?? 0;
-
-  if (isFinished && showReport) {
+  if (session.isFinished) {
+    if (showReport) {
+      return (
+        <ExerciseReport
+          history={session.history}
+          onRestart={() => {
+            setShowReport(false);
+            reset();
+          }}
+          onBack={() => setShowReport(false)}
+        />
+      );
+    }
+  
     return (
-      <section className="mx-auto max-w-6xl px-4 py-20 text-black">
-        <h2 className="mb-10 text-center text-4xl font-bold">
-          📊 Détail des réponses
-        </h2>
-
-        <div className="space-y-5">
-          {history.map((h, index) => (
-            <div
-              key={index}
-              className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg"
-            >
-              <p className="mb-3 text-lg font-semibold">Question {index + 1}</p>
-
-              <p className="mb-4 text-slate-800">{h.question}</p>
-
-              <p className="mb-2">
-                Ta réponse :{" "}
-                <span
-                  className={
-                    h.isCorrect
-                      ? "font-semibold text-green-600"
-                      : "font-semibold text-red-600"
-                  }
-                >
-                  {h.user || "Aucune réponse"}
-                </span>
-              </p>
-
-              {!h.isCorrect && (
-                <p className="font-semibold text-green-700">
-                  Bonne réponse : {h.correct}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <button
-            onClick={() => {
-              reset();
-              setIsFinished(false);
-              setShowReport(false);
-            }}
-            className="rounded-2xl bg-amber-400 px-8 py-4 font-semibold text-black shadow-lg transition hover:scale-105"
-          >
-            Recommencer
-          </button>
-        </div>
-      </section>
+      <ExerciseResult
+        result={session.result}
+        onRestart={() => {
+          setShowReport(false);
+          reset();
+        }}
+        onShowReport={() => setShowReport(true)}
+      />
     );
   }
-
-  if (isFinished) {
-    return (
-      <section className="mx-auto max-w-4xl py-24 text-center text-black">
-        <p className="text-7xl font-extrabold">{finalScore} / 100</p>
-
-        <p className="mt-4 text-2xl font-semibold text-amber-600">
-          Niveau : {getScoreLevel(finalScore)}
-        </p>
-
-        <div className="mt-12 flex flex-wrap justify-center gap-4">
-          <button
-            onClick={() => setShowReport(true)}
-            className="rounded-2xl bg-black px-8 py-4 font-semibold text-white shadow-lg"
-          >
-            Voir mes résultats
-          </button>
-
-          <button
-            onClick={() => {
-              reset();
-              setIsFinished(false);
-              setShowReport(false);
-            }}
-            className="rounded-2xl bg-amber-400 px-8 py-4 font-semibold text-black shadow-lg"
-          >
-            Recommencer
-          </button>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section className="mt-12 bg-gradient-to-b from-white to-slate-50 pb-20">
       <div className="container mx-auto max-w-5xl pt-4">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useExerciseSession } from "@/components/courses/common/hooks/useExerciseSession";
 
 /* ================= TYPES ================= */
 
@@ -74,6 +75,8 @@ export function useFillGapsEngine(data: FillGapsData) {
     return count;
   }, [sentences]);
 
+  const session = useExerciseSession(totalInputs);
+
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [showCorrection, setShowCorrection] = useState(false);
   const [score, setScore] = useState<number | null>(null);
@@ -82,6 +85,8 @@ export function useFillGapsEngine(data: FillGapsData) {
   /* ================= ANSWER ================= */
 
   const setAnswer = (index: number, value: string) => {
+    session.start();
+
     setAnswers((prev) => ({
       ...prev,
       [index]: value,
@@ -94,15 +99,13 @@ export function useFillGapsEngine(data: FillGapsData) {
     (value) => value.trim() !== "",
   ).length;
 
-  const progress =
-    totalInputs > 0 ? (answeredCount / totalInputs) * 100 : 0;
+  const progress = totalInputs > 0 ? (answeredCount / totalInputs) * 100 : 0;
 
   const allAnswered = answeredCount === totalInputs;
 
   /* ================= CHECK ================= */
 
   const checkAnswers = () => {
-    let correct = 0;
     let globalIndex = 0;
 
     const results: GapResult[] = [];
@@ -118,9 +121,7 @@ export function useFillGapsEngine(data: FillGapsData) {
 
           const isCorrect = normalizedUser === normalizedCorrect;
 
-          if (isCorrect) {
-            correct++;
-          }
+    
 
           results.push({
             index: globalIndex,
@@ -130,16 +131,23 @@ export function useFillGapsEngine(data: FillGapsData) {
             isCorrect,
           });
 
+          session.addAnswer({
+            questionId: globalIndex,
+            question: questionText,
+            selectedAnswer: userAnswer,
+            correctAnswer: part.answer,
+            isCorrect,
+          });
+
           globalIndex++;
         }
       });
     });
 
-    const finalScore = Math.round((correct / totalInputs) * 100);
 
     setHistory(results);
-    setScore(finalScore);
     setShowCorrection(true);
+    session.complete();
   };
 
   /* ================= RESET ================= */
@@ -147,8 +155,8 @@ export function useFillGapsEngine(data: FillGapsData) {
   const reset = () => {
     setAnswers({});
     setShowCorrection(false);
-    setScore(null);
     setHistory([]);
+    session.reset();
   };
 
   return {
@@ -156,7 +164,6 @@ export function useFillGapsEngine(data: FillGapsData) {
     answers,
     setAnswer,
     showCorrection,
-    score,
     checkAnswers,
     reset,
     progress,
@@ -164,5 +171,6 @@ export function useFillGapsEngine(data: FillGapsData) {
     answeredCount,
     allAnswered,
     history,
+    session,
   };
 }
