@@ -45,6 +45,8 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
   } = teacher;
 
 
+  const { handleAnswer } = teacher;
+
   useEffect(() => {
     if (!currentQuestion || !selectedChoiceId) return;
   
@@ -54,12 +56,12 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
   
     if (!choice) return;
   
-    teacher.handleAnswer(
+    handleAnswer(
       choice.isCorrect,
       choice.teacherAudioCorrect,
       choice.teacherAudioWrong,
     );
-  }, [currentQuestion, selectedChoiceId, teacher]);
+  }, [currentQuestion, selectedChoiceId, handleAnswer]);
   /* ================= FINAL TEACHER ANNOUNCEMENT ================= */
 
 

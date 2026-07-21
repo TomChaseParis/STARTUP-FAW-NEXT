@@ -95,17 +95,20 @@ export function useTeacherController({
     return "idle";
   }, [isTeacherTalking, isListening]);
 
-  const handleAnswer = (
-    isCorrect: boolean,
-    correctAudio?: string,
-    wrongAudio?: string,
-  ) => {
-    if (isCorrect) {
-      playFeedback(correctAudio);
-    } else {
-      playFeedback(wrongAudio);
-    }
-  };
+  const handleAnswer = useCallback(
+    (
+      isCorrect: boolean,
+      correctAudio?: string,
+      wrongAudio?: string,
+    ) => {
+      if (isCorrect) {
+        playFeedback(correctAudio);
+      } else {
+        playFeedback(wrongAudio);
+      }
+    },
+    [playFeedback],
+  );
 
   return {
     /* ================= AUDIO ================= */

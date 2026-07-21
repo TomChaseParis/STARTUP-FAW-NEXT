@@ -2,10 +2,6 @@
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
-import ExerciseBlock from "@/components/courses/layout/ExerciseBlock";
-import ListeningDiscoveryExercise from "./exercises/ListeningDiscoveryExercise";
-import ComprehensionExercise from "./exercises/ComprehensionExercise";
-import ConjugationExercise from "./exercises/ConjugationExercise";
 import ListeningDiscoverySection from "./exercises/ListeningDiscoverySection";
 import ComprehensionSection from "./exercises/ComprehensionSection";
 import ConjugationSection from "./exercises/ConjugationSection";
