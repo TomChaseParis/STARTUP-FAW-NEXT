@@ -1,57 +1,66 @@
-import { getLevel } from "@/lib/courses/getLevel";
+/* PAGE DES MODULES */
+
+
+import { getModules } from "@/lib/courses/getModules";
 import ModuleCard from "@/components/courses/Shared/ModuleCard";
 
-export default async function LevelPage({
-  params,
-}: {
-  params: { level: string };
-}) {
-  const level = await getLevel(params.level);
+type PageProps = {
+  params: Promise<{
+    level: string;
+  }>;
+};
 
-  if (!level) {
-    return <div>Niveau introuvable.</div>;
-  }
+export default async function LevelPage({ params }: PageProps) {
+  const { level } = await params;
+
+  const modules = await getModules(level);
+
+  const formattedLevel =
+    level.charAt(0).toUpperCase() + level.slice(1).replace(/-/g, " ");
 
   return (
-    <section className="bg-gradient-to-b from-white to-slate-50 py-20 pt-[200px]">
-      <div className="container mx-auto max-w-7xl px-6">
-
+    <section className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-20 pt-[200px]">
+      <div className="mx-auto max-w-[1800px] px-8">
+        {/* TITRE */}
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.4em] text-amber-500">
-            {level.badge}
-          </p>
-
-          <h1 className="mt-4 text-6xl font-black text-slate-900">
-            {level.title}
+          <h1 className="text-4xl font-extrabold text-gray-900">
+            Découvrez les modules du niveau{" "}
+            <span className="text-amber-500">{formattedLevel}</span>
           </h1>
 
-          <p className="mt-6 text-xl leading-relaxed text-slate-600">
-            {level.description}
+          <p className="mt-3 text-lg text-gray-600">
+            Chaque module est conçu pour développer une compétence précise à
+            travers une leçon et plusieurs activités interactives.
           </p>
         </div>
 
-        <div className="mt-20 grid gap-12 lg:grid-cols-2">
-
-          <ModuleCard
-            title="Leçons"
-            subtitle="Apprendre"
-            description="Découvre toutes les notions importantes de ce niveau avec des explications simples, illustrées et progressives."
-            image="/images/modules/lessons.jpg"
-            href={`/courses/${params.level}/lessons`}
-            color="blue"
-          />
-
-          <ModuleCard
-            title="Activités"
-            subtitle="S'entraîner"
-            description="Mets immédiatement en pratique ce que tu viens d'apprendre grâce à des dizaines d'exercices interactifs."
-            image="/images/modules/activities.jpg"
-            href={`/courses/${params.level}/activities`}
-            color="amber"
-          />
-
-        </div>
-
+      {/* GRILLE DES MODULES */}
+<div
+  className="
+    mt-20
+    grid
+    justify-center
+    gap-x-10
+    gap-y-10
+    [grid-template-columns:repeat(auto-fit,minmax(480px,480px))]
+  "
+>
+  {modules.map((module: any) => (
+    <div
+      key={module.slug}
+      className="w-[480px] max-w-full"
+    >
+      <ModuleCard
+        title={module.title}
+        category={module.category}
+        categoryColor={module.categoryColor}
+        description={module.description}
+        image={module.image}
+        href={`/courses/${level}/modules/${module.slug}`}
+      />
+    </div>
+  ))}
+</div>
       </div>
     </section>
   );

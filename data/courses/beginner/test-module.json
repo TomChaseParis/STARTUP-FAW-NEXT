@@ -1,0 +1,9 @@
+{
+  "slug": "test-module",
+  "title": "Module de test",
+  "category": "Test",
+  "lesson": {
+    "locked": false
+  },
+  "activities": []
+}

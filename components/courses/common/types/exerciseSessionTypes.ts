@@ -35,7 +35,7 @@ export interface ExerciseHistoryItem {
   duration?: number;
 }
 
-export interface ExerciseResult {
+export interface ExerciseSessionResult {
   /**
    * Score sur 100
    */

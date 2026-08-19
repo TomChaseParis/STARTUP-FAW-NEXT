@@ -1,0 +1,18 @@
+{
+  "title": "Conjugaison au présent",
+  "category": "Grammaire",
+  "description": "Apprends à conjuguer les verbes au présent.",
+
+  "lesson": {},
+
+  "activities": [
+    {
+      "slug": "big-four",
+      "title": "Ze Big Four",
+      "subtitle": "Verbes essentiels du 3ème groupe",
+      "description": "Conjuguer au présent les verbes\n« être », « avoir »,« faire » et « aller »",
+      "locked": false,
+      "image": "/images/courses/modules/bigfour.png"
+    }
+  ]
+}

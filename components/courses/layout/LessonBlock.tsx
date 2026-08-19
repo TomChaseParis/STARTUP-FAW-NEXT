@@ -9,6 +9,7 @@ type LessonBlockProps = {
   description?: string;
   videoSrc: string;
   poster?: string;
+  badgeColor?: string;
   info?: {
     objectifs?: string[];
     competences?: string[];
@@ -27,6 +28,7 @@ const formatTime = (time: number) => {
 
 export default function LessonBlock({
   badge,
+  badgeColor = "bg-amber-100",
   title,
   description,
   videoSrc,
@@ -52,22 +54,18 @@ export default function LessonBlock({
   };
 
   return (
-    <section className="bg-white space-y-14">
-
+    <section className="space-y-14 bg-white">
       {/* HEADER */}
       <div className="container">
         <div className="mx-auto max-w-5xl text-center">
-
-          {/* ✅ Badge affiché seulement si présent */}
           {badge && (
-            <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-black">
+            <span
+              className={`inline-block rounded-full px-3 py-1 text-sm font-semibold text-white ${badgeColor}`}
+            >
               {badge}
             </span>
           )}
-
-          <h1 className="mt-3 text-2xl font-semibold text-black">
-            {title}
-          </h1>
+          <h1 className="mt-3 text-2xl font-semibold text-black">{title}</h1>
 
           {description && (
             <p className="mx-auto mt-3 max-w-3xl text-base text-black/70">
@@ -146,11 +144,7 @@ export default function LessonBlock({
       )}
 
       {/* CONTENU PEDAGOGIQUE */}
-      {children && (
-        <div className="container">
-          {children}
-        </div>
-      )}
+      {children && <div className="container">{children}</div>}
     </section>
   );
 }

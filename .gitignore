@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .vscode
+
 # testing
 /coverage
 
@@ -30,3 +31,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Lesson videos
+/public/videos/courses/lessons/beginner/introduce-yourself/introduce-yourself.mp4
+/public/videos/courses/beginner/lesson/introduce-yourself.mp4

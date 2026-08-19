@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FillGapsData } from "@/types/fillGapsTypes";
 import { useFillGapsEngine } from "@/hooks/useFillGapsEngine";
 import ExerciseResult from "@/components/courses/common/result/ExerciseResult";
@@ -9,6 +9,7 @@ import ExerciseReport from "@/components/courses/common/result/ExerciseReport";
 type Props = {
   data: FillGapsData;
   teacherImage?: string;
+  onComplete?: (score: number) => void;
 };
 
 const normalizeText = (str: string) =>
@@ -20,7 +21,10 @@ const normalizeText = (str: string) =>
     .replace(/\s+/g, " ")
     .trim();
 
-const FillGapsEngine: React.FC<Props> = ({ data }) => {
+const FillGapsEngine: React.FC<Props> = ({
+  data,
+  onComplete,
+}) => {
   const {
     sentences,
     answers,
@@ -37,6 +41,12 @@ const FillGapsEngine: React.FC<Props> = ({ data }) => {
   } = useFillGapsEngine(data);
 
   const [showReport, setShowReport] = useState(false);
+
+  useEffect(() => {
+    if (session.isFinished) {
+      onComplete?.(session.result.score);
+    }
+  }, [session.isFinished, session.result.score, onComplete]);
 
   const handleCheck = () => {
     checkAnswers();
@@ -55,7 +65,7 @@ const FillGapsEngine: React.FC<Props> = ({ data }) => {
         />
       );
     }
-  
+
     return (
       <ExerciseResult
         result={session.result}
@@ -67,6 +77,7 @@ const FillGapsEngine: React.FC<Props> = ({ data }) => {
       />
     );
   }
+
   return (
     <section className="mt-12 bg-gradient-to-b from-white to-slate-50 pb-20">
       <div className="container mx-auto max-w-5xl pt-4">

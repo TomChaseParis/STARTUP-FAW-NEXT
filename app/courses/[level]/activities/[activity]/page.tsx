@@ -4,11 +4,11 @@ import { notFound } from "next/navigation";
 type ActivityComponent = ReturnType<typeof dynamic>;
 
 const activityMap: Record<string, ActivityComponent> = {
-  "beginner/activity1": dynamic(
+  "beginner/big-four": dynamic(
     () => import("@/components/courses/activities/beginner/activity1/Activity"),
     { ssr: false },
   ),
-  "beginner/activity2": dynamic(
+  "beginner/introduce-yourself": dynamic(
     () => import("@/components/courses/activities/beginner/activity2/Activity"),
     { ssr: false },
   ),

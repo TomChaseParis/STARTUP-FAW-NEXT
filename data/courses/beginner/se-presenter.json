@@ -1,0 +1,25 @@
+{
+  "title": "Se présenter en français",
+  "category": "Communication",
+  "description": "Apprends à te présenter naturellement en français.",
+
+  "lesson": {
+    "slug": "introduce-yourself",
+      "title": "SE PRESENTER",
+      "subtitle": "Les bases pour parler de soi",
+      "description": "Tournures verbales les plus utiles pour se présenter",
+      "locked": false, 
+      "image": "/images/courses/modules/presentations.png"
+  },
+
+  "activities": [
+    {
+      "slug": "introduce-yourself",
+      "title": "A L'AGENCE MATRIMONIALE",
+      "subtitle": "Les bases pour parler de soi",
+      "description": "Répondre à des questions et donner des informations",
+      "locked": false, 
+      "image": "/images/courses/modules/agence-matrimoniale.png"
+    }
+  ]
+}

@@ -5,72 +5,129 @@ import Image from "next/image";
 
 type ModuleCardProps = {
   title: string;
-  subtitle: string;
+  category: string;
+  categoryColor?: string;
   description: string;
   image: string;
   href: string;
-  color?: "blue" | "amber";
 };
 
 export default function ModuleCard({
   title,
-  subtitle,
+  category,
   description,
   image,
   href,
-  color = "blue",
+  categoryColor="pink"
 }: ModuleCardProps) {
-  const colors = {
-    blue:
-      "from-sky-400 via-blue-500 to-indigo-600 shadow-blue-300/40",
-    amber:
-      "from-amber-300 via-amber-400 to-orange-500 shadow-amber-300/40",
+
+  const badgeColors: Record<string, string> = {
+    yellow: "bg-[#E6D629]",
+    red: "bg-red-600",
+    purple: "bg-[#631275]",
+    blue: "bg-sky-600",
+    green: "bg-emerald-600",
+    pink:"bg-[#EBB7ED]"
   };
 
+
   return (
-    <Link href={href}>
-      <div
-        className={`
-          group relative overflow-hidden rounded-3xl
-          bg-gradient-to-br ${colors[color]}
-          h-[420px]
-          shadow-2xl
-          transition-all duration-500
-          hover:-translate-y-2
-          hover:scale-[1.02]
-        `}
+    <Link href={href} className="group block">
+      <article
+        className="
+     relative
+     flex
+     h-[365px]
+     w-full
+     flex-col
+     overflow-hidden
+     rounded-[28px]
+     border
+     border-slate-200
+     bg-gradient-to-br
+     from-white
+     via-white
+     to-slate-50
+     p-6
+   
+     shadow-[0_3px_6px_rgba(0,0,0,0.05),0_12px_24px_rgba(15,23,42,0.08),0_28px_60px_rgba(15,23,42,0.10)]
+     transition-all    
+     duration-300
+     hover:-translate-y-1
+   
+     hover:shadow-[0_5px_10px_rgba(0,0,0,0.06),0_18px_36px_rgba(15,23,42,0.12),0_40px_80px_rgba(15,23,42,0.14)]
+   "
       >
-       <Image
-  src={image}
-  alt={title}
-  fill
-  className="absolute inset-0 object-cover opacity-20 transition duration-700 group-hover:scale-110"
-/>
+        {/* Badge */}
+        <div>
+  <span
+    className={`rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white ${
+      badgeColors[categoryColor] ?? badgeColors.yellow
+    }`}
+  >
+    {category}
+  </span>
+</div>
 
-        <div className="absolute inset-0 bg-black/20" />
+        {/* Titre */}
+        <div className="mt-2 text-center">
+          <h2 className="truncate text-xl font-black uppercase text-slate-900">
+            {title}
+          </h2>
 
-        <div className="relative z-10 flex h-full flex-col justify-between p-10 text-white">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.3em] opacity-80">
-              {subtitle}
-            </p>
+          <p className="text-md mt-1 truncate font-semibold text-black">
+            {description}
+          </p>
+        </div>
 
-            <h2 className="mt-5 text-5xl font-black">
-              {title}
-            </h2>
+        {/* Illustration */}
+        <div className="relative mt-2 flex-1">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="
+              object-contain
+              object-bottom
+              transition-transform
+              duration-500
+              group-hover:scale-110
+            "
+          />
+        </div>
 
-            <p className="mt-6 max-w-md text-lg leading-relaxed text-white/90">
-              {description}
-            </p>
-          </div>
-
-          <div>
-            <button className="rounded-2xl bg-white px-8 py-4 text-lg font-bold text-black transition hover:scale-105">
-              Commencer →
-            </button>
+        {/* Bouton */}
+        <div className="mt-3 flex justify-center">
+          <div
+            className="
+      to-yellow-500
+      group-hover:to-yellow-400
+      rounded-xl
+      bg-gradient-to-r
+      from-amber-300
+      via-amber-400
+      px-7
+      py-3
+      text-sm
+      font-extrabold
+      uppercase
+      tracking-[0.15em]
+      text-slate-900
+      shadow-lg
+      shadow-amber-300/50
+      transition-all
+      duration-300
+      group-hover:scale-105
+      group-hover:from-amber-400
+      group-hover:via-amber-500
+      group-hover:shadow-xl
+      group-hover:shadow-amber-400/60
+    "
+          >
+            Commencer
           </div>
         </div>
-      </div>
+      </article>
     </Link>
   );
 }

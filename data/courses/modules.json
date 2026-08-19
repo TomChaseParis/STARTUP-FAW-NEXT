@@ -1,0 +1,22 @@
+[
+  {
+    "id": "present",
+    "level": "beginner",
+    "title": "Conjugaison au présent",
+    "category": "GRAMMAIRE",
+    "description": "Verbes du 3 ème groupe",
+    "image": "/images/courses/modules/test.png",
+    "color": "amber",
+    "slug": "present"
+  },
+  {
+    "id": "greetings",
+    "level": "beginner",
+    "title": "SE PRESENTER EN FRANCAIS",
+    "category": "COMMUNICATION",
+    "description": "",
+    "image": "/images/modules/greetings.jpg",
+    "color": "blue",
+    "slug": "greetings"
+  }
+]

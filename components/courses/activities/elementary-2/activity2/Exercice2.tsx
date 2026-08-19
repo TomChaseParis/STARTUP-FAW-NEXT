@@ -1,4 +1,4 @@
-import MemoryGame from "@/components/courses/Activity/Memory/MemoryGame";
+import MemoryGame from "@/components/activity/Memory/MemoryGame";
 import React from "react";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 const Exercice2 = () => {

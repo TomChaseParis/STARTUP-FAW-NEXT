@@ -1,21 +1,33 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import QuestionHeader from "@/components/courses/common/question/QuestionHeader";
-import { useState, useEffect } from "react";
-import { useQuizEngine, Question } from "@/hooks/useQuizEngine";
 import ExerciseResult from "@/components/courses/common/result/ExerciseResult";
 import ExerciseReport from "@/components/courses/common/result/ExerciseReport";
-import { useTeacherController } from "../common/hooks/useTeacherController";
 import QuestionController from "@/components/courses/common/layouts/QuestionController";
 import QuestionContent from "@/components/courses/common/question/QuestionContent";
 import ExerciseNavigation from "@/components/courses/common/question/ExerciseNavigation";
 
+import { useQuizEngine, Question } from "@/hooks/useQuizEngine";
+import { useTeacherController } from "../common/hooks/useTeacherController";
+
+import { ExerciseSessionResult } from "../common/types/exerciseSessionTypes";
+
 type Props = {
   questions: Question[];
-  mode?: "training" | "exam"; 
+
+  mode?: "training" | "exam";
+
+  onComplete?: (
+    result: ExerciseSessionResult,
+  ) => void;
 };
 
-const QuizEngine: React.FC<Props> = ({ questions }) => {
+const QuizEngine: React.FC<Props> = ({
+  questions,
+  onComplete,
+}) => {
   const {
     currentIndex,
     currentQuestion,
@@ -29,6 +41,16 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
   } = useQuizEngine(questions);
 
   const [showReport, setShowReport] = useState(false);
+
+  useEffect(() => {
+    if (session.isFinished) {
+      onComplete?.(session.result);
+    }
+  }, [
+    session.isFinished,
+    session.result,
+    onComplete,
+  ]);
 
   /* ================= AUDIO CONTROL ================= */
 
@@ -44,49 +66,39 @@ const QuizEngine: React.FC<Props> = ({ questions }) => {
     isListening,
   } = teacher;
 
-
   const { handleAnswer } = teacher;
 
   useEffect(() => {
-    if (!currentQuestion || !selectedChoiceId) return;
-  
+    if (!currentQuestion || !selectedChoiceId) {
+      return;
+    }
+
     const choice = currentQuestion.choices.find(
       (c) => c.id === selectedChoiceId,
     );
-  
-    if (!choice) return;
-  
+
+    if (!choice) {
+      return;
+    }
+
     handleAnswer(
       choice.isCorrect,
       choice.teacherAudioCorrect,
       choice.teacherAudioWrong,
     );
-  }, [currentQuestion, selectedChoiceId, handleAnswer]);
-  /* ================= FINAL TEACHER ANNOUNCEMENT ================= */
-
-
-  /* ================= AUDIO PROF ================= */
-
+  }, [
+    currentQuestion,
+    selectedChoiceId,
+    handleAnswer,
+  ]);
 
   /* ================= RESULT PAGE ================= */
-
-
 
   if (!currentQuestion) {
     return null;
   }
 
-const question = currentQuestion.question;
-
-const choices = currentQuestion.choices;
-
-const image = currentQuestion.image;
-
-const teacherImage = currentQuestion.teacherImage;
-
-const teacherAudioQuestion =
-  currentQuestion.teacherAudioQuestion;
-
+  /* ================= FINAL RESULT ================= */
 
   if (session.isFinished) {
     if (showReport) {
@@ -113,15 +125,20 @@ const teacherAudioQuestion =
       />
     );
   }
+
   /* ================= QUESTION PAGE ================= */
 
-  const correctChoice = choices.find(
-    (c) => c.isCorrect,
-  );
-  
-  const selectedChoice = choices.find(
-    (c) => c.id === selectedChoiceId,
-  );
+  const question = currentQuestion.question;
+
+  const choices = currentQuestion.choices;
+
+  const image = currentQuestion.image;
+
+  const teacherImage =
+    currentQuestion.teacherImage;
+
+  const teacherAudioQuestion =
+    currentQuestion.teacherAudioQuestion;
 
   const playQuestionAudio = () => {
     playQuestion(teacherAudioQuestion);
@@ -141,24 +158,24 @@ const teacherAudioQuestion =
       }
       content={
         <QuestionContent
-        question={question}
-        teacherImage={teacherImage}
-        teacherTalking={isTalking}
-        image={image}
-        choices={choices}
-        selectedChoiceId={selectedChoiceId}
-        selectedChoice={selectedChoice}
-        correctChoice={correctChoice}
-        disabled={isTalking}
-        onSelect={selectChoice}
-        onSpeech={startListening}
-        isListening={isListening}
-      />
+          question={question}
+          choices={choices}
+          selectedChoiceId={selectedChoiceId}
+          onSelect={selectChoice}
+          image={image}
+          teacherImage={teacherImage}
+          isTalking={isTalking}
+          isListening={isListening}
+          onStartListening={startListening}
+          onStopListening={stopEverything}
+        />
       }
       navigation={
         selectedChoiceId ? (
           <ExerciseNavigation
-            isLastQuestion={currentIndex + 1 === totalQuestions}
+            isLastQuestion={
+              currentIndex + 1 === totalQuestions
+            }
             onNext={nextQuestion}
           />
         ) : undefined

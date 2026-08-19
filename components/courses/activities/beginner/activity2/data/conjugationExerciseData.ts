@@ -313,15 +313,6 @@ export const conjugationExerciseData: FillGapsData = {
       ],
     },
 
-    {
-      id: 16,
-      parts: [
-        {
-          type: "text",
-          value:
-            "Xavier : J’aime la musique et le sport.\nL’agence matrimoniale : Très bien. Alors voyons, vous cherchez une femme d’environ 30 ans, mince, plutôt blonde, sympathique et sportive.",
-        },
-      ],
-    },
+  
   ],
 };

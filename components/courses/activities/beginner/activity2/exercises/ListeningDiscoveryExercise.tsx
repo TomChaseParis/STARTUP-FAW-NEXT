@@ -2,19 +2,33 @@
 
 import AudioBlock from "@/components/courses/blocks/AudioBlock";
 import QuizEngine from "@/components/courses/engines/QuizEngine";
+
+import { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
+
 import { listeningDiscoveryQuizData } from "../data/listeningDiscoveryQuizData";
 
-export default function ListeningDiscoveryExercise() {
+type ListeningDiscoveryExerciseProps = {
+  onComplete?: (result: ExerciseSessionResult) => void;
+};
+
+export default function ListeningDiscoveryExercise({
+  onComplete,
+}: ListeningDiscoveryExerciseProps) {
   return (
-    <section className="space-y-8">
+    <div className="space-y-8">
       <AudioBlock
-        imageSrc="/images/courses/beginner/activities/activity2/agence-matrimoniale.png"
         audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
+        imageSrc="/images/courses/beginner/activities/activity2/agence-matrimoniale.png"
+        badge="Dialogue"
+        tip="Écoute attentivement le dialogue avant de répondre aux questions."
         levelColor="amber"
-        tip="Écoute deux fois avant de répondre."
       />
 
-      <QuizEngine questions={listeningDiscoveryQuizData} />
-    </section>
+      <QuizEngine
+        questions={listeningDiscoveryQuizData}
+        instruction="Écoute une première fois ce dialogue entre un homme et une conseillère matrimoniale puis réponds aux questions."
+        onComplete={onComplete}
+      />
+    </div>
   );
 }

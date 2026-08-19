@@ -1,0 +1,19 @@
+{
+  "lesson": {
+    "title": "Leçon"
+  },
+  "activities": [
+    {
+      "id": 1,
+      "title": "Ze Big Four"
+    },
+    {
+      "id": 2,
+      "title": "Transformation"
+    },
+    {
+      "id": 3,
+      "title": "Quiz"
+    }
+  ]
+}

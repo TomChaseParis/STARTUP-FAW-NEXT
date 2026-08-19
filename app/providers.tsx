@@ -2,10 +2,22 @@
 
 import { ThemeProvider } from "next-themes";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+import { ProgressProvider } from "@/components/courses/engines/ProgressEngine/ProgressProvider";
+
+export function Providers({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <ThemeProvider attribute="class" enableSystem={false} defaultTheme="dark">
-      {children}
+    <ThemeProvider
+      attribute="class"
+      enableSystem={false}
+      defaultTheme="dark"
+    >
+      <ProgressProvider>
+        {children}
+      </ProgressProvider>
     </ThemeProvider>
   );
 }

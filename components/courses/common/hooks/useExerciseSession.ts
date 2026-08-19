@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from "react";
 
 import {
   ExerciseHistoryItem,
-  ExerciseResult,
+  ExerciseSessionResult,
 } from "../types/exerciseSessionTypes";
 
 import { computeScore } from "@/components/courses/common/utils/quizScoring";
@@ -72,7 +72,7 @@ export function useExerciseSession(totalQuestions: number) {
     finishedAt === null || startedAt.current === null
       ? 0
       : Math.round((finishedAt.getTime() - startedAt.current.getTime()) / 1000);
-  const result: ExerciseResult = {
+  const result: ExerciseSessionResult = {
     score,
     correctAnswers,
     totalQuestions,

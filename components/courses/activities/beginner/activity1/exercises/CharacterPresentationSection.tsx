@@ -10,7 +10,7 @@ export default function CharacterPresentationSection() {
     <ExerciseSection width="wide">
       <InstructionBlock
         level="beginner"
-        stampLabel="EXERCICE 4"
+        stampLabel="EXERCICE 3"
         title="Présente les personnages"
         subtitle="Parle à voix haute en utilisant le bon pronom"
         activityType="click-speak"
