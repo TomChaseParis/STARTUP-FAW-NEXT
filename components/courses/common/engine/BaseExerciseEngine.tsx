@@ -5,15 +5,13 @@ import { ReactNode, useState } from "react";
 import ExerciseResult from "../result/ExerciseResult";
 import ExerciseReport from "../result/ExerciseReport";
 
-import type {
-  ExerciseResult as ExerciseResultType,
-} from "../types/exerciseSessionTypes";
+import type { ExerciseSessionResult } from "../types/exerciseSessionTypes";
 
 type Props = {
   session: {
     isFinished: boolean;
     history: any[];
-    result: ExerciseResultType;
+    result: ExerciseSessionResult;
   };
 
   onRestart: () => void;

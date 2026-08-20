@@ -108,7 +108,9 @@ export default function Activity() {
               "
             />
 
-            <span className="relative z-10">Commencer l'activité</span>
+            <span className="relative z-10">
+              Commencer l&apos;activité
+            </span>
 
             <span
               className="

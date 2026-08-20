@@ -5,9 +5,11 @@ import LessonBlock from "@/components/courses/layout/LessonBlock";
 
 import FillInTheBlankSection from "./exercises/FillInTheBlankSection";
 
+import { elementary1Activity4 } from "@/data/courses/activities/elementary-1/activity4/activity4";
+
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={elementary1Activity4}>
       <LessonBlock
         badge="Compréhension écrite"
         title="Les expressions de l’interdiction"

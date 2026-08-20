@@ -8,10 +8,11 @@ import Exercice1 from "./Exercice1";
 import ConceptBlock from "@/components/courses/layout/ConceptBlock";
 import Exercice2 from "./Exercice2";
 
+import { activity3 } from "@/data/courses/activities/beginner/activity3/activity3";
+
 export default function Activity() {
   return (
-    <ActivityLayout>
-
+    <ActivityLayout activity={activity3}>
       {/* 🎓 LEÇON */}
       <LessonBlock
         badge="Grammaire"
@@ -33,17 +34,18 @@ export default function Activity() {
         levelColor="amber"
         tip="Écoute avant de répondre."
       />
+
       <ConceptBlock />
 
-      {/* 📝 EXERCICE */}
+      {/* 📝 EXERCICE 1 */}
       <ExerciseSection>
         <Exercice1 />
       </ExerciseSection>
 
+      {/* 📝 EXERCICE 2 */}
       <ExerciseSection>
         <Exercice2 />
       </ExerciseSection>
-
     </ActivityLayout>
   );
 }

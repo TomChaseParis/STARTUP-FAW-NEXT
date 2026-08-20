@@ -2,10 +2,10 @@
 
 import ScoreBadge from "./ScoreBadge";
 
-import { ExerciseResult as ExerciseResultType } from "../types/exerciseSessionTypes";
+import { ExerciseSessionResult } from "../types/exerciseSessionTypes";
 
 type Props = {
-  result: ExerciseResultType;
+  result: ExerciseSessionResult;
 
   onRestart: () => void;
 

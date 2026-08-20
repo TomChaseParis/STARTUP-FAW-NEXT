@@ -10,10 +10,11 @@ import ClassificationSection from "./exercises/ClassificationSection";
 // import ListeningFillGapsSection from "./exercises/ListeningFillGapsSection";
 // import ConjugationSection from "./exercises/ConjugationSection";
 // import SpeakingSection from "./exercises/SpeakingSection";
+import { elementary2Activity5 } from "@/data/courses/activities/elementary-2/activity5/activity5";
 
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={elementary2Activity5}>
       {/* ================= INTRODUCTION ================= */}
 
       <LessonBlock

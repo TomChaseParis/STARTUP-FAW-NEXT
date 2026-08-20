@@ -89,8 +89,8 @@ export default function VerbEssentialSection() {
                     <li>Lis toujours la phrase en entier avant de répondre.</li>
 
                     <li>
-                      Repère d'abord le sujet : je, tu, il, elle, nous, vous,
-                      ils ou elles.
+                      Repère d&apos;abord le sujet : je, tu, il, elle, nous,
+                      vous, ils ou elles.
                     </li>
 
                     <li>

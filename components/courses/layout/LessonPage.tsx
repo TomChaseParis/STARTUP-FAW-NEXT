@@ -169,7 +169,7 @@ export default function LessonPage({
 
                   <div>
                     <p className="text-sm font-bold text-slate-900 sm:text-base">
-                      Regarde la vidéo jusqu'à la fin.
+                      Regarde la vidéo jusqu&apos;à la fin.
                     </p>
 
                     <p className="mt-1 text-sm leading-6 text-slate-500">
@@ -285,7 +285,7 @@ export default function LessonPage({
 
         {/* =======================================================
             ÉTAPE 2 — QUIZ
-            N'EST RENDUE QU'APRÈS LE CLIC
+            N&apos;EST RENDUE QU&apos;APRÈS LE CLIC
         ======================================================= */}
 
         {showQuiz && (

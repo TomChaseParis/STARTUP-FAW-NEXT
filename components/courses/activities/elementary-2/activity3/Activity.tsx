@@ -6,10 +6,10 @@ import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import Exercice from "./Exercice";
 import Exercice2 from "./Exercice2";
-
+import { elementary2Activity3 } from "@/data/courses/activities/elementary-2/activity3/activity3";
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={elementary2Activity3}>
       <LessonBlock
         badge="Niveau Élémentaire 2"
         title="Articles définis et indefinis"

@@ -4,8 +4,12 @@ import FillGapsEngine from "@/components/courses/engines/FillGapsEngine";
 import AccentHelper from "@/components/courses/blocks/AccentHelper";
 import { verbSelectionData } from "../data/verbSelectionData";
 
+import { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
+
 type VerbSelectionExerciseProps = {
-  onComplete?: (score: number) => void;
+  onComplete?: (
+    result: ExerciseSessionResult,
+  ) => void;
 };
 
 export default function VerbSelectionExercise({

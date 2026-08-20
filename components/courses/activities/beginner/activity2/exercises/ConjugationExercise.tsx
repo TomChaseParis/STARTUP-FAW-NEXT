@@ -3,6 +3,8 @@
 import FillGapsEngine from "@/components/courses/engines/FillGapsEngine";
 import { conjugationExerciseData } from "../data/conjugationExerciseData";
 
+import { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
+
 type ConjugationExerciseProps = {
   onComplete?: (score: number) => void;
 };
@@ -14,7 +16,9 @@ export default function ConjugationExercise({
     <section className="mt-8">
       <FillGapsEngine
         data={conjugationExerciseData}
-        onComplete={onComplete}
+        onComplete={(result: ExerciseSessionResult) => {
+          onComplete?.(result.score);
+        }}
       />
     </section>
   );

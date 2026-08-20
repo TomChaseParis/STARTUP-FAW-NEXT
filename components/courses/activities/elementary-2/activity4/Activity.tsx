@@ -8,10 +8,10 @@ import MatchingSection from "./exercises/MatchingSection";
 import ImageChoiceSection from "./exercises/ImageChoiceSection";
 // import ListeningQuizSection from "./exercises/ListeningQuizSection";
 // import NegationFillGapsSection from "./exercises/NegationFillGapsSection";
-
+import { elementary2Activity4 } from "@/data/courses/activities/elementary-2/activity4/activity4";
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={elementary2Activity4}>
       {/* ================= INTRODUCTION ================= */}
 
       <LessonBlock

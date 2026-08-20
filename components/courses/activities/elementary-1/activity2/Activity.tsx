@@ -6,9 +6,11 @@ import LessonBlock from "@/components/courses/layout/LessonBlock";
 import FillInTheBlankSection from "./exercises/FillInTheBlankSection";
 import QuizChoiceSection from "./exercises/QuizChoiceSection";
 
+import { elementary1Activity2 } from "@/data/courses/activities/elementary-1/activity2/activity2";
+
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={elementary1Activity2}>
       <LessonBlock
         badge="Compréhension orale"
         title="Les loisirs des Français"
@@ -30,7 +32,6 @@ export default function Activity() {
       {/* ================= EXERCICE 2 ================= */}
 
       <QuizChoiceSection />
-
     </ActivityLayout>
   );
 }

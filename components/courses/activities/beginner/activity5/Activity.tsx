@@ -6,9 +6,11 @@ import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import Exercice from "./Exercice";
 
+import { activity5 } from "@/data/courses/activities/beginner/activity5/activity5";
+
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={activity5}>
       {/* ================= COURS ================= */}
       <LessonBlock
         badge="Compréhension orale"
@@ -32,22 +34,25 @@ export default function Activity() {
           description={
             <div className="space-y-5 text-black">
               <p>
-                Écoute la chanson puis choisis la bonne réponse pour chaque question.
+                Écoute la chanson puis choisis la bonne réponse pour chaque
+                question.
               </p>
 
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                <p className="text-sm font-medium text-slate-600 mb-2">
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <p className="mb-2 text-sm font-medium text-slate-600">
                   💡 Astuce :
                 </p>
+
                 <p>
                   Concentre-toi sur les habitudes décrites dans la chanson.
                 </p>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-                <p className="text-sm font-medium text-slate-600 mb-2">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="mb-2 text-sm font-medium text-slate-600">
                   🎯 Conseil :
                 </p>
+
                 <p>
                   Tu peux écouter plusieurs fois pour mieux comprendre.
                 </p>

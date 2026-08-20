@@ -62,7 +62,7 @@ export default function Activity() {
             onClick={handleStart}
             className="rounded-xl bg-blue-600 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-blue-700"
           >
-            Commencer l'activité
+            Commencer l&apos;activité
           </button>
         </div>
       )}
@@ -71,8 +71,7 @@ export default function Activity() {
         {started && (
           <motion.div
             ref={exercisesRef}
-            initial={{ opacity: 0, y: 40
- }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}

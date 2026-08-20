@@ -14,6 +14,7 @@ export default async function LevelPage({
   }
 
   const modules = await getModules(params.level);
+
   return (
     <section className="bg-gradient-to-b from-white to-slate-50 py-20 pt-[200px]">
       <div className="container mx-auto max-w-7xl px-6">
@@ -40,7 +41,6 @@ export default async function LevelPage({
               description={module.description}
               image={module.image}
               href={`/courses/${params.level}/modules/${module.slug}`}
-              color={module.color}
             />
           ))}
         </div>

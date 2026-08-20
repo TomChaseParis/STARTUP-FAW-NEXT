@@ -11,10 +11,10 @@ import Exercice3 from "./Exercice3";
 import ExerciceEpisode2 from "./Exercice2.2";
 import Exercice4 from "./Exercice4";
 import AudioBlock from "@/components/courses/blocks/AudioBlock";
-
+import { elementary2Activity2 } from "@/data/courses/activities/elementary-2/activity2/activity2";
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={elementary2Activity2}>
       <LessonBlock
         badge="Niveau Élémentaire 2"
         title="Activité 1 — La famille déménage"

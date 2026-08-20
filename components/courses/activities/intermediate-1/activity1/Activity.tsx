@@ -9,12 +9,13 @@ import QuizEngine from "@/components/courses/engines/QuizEngine";
 import { quizData } from "./quizData";
 import Exercice from "./Exercice";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-
+import { intermediate1Activity1 } from "@/data/courses/activities/intermediate-1/activity1/activity1";
+import { elementary1Activity1 } from "@/data/courses/activities/elementary-1/activity1/activity1";
 export default function Activity() {
   const questions = useMemo(() => quizData ?? [], []);
 
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={intermediate1Activity1}>
       <LessonBlock
         badge="Compréhension orale"
         title="Les vacances au bord de la mer"

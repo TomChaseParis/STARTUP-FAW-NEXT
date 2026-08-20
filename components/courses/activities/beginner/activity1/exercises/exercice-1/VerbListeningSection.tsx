@@ -30,7 +30,7 @@ export default function VerbListeningSection() {
               <p className="text-base leading-relaxed text-slate-700">
                 Écoute les conjugaisons de <strong>être</strong>,{" "}
                 <strong>avoir</strong>, <strong>faire</strong> et{" "}
-                <strong>aller</strong>. Prends le temps d'écouter chaque
+                <strong>aller</strong>. Prends le temps d&apos;écouter chaque
                 forme attentivement.
               </p>
             </div>
@@ -41,7 +41,7 @@ export default function VerbListeningSection() {
               </p>
 
               <p className="text-base leading-relaxed text-slate-700">
-                Après l'écoute, tu devras reproduire les formes à l'oral.
+                Après l&apos;écoute, tu devras reproduire les formes à l&apos;oral.
                 Fais attention à la prononciation et au rythme de chaque
                 forme.
               </p>
@@ -53,8 +53,8 @@ export default function VerbListeningSection() {
               </p>
 
               <p className="text-base leading-relaxed text-slate-700">
-                Écoute plusieurs fois si nécessaire. L'objectif est de
-                reconnaître les formes verbales à l'oreille avant de les
+                Écoute plusieurs fois si nécessaire. L&apos;objectif est de
+                reconnaître les formes verbales à l&apos;oreille avant de les
                 prononcer toi-même.
               </p>
             </div>

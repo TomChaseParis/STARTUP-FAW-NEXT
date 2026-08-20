@@ -5,10 +5,11 @@ import LessonBlock from "@/components/courses/layout/LessonBlock";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import Exercice from "./Exercice";
 
+import { activity4 } from "@/data/courses/activities/beginner/activity4/activity4";
+
 export default function Activity() {
   return (
-    <ActivityLayout>
-
+    <ActivityLayout activity={activity4}>
       <LessonBlock
         badge="Production écrite"
         title="Les activités de la journée"
@@ -26,7 +27,6 @@ export default function Activity() {
       <ExerciseSection>
         <Exercice />
       </ExerciseSection>
-
     </ActivityLayout>
   );
 }

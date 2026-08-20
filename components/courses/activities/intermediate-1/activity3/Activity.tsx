@@ -4,12 +4,12 @@ import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 import SentenceAnswerSection from "./exercises/SentenceAnswerSection";
 import QuizSection from "./exercises/QuizSection";
-
+import { intermediate1Activity3 } from "@/data/courses/activities/intermediate-1/activity3/activity3";
 
 
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={intermediate1Activity3}>
       <LessonBlock
         badge="Grammaire en contexte"
         title="LE, LA, LES, LUI, LEUR, EUX, ELLES"

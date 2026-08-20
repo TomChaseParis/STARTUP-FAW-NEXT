@@ -1,15 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { FillGapsData } from "@/types/fillGapsTypes";
 import { useFillGapsEngine } from "@/hooks/useFillGapsEngine";
+
 import ExerciseResult from "@/components/courses/common/result/ExerciseResult";
 import ExerciseReport from "@/components/courses/common/result/ExerciseReport";
+
+import { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
 
 type Props = {
   data: FillGapsData;
   teacherImage?: string;
-  onComplete?: (score: number) => void;
+  onComplete?: (result: ExerciseSessionResult) => void;
 };
 
 const normalizeText = (str: string) =>
@@ -44,9 +48,13 @@ const FillGapsEngine: React.FC<Props> = ({
 
   useEffect(() => {
     if (session.isFinished) {
-      onComplete?.(session.result.score);
+      onComplete?.(session.result);
     }
-  }, [session.isFinished, session.result.score, onComplete]);
+  }, [
+    session.isFinished,
+    session.result,
+    onComplete,
+  ]);
 
   const handleCheck = () => {
     checkAnswers();
@@ -117,17 +125,23 @@ const FillGapsEngine: React.FC<Props> = ({
                       .reduce(
                         (sum, s) =>
                           sum +
-                          s.parts.filter((p) => p.type === "input").length,
+                          s.parts.filter(
+                            (p) => p.type === "input",
+                          ).length,
                         0,
-                      ) + sentenceInputIndexes.length;
+                      ) +
+                    sentenceInputIndexes.length;
 
                   sentenceInputIndexes.push(globalIndex);
                 }
               });
 
-              const isSentenceFilled = sentenceInputIndexes.some(
-                (i) => answers[i] && answers[i].trim() !== "",
-              );
+              const isSentenceFilled =
+                sentenceInputIndexes.some(
+                  (i) =>
+                    answers[i] &&
+                    answers[i].trim() !== "",
+                );
 
               return (
                 <div
@@ -141,61 +155,83 @@ const FillGapsEngine: React.FC<Props> = ({
                     }
                   `}
                 >
-                  {sentence.parts.map((part, partIndex) => {
-                    if (part.type === "text") {
-                      return <span key={partIndex}>{part.value}</span>;
-                    }
-
-                    const globalIndex =
-                      sentences
-                        .slice(0, sentenceIndex)
-                        .reduce(
-                          (sum, s) =>
-                            sum +
-                            s.parts.filter((p) => p.type === "input").length,
-                          0,
-                        ) + localIndex;
-
-                    localIndex++;
-
-                    const val = answers[globalIndex] || "";
-
-                    const isCorrect =
-                      normalizeText(val) === normalizeText(part.answer);
-
-                    return (
-                      <span
-                        key={partIndex}
-                        className="mx-2 inline-flex flex-col"
-                      >
-                        <input
-                          type="text"
-                          value={val}
-                          onChange={(e) =>
-                            setAnswer(globalIndex, e.target.value)
-                          }
-                          disabled={showCorrection}
-                          className={`
-                            h-10 min-w-[140px] rounded-lg border-2 bg-white px-3 text-[16px] shadow-sm transition
-                            focus:border-amber-500 focus:ring-2 focus:ring-amber-400
-                            ${
-                              showCorrection
-                                ? isCorrect
-                                  ? "border-green-500 bg-green-100"
-                                  : "border-red-500 bg-red-100"
-                                : "border-slate-300"
-                            }
-                          `}
-                        />
-
-                        {part.hint && (
-                          <span className="text-[15px] font-medium italic text-amber-500">
-                            ({part.hint})
+                  {sentence.parts.map(
+                    (part, partIndex) => {
+                      if (part.type === "text") {
+                        return (
+                          <span key={partIndex}>
+                            {part.value}
                           </span>
-                        )}
-                      </span>
-                    );
-                  })}
+                        );
+                      }
+
+                      const globalIndex =
+                        sentences
+                          .slice(0, sentenceIndex)
+                          .reduce(
+                            (sum, s) =>
+                              sum +
+                              s.parts.filter(
+                                (p) =>
+                                  p.type ===
+                                  "input",
+                              ).length,
+                            0,
+                          ) +
+                        localIndex;
+
+                      localIndex++;
+
+                      const val =
+                        answers[globalIndex] || "";
+
+                      const isCorrect =
+                        normalizeText(
+                          val,
+                        ) ===
+                        normalizeText(
+                          part.answer,
+                        );
+
+                      return (
+                        <span
+                          key={partIndex}
+                          className="mx-2 inline-flex flex-col"
+                        >
+                          <input
+                            type="text"
+                            value={val}
+                            onChange={(e) =>
+                              setAnswer(
+                                globalIndex,
+                                e.target.value,
+                              )
+                            }
+                            disabled={
+                              showCorrection
+                            }
+                            className={`
+                              h-10 min-w-[140px] rounded-lg border-2 bg-white px-3 text-[16px] shadow-sm transition
+                              focus:border-amber-500 focus:ring-2 focus:ring-amber-400
+                              ${
+                                showCorrection
+                                  ? isCorrect
+                                    ? "border-green-500 bg-green-100"
+                                    : "border-red-500 bg-red-100"
+                                  : "border-slate-300"
+                              }
+                            `}
+                          />
+
+                          {part.hint && (
+                            <span className="text-[15px] font-medium italic text-amber-500">
+                              ({part.hint})
+                            </span>
+                          )}
+                        </span>
+                      );
+                    },
+                  )}
                 </div>
               );
             })}

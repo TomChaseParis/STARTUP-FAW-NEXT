@@ -8,10 +8,12 @@ import VideoExerciseBlock from "@/components/courses/blocks/VideoExerciseBlock";
 
 import Exercice from "./Exercice";
 import Exercice2 from "./Exercice2";
+import { elementary2Activity1 } from "@/data/courses/activities/elementary-2/activity1/activity1";
+
 
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={elementary2Activity1}>
       {/* ================= PRÉSENTATION COURS ================= */}
       <LessonBlock
         badge="Niveau Élémentaire 2"

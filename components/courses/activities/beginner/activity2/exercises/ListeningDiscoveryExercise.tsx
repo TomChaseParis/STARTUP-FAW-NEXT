@@ -26,7 +26,6 @@ export default function ListeningDiscoveryExercise({
 
       <QuizEngine
         questions={listeningDiscoveryQuizData}
-        instruction="Écoute une première fois ce dialogue entre un homme et une conseillère matrimoniale puis réponds aux questions."
         onComplete={onComplete}
       />
     </div>

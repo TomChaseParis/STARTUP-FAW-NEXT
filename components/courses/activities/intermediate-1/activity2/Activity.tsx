@@ -6,12 +6,12 @@ import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import QuizEngine from "@/components/courses/engines/QuizEngine";
 import { quizData } from "./quizData";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-
+import { intermediate1Activity2 } from "@/data/courses/activities/intermediate-1/activity2/activity2";
 export default function Activity() {
   const questions = quizData;
 
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={intermediate1Activity2}>
       <LessonBlock
         badge="Compréhension orale"
         title="L'imparfait d'habitude"

@@ -6,9 +6,11 @@ import LessonBlock from "@/components/courses/layout/LessonBlock";
 import ListeningSection from "./exercises/ListeningSection";
 import WatchAndAnswerSection from "./exercises/WatchAndAnswerSection";
 
+import { elementary1Activity1 } from "@/data/courses/activities/elementary-1/activity1/activity1";
+
 export default function Activity() {
   return (
-    <ActivityLayout>
+    <ActivityLayout activity={elementary1Activity1}>
       {/* ================= INTRODUCTION ================= */}
 
       <LessonBlock
