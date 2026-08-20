@@ -30,9 +30,11 @@ export default function LessonPage({
     setShowQuiz(true);
 
     requestAnimationFrame(() => {
-      document.getElementById("lesson-quiz")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
+      requestAnimationFrame(() => {
+        document.getElementById("lesson-quiz")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       });
     });
   };
@@ -75,13 +77,13 @@ export default function LessonPage({
           ===================================================== */}
 
           <div className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-br from-amber-50 via-white to-yellow-50 px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
-            {/* Décoration */}
             <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-amber-200/30 blur-3xl" />
 
             <div className="pointer-events-none absolute bottom-[-100px] left-[30%] h-48 w-48 rounded-full bg-yellow-200/20 blur-3xl" />
 
             <div className="relative max-w-4xl">
               {/* Badge */}
+
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/90 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-amber-700 shadow-sm">
                 <span className="flex h-2 w-2 rounded-full bg-amber-400" />
 
@@ -89,11 +91,13 @@ export default function LessonPage({
               </div>
 
               {/* Titre */}
+
               <h1 className="max-w-4xl text-3xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-4xl lg:text-5xl">
                 {title}
               </h1>
 
               {/* Sous-titre */}
+
               {subtitle && (
                 <p className="mt-4 text-lg font-semibold leading-relaxed text-slate-600 sm:text-xl">
                   {subtitle}
@@ -101,6 +105,7 @@ export default function LessonPage({
               )}
 
               {/* Description */}
+
               {description && (
                 <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
                   {description}
@@ -110,11 +115,12 @@ export default function LessonPage({
           </div>
 
           {/* =====================================================
-              ÉTAPE 1
+              ÉTAPE 1 — VIDÉO
           ===================================================== */}
 
           <div className="px-4 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
             {/* Header étape */}
+
             <div className="mb-6 flex items-center gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-lg font-black text-white shadow-[0_8px_20px_rgba(15,23,42,0.18)]">
                 1
@@ -135,19 +141,20 @@ export default function LessonPage({
                 VIDÉO
             ================================================= */}
 
-   <div className="relative z-20 overflow-hidden rounded-[28px] border border-slate-200 bg-black shadow-[0_25px_60px_rgba(15,23,42,0.18)]">
-  <video
-    className="relative z-20 aspect-video w-full cursor-pointer object-contain"
-    controls
-    playsInline
-    preload="metadata"
-    poster={poster}
-    onEnded={handleVideoEnded}
-  >
-    <source src={videoSrc} type="video/mp4" />
-    Ton navigateur ne supporte pas la lecture vidéo.
-  </video>
-</div>
+            <div className="relative z-20 overflow-hidden rounded-[28px] border border-slate-200 bg-black shadow-[0_25px_60px_rgba(15,23,42,0.18)]">
+              <video
+                className="relative z-20 aspect-video w-full cursor-pointer object-contain"
+                controls
+                playsInline
+                preload="metadata"
+                poster={poster}
+                onEnded={handleVideoEnded}
+              >
+                <source src={videoSrc} />
+
+                Ton navigateur ne supporte pas la lecture vidéo.
+              </video>
+            </div>
 
             {/* =================================================
                 AVANT LA FIN DE LA VIDÉO
@@ -166,8 +173,8 @@ export default function LessonPage({
                     </p>
 
                     <p className="mt-1 text-sm leading-6 text-slate-500">
-                      Une fois la vidéo terminée, tu pourras accéder au quiz
-                      de compréhension.
+                      Une fois la vidéo terminée, tu pourras accéder au quiz de
+                      compréhension.
                     </p>
                   </div>
                 </div>
@@ -175,12 +182,11 @@ export default function LessonPage({
             )}
 
             {/* =================================================
-                VIDÉO TERMINÉE
+                VIDÉO TERMINÉE — BOUTON QUIZ
             ================================================= */}
 
             {videoCompleted && !showQuiz && (
               <div className="relative mt-6 overflow-hidden rounded-[28px] border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-green-50 p-6 shadow-sm sm:p-8">
-                {/* Halo */}
                 <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-emerald-200/40 blur-3xl" />
 
                 <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -244,7 +250,7 @@ export default function LessonPage({
             )}
 
             {/* =================================================
-                ÉTAT QUIZ AFFICHÉ
+                QUIZ ACTIVÉ — POSSIBILITÉ DE REVOIR LA VIDÉO
             ================================================= */}
 
             {showQuiz && (
@@ -260,7 +266,7 @@ export default function LessonPage({
                     </p>
 
                     <p className="mt-0.5 text-xs leading-5 text-emerald-700">
-                      Tu peux maintenant réaliser le quiz.
+                      Le quiz est maintenant disponible.
                     </p>
                   </div>
                 </div>
@@ -279,6 +285,7 @@ export default function LessonPage({
 
         {/* =======================================================
             ÉTAPE 2 — QUIZ
+            N'EST RENDUE QU'APRÈS LE CLIC
         ======================================================= */}
 
         {showQuiz && (
@@ -287,6 +294,7 @@ export default function LessonPage({
             className="scroll-mt-8 pt-10 sm:pt-12"
           >
             {/* Header étape */}
+
             <div className="mb-6 flex items-center gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-400 text-lg font-black text-slate-950 shadow-[0_8px_20px_rgba(251,191,36,0.25)]">
                 2
@@ -303,8 +311,46 @@ export default function LessonPage({
               </div>
             </div>
 
-            {/* Carte quiz */}
+            {/* =================================================
+                BLOC QUIZ
+            ================================================= */}
+
             <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:p-6 lg:p-8">
+              {/* Introduction pédagogique */}
+
+              <div className="mb-8 rounded-[24px] border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-yellow-50 p-5 sm:p-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-400 text-xl shadow-sm">
+                    📝
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-black text-slate-950 sm:text-xl">
+                      Quiz de compréhension
+                    </h3>
+
+                    <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                      Teste ce que tu as retenu de la leçon.
+                    </p>
+
+                    <p className="mt-3 text-sm leading-6 text-slate-700">
+                      Écoute chaque question à l’aide du bouton audio, puis
+                      sélectionne la bonne réponse. Pour certaines questions,
+                      plusieurs réponses peuvent être correctes.
+                    </p>
+
+                    <div className="mt-4 rounded-2xl border border-amber-200 bg-white/80 px-4 py-3">
+                      <p className="text-sm font-semibold leading-6 text-slate-700">
+                        💡 Conseil : prends le temps de lire toutes les
+                        propositions avant de répondre.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quiz */}
+
               {quiz}
             </div>
           </section>

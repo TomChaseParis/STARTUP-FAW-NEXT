@@ -1,0 +1,181 @@
+{
+  "title": "Quiz — Se présenter en français",
+  "description": "Vérifie tes connaissances après avoir regardé la leçon.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "single-choice",
+      "image": "/images/courses/beginner/lessons/lesson1/quiz/Q1.png",
+      "question": "« Je m’appelle Fido Croquetou », donc :",
+      "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q1.mp3",
+      "options": [
+        {
+          "id": "a",
+          "text": "« Fido » est mon nom de famille et « Croquetou » est mon prénom"
+        },
+        {
+          "id": "b",
+          "text": "« Fido » est mon prénom et « Croquetou » est mon nom de famille"
+        }
+      ],
+      "correctAnswer": "b"
+    },
+    {
+      "id": 2,
+      "type": "single-choice",
+      "image": "/images/courses/beginner/lessons/lesson1/quiz/Q2.png",
+      "question": "Laquelle de ces phrases correspond à l’image ?",
+      "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q2.mp3",
+      "options": [
+        {
+          "id": "a",
+          "text": "J’ai une sœur et deux frères"
+        },
+        {
+          "id": "b",
+          "text": "J’ai une sœur et un frère"
+        },
+        {
+          "id": "c",
+          "text": "J’ai deux sœurs et un frère"
+        }
+      ],
+      "correctAnswer": "c"
+    },
+    {
+      "id": 3,
+      "type": "single-choice",
+      "image": "/images/courses/beginner/lessons/lesson1/quiz/Q3.png",
+      "question": "Laquelle de ces phrases correspond à l’image ?",
+      "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q3.mp3",
+      "options": [
+        {
+          "id": "a",
+          "text": "Je suis russe, mais j’habite à Marseille"
+        },
+        {
+          "id": "b",
+          "text": "Je suis français et j’habite à Marseille"
+        },
+        {
+          "id": "c",
+          "text": "Je suis français, mais j’habite à Moscou"
+        }
+      ],
+      "correctAnswer": "c"
+    },
+    {
+      "id": 4,
+      "type": "single-choice",
+      "image": "/images/courses/beginner/lessons/lesson1/quiz/Q4.png",
+      "question": "Quelle est la tournure correcte pour donner son âge ?",
+      "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q4.mp3",
+      "options": [
+        {
+          "id": "a",
+          "text": "Je suis six ans"
+        },
+        {
+          "id": "b",
+          "text": "J’ai six ans"
+        },
+        {
+          "id": "c",
+          "text": "Je fais six ans"
+        }
+      ],
+      "correctAnswer": "b"
+    },
+    {
+      "id": 5,
+      "type": "single-choice",
+      "image": "/images/courses/beginner/lessons/lesson1/quiz/Q5.png",
+      "question": "Que demande l’agent de police ?",
+      "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q5.mp3",
+      "options": [
+        {
+          "id": "a",
+          "text": "Je viens d’où ?"
+        },
+        {
+          "id": "b",
+          "text": "Vous venez d’où ?"
+        },
+        {
+          "id": "c",
+          "text": "Tu viens d’où ?"
+        }
+      ],
+      "correctAnswer": "b"
+    },
+    {
+      "id": 6,
+      "type": "single-choice",
+      "image": "/images/courses/beginner/lessons/lesson1/quiz/Q6.png",
+      "question": "Que demande Fido au petit chat perdu ?",
+      "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q6.mp3",
+      "options": [
+        {
+          "id": "a",
+          "text": "Comment tu t’appelles ?"
+        },
+        {
+          "id": "b",
+          "text": "Comment vous vous appelez ?"
+        },
+        {
+          "id": "c",
+          "text": "Qui tu t’appelles ?"
+        }
+      ],
+      "correctAnswer": "a"
+    },
+    {
+      "id": 7,
+      "type": "single-choice",
+      "image": "/images/courses/beginner/lessons/lesson1/quiz/Q7.png",
+      "question": "Est-ce qu’il est marié ?",
+      "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q7.mp3",
+      "options": [
+        {
+          "id": "a",
+          "text": "Non, il est fils unique"
+        },
+        {
+          "id": "b",
+          "text": "Non, il est cosmonaute"
+        },
+        {
+          "id": "c",
+          "text": "Non, il est célibataire"
+        }
+      ],
+      "correctAnswer": "c"
+    },
+    {
+      "id": 8,
+      "type": "multiple-choice",
+      "image": "/images/courses/beginner/lessons/lesson1/quiz/Q8.png",
+      "question": "Quelles sont les deux réponses possibles à la question « Qu’est-ce que tu fais dans la vie ? »",
+      "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q8.mp3",
+      "options": [
+        {
+          "id": "a",
+          "text": "Je travaille comme cuisinier dans un restaurant"
+        },
+        {
+          "id": "b",
+          "text": "Je suis marseillais"
+        },
+        {
+          "id": "c",
+          "text": "Je suis étudiant à la Dog Star Academy"
+        }
+      ],
+      "correctAnswers": [
+        "a",
+        "c"
+      ]
+    }
+  ]
+}
