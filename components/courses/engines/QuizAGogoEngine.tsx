@@ -56,8 +56,8 @@ export default function QuizAGogoEngine() {
         </div>
 
         <QuizFranceSection
-          onComplete={goToSecondQuiz}
-        />
+  onCompleted={goToSecondQuiz}
+/>
       </section>
     );
   }

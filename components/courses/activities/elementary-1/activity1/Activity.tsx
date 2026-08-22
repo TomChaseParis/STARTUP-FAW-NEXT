@@ -62,7 +62,7 @@ export default function Activity() {
             </div>
 
             <h2 className="mt-4 text-2xl font-bold text-slate-900">
-              Regarde d'abord la vidéo
+              Regarde d&apos;abord la vidéo
             </h2>
 
             <p className="mx-auto mt-3 max-w-xl leading-relaxed text-slate-600">

@@ -44,7 +44,7 @@ export default function QuizGogoFlow() {
             </h2>
 
             <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
-              Deux quiz t'attendent. Commence par le
+              Deux quiz t&apos;attendent. Commence par le
               premier, puis passe au deuxième une fois
               terminé.
             </p>
