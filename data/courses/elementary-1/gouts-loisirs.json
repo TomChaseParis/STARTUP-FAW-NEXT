@@ -1,0 +1,20 @@
+{
+  "title": "Goûts et loisirs",
+  "category": "Dossier thématique",
+  "description": "Apprends à parler de tes goûts, de tes activités et de tes loisirs.",
+  "lesson": {
+    "slug": "gouts-loisirs",
+    "title": "Goûts et loisirs",
+    "description": "",
+    "locked": false
+  },
+  "activities": [
+    {
+      "slug": "gouts-loisirs",
+      "title": "Goûts et loisirs",
+      "subtitle": "",
+      "description": "",
+      "locked": false
+    }
+  ]
+}

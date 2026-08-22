@@ -1,0 +1,21 @@
+{
+  "title": "Les questions en français",
+  "category": "Communication",
+  "description": "Apprends à comprendre et poser des questions en français.",
+  "lesson": {
+    "slug": "questions-francais",
+    "title": "Les questions en français",
+    "description": "",
+    "locked": false
+  },
+  "activities": [
+    {
+      "slug": "questions-francais",
+      "title": "QUIZ A GOGO",
+      "subtitle": "La valse des questions",
+      "description": "Répondre à des questions simples sur différents sujets",
+      "locked": false,
+      "image": "/images/courses/modules/questionsenfrancais.png"
+    }
+  ]
+}

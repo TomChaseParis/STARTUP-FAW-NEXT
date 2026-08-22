@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import InfoBlock from "./InfoBlock";
 
 type LessonBlockProps = {
-  badge?: string; // ✅ optionnel
+  badge?: string;
   title: string;
   description?: string;
   videoSrc: string;
@@ -17,13 +17,18 @@ type LessonBlockProps = {
     duree?: string;
   };
   children?: React.ReactNode;
+  onVideoEnded?: () => void;
 };
 
 const formatTime = (time: number) => {
   if (!time || isNaN(time)) return "0:00";
+
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+  return `${minutes}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
 };
 
 export default function LessonBlock({
@@ -35,11 +40,19 @@ export default function LessonBlock({
   poster,
   info,
   children,
+  onVideoEnded,
 }: LessonBlockProps) {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const videoRef =
+    useRef<HTMLVideoElement | null>(null);
+
+  const [isPlaying, setIsPlaying] =
+    useState(false);
+
+  const [currentTime, setCurrentTime] =
+    useState(0);
+
+  const [duration, setDuration] =
+    useState(0);
 
   const togglePlayPause = () => {
     if (!videoRef.current) return;
@@ -53,9 +66,15 @@ export default function LessonBlock({
     }
   };
 
+  const handleVideoEnded = () => {
+    setIsPlaying(false);
+    onVideoEnded?.();
+  };
+
   return (
     <section className="space-y-14 bg-white">
       {/* HEADER */}
+
       <div className="container">
         <div className="mx-auto max-w-5xl text-center">
           {badge && (
@@ -65,7 +84,10 @@ export default function LessonBlock({
               {badge}
             </span>
           )}
-          <h1 className="mt-3 text-2xl font-semibold text-black">{title}</h1>
+
+          <h1 className="mt-3 text-2xl font-semibold text-black">
+            {title}
+          </h1>
 
           {description && (
             <p className="mx-auto mt-3 max-w-3xl text-base text-black/70">
@@ -76,6 +98,7 @@ export default function LessonBlock({
       </div>
 
       {/* VIDEO */}
+
       <div className="container">
         <div className="flex justify-center">
           <div className="w-full max-w-[720px]">
@@ -86,12 +109,18 @@ export default function LessonBlock({
                 poster={poster}
                 className="h-full w-full object-cover"
                 onTimeUpdate={() =>
-                  setCurrentTime(videoRef.current?.currentTime || 0)
+                  setCurrentTime(
+                    videoRef.current?.currentTime ||
+                      0,
+                  )
                 }
                 onLoadedMetadata={() =>
-                  setDuration(videoRef.current?.duration || 0)
+                  setDuration(
+                    videoRef.current?.duration ||
+                      0,
+                  )
                 }
-                onEnded={() => setIsPlaying(false)}
+                onEnded={handleVideoEnded}
               />
 
               <button
@@ -103,6 +132,7 @@ export default function LessonBlock({
             </div>
 
             {/* PROGRESSION */}
+
             <div className="mt-3 space-y-2">
               <input
                 type="range"
@@ -112,8 +142,14 @@ export default function LessonBlock({
                 value={currentTime}
                 onChange={(e) => {
                   if (!videoRef.current) return;
-                  const time = Number(e.target.value);
-                  videoRef.current.currentTime = time;
+
+                  const time = Number(
+                    e.target.value,
+                  );
+
+                  videoRef.current.currentTime =
+                    time;
+
                   setCurrentTime(time);
                 }}
                 className="w-full"
@@ -121,11 +157,14 @@ export default function LessonBlock({
 
               <div className="flex items-center justify-between text-sm text-black">
                 <span>
-                  {formatTime(currentTime)} / {formatTime(duration)}
+                  {formatTime(currentTime)} /{" "}
+                  {formatTime(duration)}
                 </span>
 
                 <button
-                  onClick={() => videoRef.current?.requestFullscreen?.()}
+                  onClick={() =>
+                    videoRef.current?.requestFullscreen?.()
+                  }
                   className="rounded-md bg-black px-3 py-1 text-white hover:bg-black/80"
                 >
                   ⛶ Plein écran
@@ -137,6 +176,7 @@ export default function LessonBlock({
       </div>
 
       {/* INFO BLOCK AUTOMATIQUE */}
+
       {info && (
         <div className="container">
           <InfoBlock {...info} />
@@ -144,7 +184,12 @@ export default function LessonBlock({
       )}
 
       {/* CONTENU PEDAGOGIQUE */}
-      {children && <div className="container">{children}</div>}
+
+      {children && (
+        <div className="container">
+          {children}
+        </div>
+      )}
     </section>
   );
 }

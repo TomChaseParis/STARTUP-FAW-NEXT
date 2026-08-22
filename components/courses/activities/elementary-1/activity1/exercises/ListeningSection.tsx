@@ -11,7 +11,7 @@ export default function ListeningSection() {
       <InstructionBlock
         level="elementary1"
         stampLabel="EXERCICE 1"
-        title="COMPRÉHENSION"
+        title="QUIZZ PANACHE"
         activityType="click-or-speak"
         description={
           <div className="space-y-5 text-black">

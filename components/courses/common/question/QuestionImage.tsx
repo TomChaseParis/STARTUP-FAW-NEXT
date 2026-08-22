@@ -17,8 +17,7 @@ export default function QuestionImage({
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="relative w-full overflow-hidden rounded-xl shadow-md ring-1 ring-black/10">
-        <Image
+<div className="relative w-full max-w-[360px] overflow-hidden rounded-xl shadow-md ring-1 ring-black/10">        <Image
           src={image}
           alt={alt}
           width={800}

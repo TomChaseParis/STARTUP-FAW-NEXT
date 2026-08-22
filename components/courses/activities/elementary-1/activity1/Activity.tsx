@@ -1,51 +1,86 @@
 "use client";
 
+import { useState } from "react";
+
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 
-import ListeningSection from "./exercises/ListeningSection";
-import WatchAndAnswerSection from "./exercises/WatchAndAnswerSection";
+import QuizGogoFlow from "../questions-francais/exercises/QuizGogoFlow";
 
 import { elementary1Activity1 } from "@/data/courses/activities/elementary-1/activity1/activity1";
 
 export default function Activity() {
+  const [videoCompleted, setVideoCompleted] =
+    useState(false);
+
   return (
-    <ActivityLayout activity={elementary1Activity1}>
-      {/* ================= INTRODUCTION ================= */}
+    <ActivityLayout
+      activity={elementary1Activity1}
+    >
+      {/* =====================================================
+          INTRODUCTION
+      ===================================================== */}
 
       <LessonBlock
         badge="Niveau élémentaire 1"
-        title="Questions - Réponses"
+        title="QUIZZ A GOGO"
         description="Découvre les principales questions et réponses utilisées dans une conversation simple, puis entraîne-toi grâce à plusieurs exercices interactifs."
-        videoSrc="/videos/courses/elementary-1/activities/activity1/presentation.mp4"
-        poster="/images/courses/elementary-1/activities/activity1/poster.png"
+        videoSrc="/videos/courses/elementary-1/activities/activity1/JEANQUIZAGOGO.mp4"
+        poster="/images/courses/elementary/activities/activity1/jeanposterquizgogo.png"
+        onVideoEnded={() => {
+          setVideoCompleted(true);
+        }}
         info={{
           objectifs: [
-            "Comprendre les principales questions de la vie quotidienne.",
+            "Pratiquer les questions et les tournures interrogatives",
             "Identifier les réponses adaptées.",
             "Réutiliser ces questions dans des situations simples.",
           ],
+
           competences: [
-            "Compréhension orale",
             "Compréhension écrite",
-            "Expression orale",
+            "Prononciation",
           ],
+
           prerequis: [
-            "Les pronoms personnels.",
-            "Les verbes être et avoir au présent.",
-            "Les mots interrogatifs.",
+            "Questions et mots interrogatifs",
           ],
+
           duree: "20 minutes",
         }}
       />
 
-      {/* ================= EXERCICE 1 ================= */}
+      {/* =====================================================
+          AVANT LA FIN DE LA VIDÉO
+      ===================================================== */}
 
-      <ListeningSection />
+      {!videoCompleted && (
+        <section className="container mt-16">
+          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-slate-50 p-8 text-center shadow-sm">
+            <div className="text-4xl">
+              🎬
+            </div>
 
-      {/* ================= EXERCICE 2 ================= */}
+            <h2 className="mt-4 text-2xl font-bold text-slate-900">
+              Regarde d'abord la vidéo
+            </h2>
 
-      <WatchAndAnswerSection />
+            <p className="mx-auto mt-3 max-w-xl leading-relaxed text-slate-600">
+              Les deux quiz seront disponibles
+              dès que tu auras terminé la vidéo
+              de présentation.
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* =====================================================
+          QUIZ À GOGO
+      ===================================================== */}
+
+      {videoCompleted && (
+        <QuizGogoFlow />
+      )}
     </ActivityLayout>
   );
 }
