@@ -39,8 +39,7 @@ export default function ActivityResults({
   teacherFeedbackImages,
   teacherFeedbackAudios,
 }: Props) {
-  const sectionRef =
-    useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -49,8 +48,7 @@ export default function ActivityResults({
       }
 
       const y =
-        sectionRef.current.getBoundingClientRect()
-          .top +
+        sectionRef.current.getBoundingClientRect().top +
         window.scrollY -
         100;
 
@@ -68,48 +66,19 @@ export default function ActivityResults({
   return (
     <section
       ref={sectionRef}
-      className="
-        scroll-mt-10
-        mx-auto
-        mt-20
-        max-w-5xl
-        rounded-3xl
-        border
-        border-slate-200
-        bg-white
-        p-12
-        shadow-sm
-      "
+      className="scroll-mt-10 mx-auto mt-20 max-w-5xl rounded-3xl border border-slate-200 bg-white p-12 shadow-sm"
     >
-      {/* =====================================================
-          PROFESSEUR — FEEDBACK DU SCORE
-      ===================================================== */}
-
       <TeacherFeedback
         score={result.session.score}
-        teacherFeedbackImages={
-          teacherFeedbackImages
-        }
-        teacherFeedbackAudios={
-          teacherFeedbackAudios
-        }
+        teacherFeedbackImages={teacherFeedbackImages}
+        teacherFeedbackAudios={teacherFeedbackAudios}
       />
-
-      {/* =====================================================
-          SCORE
-      ===================================================== */}
 
       <header className="text-center">
         <div className="mt-10">
-          <ScoreBadge
-            score={result.session.score}
-          />
+          <ScoreBadge score={result.session.score} />
         </div>
       </header>
-
-      {/* =====================================================
-          STATISTIQUES
-      ===================================================== */}
 
       <section className="mt-14 grid gap-6 md:grid-cols-2">
         <ResultCard
@@ -137,20 +106,7 @@ export default function ActivityResults({
         />
       </section>
 
-      {/* =====================================================
-          ANALYSE
-      ===================================================== */}
-
-      <section
-        className="
-          mt-12
-          rounded-2xl
-          border
-          border-slate-200
-          bg-slate-50
-          p-6
-        "
-      >
+      <section className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-6">
         <h3 className="text-xl font-bold text-slate-900">
           📚 Analyse de la tentative
         </h3>
@@ -173,55 +129,26 @@ export default function ActivityResults({
           {mistakes === 0
             ? " Excellent travail ! Tu n'as commis aucune erreur."
             : ` Il reste ${mistakes} erreur${
-                mistakes > 1
-                  ? "s"
-                  : ""
+                mistakes > 1 ? "s" : ""
               } à comprendre. Consulte la correction détaillée ci-dessous avant de recommencer.`}
         </p>
       </section>
-
-      {/* =====================================================
-          HISTORIQUE DES RÉPONSES
-      ===================================================== */}
 
       <AnswerHistory
         history={result.session.history}
       />
 
-      {/* =====================================================
-          ACTIONS
-      ===================================================== */}
-
       <div className="mt-14 flex justify-center gap-5">
         <button
           onClick={onRestart}
-          className="
-            rounded-xl
-            border
-            border-slate-300
-            px-8
-            py-3
-            font-semibold
-            text-slate-700
-            transition
-            hover:bg-slate-100
-          "
+          className="rounded-xl border border-slate-300 px-8 py-3 font-semibold text-slate-700 transition hover:bg-slate-100"
         >
           Recommencer
         </button>
 
         <button
           onClick={onNext}
-          className="
-            rounded-xl
-            bg-amber-500
-            px-8
-            py-3
-            font-semibold
-            text-white
-            transition
-            hover:bg-amber-600
-          "
+          className="rounded-xl bg-amber-500 px-8 py-3 font-semibold text-white transition hover:bg-amber-600"
         >
           Exercice suivant →
         </button>

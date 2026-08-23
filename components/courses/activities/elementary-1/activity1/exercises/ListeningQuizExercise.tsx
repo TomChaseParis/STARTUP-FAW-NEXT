@@ -17,7 +17,9 @@ import type {
 import { quizData } from "../data/listeningQuizData";
 
 type ListeningQuizExerciseProps = {
-  onCompleted?: () => void;
+  onCompleted?: (
+    result: ExerciseSessionResult,
+  ) => void;
 };
 
 const ACTIVITY_ID =
@@ -25,6 +27,17 @@ const ACTIVITY_ID =
 
 const EXERCISE_ID =
   "listening-quiz";
+
+const TEACHER_FEEDBACK_AUDIOS = {
+  bad:
+    "/audios/teacher/jean/score/JEAN-DOWN.mp3",
+
+  middle:
+    "/audios/teacher/jean/score/JEAN-MIDDLE.mp3",
+
+  good:
+    "/audios/teacher/jean/score/JEAN-100.mp3",
+};
 
 export default function ListeningQuizExercise({
   onCompleted,
@@ -76,13 +89,16 @@ export default function ListeningQuizExercise({
           good:
             "/images/courses/teacher/bulles/good.png",
         }}
+        teacherFeedbackAudios={
+          TEACHER_FEEDBACK_AUDIOS
+        }
         onRestart={() => {
           resetQuiz();
 
           refresh();
         }}
         onNext={() => {
-          onCompleted?.();
+          onCompleted?.(result);
         }}
       />
     );

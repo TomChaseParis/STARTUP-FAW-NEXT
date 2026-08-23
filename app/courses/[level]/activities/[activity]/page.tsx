@@ -32,7 +32,7 @@ const activityMap: Record<string, ActivityComponent> = {
   "elementary-1/questions-francais": dynamic(
     () =>
       import(
-        "@/components/courses/activities/elementary-1/questions-francais/Activity"
+        "@/components/courses/activities/elementary-1/activity1/Activity"
       ),
     { ssr: false },
   ),

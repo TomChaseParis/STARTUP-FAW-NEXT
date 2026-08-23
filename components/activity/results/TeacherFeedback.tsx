@@ -74,20 +74,30 @@ export default function TeacherFeedback({
   }
 
   useEffect(() => {
-    if (!audio) return;
+    if (!audio) {
+      return;
+    }
 
-    const timer = setTimeout(() => {
-      if (!audioRef.current) return;
+    const timer = window.setTimeout(() => {
+      const audioElement =
+        audioRef.current;
 
-      audioRef.current.currentTime = 0;
+      if (!audioElement) {
+        return;
+      }
 
-      audioRef.current.play().catch(() => {
-        // Certains navigateurs peuvent bloquer l'autoplay.
+      audioElement.currentTime = 0;
+
+      audioElement.play().catch((error) => {
+        console.warn(
+          "[TeacherFeedback] Impossible de lire automatiquement l'audio.",
+          error,
+        );
       });
     }, 700);
 
     return () => {
-      clearTimeout(timer);
+      window.clearTimeout(timer);
     };
   }, [audio]);
 

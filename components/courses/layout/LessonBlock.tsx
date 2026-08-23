@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+
 import InfoBlock from "./InfoBlock";
 
 type LessonBlockProps = {
@@ -21,7 +22,9 @@ type LessonBlockProps = {
 };
 
 const formatTime = (time: number) => {
-  if (!time || isNaN(time)) return "0:00";
+  if (!time || isNaN(time)) {
+    return "0:00";
+  }
 
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -55,7 +58,9 @@ export default function LessonBlock({
     useState(0);
 
   const togglePlayPause = () => {
-    if (!videoRef.current) return;
+    if (!videoRef.current) {
+      return;
+    }
 
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -73,7 +78,9 @@ export default function LessonBlock({
 
   return (
     <section className="space-y-14 bg-white">
-      {/* HEADER */}
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
 
       <div className="container">
         <div className="mx-auto max-w-5xl text-center">
@@ -97,7 +104,9 @@ export default function LessonBlock({
         </div>
       </div>
 
-      {/* VIDEO */}
+      {/* =====================================================
+          VIDEO
+      ===================================================== */}
 
       <div className="container">
         <div className="flex justify-center">
@@ -124,6 +133,7 @@ export default function LessonBlock({
               />
 
               <button
+                type="button"
                 onClick={togglePlayPause}
                 className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-2xl text-white backdrop-blur hover:bg-black/50"
               >
@@ -131,7 +141,9 @@ export default function LessonBlock({
               </button>
             </div>
 
-            {/* PROGRESSION */}
+            {/* =================================================
+                PROGRESSION
+            ================================================= */}
 
             <div className="mt-3 space-y-2">
               <input
@@ -141,7 +153,9 @@ export default function LessonBlock({
                 step={0.1}
                 value={currentTime}
                 onChange={(e) => {
-                  if (!videoRef.current) return;
+                  if (!videoRef.current) {
+                    return;
+                  }
 
                   const time = Number(
                     e.target.value,
@@ -162,6 +176,7 @@ export default function LessonBlock({
                 </span>
 
                 <button
+                  type="button"
                   onClick={() =>
                     videoRef.current?.requestFullscreen?.()
                   }
@@ -175,7 +190,9 @@ export default function LessonBlock({
         </div>
       </div>
 
-      {/* INFO BLOCK AUTOMATIQUE */}
+      {/* =====================================================
+          INFO BLOCK AUTOMATIQUE
+      ===================================================== */}
 
       {info && (
         <div className="container">
@@ -183,7 +200,9 @@ export default function LessonBlock({
         </div>
       )}
 
-      {/* CONTENU PEDAGOGIQUE */}
+      {/* =====================================================
+          CONTENU PÉDAGOGIQUE
+      ===================================================== */}
 
       {children && (
         <div className="container">

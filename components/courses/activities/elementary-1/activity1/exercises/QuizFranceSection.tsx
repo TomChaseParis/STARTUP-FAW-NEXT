@@ -22,7 +22,9 @@ type QuizOption = {
 
 type QuizQuestion = {
   id: number;
-  type: "single-choice" | "multiple-choice";
+  type:
+    | "single-choice"
+    | "multiple-choice";
   image?: string;
   teacherImage?: string;
   question: string;
@@ -39,10 +41,13 @@ type QuizData = {
 };
 
 type QuizFranceSectionProps = {
-  onCompleted?: () => void;
+  onCompleted?: (
+    result: ExerciseSessionResult,
+  ) => void;
 };
 
-const data = quizData as QuizData;
+const data =
+  quizData as QuizData;
 
 const questions: Question[] =
   data.questions.map(
@@ -56,9 +61,11 @@ const questions: Question[] =
       return {
         id: question.id,
 
-        question: question.question,
+        question:
+          question.question,
 
-        image: question.image,
+        image:
+          question.image,
 
         teacherImage:
           question.teacherImage,
@@ -66,18 +73,21 @@ const questions: Question[] =
         teacherAudioQuestion:
           question.teacherAudioQuestion,
 
-        choices: question.options.map(
-          (option) => ({
-            id: option.id.toUpperCase(),
+        choices:
+          question.options.map(
+            (option) => ({
+              id:
+                option.id.toUpperCase(),
 
-            label: option.text,
+              label:
+                option.text,
 
-            isCorrect:
-              correctAnswers.includes(
-                option.id,
-              ),
-          }),
-        ),
+              isCorrect:
+                correctAnswers.includes(
+                  option.id,
+                ),
+            }),
+          ),
       };
     },
   );
@@ -87,6 +97,17 @@ const ACTIVITY_ID =
 
 const EXERCISE_ID =
   "quiz-france";
+
+const TEACHER_FEEDBACK_AUDIOS = {
+  bad:
+    "/audios/teacher/jean/score/JEAN-DOWN.mp3",
+
+  middle:
+    "/audios/teacher/jean/score/JEAN-MIDDLE.mp3",
+
+  good:
+    "/audios/teacher/jean/score/JEAN-100.mp3",
+};
 
 export default function QuizFranceSection({
   onCompleted,
@@ -126,7 +147,6 @@ export default function QuizFranceSection({
 
           attempts,
         }}
-
         teacherFeedbackImages={{
           bad:
             "/images/courses/teacher/bulles/bad.png",
@@ -137,26 +157,16 @@ export default function QuizFranceSection({
           good:
             "/images/courses/teacher/bulles/good.png",
         }}
-
-        teacherFeedbackAudios={{
-          bad:
-            "/audios/teacher/jean/score/JEAN-DOWN.mp3",
-
-          middle:
-            "/audios/teacher/jean/score/JEAN-MIDDLE.mp3",
-
-          good:
-            "/audios/teacher/jean/score/JEAN-100.mp3",
-        }}
-
+        teacherFeedbackAudios={
+          TEACHER_FEEDBACK_AUDIOS
+        }
         onRestart={() => {
           resetQuiz();
 
           refresh();
         }}
-
         onNext={() => {
-          onCompleted?.();
+          onCompleted?.(result);
         }}
       />
     );
@@ -166,7 +176,6 @@ export default function QuizFranceSection({
     <section className="w-full">
       <QuizEngine
         questions={questions}
-
         progressConfig={{
           progress,
 
@@ -181,7 +190,6 @@ export default function QuizFranceSection({
               refresh();
             },
         }}
-
         resultRenderer={
           renderResult
         }
