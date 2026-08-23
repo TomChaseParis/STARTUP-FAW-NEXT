@@ -2,16 +2,12 @@
 
 import { useState } from "react";
 
-import ActivityResults from "@/components/courses/common/ActivityResults/ActivityResults";
+import ExerciseContainer from "@/components/activity/ExerciseContainer";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 
-import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
-
-// import ExerciseContainer from "@/components/activity/ExerciseContainer";
-// import ListeningQuizExercise from "./ListeningQuizExercise";
-// import QuizFranceSection from "./QuizFranceSection";
-
+import ListeningQuizExercise from "./ListeningQuizExercise";
+import QuizFranceSection from "./QuizFranceSection";
 import TeacherQuestionExercise from "./TeacherQuestionExercise";
 
 type QuizStep =
@@ -24,41 +20,97 @@ type QuizStep =
   | "finished";
 
 export default function QuizGogoFlow() {
-  /*
-   * =========================================================
-   * ÉTAPE COURANTE
-   * =========================================================
-   */
-
   const [currentStep, setCurrentStep] =
-    useState<QuizStep>("exercise-3");
+    useState<QuizStep>("exercise-1");
 
-  /*
-   * =========================================================
-   * EXERCICE 3
-   * =========================================================
-   */
+  const [exercise1Started, setExercise1Started] =
+    useState(false);
+
+  const [exercise2Started, setExercise2Started] =
+    useState(false);
 
   const [exercise3Started, setExercise3Started] =
     useState(false);
 
   /*
    * =========================================================
-   * RÉSULTATS DES EXERCICES
+   * EXERCICE 1
    * =========================================================
-   *
-   * Pour le moment, seul l'exercice 3 est actif.
-   *
-   * Lorsque les exercices 1 et 2 seront réactivés,
-   * leurs résultats pourront être ajoutés ici.
    */
 
-  const [exerciseResults, setExerciseResults] =
-    useState<ExerciseSessionResult[]>([]);
+  const handleStartExercise1 = () => {
+    setExercise1Started(true);
+    setCurrentStep("quiz-1");
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document
+          .getElementById("quiz-gogo-quiz-1")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      });
+    });
+  };
+
+  const handleQuiz1Completed = () => {
+    setCurrentStep("exercise-2");
+    setExercise2Started(false);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document
+          .getElementById("quiz-gogo-exercise-2")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      });
+    });
+  };
 
   /*
    * =========================================================
-   * DÉMARRER L'EXERCICE 3
+   * EXERCICE 2
+   * =========================================================
+   */
+
+  const handleStartExercise2 = () => {
+    setExercise2Started(true);
+    setCurrentStep("quiz-2");
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document
+          .getElementById("quiz-gogo-quiz-2")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      });
+    });
+  };
+
+  const handleQuiz2Completed = () => {
+    setCurrentStep("exercise-3");
+    setExercise3Started(false);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document
+          .getElementById("quiz-gogo-exercise-3")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      });
+    });
+  };
+
+  /*
+   * =========================================================
+   * EXERCICE 3
    * =========================================================
    */
 
@@ -69,9 +121,7 @@ export default function QuizGogoFlow() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document
-          .getElementById(
-            "quiz-gogo-quiz-3",
-          )
+          .getElementById("quiz-gogo-quiz-3")
           ?.scrollIntoView({
             behavior: "smooth",
             block: "start",
@@ -80,32 +130,13 @@ export default function QuizGogoFlow() {
     });
   };
 
-  /*
-   * =========================================================
-   * EXERCICE 3 TERMINÉ
-   * =========================================================
-   */
-
-  const handleQuiz3Completed = (
-    result: ExerciseSessionResult,
-  ) => {
-    const updatedResults = [
-      ...exerciseResults,
-      result,
-    ];
-
-    setExerciseResults(
-      updatedResults,
-    );
-
+  const handleQuiz3Completed = () => {
     setCurrentStep("finished");
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document
-          .getElementById(
-            "quiz-gogo-finished",
-          )
+          .getElementById("quiz-gogo-finished")
           ?.scrollIntoView({
             behavior: "smooth",
             block: "start",
@@ -114,131 +145,12 @@ export default function QuizGogoFlow() {
     });
   };
 
-  /*
-   * =========================================================
-   * RÉSULTAT GLOBAL
-   * =========================================================
-   */
-
-  const buildGlobalResult =
-    (): ExerciseSessionResult => {
-      const allHistory =
-        exerciseResults.flatMap(
-          (result) =>
-            result.history,
-        );
-
-      const correctAnswers =
-        exerciseResults.reduce(
-          (total, result) =>
-            total +
-            result.correctAnswers,
-          0,
-        );
-
-      const totalQuestions =
-        exerciseResults.reduce(
-          (total, result) =>
-            total +
-            result.totalQuestions,
-          0,
-        );
-
-      const score =
-        totalQuestions > 0
-          ? Math.round(
-              (correctAnswers /
-                totalQuestions) *
-                100,
-            )
-          : 0;
-
-      const startedAt =
-        exerciseResults.length > 0
-          ? exerciseResults.reduce(
-              (
-                earliest,
-                result,
-              ) =>
-                result.startedAt <
-                earliest
-                  ? result.startedAt
-                  : earliest,
-              exerciseResults[0]
-                .startedAt,
-            )
-          : new Date();
-
-      const finishedAt =
-        exerciseResults.length > 0
-          ? exerciseResults.reduce(
-              (
-                latest,
-                result,
-              ) => {
-                if (
-                  !result.finishedAt
-                ) {
-                  return latest;
-                }
-
-                if (
-                  !latest ||
-                  result.finishedAt >
-                    latest
-                ) {
-                  return result.finishedAt;
-                }
-
-                return latest;
-              },
-              null as Date | null,
-            )
-          : null;
-
-      const duration =
-        exerciseResults.reduce(
-          (total, result) =>
-            total +
-            result.duration,
-          0,
-        );
-
-      return {
-        score,
-
-        correctAnswers,
-
-        totalQuestions,
-
-        history: allHistory,
-
-        startedAt,
-
-        finishedAt,
-
-        duration,
-      };
-    };
-
-  /*
-   * =========================================================
-   * RÉSULTAT FINAL
-   * =========================================================
-   */
-
-  const globalResult =
-    currentStep === "finished"
-      ? buildGlobalResult()
-      : null;
-
   return (
     <section className="mt-16 w-full">
       {/* =====================================================
-          EXERCICE 1 — DÉSACTIVÉ TEMPORAIREMENT
+          EXERCICE 1
       ===================================================== */}
 
-      {/*
       {(currentStep === "exercise-1" ||
         currentStep === "quiz-1") && (
         <section
@@ -274,10 +186,7 @@ export default function QuizGogoFlow() {
                     <ListeningQuizExercise
                       onCompleted={(result) => {
                         onComplete(result);
-
-                        handleQuiz1Completed(
-                          result,
-                        );
+                        handleQuiz1Completed();
                       }}
                     />
                   </section>
@@ -287,13 +196,11 @@ export default function QuizGogoFlow() {
           </ExerciseContainer>
         </section>
       )}
-      */}
 
       {/* =====================================================
-          EXERCICE 2 — DÉSACTIVÉ TEMPORAIREMENT
+          EXERCICE 2
       ===================================================== */}
 
-      {/*
       {(currentStep === "exercise-2" ||
         currentStep === "quiz-2") && (
         <section
@@ -328,10 +235,7 @@ export default function QuizGogoFlow() {
                     <QuizFranceSection
                       onCompleted={(result) => {
                         onComplete(result);
-
-                        handleQuiz2Completed(
-                          result,
-                        );
+                        handleQuiz2Completed();
                       }}
                     />
                   </section>
@@ -341,7 +245,6 @@ export default function QuizGogoFlow() {
           </ExerciseContainer>
         </section>
       )}
-      */}
 
       {/* =====================================================
           EXERCICE 3
@@ -359,7 +262,6 @@ export default function QuizGogoFlow() {
               stampLabel="EXERCICE 3"
               title="Le professeur je-sais-tout"
               subtitle="Complète la question avec le bon mot interrogatif, puis pose la question à Jean"
-              activityType="speak"
               description={
                 <p>
                   Complète mentalement la question avec le
@@ -378,9 +280,9 @@ export default function QuizGogoFlow() {
                 className="mt-10 scroll-mt-8"
               >
                 <TeacherQuestionExercise
-                  onCompleted={
-                    handleQuiz3Completed
-                  }
+                  onCompleted={(result) => {
+                    handleQuiz3Completed();
+                  }}
                 />
               </section>
             )}
@@ -389,48 +291,34 @@ export default function QuizGogoFlow() {
       )}
 
       {/* =====================================================
-          RÉSULTAT FINAL
+          FIN
       ===================================================== */}
 
-      {currentStep === "finished" &&
-        globalResult && (
-          <section
-            id="quiz-gogo-finished"
-            className="container mt-16 scroll-mt-8"
-          >
-            <ActivityResults
-              result={{
-                session:
-                  globalResult,
+      {currentStep === "finished" && (
+        <section
+          id="quiz-gogo-finished"
+          className="container mt-16 scroll-mt-8"
+        >
+          <div className="mx-auto max-w-4xl rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-green-50 p-8 text-center shadow-sm">
+            <div className="text-5xl">
+              🎉
+            </div>
 
-                bestScore:
-                  globalResult.score,
+            <p className="mt-5 text-xs font-extrabold uppercase tracking-[0.2em] text-emerald-700">
+              Activité terminée
+            </p>
 
-                attempts: 1,
-              }}
-              teacherFeedbackImages={{
-                bad:
-                  "/images/courses/teacher/bulles/bad.png",
+            <h3 className="mt-2 text-3xl font-black text-slate-900">
+              Bravo !
+            </h3>
 
-                middle:
-                  "/images/courses/teacher/bulles/middle.png",
-
-                good:
-                  "/images/courses/teacher/bulles/good.png",
-              }}
-              teacherFeedbackAudios={{
-                bad:
-                  "/audios/teacher/jean/score/JEAN-DOWN.mp3",
-
-                middle:
-                  "/audios/teacher/jean/score/JEAN-MIDDLE.mp3",
-
-                good:
-                  "/audios/teacher/jean/score/JEAN-100.mp3",
-              }}
-            />
-          </section>
-        )}
+            <p className="mx-auto mt-3 max-w-xl leading-relaxed text-slate-600">
+              Tu as terminé les trois exercices de cette
+              activité.
+            </p>
+          </div>
+        </section>
+      )}
     </section>
   );
 }

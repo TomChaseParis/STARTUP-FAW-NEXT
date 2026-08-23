@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 
-import QuizFranceSection from "../activities/elementary-1/questions-francais/exercises/QuizFranceSection";
+import QuizFranceSection from "../activities/elementary-1/activity1/exercises/QuizFranceSection";
 
 import ListeningQuizExercise from "../activities/elementary-1/activity1/exercises/ListeningQuizExercise";
 
