@@ -66,7 +66,25 @@ export default function ActivityResults({
   return (
     <section
       ref={sectionRef}
-      className="scroll-mt-10 mx-auto mt-20 max-w-5xl rounded-3xl border border-slate-200 bg-white p-12 shadow-sm"
+      className="
+        scroll-mt-10
+        mx-3
+        mt-10
+        max-w-5xl
+        overflow-hidden
+        rounded-3xl
+        border
+        border-slate-200
+        bg-white
+        p-4
+        shadow-sm
+        sm:mx-4
+        sm:mt-14
+        sm:p-6
+        md:mx-auto
+        md:mt-20
+        md:p-12
+      "
     >
       <TeacherFeedback
         score={result.session.score}
@@ -75,12 +93,12 @@ export default function ActivityResults({
       />
 
       <header className="text-center">
-        <div className="mt-10">
+        <div className="mt-8 sm:mt-10">
           <ScoreBadge score={result.session.score} />
         </div>
       </header>
 
-      <section className="mt-14 grid gap-6 md:grid-cols-2">
+      <section className="mt-8 grid gap-4 sm:mt-10 sm:gap-6 md:grid-cols-2">
         <ResultCard
           icon="✅"
           label="Réponses correctes"
@@ -106,12 +124,12 @@ export default function ActivityResults({
         />
       </section>
 
-      <section className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-        <h3 className="text-xl font-bold text-slate-900">
+      <section className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:mt-12 sm:p-6">
+        <h3 className="text-lg font-bold text-slate-900 sm:text-xl">
           📚 Analyse de la tentative
         </h3>
 
-        <p className="mt-2 leading-relaxed text-slate-600">
+        <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
           Tu as répondu correctement à{" "}
           <strong>
             {result.session.correctAnswers}
@@ -138,17 +156,44 @@ export default function ActivityResults({
         history={result.session.history}
       />
 
-      <div className="mt-14 flex justify-center gap-5">
+      <div className="mt-8 flex flex-col gap-3 sm:mt-14 sm:flex-row sm:justify-center sm:gap-5">
         <button
+          type="button"
           onClick={onRestart}
-          className="rounded-xl border border-slate-300 px-8 py-3 font-semibold text-slate-700 transition hover:bg-slate-100"
+          className="
+            w-full
+            rounded-xl
+            border
+            border-slate-300
+            px-6
+            py-3
+            font-semibold
+            text-slate-700
+            transition
+            hover:bg-slate-100
+            sm:w-auto
+            sm:px-8
+          "
         >
           Recommencer
         </button>
 
         <button
+          type="button"
           onClick={onNext}
-          className="rounded-xl bg-amber-500 px-8 py-3 font-semibold text-white transition hover:bg-amber-600"
+          className="
+            w-full
+            rounded-xl
+            bg-amber-500
+            px-6
+            py-3
+            font-semibold
+            text-white
+            transition
+            hover:bg-amber-600
+            sm:w-auto
+            sm:px-8
+          "
         >
           Exercice suivant →
         </button>

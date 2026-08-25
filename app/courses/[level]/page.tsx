@@ -12,7 +12,6 @@ type PageProps = {
 };
 
 const LEGACY_LEVELS = new Set([
-  "elementary-2",
   "intermediate-1",
   "intermediate-2",
   "advanced",
@@ -32,6 +31,10 @@ export default async function LevelPage({
     redirect(`/courses/${level}/activities`);
   }
 
+  /*
+   * elementary-1 et elementary-2 utilisent
+   * maintenant le système de modules.
+   */
   const modules = await getModules(level);
 
   const formattedLevel =

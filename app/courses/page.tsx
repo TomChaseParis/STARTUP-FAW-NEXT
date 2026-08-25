@@ -1,6 +1,6 @@
 
 import { getLevels } from "@/lib/courses/getLevels";
-import LevelCard from "../../components/courses/LevelCard";
+import LevelCard from "@/components/courses/LevelCard";
 
 export default async function CoursesPage() {
   const levels = await getLevels();

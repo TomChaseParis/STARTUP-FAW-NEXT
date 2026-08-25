@@ -3,13 +3,33 @@
 import { Children, ReactNode } from "react";
 
 import { useNavigation } from "./ActivityNavigationProvider";
+
 import ActivityResults from "@/components/courses/common/ActivityResults";
+
+type TeacherFeedbackImages = {
+  bad: string;
+  middle: string;
+  good: string;
+};
+
+type TeacherFeedbackAudios = {
+  bad: string;
+  middle: string;
+  good: string;
+};
+
 type Props = {
   children: ReactNode;
+
+  teacherFeedbackImages?: TeacherFeedbackImages;
+
+  teacherFeedbackAudios?: TeacherFeedbackAudios;
 };
 
 export default function ActivityFlow({
   children,
+  teacherFeedbackImages,
+  teacherFeedbackAudios,
 }: Props) {
   const {
     currentExerciseIndex,
@@ -36,14 +56,16 @@ export default function ActivityFlow({
         onNext={() => {
           nextExercise();
 
-          // Pour l'instant on passe directement
-          // à l'exercice suivant.
-          // Plus tard, on remplacera cela
-          // par une vraie animation.
           setTimeout(() => {
             transitionFinished();
           }, 300);
         }}
+        teacherFeedbackImages={
+          teacherFeedbackImages
+        }
+        teacherFeedbackAudios={
+          teacherFeedbackAudios
+        }
       />
     );
   }
@@ -72,5 +94,9 @@ export default function ActivityFlow({
     );
   }
 
-  return <>{exercises[currentExerciseIndex]}</>;
+  return (
+    <>
+      {exercises[currentExerciseIndex]}
+    </>
+  );
 }

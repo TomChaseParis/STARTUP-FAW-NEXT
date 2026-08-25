@@ -6,15 +6,18 @@
     "slug": "gouts-loisirs",
     "title": "Goûts et loisirs",
     "description": "",
-    "locked": false
+    "locked": false,
+    "image": "/images/courses/modules/goutsetloisirs.jpg"
+
   },
   "activities": [
     {
       "slug": "gouts-loisirs",
-      "title": "Goûts et loisirs",
+      "title": "LES LOISIRS DES FRANÇAIS",
       "subtitle": "",
-      "description": "",
-      "locked": false
+      "description": "Conjugaison au présent : 3ème personne du singulier et du pluriel",
+      "locked": false,
+      "image": "/images/courses/modules/goutsetloisirs.png"
     }
   ]
 }

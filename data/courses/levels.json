@@ -18,16 +18,14 @@
     "title": "Élémentaire 2",
     "description": "Renforcement des fondamentaux",
     "badge": "A2+",
-    "image": "/images/courses/teacher/irene-jacket.png",
-    "externalUrl": "https://faw-impossibletofindsoab-2-2.netlify.app/courses/elementary-2"
+    "image": "/images/courses/teacher/irene-jacket.png"
   },
   {
     "slug": "intermediate-1",
     "title": "Intermédiaire 1",
     "description": "Communication fluide",
     "badge": "B1",
-    "image": "/images/courses/teacher/etienne-shirt-blue.png",
-    "externalUrl": "https://faw-impossibletofindsoab-2-2.netlify.app/courses/intermediate-1"
+    "image": "/images/courses/teacher/etienne-shirt-blue.png"
   },
   {
     "slug": "intermediate-2",

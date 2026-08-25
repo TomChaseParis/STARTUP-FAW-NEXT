@@ -27,7 +27,10 @@ export default function ModuleCard({
     purple: "bg-[#631275]",
     blue: "bg-sky-600",
     green: "bg-emerald-600",
-    pink:"bg-[#EBB7ED]"
+    pink:"bg-[#FFAFF0]",
+    violet: "bg-[#43268C]",
+    lesson: "bg-[#FFB133]",
+
   };
 
 

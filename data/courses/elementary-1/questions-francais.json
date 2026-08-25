@@ -1,13 +1,19 @@
 {
   "title": "Les questions en français",
+
   "category": "Communication",
+
   "description": "Apprends à comprendre et poser des questions en français.",
+
   "lesson": {
     "slug": "questions-francais",
-    "title": "Les questions en français",
-    "description": "",
+    "labelColor": "#FFB133",
+    "title": "Les tournures interrogatives",
+    "description": "Les trois types de questions",
+    "image": "/images/courses/modules/les-tournures-interrogatives.png",
     "locked": false
   },
+
   "activities": [
     {
       "slug": "questions-francais",

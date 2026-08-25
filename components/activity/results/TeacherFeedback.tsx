@@ -116,14 +116,31 @@ export default function TeacherFeedback({
           duration: 0.7,
           ease: "easeOut",
         }}
-        className="mt-12 flex items-center gap-10"
+        className="
+          mt-6
+          flex
+          w-full
+          min-w-0
+          flex-col
+          items-center
+          gap-5
+          sm:mt-8
+          sm:gap-6
+          md:flex-row
+          md:items-center
+          md:gap-10
+        "
       >
-        <TeacherAvatar image={image} />
+        <div className="shrink-0">
+          <TeacherAvatar image={image} />
+        </div>
 
-        <TeacherBubble
-          title={title}
-          message={message}
-        />
+        <div className="min-w-0 w-full">
+          <TeacherBubble
+            title={title}
+            message={message}
+          />
+        </div>
       </motion.div>
 
       {audio && (

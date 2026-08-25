@@ -3,16 +3,16 @@
     "slug": "questions-francais",
     "title": "Les questions en français",
     "category": "Communication",
-    "categoryColor": "blue",
-    "description": "Apprends à comprendre et poser des questions en français",
-    "image": "/images/courses/modules/questionsenfrancais.png"
+    "categoryColor": "pink",
+    "description": "Savoir formuler des questions",
+    "image": "/images/courses/modules/questions-francais.jpg"
   },
   {
     "slug": "gouts-loisirs",
     "title": "Goûts et loisirs",
     "category": "Dossier thématique",
-    "categoryColor": "velvet",
-    "description": "Apprends à parler de tes goûts, de tes activités et de tes loisirs",
+    "categoryColor": "violet",
+    "description": "Activités, sports et hobbies",
     "image": "/images/courses/modules/goutsetloisirs.jpg"
   }
 ]
