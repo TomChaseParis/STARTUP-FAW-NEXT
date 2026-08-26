@@ -10,25 +10,33 @@ export default function ActivityGrid({
   activities,
 }: ActivityGridProps) {
   return (
-    <section>
-      <h2 className="mb-8 text-3xl font-bold">
+    <section className="w-full">
+      <h2 className="mb-8 text-2xl font-bold sm:text-3xl">
         Activités
       </h2>
 
       <div
         className="
           grid
-          justify-start
+          w-full
+          grid-cols-1
+          justify-items-center
           gap-8
-          [grid-template-columns:repeat(auto-fit,minmax(420px,420px))]
+          sm:grid-cols-1
+          lg:grid-cols-2
+          xl:grid-cols-3
         "
       >
         {activities.map((activity) => (
-          <ActivityCard
+          <div
             key={activity.slug}
-            level={level}
-            activity={activity}
-          />
+            className="w-full max-w-[420px]"
+          >
+            <ActivityCard
+              level={level}
+              activity={activity}
+            />
+          </div>
         ))}
       </div>
     </section>

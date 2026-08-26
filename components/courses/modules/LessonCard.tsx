@@ -32,7 +32,7 @@ export default function LessonCard({
       className={
         lesson.locked
           ? "pointer-events-none opacity-60"
-          : "group block"
+          : "group block w-full"
       }
     >
       <article
@@ -40,7 +40,8 @@ export default function LessonCard({
           relative
           flex
           h-[365px]
-          w-[420px]
+          w-full
+          max-w-[420px]
           flex-col
           overflow-hidden
           rounded-[28px]
@@ -50,7 +51,9 @@ export default function LessonCard({
           from-white
           via-white
           to-slate-50
-          p-6
+          p-4
+          sm:p-5
+          md:p-6
           shadow-[0_3px_6px_rgba(0,0,0,0.05),0_12px_24px_rgba(15,23,42,0.08),0_28px_60px_rgba(15,23,42,0.10)]
           transition-all
           duration-300
@@ -80,13 +83,24 @@ export default function LessonCard({
         </div>
 
         {/* Titre */}
-        <div className="mt-4 text-center">
-          <h2 className="whitespace-normal break-words text-2xl font-black uppercase leading-tight text-slate-900">
+        <div className="mt-4 min-w-0 text-center">
+          <h2
+            className="
+              whitespace-normal
+              break-words
+              text-xl
+              font-black
+              uppercase
+              leading-tight
+              text-slate-900
+              sm:text-2xl
+            "
+          >
             {lesson.title}
           </h2>
 
           {lesson.label && (
-            <p className="mt-1 font-semibold text-black">
+            <p className="mt-1 break-words font-semibold text-black">
               {lesson.label}
             </p>
           )}
@@ -94,11 +108,15 @@ export default function LessonCard({
 
         {/* Illustration */}
         {lesson.image && (
-          <div className="relative mt-4 flex-1">
+          <div className="relative mt-4 min-h-0 flex-1">
             <Image
               src={lesson.image}
               alt={lesson.title}
               fill
+              sizes="
+                (max-width: 640px) 90vw,
+                420px
+              "
               className="
                 object-contain
                 object-bottom
@@ -111,7 +129,7 @@ export default function LessonCard({
         )}
 
         {/* Description */}
-        <p className="mt-4 line-clamp-2 text-center font-semibold text-black">
+        <p className="mt-4 line-clamp-2 text-center text-sm font-semibold text-black sm:text-base">
           {lesson.description}
         </p>
       </article>

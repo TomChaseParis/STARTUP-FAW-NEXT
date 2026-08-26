@@ -12,10 +12,18 @@ type PageProps = {
 };
 
 const LEGACY_LEVELS = new Set([
-  "intermediate-1",
   "intermediate-2",
   "advanced",
 ]);
+
+const LEVEL_LABELS: Record<string, string> = {
+  beginner: "Débutant",
+  "elementary-1": "Élémentaire 1",
+  "elementary-2": "Élémentaire 2",
+  "intermediate-1": "Intermédiaire 1",
+  "intermediate-2": "Intermédiaire 2",
+  advanced: "Avancé",
+};
 
 export default async function LevelPage({
   params,
@@ -32,28 +40,36 @@ export default async function LevelPage({
   }
 
   /*
-   * elementary-1 et elementary-2 utilisent
+   * Les niveaux migrés utilisent
    * maintenant le système de modules.
    */
   const modules = await getModules(level);
 
+  /*
+   * Nom français du niveau affiché à l'utilisateur.
+   *
+   * Exemple :
+   *
+   * elementary-1 → Élémentaire 1
+   * elementary-2 → Élémentaire 2
+   * intermediate-1 → Intermédiaire 1
+   */
   const formattedLevel =
-    level.charAt(0).toUpperCase() +
-    level.slice(1).replace(/-/g, " ");
+    LEVEL_LABELS[level] ?? level;
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-20 pt-[200px]">
-      <div className="mx-auto max-w-[1800px] px-8">
+      <div className="mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-12">
         {/* TITRE */}
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl font-extrabold text-gray-900">
+          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Découvrez les modules du niveau{" "}
             <span className="text-amber-500">
               {formattedLevel}
             </span>
           </h1>
 
-          <p className="mt-3 text-lg text-gray-600">
+          <p className="mt-3 text-base text-gray-600 sm:text-lg">
             Chaque module est conçu pour développer une
             compétence précise à travers une leçon et
             plusieurs activités interactives.
@@ -63,18 +79,25 @@ export default async function LevelPage({
         {/* GRILLE DES MODULES */}
         <div
           className="
-            mt-20
+            mt-12
             grid
-            justify-center
-            gap-x-10
-            gap-y-10
-            [grid-template-columns:repeat(auto-fit,minmax(480px,480px))]
+            w-full
+            grid-cols-1
+            justify-items-center
+            gap-8
+            px-0
+            sm:mt-16
+            sm:px-2
+            lg:grid-cols-2
+            lg:gap-x-10
+            lg:gap-y-10
+            xl:grid-cols-3
           "
         >
           {modules.map((module: any) => (
             <div
               key={module.slug}
-              className="w-[480px] max-w-full"
+              className="w-full max-w-[480px]"
             >
               <ModuleCard
                 title={module.title}

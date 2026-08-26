@@ -3,32 +3,32 @@
   {
     "slug": "parler-de-sa-vie-quotidienne",
     "title": "Parler de sa vie quotidienne",
-    "category": "",
-    "categoryColor": "",
+    "category": "Communication",
+    "categoryColor": "pink",
     "description": "",
     "image": "/images/courses/modules/vie-quotidienne.jpg"
   },
   {
     "slug": "les-formes-negatives",
     "title": "Les formes négatives",
-    "category": "",
-    "categoryColor": "",
+    "category": "Grammaire",
+    "categoryColor": "violet",
     "description": "",
     "image": "/images/courses/modules/formes-negatives.jpg"
   },
   {
     "slug": "le-logement",
     "title": "Le logement",
-    "category": "",
-    "categoryColor": "",
+    "category": "Dossier thématique",
+    "categoryColor": "violet",
     "description": "",
     "image": "/images/courses/modules/le-logement.jpg"
   },
   {
     "slug": "le-logement",
     "title": "Passé Présent Futur",
-    "category": "",
-    "categoryColor": "",
+    "category": "Communication",
+    "categoryColor": "pink",
     "description": "",
     "image": "/images/courses/modules/passe-present-futur.jpg"
   }
