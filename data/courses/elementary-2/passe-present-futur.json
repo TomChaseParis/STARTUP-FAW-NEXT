@@ -1,0 +1,24 @@
+{
+  "title": "Passé présent futur",
+  "category": "Communication",
+  "description": "Apprends à parler du passé, du présent et du futur.",
+
+  "lesson": {
+    "slug": "passe-present-futur",
+    "title": "Passé présent futur",
+    "description": "Découvre comment parler des actions passées, présentes et futures.",
+    "image": "/images/courses/modules/passepresentfutur.png",
+    "locked": false
+  },
+
+  "activities": [
+    {
+      "slug": "anges-et-demons",
+      "title": "ANGES ET DÉMONS",
+      "subtitle": "",
+      "description": "Passé composé, Présent et Futur proche",
+      "locked": false,
+      "image": "/images/courses/modules/anges-et-demons.jpg"
+    }
+  ]
+}

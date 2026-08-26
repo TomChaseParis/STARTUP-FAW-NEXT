@@ -43,7 +43,7 @@ export default function Activity() {
         badge="Niveau élémentaire 1"
         title="QUIZZ A GOGO"
         description="Découvre les principales questions et réponses utilisées dans une conversation simple, puis entraîne-toi grâce à plusieurs exercices interactifs."
-        videoSrc="/videos/courses/elementary-1/activities/activity1/JEANQUIZAGOGO.mp4"
+        videoSrc="/videos/courses/elementary-1/activities/activity1/presentation.mp4"
         poster="/images/courses/elementary/activities/activity1/jeanposterquizgogo.png"
         info={{
           objectifs: [

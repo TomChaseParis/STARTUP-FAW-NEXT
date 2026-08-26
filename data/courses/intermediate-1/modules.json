@@ -4,8 +4,17 @@
     "slug": "parler-de-sa-vie-quotidienne",
     "title": "L'imparfait d'habitude",
     "category": "Communication",
-    "categoryColor": "pink",
+    "categoryColor": "communication",
     "description": "Parler du temps d'avant et de ses habituées passées",
     "image": "/images/courses/modules/imparfait-dhabitude.jpg"
+  },
+  {
+    "slug": "parler-de-sa-vie-quotidienne",
+    "title": "LES PRONOMS COMPLEMENTS",
+    "category": "Grammaire",
+    "categoryColor": "grammar",
+    "description": "Pronoms toniques, COD et COI",
+    "image": "/images/courses/modules/les-pronoms.jpg"
   }
+
 ]

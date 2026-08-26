@@ -3,7 +3,7 @@
     "slug": "present-tense",
     "title": "Conjugaison au présent",
     "category": "Grammaire",
-    "categoryColor": "purple",
+    "categoryColor":"grammar",
     "description": "Verbes essentiels du 3ème groupe",
     "image": "/images/courses/modules/grammaire.png"
   },
@@ -11,7 +11,7 @@
     "slug": "se-presenter",
     "title": "Se présenter en français",
     "category": "Communication",
-    "categoryColor": "pink",
+    "categoryColor": "communication",
     "description": "Apprends à te présenter naturellement en français",
     "image": "/images/courses/modules/presenter.png"
   }

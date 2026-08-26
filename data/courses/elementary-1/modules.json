@@ -3,7 +3,7 @@
     "slug": "questions-francais",
     "title": "Les questions en français",
     "category": "Communication",
-    "categoryColor": "pink",
+    "categoryColor": "communication",
     "description": "Savoir formuler des questions",
     "image": "/images/courses/modules/questions-francais.jpg"
   },
@@ -11,7 +11,7 @@
     "slug": "gouts-loisirs",
     "title": "Goûts et loisirs",
     "category": "Dossier thématique",
-    "categoryColor": "violet",
+    "categoryColor": "thematic",
     "description": "Activités, sports et hobbies",
     "image": "/images/courses/modules/goutsetloisirs.jpg"
   }

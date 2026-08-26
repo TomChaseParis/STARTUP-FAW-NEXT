@@ -14,10 +14,22 @@ type ActivityCardProps = {
   };
 };
 
+const ACTIVITY_COLORS: Record<string, string> = {
+  beginner: "#E09F00",
+  "elementary-1": "#57cc99",
+  "elementary-2": "#31572c",
+  "intermediate-1": "#7650B8",
+  "intermediate-2": "#C94F91",
+  advanced: "#C7443E",
+};
+
 export default function ActivityCard({
   level,
   activity,
 }: ActivityCardProps) {
+  const activityColor =
+    ACTIVITY_COLORS[level] ?? "#E09F00";
+
   return (
     <Link
       href={`/courses/${level}/activities/${activity.slug}`}
@@ -70,9 +82,25 @@ export default function ActivityCard({
           </div>
         )}
 
-        {/* Sous-titre */}
+        {/* Badge */}
         <div className="shrink-0">
-          <span className="inline-block rounded-md bg-[#E6D629] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white sm:text-xs">
+          <span
+            className="
+              inline-block
+              rounded-md
+              px-3
+              py-1
+              text-[10px]
+              font-bold
+              uppercase
+              tracking-wider
+              text-white
+              sm:text-xs
+            "
+            style={{
+              backgroundColor: activityColor,
+            }}
+          >
             Activité
           </span>
         </div>

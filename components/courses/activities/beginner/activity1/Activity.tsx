@@ -149,7 +149,7 @@ export default function Activity() {
               {/* EXERCICE 1 */}
               <VerbListeningSection />
 
-              {/* EXERCICE 2 */}^
+              {/* EXERCICE 2 */}
               <VerbConjugationSection />
 
               {/* EXERCICE 3 */}

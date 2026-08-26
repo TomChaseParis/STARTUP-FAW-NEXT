@@ -20,15 +20,17 @@ export default function ModuleCard({
   href,
   categoryColor = "pink",
 }: ModuleCardProps) {
+
+
   const badgeColors: Record<string, string> = {
-    yellow: "bg-[#E6D629]",
-    red: "bg-red-600",
-    purple: "bg-[#631275]",
-    blue: "bg-sky-600",
-    green: "bg-emerald-600",
-    pink: "bg-[#FFAFF0]",
-    violet: "bg-[#43268C]",
-    lesson: "bg-[#FFB133]",
+    communication: "bg-[#FFAFF0]",
+    grammar: "bg-[#28C2FF]",
+    thematic: "bg-[#43268C]",
+    conjugation: "",
+    pronunciation: "",
+    comprehension: "",
+    culture: "",
+    phonetics: "",
   };
 
   return (

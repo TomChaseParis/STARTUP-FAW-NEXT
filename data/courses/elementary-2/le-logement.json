@@ -1,0 +1,24 @@
+{
+  "title": "Le logement",
+  "category": "Dossier thématique",
+  "description": "Apprends à parler du logement et de la maison.",
+
+  "lesson": {
+    "slug": "le-logement",
+    "title": "Le logement",
+    "description": "Découvre le vocabulaire du logement.",
+    "image": "/images/courses/modules/lelogement.jpg",
+    "locked": false
+  },
+
+  "activities": [
+    {
+      "slug": "la-famille-demenage",
+      "title": "LA FAMILLE DÉMÉNAGE",
+      "subtitle": "",
+      "description": "Découvre le vocabulaire du logement et entraîne-toi à parler d’un déménagement.",
+      "locked": false,
+      "image": "/images/courses/modules/la-famille-demenage.png"
+    }
+  ]
+}

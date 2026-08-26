@@ -15,8 +15,12 @@ type LessonCardProps = {
 };
 
 const LESSON_COLORS: Record<string, string> = {
-  "elementary-1": "#132A13",
-  "elementary-2": "#FFB133",
+  beginner: "#E09F00",
+  "elementary-1": "#57cc99",
+  "elementary-2": "#31572c",
+  "intermediate-1": "#B79CED",
+  "intermediate-2": "#F29BCB",
+  advanced: "#F28B82",
 };
 
 export default function LessonCard({
@@ -24,7 +28,7 @@ export default function LessonCard({
   lesson,
 }: LessonCardProps) {
   const lessonColor =
-    LESSON_COLORS[level] ?? "#132A13";
+    LESSON_COLORS[level] ?? "#FFD166";
 
   return (
     <Link

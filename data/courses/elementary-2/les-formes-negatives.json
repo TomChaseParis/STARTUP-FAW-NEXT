@@ -1,0 +1,24 @@
+{
+  "title": "Les formes négatives",
+  "category": "Grammaire",
+  "description": "Apprends à utiliser les formes négatives en français.",
+
+  "lesson": {
+    "slug": "les-formes-negatives",
+    "title": "Les formes négatives",
+    "description": "Découvre comment construire et utiliser les phrases négatives.",
+    "image": "/images/courses/modules/les-formes-negatives.png",
+    "locked": false
+  },
+
+  "activities": [
+    {
+      "slug": "non-non-non",
+      "title": "NON ! NON ! NON !",
+      "subtitle": "",
+      "description": "Les tournures négatives en dialogue.",
+      "locked": false,
+      "image": "/images/courses/modules/non-non-non.jpg"
+    }
+  ]
+}

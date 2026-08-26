@@ -25,6 +25,16 @@ const LEVEL_LABELS: Record<string, string> = {
   advanced: "Avancé",
 };
 
+const LEVEL_TITLE_COLORS: Record<string, string> = {
+  beginner: "#E09F00",
+  "elementary-1": "#57CC99",
+  "elementary-2": "#31572C",
+
+  "intermediate-1": "#03045E",
+  "intermediate-2": "#C94F91",
+  advanced: "#C7443E",
+};
+
 export default async function LevelPage({
   params,
 }: PageProps) {
@@ -57,6 +67,12 @@ export default async function LevelPage({
   const formattedLevel =
     LEVEL_LABELS[level] ?? level;
 
+  /*
+   * Couleur du niveau affiché dans le titre.
+   */
+  const levelTitleColor =
+    LEVEL_TITLE_COLORS[level] ?? "#E09F00";
+
   return (
     <section className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-20 pt-[200px]">
       <div className="mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-12">
@@ -64,7 +80,11 @@ export default async function LevelPage({
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Découvrez les modules du niveau{" "}
-            <span className="text-amber-500">
+            <span
+              style={{
+                color: levelTitleColor,
+              }}
+            >
               {formattedLevel}
             </span>
           </h1>
