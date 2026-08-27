@@ -34,8 +34,8 @@ export default function Activity() {
   return (
     <ActivityLayout activity={activity2}>
       <LessonBlock
-        badge="Compréhension orale"
-        title="A l’Agence matrimoniale"
+level="beginner"
+title="A l’Agence matrimoniale"
         description="Regarde la vidéo puis réponds aux questions."
         videoSrc="/videos/courses/beginner/activities/activity2/presentation.mp4"
         poster="/images/courses/beginner/activities/activity2/postermarie.png"

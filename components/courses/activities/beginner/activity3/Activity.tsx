@@ -15,8 +15,8 @@ export default function Activity() {
     <ActivityLayout activity={activity3}>
       {/* 🎓 LEÇON */}
       <LessonBlock
-        badge="Grammaire"
-        title="Les verbes du 1er groupe au présent"
+level="beginner"
+title="Les verbes du 1er groupe au présent"
         description="Apprends à conjuguer les verbes en -ER avec « je » et « vous »."
         videoSrc="/videos/marieactivity3.mp4"
         poster="/images/courses/teacher/mariegood.png"

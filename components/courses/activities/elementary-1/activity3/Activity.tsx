@@ -11,8 +11,8 @@ export default function Activity() {
   return (
     <ActivityLayout activity={elementary1Activity3}>
       <LessonBlock
-        badge="Compréhension orale"
-        title="Les 4 verbes au présent : Devoir, Vouloir, Pouvoir, Savoir"
+level="elementary-1"
+title="Les 4 verbes au présent : Devoir, Vouloir, Pouvoir, Savoir"
         description="Regarde les images et complète les phrases avec le bon verbe."
         videoSrc="/videos/jeanactivity2subtitlefrench.mp4"
         poster="/images/courses/teacher/jeangood.png"

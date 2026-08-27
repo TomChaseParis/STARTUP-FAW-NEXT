@@ -11,8 +11,8 @@ export default function Activity() {
   return (
     <ActivityLayout activity={elementary1Activity4}>
       <LessonBlock
-        badge="Compréhension écrite"
-        title="Les expressions de l’interdiction"
+level="elementary-1"
+title="Les expressions de l’interdiction"
         description="Observe les images et complète les phrases."
         videoSrc="/videos/marieactivity4.mp4"
         poster="/images/courses/teacher/wide-jean.png"
