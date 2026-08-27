@@ -24,7 +24,6 @@ export default function Activity() {
 
       <LessonBlock
         level="beginner"
-        badge={moduleCategories.grammar.label}
         title="ZE BIG FOUR : Être – Avoir – Faire – Aller"
         description="Regarde la vidéo puis fais les exercices."
         videoSrc="/videos/courses/beginner/activities/activity1/presentation.mp4"
