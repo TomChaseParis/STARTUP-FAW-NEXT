@@ -13,8 +13,7 @@ export default function Activity() {
     <ActivityLayout activity={activity5}>
       {/* ================= COURS ================= */}
       <LessonBlock
-        badge="Compréhension orale"
-        title="Le présent des verbes du 1er groupe"
+level="beginner"        title="Le présent des verbes du 1er groupe"
         description="Écoute la chanson puis réponds aux questions."
         videoSrc="/videos/etiennesq1_V1.mp4"
         poster="/images/courses/beginner/activities/activity5/presentation.png"

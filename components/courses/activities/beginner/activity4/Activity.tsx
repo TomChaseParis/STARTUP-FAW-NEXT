@@ -11,8 +11,8 @@ export default function Activity() {
   return (
     <ActivityLayout activity={activity4}>
       <LessonBlock
-        badge="Production écrite"
-        title="Les activités de la journée"
+level="beginner"
+title="Les activités de la journée"
         description="Observe les images et décris ce que fait la personne."
         videoSrc="/videos/marieactivity3.mp4"
         poster="/images/courses/teacher/mariegood.png"
