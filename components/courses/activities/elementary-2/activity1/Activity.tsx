@@ -10,13 +10,12 @@ import Exercice from "./Exercice";
 import Exercice2 from "./Exercice2";
 import { elementary2Activity1 } from "@/data/courses/activities/elementary-2/activity1/activity1";
 
-
 export default function Activity() {
   return (
     <ActivityLayout activity={elementary2Activity1}>
       {/* ================= PRÉSENTATION COURS ================= */}
       <LessonBlock
-        badge="Niveau Élémentaire 2"
+        level="elementary-2"
         title="L’emploi du temps mouvementé de Clara"
         description="Dans cette activité, vous allez découvrir la journée quotidienne de Clara. Vous réviserez les heures, les moments de la journée, les verbes pronominaux et la conjugaison au présent."
         videoSrc="/videos/courses/elementary-2/activity1/presentation.mp4"
@@ -61,9 +60,9 @@ export default function Activity() {
                 <div className="mb-4 flex items-center gap-4">
                   <div
                     className="
-                      flex h-12 w-12 shrink-0 items-center justify-center
-                      rounded-2xl
-                      bg-gradient-to-br from-amber-300 to-yellow-400
+                      to-yellow-400 flex h-12 w-12 shrink-0 items-center
+                      justify-center
+                      rounded-2xl bg-gradient-to-br from-amber-300
                       shadow-[0_10px_20px_rgba(245,158,11,0.25)]
                     "
                   >
@@ -146,9 +145,9 @@ export default function Activity() {
                 <div className="mb-4 flex items-center gap-4">
                   <div
                     className="
-                      flex h-12 w-12 shrink-0 items-center justify-center
-                      rounded-2xl
-                      bg-gradient-to-br from-amber-300 to-yellow-400
+                      to-yellow-400 flex h-12 w-12 shrink-0 items-center
+                      justify-center
+                      rounded-2xl bg-gradient-to-br from-amber-300
                       shadow-[0_10px_20px_rgba(245,158,11,0.25)]
                     "
                   >
@@ -227,9 +226,9 @@ export default function Activity() {
                 <div className="mb-4 flex items-center gap-4">
                   <div
                     className="
-                      flex h-12 w-12 shrink-0 items-center justify-center
-                      rounded-2xl
-                      bg-gradient-to-br from-amber-300 to-yellow-400
+                      to-yellow-400 flex h-12 w-12 shrink-0 items-center
+                      justify-center
+                      rounded-2xl bg-gradient-to-br from-amber-300
                       shadow-[0_10px_20px_rgba(245,158,11,0.25)]
                     "
                   >
@@ -276,8 +275,8 @@ export default function Activity() {
                 </div>
 
                 <p className="text-base leading-relaxed text-slate-800">
-                  Transforme l’intégralité du texte en passant de « je » à
-                  « elle » en modifiant correctement les pronoms, accords,
+                  Transforme l’intégralité du texte en passant de « je » à «
+                  elle » en modifiant correctement les pronoms, accords,
                   possessifs et verbes pronominaux.
                 </p>
               </div>

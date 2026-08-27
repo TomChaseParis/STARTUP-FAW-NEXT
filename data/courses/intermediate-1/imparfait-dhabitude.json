@@ -1,0 +1,22 @@
+{
+  "title": "L'imparfait d'habitude",
+  "category": "Communication",
+  "description": "Parler du temps d'avant et de ses habitudes passées.",
+  "lesson": {
+    "slug": "imparfait-dhabitude",
+    "title": "Quand il était petit...",
+    "description": "L'imparfait d'habitude",
+    "image": "/images/courses/modules/quand-il-etait-petit.png",
+    "locked": false
+  },
+  "activities": [
+    {
+      "slug": "imparfait-dhabitude",
+      "title": "Les vacances au bord de la mer",
+      "subtitle": "",
+      "description": "Souvenirs de vacances",
+      "locked": false,
+      "image": "/images/courses/modules/les-vacances-au-bord-de-mer.jpg"
+    }
+  ]
+}

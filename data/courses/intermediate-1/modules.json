@@ -1,20 +1,18 @@
-
 [
   {
-    "slug": "parler-de-sa-vie-quotidienne",
+    "slug": "imparfait-dhabitude",
     "title": "L'imparfait d'habitude",
     "category": "Communication",
     "categoryColor": "communication",
-    "description": "Parler du temps d'avant et de ses habituées passées",
+    "description": "Parler du temps d'avant et de ses habitudes passées.",
     "image": "/images/courses/modules/imparfait-dhabitude.jpg"
   },
   {
-    "slug": "parler-de-sa-vie-quotidienne",
-    "title": "LES PRONOMS COMPLEMENTS",
+    "slug": "pronoms-complements",
+    "title": "Les pronoms compléments",
     "category": "Grammaire",
     "categoryColor": "grammar",
-    "description": "Pronoms toniques, COD et COI",
+    "description": "Pronoms toniques, COD et COI.",
     "image": "/images/courses/modules/les-pronoms.jpg"
   }
-
 ]

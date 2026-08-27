@@ -5,12 +5,11 @@ import { useRef, useState } from "react";
 import InfoBlock from "./InfoBlock";
 
 type LessonBlockProps = {
-  badge?: string;
+  level: string;
   title: string;
   description?: string;
   videoSrc: string;
   poster?: string;
-  badgeColor?: string;
   info?: {
     objectifs?: string[];
     competences?: string[];
@@ -19,6 +18,44 @@ type LessonBlockProps = {
   };
   children?: React.ReactNode;
   onVideoEnded?: () => void;
+};
+
+const LEVEL_CONFIG: Record<
+  string,
+  {
+    label: string;
+    color: string;
+  }
+> = {
+  beginner: {
+    label: "Débutant",
+    color: "#E09F00",
+  },
+
+  "elementary-1": {
+    label: "Élémentaire 1",
+    color: "#57CC99",
+  },
+
+  "elementary-2": {
+    label: "Élémentaire 2",
+    color: "#31572C",
+  },
+
+  "intermediate-1": {
+    label: "Intermédiaire 1",
+    color: "#00296B",
+  },
+
+  "intermediate-2": {
+    label: "Intermédiaire 2",
+    color: "#C94F91",
+  },
+
+  advanced: {
+    label: "Avancé",
+    color: "#C7443E",
+  },
 };
 
 const formatTime = (time: number) => {
@@ -35,8 +72,7 @@ const formatTime = (time: number) => {
 };
 
 export default function LessonBlock({
-  badge,
-  badgeColor = "bg-amber-100",
+  level,
   title,
   description,
   videoSrc,
@@ -56,6 +92,9 @@ export default function LessonBlock({
 
   const [duration, setDuration] =
     useState(0);
+
+  const levelConfig =
+    LEVEL_CONFIG[level] ?? LEVEL_CONFIG.beginner;
 
   const togglePlayPause = () => {
     if (!videoRef.current) {
@@ -84,13 +123,24 @@ export default function LessonBlock({
 
       <div className="container">
         <div className="mx-auto max-w-5xl text-center">
-          {badge && (
-            <span
-              className={`inline-block rounded-full px-3 py-1 text-sm font-semibold text-white ${badgeColor}`}
-            >
-              {badge}
-            </span>
-          )}
+          {/* BADGE DU NIVEAU */}
+
+          <span
+            className="
+              inline-block
+              rounded-full
+              px-3
+              py-1
+              text-sm
+              font-semibold
+              text-white
+            "
+            style={{
+              backgroundColor: levelConfig.color,
+            }}
+          >
+            {levelConfig.label}
+          </span>
 
           <h1 className="mt-3 text-2xl font-semibold text-black">
             {title}
@@ -135,7 +185,22 @@ export default function LessonBlock({
               <button
                 type="button"
                 onClick={togglePlayPause}
-                className="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/60 text-2xl text-white backdrop-blur hover:bg-black/50"
+                className="
+                  absolute
+                  inset-0
+                  m-auto
+                  flex
+                  h-16
+                  w-16
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-black/60
+                  text-2xl
+                  text-white
+                  backdrop-blur
+                  hover:bg-black/50
+                "
               >
                 {isPlaying ? "⏸" : "▶"}
               </button>
@@ -180,7 +245,14 @@ export default function LessonBlock({
                   onClick={() =>
                     videoRef.current?.requestFullscreen?.()
                   }
-                  className="rounded-md bg-black px-3 py-1 text-white hover:bg-black/80"
+                  className="
+                    rounded-md
+                    bg-black
+                    px-3
+                    py-1
+                    text-white
+                    hover:bg-black/80
+                  "
                 >
                   ⛶ Plein écran
                 </button>

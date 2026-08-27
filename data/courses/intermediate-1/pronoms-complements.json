@@ -1,0 +1,23 @@
+{
+  "title": "Les pronoms compléments",
+  "category": "Grammaire",
+  "description": "Apprends à utiliser les pronoms compléments en français.",
+  "lesson": {
+    "slug": "pronoms-complements",
+    "title": "Les pronoms compléments",
+    "label": "Découverte",
+    "description": "Comprendre et utiliser les pronoms compléments.",
+    "image": "/images/courses/modules/pronoms-complements.jpg",
+    "locked": false
+  },
+  "activities": [
+    {
+      "slug": "pronoms-complements",
+      "title": "JE LUI AI FAIT UN CADEAU !",
+      "subtitle": "",
+      "description": "Pronoms compléments à la 3ème personne",
+      "locked": false,
+      "image": "/images/courses/modules/je-lui-ai-fait-un-cadeau.jpg"
+    }
+  ]
+}

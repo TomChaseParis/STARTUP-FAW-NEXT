@@ -203,7 +203,7 @@ const activityMap: Record<string, ActivityComponent> = {
   "intermediate-1/pronoms-complements": dynamic(
     () =>
       import(
-        "@/components/courses/activities/intermediate-1/activity1/Activity"
+        "@/components/courses/activities/intermediate-1/activity3/Activity"
       ),
     { ssr: false },
   ),
@@ -211,7 +211,7 @@ const activityMap: Record<string, ActivityComponent> = {
   "intermediate-1/imparfait-dhabitude": dynamic(
     () =>
       import(
-        "@/components/courses/activities/intermediate-1/activity2/Activity"
+        "@/components/courses/activities/intermediate-1/activity1/Activity"
       ),
     { ssr: false },
   ),

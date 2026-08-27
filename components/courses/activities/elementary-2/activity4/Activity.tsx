@@ -15,7 +15,7 @@ export default function Activity() {
       {/* ================= INTRODUCTION ================= */}
 
       <LessonBlock
-        badge="Niveau élémentaire 2"
+        level="elementary-2"
         title="NON, NON, NON ! (Emploi des tournures négatives)"
         description="Découvre comment utiliser les principales tournures négatives en français à travers un dialogue authentique, puis entraîne-toi grâce à plusieurs exercices interactifs."
         videoSrc="/videos/courses/elementary-2/activities/activity1/presentation.mp4"

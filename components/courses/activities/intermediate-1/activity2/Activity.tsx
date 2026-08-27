@@ -13,7 +13,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={intermediate1Activity2}>
       <LessonBlock
-        badge="Compréhension orale"
+        level="intermediate-1"
         title="L'imparfait d'habitude"
         description="Écoute la chanson puis réponds aux questions."
         videoSrc="/videos/etiennesq1_V1.mp4"

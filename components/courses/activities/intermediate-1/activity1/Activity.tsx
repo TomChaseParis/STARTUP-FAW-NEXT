@@ -17,7 +17,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={intermediate1Activity1}>
       <LessonBlock
-        badge="Compréhension orale"
+        level="intermediate-1"
         title="Les vacances au bord de la mer"
         description="Écoute la chanson puis réponds aux questions."
         videoSrc="/videos/courses/intermediate-1/activity1/presentation.mp4"

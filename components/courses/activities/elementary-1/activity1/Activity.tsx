@@ -40,7 +40,7 @@ export default function Activity() {
       ===================================================== */}
 
       <LessonBlock
-        badge="Niveau élémentaire 1"
+        level="elementary-1"
         title="QUIZZ A GOGO"
         description="Découvre les principales questions et réponses utilisées dans une conversation simple, puis entraîne-toi grâce à plusieurs exercices interactifs."
         videoSrc="/videos/courses/elementary-1/activities/activity1/presentation.mp4"

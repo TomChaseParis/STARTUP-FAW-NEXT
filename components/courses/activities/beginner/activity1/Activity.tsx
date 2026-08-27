@@ -5,8 +5,6 @@ import { useState } from "react";
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 
-import VerbEssentialSection from "./exercises/exercice-2/VerbEssentialSection";
-
 import CharacterPresentationSection from "./exercises/CharacterPresentationSection";
 
 import { moduleCategories } from "@/data/courses/modules/ModuleCategories";
@@ -16,7 +14,6 @@ import ActivityFlow from "@/core/navigation/ActivityFlow";
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 import VerbConjugationSection from "./exercises/exercice-1/VerbConjugationSection";
 import VerbListeningSection from "./exercises/exercice-1/VerbListeningSection";
-import VerbSpeakingExercise from "./exercises/exercice-1/VerbSpeakingExercise";
 
 export default function Activity() {
   const [started, setStarted] = useState(false);
@@ -26,8 +23,8 @@ export default function Activity() {
       {/* ================= HEADER + VIDEO ================= */}
 
       <LessonBlock
+        level="beginner"
         badge={moduleCategories.grammar.label}
-        badgeColor={moduleCategories.grammar.badge}
         title="ZE BIG FOUR : Être – Avoir – Faire – Aller"
         description="Regarde la vidéo puis fais les exercices."
         videoSrc="/videos/courses/beginner/activities/activity1/presentation.mp4"

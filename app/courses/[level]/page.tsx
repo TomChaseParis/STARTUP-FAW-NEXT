@@ -29,12 +29,10 @@ const LEVEL_TITLE_COLORS: Record<string, string> = {
   beginner: "#E09F00",
   "elementary-1": "#57CC99",
   "elementary-2": "#31572C",
-
-  "intermediate-1": "#03045E",
+  "intermediate-1": "#00296B",
   "intermediate-2": "#C94F91",
   advanced: "#C7443E",
 };
-
 export default async function LevelPage({
   params,
 }: PageProps) {

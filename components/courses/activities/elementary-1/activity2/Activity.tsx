@@ -50,7 +50,7 @@ export default function Activity() {
       activity={elementary1Activity2}
     >
       <LessonBlock
-        badge="Compréhension orale"
+        level="elementary-1"
         title="Les loisirs des Français"
         description="Écoute le texte puis conjugue les verbes à la troisième personne du pluriel."
         videoSrc="/videos/courses/elementary-1/activities/activity2/presentation.mp4"

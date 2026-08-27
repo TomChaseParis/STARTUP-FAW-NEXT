@@ -11,7 +11,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={elementary2Activity3}>
       <LessonBlock
-        badge="Niveau Élémentaire 2"
+        level="elementary-2"
         title="Articles définis et indefinis"
         description="lorem lorem"
         videoSrc="/videos/ireneactivity2subtitlefrench.mp4"

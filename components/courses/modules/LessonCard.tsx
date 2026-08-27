@@ -18,7 +18,7 @@ const LESSON_COLORS: Record<string, string> = {
   beginner: "#E09F00",
   "elementary-1": "#57cc99",
   "elementary-2": "#31572c",
-  "intermediate-1": "#B79CED",
+  "intermediate-1": "#00296B ",
   "intermediate-2": "#F29BCB",
   advanced: "#F28B82",
 };

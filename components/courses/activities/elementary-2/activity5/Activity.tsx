@@ -18,7 +18,7 @@ export default function Activity() {
       {/* ================= INTRODUCTION ================= */}
 
       <LessonBlock
-        badge="Niveau élémentaire 2"
+        level="elementary-2"
         title="ANGES ET DÉMONS"
         description="Découvre comment utiliser le présent, le passé composé et le futur proche afin de parler d'événements passés, présents et futurs. Tu apprendras également à reconnaître les principaux marqueurs temporels pour situer correctement une action dans le temps."
         videoSrc="/videos/courses/elementary-2/activities/activityX/presentation.mp4"

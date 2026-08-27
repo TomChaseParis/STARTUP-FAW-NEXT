@@ -16,7 +16,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={elementary2Activity2}>
       <LessonBlock
-        badge="Niveau Élémentaire 2"
+        level="elementary-2"
         title="Activité 1 — La famille déménage"
         description="Découvrez la journée quotidienne de Clara. Travail sur les heures, les verbes pronominaux et les transformations."
         videoSrc="/videos/courses/elementary-2/activity2/presentation.mp4"

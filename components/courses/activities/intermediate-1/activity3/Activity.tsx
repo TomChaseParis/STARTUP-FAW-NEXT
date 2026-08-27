@@ -11,7 +11,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={intermediate1Activity3}>
       <LessonBlock
-        badge="Grammaire en contexte"
+        level="intermediate-1"
         title="LE, LA, LES, LUI, LEUR, EUX, ELLES"
         description="Apprends à utiliser les pronoms compléments COD, COI et les pronoms toniques dans des situations de la vie quotidienne."
         videoSrc="/videos/etienne-pronoms.mp4"

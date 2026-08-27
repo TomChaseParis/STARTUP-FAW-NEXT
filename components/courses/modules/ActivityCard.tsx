@@ -18,7 +18,7 @@ const ACTIVITY_COLORS: Record<string, string> = {
   beginner: "#E09F00",
   "elementary-1": "#57cc99",
   "elementary-2": "#31572c",
-  "intermediate-1": "#7650B8",
+  "intermediate-1": "#00296B",
   "intermediate-2": "#C94F91",
   advanced: "#C7443E",
 };
