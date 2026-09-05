@@ -33,13 +33,15 @@ export default function TableCompletionRenderer({
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full min-w-0">
+      {/* ========================================================= */}
       {/* HEADER DE PROGRESSION */}
-      <div className="mb-8 rounded-3xl border border-slate-200 bg-slate-50/80 p-5">
-       
+      {/* ========================================================= */}
 
+      <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 sm:mb-8 sm:rounded-3xl sm:p-5">
         {/* BARRE DE PROGRESSION */}
-        <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-200">
+
+        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
           <motion.div
             className="h-full rounded-full bg-amber-500"
             initial={{ width: 0 }}
@@ -52,9 +54,25 @@ export default function TableCompletionRenderer({
         </div>
 
         {/* INDICATEURS */}
-        <div className="mt-5 flex items-center gap-2">
+
+        <div
+          className="
+            mt-4
+            flex
+            w-full
+            min-w-0
+            flex-wrap
+            items-center
+            gap-2
+            sm:mt-5
+            sm:gap-2
+          "
+        >
           {questions.map((question, index) => {
-            const answered = Boolean(answers[index]?.trim());
+            const answered = Boolean(
+              answers[index]?.trim(),
+            );
+
             const active =
               !validated &&
               index === activeIndex;
@@ -64,12 +82,13 @@ export default function TableCompletionRenderer({
                 key={question.id}
                 initial={false}
                 animate={{
-                  scale: active ? 1.15 : 1,
+                  scale: active ? 1.1 : 1,
                 }}
                 className={`
                   flex
                   h-8
                   w-8
+                  shrink-0
                   items-center
                   justify-center
                   rounded-full
@@ -95,19 +114,35 @@ export default function TableCompletionRenderer({
         </div>
       </div>
 
+      {/* ========================================================= */}
       {/* TABLEAU */}
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-        {/* EN-TÊTE */}
-        <div className="hidden border-b border-slate-200 bg-slate-50 px-6 py-4 md:grid md:grid-cols-[60px_minmax(260px,1fr)_minmax(360px,1.4fr)] md:items-center md:gap-5">
-       
+      {/* ========================================================= */}
 
+      <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm sm:rounded-3xl">
+        {/* EN-TÊTE */}
+
+        <div
+          className="
+            hidden
+            border-b
+            border-slate-200
+            bg-slate-50
+            px-6
+            py-4
+            md:grid
+            md:grid-cols-[60px_minmax(260px,1fr)_minmax(360px,1.4fr)]
+            md:items-center
+            md:gap-5
+          "
+        >
           <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
             Choisis ta réponse
           </span>
         </div>
 
         {/* LIGNES */}
-        <div>
+
+        <div className="w-full min-w-0">
           {questions.map((question, index) => (
             <TableCompletionRow
               key={question.id}
@@ -115,55 +150,140 @@ export default function TableCompletionRenderer({
               questionIndex={index}
               value={answers[index] ?? ""}
               validated={validated}
-              active={!validated && index === activeIndex}
-              onChange={(value) => onChange(index, value)}
+              active={
+                !validated &&
+                index === activeIndex
+              }
+              onChange={(value) =>
+                onChange(index, value)
+              }
             />
           ))}
         </div>
       </div>
 
-      {/* LÉGENDE */}
-      {!validated && answeredCount < questions.length && (
-        <div className="mt-5 flex items-center justify-between rounded-2xl bg-slate-50 px-5 py-4">
-          <p className="text-sm text-slate-500">
-            Choisis une réponse pour chaque phrase.
-          </p>
+      {/* ========================================================= */}
+      {/* LÉGENDE — RÉPONSES NON TERMINÉES */}
+      {/* ========================================================= */}
 
-          <span className="rounded-full bg-white px-3 py-1.5 text-sm font-bold text-slate-600 shadow-sm ring-1 ring-slate-200">
-            {answeredCount} / {questions.length}
-          </span>
-        </div>
-      )}
+      {!validated &&
+        answeredCount < questions.length && (
+          <div
+            className="
+              mt-4
+              flex
+              flex-col
+              gap-3
+              rounded-2xl
+              bg-slate-50
+              px-4
+              py-4
+              sm:mt-5
+              sm:flex-row
+              sm:items-center
+              sm:justify-between
+              sm:px-5
+            "
+          >
+            <p className="text-sm leading-relaxed text-slate-500">
+              Choisis une réponse pour chaque phrase.
+            </p>
 
-      {!validated && answeredCount === questions.length && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-5 flex items-center justify-center rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4"
-        >
-          <p className="text-sm font-semibold text-amber-800">
-            Toutes tes réponses sont prêtes. Tu peux maintenant
-            valider le tableau.
-          </p>
-        </motion.div>
-      )}
+            <span
+              className="
+                w-fit
+                shrink-0
+                rounded-full
+                bg-white
+                px-3
+                py-1.5
+                text-sm
+                font-bold
+                text-slate-600
+                shadow-sm
+                ring-1
+                ring-slate-200
+              "
+            >
+              {answeredCount} / {questions.length}
+            </span>
+          </div>
+        )}
+
+      {/* ========================================================= */}
+      {/* LÉGENDE — TOUTES LES RÉPONSES SONT PRÊTES */}
+      {/* ========================================================= */}
+
+      {!validated &&
+        answeredCount === questions.length && (
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 8,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            className="
+              mt-4
+              flex
+              items-center
+              justify-center
+              rounded-2xl
+              border
+              border-amber-200
+              bg-amber-50
+              px-4
+              py-4
+              text-center
+              sm:mt-5
+              sm:px-5
+            "
+          >
+            <p className="text-sm font-semibold leading-relaxed text-amber-800">
+              Toutes tes réponses sont prêtes.
+              <br className="sm:hidden" /> Tu peux
+              maintenant valider le tableau.
+            </p>
+          </motion.div>
+        )}
+
+      {/* ========================================================= */}
+      {/* LÉGENDE — APRÈS VALIDATION */}
+      {/* ========================================================= */}
 
       {validated && (
-        <div className="mt-5 flex flex-wrap items-center justify-end gap-5 text-sm">
+        <div
+          className="
+            mt-4
+            flex
+            flex-col
+            items-start
+            gap-3
+            text-sm
+            sm:mt-5
+            sm:flex-row
+            sm:flex-wrap
+            sm:items-center
+            sm:justify-end
+            sm:gap-5
+          "
+        >
           <div className="flex items-center gap-2 text-slate-500">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-700">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-700">
               ✓
             </span>
 
-            Bonne réponse
+            <span>Bonne réponse</span>
           </div>
 
           <div className="flex items-center gap-2 text-slate-500">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-red-100 font-bold text-red-700">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-red-100 font-bold text-red-700">
               ✕
             </span>
 
-            À revoir
+            <span>À revoir</span>
           </div>
         </div>
       )}

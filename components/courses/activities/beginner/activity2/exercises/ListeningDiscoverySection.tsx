@@ -87,10 +87,23 @@ export default function ListeningDiscoverySection() {
               audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
               audioBadge="Dialogue"
               description={
-                <div className="space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
-                  {/* BOUTON AUDIO */}
+                <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
 
-                  <div className="grid grid-cols-[120px_40px_1fr] items-center gap-3">
+                  {/* ===================================================== */}
+                  {/* BOUTON AUDIO */}
+                  {/* ===================================================== */}
+
+                  <div
+                    className="
+                      flex
+                      flex-col
+                      gap-2
+                      sm:grid
+                      sm:grid-cols-[120px_40px_1fr]
+                      sm:items-center
+                      sm:gap-3
+                    "
+                  >
                     <span>
                       Appuie sur le bouton
                     </span>
@@ -108,12 +121,14 @@ export default function ListeningDiscoverySection() {
                         shrink-0
                         items-center
                         justify-center
+                        self-start
                         rounded-full
                         border
                         border-slate-200
                         bg-white
                         text-amber-500
                         shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                        sm:self-auto
                       "
                     >
                       <svg
@@ -139,9 +154,21 @@ export default function ListeningDiscoverySection() {
                     </span>
                   </div>
 
+                  {/* ===================================================== */}
                   {/* BOUTON MICRO */}
+                  {/* ===================================================== */}
 
-                  <div className="grid grid-cols-[120px_40px_1fr] items-center gap-3">
+                  <div
+                    className="
+                      flex
+                      flex-col
+                      gap-2
+                      sm:grid
+                      sm:grid-cols-[120px_40px_1fr]
+                      sm:items-center
+                      sm:gap-3
+                    "
+                  >
                     <span>
                       Appuie sur le bouton
                     </span>
@@ -159,10 +186,12 @@ export default function ListeningDiscoverySection() {
                         shrink-0
                         items-center
                         justify-center
+                        self-start
                         rounded-full
                         bg-white
                         text-amber-600
                         shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                        sm:self-auto
                       "
                     >
                       <svg
@@ -187,7 +216,9 @@ export default function ListeningDiscoverySection() {
                     </span>
                   </div>
 
+                  {/* ===================================================== */}
                   {/* RECONNAISSANCE VOCALE */}
+                  {/* ===================================================== */}
 
                   <p>
                     Pour aider l&apos;outil de reconnaissance
