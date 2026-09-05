@@ -4,11 +4,13 @@ import { Lock } from "lucide-react";
 
 type ActivityCardProps = {
   level: string;
+
   activity: {
     slug: string;
     title: string;
     subtitle: string;
     description: string;
+    additionalDescription?: string;
     image?: string;
     locked: boolean;
   };
@@ -65,15 +67,59 @@ export default function ActivityCard({
           hover:shadow-[0_5px_10px_rgba(0,0,0,0.06),0_18px_36px_rgba(15,23,42,0.12),0_40px_80px_rgba(15,23,42,0.14)]
         "
       >
-        <div className="pointer-events-none absolute inset-[2px] rounded-[24px] border border-white/90" />
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-[2px]
+            rounded-[24px]
+            border
+            border-white/90
+          "
+        />
 
-        <div className="pointer-events-none absolute inset-0 rounded-[28px] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-2px_6px_rgba(15,23,42,0.04)]" />
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            rounded-[28px]
+            shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-2px_6px_rgba(15,23,42,0.04)]
+          "
+        />
 
-        <div className="pointer-events-none absolute left-6 right-6 top-0 h-10 bg-gradient-to-b from-white/70 to-transparent" />
+        <div
+          className="
+            pointer-events-none
+            absolute
+            left-6
+            right-6
+            top-0
+            h-10
+            bg-gradient-to-b
+            from-white/70
+            to-transparent
+          "
+        />
 
         {activity.locked && (
           <div className="absolute right-4 top-4 z-20 sm:right-5 sm:top-5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-700 shadow-lg sm:h-10 sm:w-10">
+            <div
+              className="
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-gradient-to-br
+                from-red-500
+                to-red-700
+                shadow-lg
+                sm:h-10
+                sm:w-10
+              "
+            >
               <Lock
                 className="h-4 w-4 text-white sm:h-5 sm:w-5"
                 strokeWidth={2.5}
@@ -82,7 +128,8 @@ export default function ActivityCard({
           </div>
         )}
 
-        {/* Badge */}
+        {/* BADGE */}
+
         <div className="shrink-0">
           <span
             className="
@@ -105,7 +152,8 @@ export default function ActivityCard({
           </span>
         </div>
 
-        {/* Titre */}
+        {/* TITRE */}
+
         <div className="mt-3 min-w-0 text-center sm:mt-4">
           <h2
             className="
@@ -139,7 +187,8 @@ export default function ActivityCard({
           )}
         </div>
 
-        {/* Illustration */}
+        {/* ILLUSTRATION */}
+
         {activity.image && (
           <div className="relative mt-3 min-h-0 flex-1 sm:mt-4">
             <Image
@@ -161,22 +210,44 @@ export default function ActivityCard({
           </div>
         )}
 
-        {/* Description */}
-        <p
-          className="
-            mt-3
-            line-clamp-3
-            whitespace-pre-line
-            text-center
-            text-sm
-            leading-5
-            text-black
-            sm:mt-4
-            sm:text-base
-          "
-        >
-          {activity.description}
-        </p>
+    {/* DESCRIPTION */}
+
+<div
+  className="
+    mt-3
+    text-left
+    sm:mt-4 mx-auto
+  "
+>
+  <p
+    className="
+      line-clamp-2
+      text-sm
+      font-semibold
+      leading-5
+      text-black
+      sm:text-base
+    "
+  >
+    • {activity.description}
+  </p>
+
+  {activity.additionalDescription && (
+    <p
+      className="
+        mt-1
+        line-clamp-2
+        text-sm
+        font-semibold
+        leading-5
+        text-black
+        sm:text-base
+      "
+    >
+      • {activity.additionalDescription}
+    </p>
+  )}
+</div>
       </article>
     </Link>
   );

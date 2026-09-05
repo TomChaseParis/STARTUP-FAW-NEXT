@@ -36,30 +36,7 @@ export default function TableCompletionRenderer({
     <div className="w-full">
       {/* HEADER DE PROGRESSION */}
       <div className="mb-8 rounded-3xl border border-slate-200 bg-slate-50/80 p-5">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold text-slate-500">
-              Ton parcours
-            </p>
-
-            <p className="mt-1 text-lg font-bold text-slate-900">
-              {answeredCount}{" "}
-              <span className="font-medium text-slate-400">
-                / {questions.length}
-              </span>
-            </p>
-          </div>
-
-          <div className="text-right">
-            <p className="text-sm font-medium text-slate-500">
-              Réponses complétées
-            </p>
-
-            <p className="mt-1 text-sm font-bold text-amber-600">
-              {Math.round(progress)}%
-            </p>
-          </div>
-        </div>
+       
 
         {/* BARRE DE PROGRESSION */}
         <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-200">
@@ -122,13 +99,7 @@ export default function TableCompletionRenderer({
       <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
         {/* EN-TÊTE */}
         <div className="hidden border-b border-slate-200 bg-slate-50 px-6 py-4 md:grid md:grid-cols-[60px_minmax(260px,1fr)_minmax(360px,1.4fr)] md:items-center md:gap-5">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            #
-          </span>
-
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            Phrase
-          </span>
+       
 
           <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
             Choisis ta réponse

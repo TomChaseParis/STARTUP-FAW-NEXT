@@ -5,28 +5,31 @@
 
   "lesson": {
     "slug": "introduce-yourself",
-      "title": "SE PRESENTER",
-      "subtitle": "Les bases pour parler de soi",
-      "description": "Tournures verbales les plus utiles pour se présenter",
-      "locked": false, 
-      "image": "/images/courses/modules/presentations.png"
+    "title": "SE PRESENTER",
+    "subtitle": "Les bases pour parler de soi",
+    "description": "Apprendre à se présenter et à répondre à des questions simples",
+    "locked": false,
+    "image": "/images/courses/modules/presentations.png"
   },
 
   "activities": [
     {
       "slug": "introduce-yourself",
       "title": "A L'AGENCE MATRIMONIALE",
-      "subtitle": "Les bases pour parler de soi",
-      "description": "Répondre à des questions et donner des informations",
-      "locked": false, 
+      "subtitle": "Comprendre un dialogue de présentation",
+      "description": "Questions / réponses",
+      "additionalDescription": "Verbes « être » et « avoir »",
+            "locked": false,
       "image": "/images/courses/modules/agence-matrimoniale.png"
     },
+
     {
       "slug": "se-presenter",
-      "title": "Meeting bruno galopin",
-      "category": "Communication",
-      "categoryColor": "pink",
-      "description": "écouter quelqu'un se présenter",
+      "title": "MEETING BRUNO GALOPIN",
+      "subtitle": "Écouter quelqu'un se présenter",
+      "description": "Compréhension orale",
+      "additionalDescription": "Identifier les informations personnelles",
+      "locked": false,
       "image": "/images/courses/modules/meeting-brunogalopin.jpg"
     }
   ]

@@ -1,10 +1,8 @@
 import { TableCompletionActivity } from "@/components/activity/table-completion/types";
 
 export const activity2Data: TableCompletionActivity = {
+  instruction:"",
   title: "Complète les informations",
-
-  instruction:
-    "Choisis la bonne réponse dans chaque liste déroulante.",
 
   questions: [
     {

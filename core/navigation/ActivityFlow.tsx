@@ -1,6 +1,7 @@
 "use client";
 
 import { Children, ReactNode } from "react";
+import { useRouter } from "next/navigation";
 
 import { useNavigation } from "./ActivityNavigationProvider";
 
@@ -24,13 +25,23 @@ type Props = {
   teacherFeedbackImages?: TeacherFeedbackImages;
 
   teacherFeedbackAudios?: TeacherFeedbackAudios;
+
+  /**
+   * Destination après le dernier exercice.
+   * Exemple :
+   * /courses/beginner
+   */
+  finishHref?: string;
 };
 
 export default function ActivityFlow({
   children,
   teacherFeedbackImages,
   teacherFeedbackAudios,
+  finishHref,
 }: Props) {
+  const router = useRouter();
+
   const {
     currentExerciseIndex,
     flowState,
@@ -41,6 +52,9 @@ export default function ActivityFlow({
   } = useNavigation();
 
   const exercises = Children.toArray(children);
+
+  const isLastExercise =
+    currentExerciseIndex === exercises.length - 1;
 
   if (flowState === "results" && !lastResult) {
     throw new Error(
@@ -54,12 +68,21 @@ export default function ActivityFlow({
         result={lastResult}
         onRestart={restartExercise}
         onNext={() => {
+          if (isLastExercise) {
+            if (finishHref) {
+              router.push(finishHref);
+            }
+
+            return;
+          }
+
           nextExercise();
 
           setTimeout(() => {
             transitionFinished();
           }, 300);
         }}
+        isLastExercise={isLastExercise}
         teacherFeedbackImages={
           teacherFeedbackImages
         }

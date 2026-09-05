@@ -15,79 +15,88 @@ export default function ScoreBadge({
 
   useEffect(() => {
     if (score < 90) return;
-  
-    const duration = score === 100 ? 2500 : 1500;
-  
-    const animationEnd = Date.now() + duration;
-  
+
+    const duration =
+      score === 100 ? 2500 : 1500;
+
+    const animationEnd =
+      Date.now() + duration;
+
     const defaults = {
       startVelocity: 35,
       spread: 360,
       ticks: 80,
       zIndex: 9999,
     };
-  
-    function randomInRange(min: number, max: number) {
-      return Math.random() * (max - min) + min;
+
+    function randomInRange(
+      min: number,
+      max: number,
+    ) {
+      return (
+        Math.random() * (max - min) + min
+      );
     }
-  
-    const interval = window.setInterval(() => {
-      const timeLeft = animationEnd - Date.now();
-  
-      if (timeLeft <= 0) {
-        clearInterval(interval);
-        return;
-      }
-  
-      const particleCount = score === 100 ? 35 : 18;
-  
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: {
-          x: randomInRange(0.1, 0.3),
-          y: randomInRange(0.2, 0.5),
-        },
-      });
-  
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: {
-          x: randomInRange(0.7, 0.9),
-          y: randomInRange(0.2, 0.5),
-        },
-      });
-    }, 220);
-  
-    return () => clearInterval(interval);
+
+    const interval =
+      window.setInterval(() => {
+        const timeLeft =
+          animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          return;
+        }
+
+        const particleCount =
+          score === 100 ? 35 : 18;
+
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: {
+            x: randomInRange(0.1, 0.3),
+            y: randomInRange(0.2, 0.5),
+          },
+        });
+
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: {
+            x: randomInRange(0.7, 0.9),
+            y: randomInRange(0.2, 0.5),
+          },
+        });
+      }, 220);
+
+    return () =>
+      clearInterval(interval);
   }, [score]);
-  
 
   let emoji = "💪";
   let title = "";
   let message = "";
 
-  if (score === 100) {
-    emoji = "🏆";
-    title = "Excellent !";
-    message =
-      "Tu maîtrises parfaitement cette notion.";
-  } else if (score >= 80) {
-    emoji = "🎉";
-    title = "Très bon travail !";
-    message =
-      "Encore un petit effort pour atteindre la perfection.";
-  } else if (score >= 60) {
+  if (score < 50) {
+    // 0 à 49 %
+    emoji = "😕";
+    title = "Try again !";
+
+  } else if (score < 75) {
+    // 50 à 74 %
     emoji = "👍";
-    title = "Bon début !";
-    message =
-      "Consulte la correction pour progresser.";
+    title = "Keep it up !";
+
+  } else if (score < 100) {
+    // 75 à 99 %
+    emoji = "👍";
+    title = "Good work !";
+
   } else {
-    emoji = "💪";
-    title = "Continue tes efforts !";
-    message =
-      "Relis les explications et réessaie l'exercice.";
+    // 100 %
+    emoji = "🏆";
+    title = "You nailed it !";
   }
 
   return (
@@ -95,7 +104,9 @@ export default function ScoreBadge({
       <div
         ref={emojiRef}
         className={`mb-6 text-6xl transition-transform duration-500 ${
-          score >= 90 ? "animate-pulse" : ""
+          score >= 90
+            ? "animate-pulse"
+            : ""
         }`}
       >
         {emoji}

@@ -3,13 +3,9 @@
 import { FillGapsData } from "@/types/fillGapsTypes";
 
 export const conjugationExerciseData: FillGapsData = {
-  title: "✍️ Exercice 3",
 
-  activityType: "type",
 
-  instruction:
-    "Complète le dialogue avec le bon verbe au présent.",
-
+  
   verbs: [
     "Être (présent)",
     "Avoir (présent)",

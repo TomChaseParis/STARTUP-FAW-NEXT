@@ -1,5 +1,3 @@
-"use client";
-
 import { ReactNode } from "react";
 
 type QuestionCardProps = {
@@ -15,7 +13,7 @@ type QuestionCardProps = {
 };
 
 export default function QuestionCard({
-  icon = "❓",
+  icon,
   title,
   question,
   children,
@@ -39,25 +37,27 @@ export default function QuestionCard({
       "
     >
       <header className="mb-10 text-center">
-        <div
-          className="
-            mx-auto
-            mb-6
-            flex
-            h-20
-            w-20
-            items-center
-            justify-center
-            rounded-full
-            bg-gradient-to-br
-            from-amber-100
-            to-yellow-50
-            text-4xl
-            shadow-md
-          "
-        >
-          {icon}
-        </div>
+        {icon !== null && (
+          <div
+            className="
+              mx-auto
+              mb-6
+              flex
+              h-20
+              w-20
+              items-center
+              justify-center
+              rounded-full
+              bg-gradient-to-br
+              from-amber-100
+              to-yellow-50
+              text-4xl
+              shadow-md
+            "
+          >
+            {icon ?? "❓"}
+          </div>
+        )}
 
         {showTitle && (
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-600">

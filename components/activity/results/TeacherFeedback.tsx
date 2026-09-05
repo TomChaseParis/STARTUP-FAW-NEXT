@@ -13,12 +13,14 @@ type TeacherFeedbackProps = {
     bad: string;
     middle: string;
     good: string;
+    perfect?: string;
   };
 
   teacherFeedbackAudios?: {
     bad: string;
     middle: string;
     good: string;
+    perfect?: string;
   };
 };
 
@@ -27,8 +29,7 @@ export default function TeacherFeedback({
   teacherFeedbackImages,
   teacherFeedbackAudios,
 }: TeacherFeedbackProps) {
-  const audioRef =
-    useRef<HTMLAudioElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   let image = "";
   let title = "";
@@ -36,41 +37,61 @@ export default function TeacherFeedback({
   let audio = "";
 
   if (score < 50) {
+    // 0 à 49 %
     image =
       teacherFeedbackImages?.bad ??
-      "/images/courses/results-expressions/beginner/mariepascontente.png";
+      "/images/courses/results-expressions/beginner/noob-red.png";
 
     audio =
-      teacherFeedbackAudios?.bad ?? "";
+      teacherFeedbackAudios?.bad ??
+      "/audios/teacher/marie/score/pasgenial-marie.mp3";
 
-    title = "Ce n'est pas suffisant...";
+    title = "Pas génial...";
 
     message =
-      "Tu dois revoir les informations attentivement avant de continuer. Prends ton temps et réessaie. Tu vas y arriver !";
+      "Mon conseil : réécoute attentivement le dialogue, analyse tes erreurs et recommence l’exercice. Ce sera mieux la prochaine fois !";
   } else if (score < 75) {
+    // 50 à 74 %
     image =
       teacherFeedbackImages?.middle ??
-      "/images/courses/results-expressions/beginner/marieperplexe.png";
+      "/images/courses/results-expressions/beginner/middle-red.png";
 
     audio =
-      teacherFeedbackAudios?.middle ?? "";
+      teacherFeedbackAudios?.middle ??
+      "/audios/teacher/marie/score/marie-peutmieuxfaire.mp3";
 
-    title = "Tu progresses !";
+    title = "Peut mieux faire...";
 
     message =
-      "Tu as compris une bonne partie de l'exercice. Quelques réponses sont encore incorrectes. Relis bien les informations puis recommence.";
-  } else {
+      "Tu as bien répondu à la majorité des questions, mais il te reste une marge de progression. Mon conseil : regarde attentivement les corrections et recommence l’exercice. Tu y es presque !";
+  } else if (score < 100) {
+    // 75 à 99 %
     image =
       teacherFeedbackImages?.good ??
-      "/images/courses/results-expressions/beginner/mariecontente.png";
+      "/images/courses/results-expressions/beginner/bingo-red.png";
 
     audio =
-      teacherFeedbackAudios?.good ?? "";
+      teacherFeedbackAudios?.good ??
+      "/audios/teacher/marie/score/marie-parfait.mp3";
 
-    title = "Excellent travail !";
+    title = "Bon travail !";
 
     message =
-      "Bravo ! Tu as très bien compris les informations. Continue comme ça !";
+      "L’essentiel est compris. Analyse les quelques erreurs que tu as faites et passe à l’exercice suivant !";
+  } else {
+    // 100 %
+    image =
+      teacherFeedbackImages?.perfect ??
+      "/images/courses/results-expressions/beginner/perfect-red.png";
+
+    audio =
+      teacherFeedbackAudios?.perfect ??
+      "/audios/teacher/marie/score/marie-parfait.mp3";
+
+    title = "Parfait !";
+
+    message =
+      "Tu as bien répondu à toutes les questions. Tu peux passer à l’exercice suivant !";
   }
 
   useEffect(() => {
@@ -79,8 +100,7 @@ export default function TeacherFeedback({
     }
 
     const timer = window.setTimeout(() => {
-      const audioElement =
-        audioRef.current;
+      const audioElement = audioRef.current;
 
       if (!audioElement) {
         return;
@@ -135,7 +155,7 @@ export default function TeacherFeedback({
           <TeacherAvatar image={image} />
         </div>
 
-        <div className="min-w-0 w-full">
+        <div className="w-full min-w-0">
           <TeacherBubble
             title={title}
             message={message}

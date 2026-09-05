@@ -27,6 +27,8 @@ type Props = {
 
   onNext: () => void;
 
+  isLastExercise?: boolean;
+
   teacherFeedbackImages?: TeacherFeedbackImages;
 
   teacherFeedbackAudios?: TeacherFeedbackAudios;
@@ -36,10 +38,12 @@ export default function ActivityResults({
   result,
   onRestart,
   onNext,
+  isLastExercise = false,
   teacherFeedbackImages,
   teacherFeedbackAudios,
 }: Props) {
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef =
+    useRef<HTMLElement>(null);
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -58,10 +62,6 @@ export default function ActivityResults({
       });
     });
   }, []);
-
-  const mistakes =
-    result.session.totalQuestions -
-    result.session.correctAnswers;
 
   return (
     <section
@@ -88,13 +88,19 @@ export default function ActivityResults({
     >
       <TeacherFeedback
         score={result.session.score}
-        teacherFeedbackImages={teacherFeedbackImages}
-        teacherFeedbackAudios={teacherFeedbackAudios}
+        teacherFeedbackImages={
+          teacherFeedbackImages
+        }
+        teacherFeedbackAudios={
+          teacherFeedbackAudios
+        }
       />
 
       <header className="text-center">
         <div className="mt-8 sm:mt-10">
-          <ScoreBadge score={result.session.score} />
+          <ScoreBadge
+            score={result.session.score}
+          />
         </div>
       </header>
 
@@ -124,33 +130,33 @@ export default function ActivityResults({
         />
       </section>
 
-      <section className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:mt-12 sm:p-6">
-        <h3 className="text-lg font-bold text-slate-900 sm:text-xl">
-          📚 Analyse de la tentative
-        </h3>
+      {/* =====================================================
+          MESSAGE DE FIN D'ACTIVITÉ
+      ===================================================== */}
 
-        <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
-          Tu as répondu correctement à{" "}
-          <strong>
-            {result.session.correctAnswers}
-          </strong>{" "}
-          question
-          {result.session.correctAnswers > 1
-            ? "s"
-            : ""}{" "}
-          sur{" "}
-          <strong>
-            {result.session.totalQuestions}
-          </strong>
-          .
+      {isLastExercise && (
+        <div
+          className="
+            mt-8
+            rounded-2xl
+            border
+            border-emerald-200
+            bg-emerald-50
+            px-5
+            py-4
+            text-center
+            sm:mt-10
+          "
+        >
+          <p className="text-base font-bold text-emerald-800">
+            🎉 Activité terminée !
+          </p>
 
-          {mistakes === 0
-            ? " Excellent travail ! Tu n'as commis aucune erreur."
-            : ` Il reste ${mistakes} erreur${
-                mistakes > 1 ? "s" : ""
-              } à comprendre. Consulte la correction détaillée ci-dessous avant de recommencer.`}
-        </p>
-      </section>
+          <p className="mt-1 text-sm text-emerald-700">
+            Bravo ! Tu as terminé tous les exercices de cette activité.
+          </p>
+        </div>
+      )}
 
       <AnswerHistory
         history={result.session.history}
@@ -195,7 +201,9 @@ export default function ActivityResults({
             sm:px-8
           "
         >
-          Exercice suivant →
+          {isLastExercise
+            ? "Terminer l'activité"
+            : "Exercice suivant →"}
         </button>
       </div>
     </section>

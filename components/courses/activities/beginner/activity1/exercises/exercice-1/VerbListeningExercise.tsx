@@ -14,6 +14,10 @@ export default function VerbListeningExercise() {
   const [currentTime, setCurrentTime] = useState(0);
 
   const playVerbAudio = (id: string, src: string) => {
+    /*
+     * Si un autre audio est déjà en cours,
+     * on l'arrête avant de lancer le nouveau.
+     */
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -26,17 +30,29 @@ export default function VerbListeningExercise() {
     setCurrentlyPlayingId(id);
     setCurrentTime(0);
 
-    audio.play();
+    void audio.play();
 
+    /*
+     * Permet à VerbCard de savoir quelle forme
+     * est actuellement en train d'être prononcée.
+     */
     audio.ontimeupdate = () => {
       setCurrentTime(audio.currentTime);
     };
 
+    /*
+     * Quand l'audio est terminé,
+     * on remet la carte à son état initial.
+     */
     audio.onended = () => {
       setCurrentlyPlayingId(null);
       setCurrentTime(0);
     };
 
+    /*
+     * En cas d'erreur de lecture,
+     * on remet également la carte à son état initial.
+     */
     audio.onerror = () => {
       setCurrentlyPlayingId(null);
       setCurrentTime(0);
@@ -46,6 +62,10 @@ export default function VerbListeningExercise() {
   return (
     <div className="mx-auto w-full max-w-6xl px-6">
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+        {/* ============================================================
+            ÊTRE
+        ============================================================ */}
+
         <VerbCard
           title="ÊTRE"
           forms={[
@@ -64,10 +84,12 @@ export default function VerbListeningExercise() {
             )
           }
           isPlaying={currentlyPlayingId === "etre"}
-          currentTime={
-            currentlyPlayingId === "etre" ? currentTime : 0
-          }
+          currentTime={currentlyPlayingId === "etre" ? currentTime : 0}
         />
+
+        {/* ============================================================
+            AVOIR
+        ============================================================ */}
 
         <VerbCard
           title="AVOIR"
@@ -87,10 +109,12 @@ export default function VerbListeningExercise() {
             )
           }
           isPlaying={currentlyPlayingId === "avoir"}
-          currentTime={
-            currentlyPlayingId === "avoir" ? currentTime : 0
-          }
+          currentTime={currentlyPlayingId === "avoir" ? currentTime : 0}
         />
+
+        {/* ============================================================
+            FAIRE
+        ============================================================ */}
 
         <VerbCard
           title="FAIRE"
@@ -110,10 +134,12 @@ export default function VerbListeningExercise() {
             )
           }
           isPlaying={currentlyPlayingId === "faire"}
-          currentTime={
-            currentlyPlayingId === "faire" ? currentTime : 0
-          }
+          currentTime={currentlyPlayingId === "faire" ? currentTime : 0}
         />
+
+        {/* ============================================================
+            ALLER
+        ============================================================ */}
 
         <VerbCard
           title="ALLER"
@@ -133,9 +159,7 @@ export default function VerbListeningExercise() {
             )
           }
           isPlaying={currentlyPlayingId === "aller"}
-          currentTime={
-            currentlyPlayingId === "aller" ? currentTime : 0
-          }
+          currentTime={currentlyPlayingId === "aller" ? currentTime : 0}
         />
       </div>
     </div>

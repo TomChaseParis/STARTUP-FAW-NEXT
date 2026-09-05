@@ -18,7 +18,7 @@ const LESSON_COLORS: Record<string, string> = {
   beginner: "#E09F00",
   "elementary-1": "#57cc99",
   "elementary-2": "#31572c",
-  "intermediate-1": "#00296B ",
+  "intermediate-1": "#00296B",
   "intermediate-2": "#F29BCB",
   advanced: "#F28B82",
 };
@@ -36,16 +36,16 @@ export default function LessonCard({
       className={
         lesson.locked
           ? "pointer-events-none opacity-60"
-          : "group block w-full"
+          : "group block w-fit"
       }
     >
       <article
         className="
           relative
           flex
-          h-[365px]
+          h-[400px]
           w-full
-          max-w-[420px]
+          max-w-[520px]
           flex-col
           overflow-hidden
           rounded-[28px]
@@ -119,7 +119,7 @@ export default function LessonCard({
               fill
               sizes="
                 (max-width: 640px) 90vw,
-                420px
+                520px
               "
               className="
                 object-contain

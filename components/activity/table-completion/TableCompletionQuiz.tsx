@@ -73,6 +73,7 @@ export default function TableCompletionQuiz({
       showProgress={false}
       title={data.title}
       question={data.instruction}
+      icon={null}
       canGoBack={false}
       canContinue={validated || allQuestionsAnswered}
       isLastQuestion

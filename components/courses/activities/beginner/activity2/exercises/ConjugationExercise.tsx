@@ -1,12 +1,15 @@
 "use client";
 
 import FillGapsEngine from "@/components/courses/engines/FillGapsEngine";
+
 import { conjugationExerciseData } from "../data/conjugationExerciseData";
 
 import { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
 
 type ConjugationExerciseProps = {
-  onComplete?: (score: number) => void;
+  onComplete?: (
+    result: ExerciseSessionResult,
+  ) => void;
 };
 
 export default function ConjugationExercise({
@@ -17,7 +20,7 @@ export default function ConjugationExercise({
       <FillGapsEngine
         data={conjugationExerciseData}
         onComplete={(result: ExerciseSessionResult) => {
-          onComplete?.(result.score);
+          onComplete?.(result);
         }}
       />
     </section>

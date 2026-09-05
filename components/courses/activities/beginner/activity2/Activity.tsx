@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
@@ -17,30 +17,34 @@ import { activity2 } from "@/data/courses/activities/activity2";
 
 export default function Activity() {
   const [started, setStarted] = useState(false);
-  const exercisesRef = useRef<HTMLDivElement>(null);
 
   const handleStart = () => {
     setStarted(true);
 
-    // Attend que React ait affiché les exercices avant de scroller
+    // Attend que l'exercice soit affiché avant de scroller
     setTimeout(() => {
-      exercisesRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 150);
+      document
+        .getElementById("exercise-1-instruction")
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+    }, 400);
   };
 
   return (
     <ActivityLayout activity={activity2}>
       <LessonBlock
-level="beginner"
-title="A l’Agence matrimoniale"
-        description="Regarde la vidéo puis réponds aux questions."
-        videoSrc="/videos/courses/beginner/activities/activity2/presentation.mp4"
+        level="beginner"
+        title="A l’Agence matrimoniale"
+        description="Regarde la vidéo puis lance les exercices."
+        videoSrc="/videos/courses/beginner/activities/activity2/marie-presentation.mp4"
         poster="/images/courses/beginner/activities/activity2/postermarie.png"
         info={{
-          objectifs: ["Se présenter", "Répondre à des questions"],
+          objectifs: [
+            "Comprendre un dialogue de présentation",
+            "Identifier et restituer des informations personnelles",
+          ],
           competences: [
             "Compréhension orale",
             "Phonie / graphie",
@@ -59,8 +63,21 @@ title="A l’Agence matrimoniale"
       {!started && (
         <div className="container flex justify-center">
           <button
+            type="button"
             onClick={handleStart}
-            className="rounded-xl bg-blue-600 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-blue-700"
+            className="
+              rounded-xl
+              bg-[#E09F00]
+              px-8
+              py-4
+              text-lg
+              font-semibold
+              text-white
+              transition-all
+              duration-300
+              hover:scale-105
+              hover:bg-[#C98D00]
+            "
           >
             Commencer l&apos;activité
           </button>
@@ -70,18 +87,34 @@ title="A l’Agence matrimoniale"
       <AnimatePresence mode="wait">
         {started && (
           <motion.div
-            ref={exercisesRef}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            initial={{
+              opacity: 0,
+              y: 40,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
           >
             <ActivityNavigationProvider
-              totalExercises={activity2.exercises.length}
+              totalExercises={
+                activity2.exercises.length
+              }
             >
-              <ActivityFlow>
+              <ActivityFlow
+                finishHref="/courses/beginner"
+              >
                 <ListeningDiscoverySection />
+
                 <ComprehensionSection />
+
                 <ConjugationSection />
               </ActivityFlow>
             </ActivityNavigationProvider>
