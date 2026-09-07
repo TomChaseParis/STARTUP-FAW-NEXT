@@ -14,7 +14,7 @@
 
   "activities": [
     {
-      "slug": "introduce-yourself",
+      "slug": "agence-matrimoniale",
       "title": "A L'AGENCE MATRIMONIALE",
       "subtitle": "Comprendre un dialogue de présentation",
       "description": "Questions / réponses",
@@ -24,7 +24,7 @@
     },
 
     {
-      "slug": "se-presenter",
+      "slug": "meeting-bruno-galopin",
       "title": "MEETING BRUNO GALOPIN",
       "subtitle": "Écouter quelqu'un se présenter",
       "description": "Compréhension orale",

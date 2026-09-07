@@ -12,7 +12,7 @@ const activityMap: Record<string, ActivityComponent> = {
     { ssr: false },
   ),
 
-  "beginner/introduce-yourself": dynamic(
+  "beginner/agence-matrimoniale": dynamic(
     () =>
       import(
         "@/components/courses/activities/beginner/activity2/Activity"
@@ -43,8 +43,15 @@ const activityMap: Record<string, ActivityComponent> = {
       ),
     { ssr: false },
   ),
+  "beginner/meeting-bruno-galopin": dynamic(
+    () =>
+      import(
+        "@/components/courses/activities/beginner/activity6/Activity"
+      ),
+    { ssr: false },
+  ),
 
-  "elementary-1/questions-francais": dynamic(
+  "elementary-1/quiz-a-gogo": dynamic(
     () =>
       import(
         "@/components/courses/activities/elementary-1/activity1/Activity"
@@ -68,7 +75,7 @@ const activityMap: Record<string, ActivityComponent> = {
     { ssr: false },
   ),
 
-  "elementary-1/gouts-loisirs": dynamic(
+  "elementary-1/loisirs-des-francais": dynamic(
     () =>
       import(
         "@/components/courses/activities/elementary-1/activity2/Activity"
