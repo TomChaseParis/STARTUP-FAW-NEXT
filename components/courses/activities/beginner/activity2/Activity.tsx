@@ -38,7 +38,7 @@ export default function Activity() {
         level="beginner"
         title="A l’Agence matrimoniale"
         description="Regarde la vidéo puis lance les exercices."
-        videoSrc="/videos/courses/beginner/activities/activity2/marie-presentation.mp4"
+        videoSrc="/videos/courses/beginner/activities/activity2/presentation.mp4"
         poster="/images/courses/beginner/activities/activity2/postermarie.png"
         info={{
           objectifs: [
