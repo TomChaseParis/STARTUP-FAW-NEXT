@@ -115,50 +115,327 @@ export default function TableCompletionRenderer({
       </div>
 
       {/* ========================================================= */}
-      {/* TABLEAU */}
+      {/* CONTENU */}
       {/* ========================================================= */}
 
       <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm sm:rounded-3xl">
-        {/* EN-TÊTE */}
-
-        <div
-          className="
-            hidden
-            border-b
-            border-slate-200
-            bg-slate-50
-            px-6
-            py-4
-            md:grid
-            md:grid-cols-[60px_minmax(260px,1fr)_minmax(360px,1.4fr)]
-            md:items-center
-            md:gap-5
-          "
-        >
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            Choisis ta réponse
-          </span>
-        </div>
-
-        {/* LIGNES */}
+        {/* ======================================================= */}
+        {/* QUESTIONS */}
+        {/* ======================================================= */}
 
         <div className="w-full min-w-0">
-          {questions.map((question, index) => (
-            <TableCompletionRow
-              key={question.id}
-              question={question}
-              questionIndex={index}
-              value={answers[index] ?? ""}
-              validated={validated}
-              active={
-                !validated &&
-                index === activeIndex
-              }
-              onChange={(value) =>
-                onChange(index, value)
-              }
-            />
-          ))}
+          {questions.map((question, index) => {
+            /*
+             * =====================================================
+             * QUESTION IMAGE
+             * =====================================================
+             */
+
+            if (
+              question.type === "image" &&
+              question.images
+            ) {
+              const selectedAnswer =
+                answers[index] ?? "";
+
+              return (
+                <div
+                  key={question.id}
+                  className="
+                    w-full
+                    border-b
+                    border-slate-200
+                    px-4
+                    py-6
+                    last:border-b-0
+                    sm:px-6
+                    sm:py-8
+                    md:px-8
+                  "
+                >
+                  {/* NUMÉRO + QUESTION */}
+
+                  <div className="mb-6 flex items-start gap-4">
+                    <div
+                      className={`
+                        flex
+                        h-9
+                        w-9
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        text-sm
+                        font-bold
+                        ${
+                          selectedAnswer
+                            ? "bg-amber-500 text-white"
+                            : "bg-slate-100 text-slate-500"
+                        }
+                      `}
+                    >
+                      {index + 1}
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="text-base font-bold leading-relaxed text-slate-900 sm:text-lg">
+                        Choisissez l&apos;image qui correspond
+                        le mieux à Xavier Plantu.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* ================================================= */}
+                  {/* IMAGES */}
+                  {/* ================================================= */}
+
+                  <div
+                    className="
+                      grid
+                      grid-cols-1
+                      gap-4
+                      sm:grid-cols-3
+                      sm:gap-5
+                    "
+                  >
+                    {question.images.map(
+                      (image) => {
+                        const isSelected =
+                          selectedAnswer ===
+                          image.id;
+
+                        const isCorrect =
+                          image.id ===
+                          question.answer;
+
+                        let imageStateClass =
+                          "border-slate-200 bg-white hover:border-amber-300 hover:shadow-md";
+
+                        if (!validated) {
+                          if (isSelected) {
+                            imageStateClass =
+                              "border-amber-500 bg-amber-50 shadow-lg ring-2 ring-amber-400";
+                          }
+                        } else {
+                          if (isCorrect) {
+                            imageStateClass =
+                              "border-green-500 bg-green-50 shadow-md ring-2 ring-green-400";
+                          } else if (
+                            isSelected
+                          ) {
+                            imageStateClass =
+                              "border-red-500 bg-red-50 shadow-md ring-2 ring-red-400";
+                          } else {
+                            imageStateClass =
+                              "border-slate-200 bg-white opacity-70";
+                          }
+                        }
+
+                        return (
+                          <motion.button
+                            key={image.id}
+                            type="button"
+                            disabled={validated}
+                            onClick={() =>
+                              onChange(
+                                index,
+                                image.id,
+                              )
+                            }
+                            whileHover={
+                              !validated
+                                ? {
+                                    y: -4,
+                                  }
+                                : undefined
+                            }
+                            whileTap={
+                              !validated
+                                ? {
+                                    scale: 0.98,
+                                  }
+                                : undefined
+                            }
+                            className={`
+                              relative
+                              overflow-hidden
+                              rounded-2xl
+                              border-2
+                              p-2
+                              text-left
+                              transition-all
+                              duration-200
+                              focus:outline-none
+                              focus:ring-2
+                              focus:ring-amber-400
+                              focus:ring-offset-2
+                              ${imageStateClass}
+                            `}
+                          >
+                            {/* IMAGE */}
+
+                            <div
+  className="
+    relative
+    aspect-[3/4]
+    w-full
+    overflow-hidden
+    rounded-xl
+    bg-slate-100
+  "
+>
+  <img
+    src={image.src}
+    alt={image.alt}
+    className="
+      h-full
+      w-full
+      object-contain
+      transition-transform
+      duration-300
+    "
+  />
+</div>
+
+                            {/* ÉTAT */}
+
+                            {validated &&
+                              isCorrect && (
+                                <div
+                                  className="
+                                    absolute
+                                    right-4
+                                    top-4
+                                    flex
+                                    h-9
+                                    w-9
+                                    items-center
+                                    justify-center
+                                    rounded-full
+                                    bg-green-500
+                                    text-lg
+                                    font-bold
+                                    text-white
+                                    shadow-lg
+                                  "
+                                >
+                                  ✓
+                                </div>
+                              )}
+
+                            {validated &&
+                              isSelected &&
+                              !isCorrect && (
+                                <div
+                                  className="
+                                    absolute
+                                    right-4
+                                    top-4
+                                    flex
+                                    h-9
+                                    w-9
+                                    items-center
+                                    justify-center
+                                    rounded-full
+                                    bg-red-500
+                                    text-lg
+                                    font-bold
+                                    text-white
+                                    shadow-lg
+                                  "
+                                >
+                                  ✕
+                                </div>
+                              )}
+
+                            {!validated &&
+                              isSelected && (
+                                <div
+                                  className="
+                                    absolute
+                                    right-4
+                                    top-4
+                                    flex
+                                    h-9
+                                    w-9
+                                    items-center
+                                    justify-center
+                                    rounded-full
+                                    bg-amber-500
+                                    text-lg
+                                    font-bold
+                                    text-white
+                                    shadow-lg
+                                  "
+                                >
+                                  ✓
+                                </div>
+                              )}
+                          </motion.button>
+                        );
+                      },
+                    )}
+                  </div>
+
+                  {/* ================================================= */}
+                  {/* MESSAGE APRÈS VALIDATION */}
+                  {/* ================================================= */}
+
+                  {validated && (
+                    <div
+                      className={`
+                        mt-5
+                        rounded-2xl
+                        px-4
+                        py-3
+                        text-sm
+                        font-semibold
+                        ${
+                          selectedAnswer ===
+                          question.answer
+                            ? "bg-green-50 text-green-700"
+                            : "bg-red-50 text-red-700"
+                        }
+                      `}
+                    >
+                      {selectedAnswer ===
+                      question.answer
+                        ? "✓ Bonne réponse !"
+                        : "✕ Ce n'est pas la bonne image. La bonne réponse est indiquée en vert."}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            /*
+             * =====================================================
+             * QUESTION CLASSIQUE
+             * =====================================================
+             */
+
+            return (
+              <TableCompletionRow
+                key={question.id}
+                question={question}
+                questionIndex={index}
+                value={
+                  answers[index] ?? ""
+                }
+                validated={validated}
+                active={
+                  !validated &&
+                  index === activeIndex
+                }
+                onChange={(value) =>
+                  onChange(
+                    index,
+                    value,
+                  )
+                }
+              />
+            );
+          })}
         </div>
       </div>
 
@@ -167,7 +444,8 @@ export default function TableCompletionRenderer({
       {/* ========================================================= */}
 
       {!validated &&
-        answeredCount < questions.length && (
+        answeredCount <
+          questions.length && (
           <div
             className="
               mt-4
@@ -186,7 +464,8 @@ export default function TableCompletionRenderer({
             "
           >
             <p className="text-sm leading-relaxed text-slate-500">
-              Choisis une réponse pour chaque phrase.
+              Choisis une réponse pour chaque
+              question.
             </p>
 
             <span
@@ -205,7 +484,8 @@ export default function TableCompletionRenderer({
                 ring-slate-200
               "
             >
-              {answeredCount} / {questions.length}
+              {answeredCount} /{" "}
+              {questions.length}
             </span>
           </div>
         )}
@@ -215,7 +495,8 @@ export default function TableCompletionRenderer({
       {/* ========================================================= */}
 
       {!validated &&
-        answeredCount === questions.length && (
+        answeredCount ===
+          questions.length && (
           <motion.div
             initial={{
               opacity: 0,
@@ -243,8 +524,9 @@ export default function TableCompletionRenderer({
           >
             <p className="text-sm font-semibold leading-relaxed text-amber-800">
               Toutes tes réponses sont prêtes.
-              <br className="sm:hidden" /> Tu peux
-              maintenant valider le tableau.
+              <br className="sm:hidden" />
+              {" "}Tu peux maintenant valider le
+              tableau.
             </p>
           </motion.div>
         )}
@@ -275,7 +557,9 @@ export default function TableCompletionRenderer({
               ✓
             </span>
 
-            <span>Bonne réponse</span>
+            <span>
+              Bonne réponse
+            </span>
           </div>
 
           <div className="flex items-center gap-2 text-slate-500">
@@ -283,7 +567,9 @@ export default function TableCompletionRenderer({
               ✕
             </span>
 
-            <span>À revoir</span>
+            <span>
+              À revoir
+            </span>
           </div>
         </div>
       )}

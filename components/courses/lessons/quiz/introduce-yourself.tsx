@@ -5,7 +5,7 @@ import type { Question } from "@/hooks/useQuizEngine";
 
 import { useProgress } from "@/components/courses/engines/ProgressEngine/useProgress";
 
-import ActivityResults from "@/components/courses/common/ActivityResults/ActivityResults";
+import LessonResults from "@/components/courses/common/LessonResults/LessonResults";
 
 import quizData from "@/data/courses/lessons/beginner/introduce-yourself/quiz.json";
 
@@ -39,24 +39,31 @@ const questions: Question[] = data.questions.map(
   (question): Question => {
     const correctAnswers =
       question.correctAnswers ??
-      (question.correctAnswer ? [question.correctAnswer] : []);
+      (question.correctAnswer
+        ? [question.correctAnswer]
+        : []);
 
     return {
       id: question.id,
       type: question.type,
       question: question.question,
       image: question.image,
-      teacherAudioQuestion: question.teacherAudioQuestion,
+      teacherAudioQuestion:
+        question.teacherAudioQuestion,
       choices: question.options.map((option) => ({
         id: option.id.toUpperCase(),
         label: option.text,
-        isCorrect: correctAnswers.includes(option.id),
+        isCorrect: correctAnswers.includes(
+          option.id,
+        ),
       })),
     };
   },
 );
 
-const ACTIVITY_ID = "beginner-introduce-yourself";
+const ACTIVITY_ID =
+  "beginner-introduce-yourself";
+
 const EXERCISE_ID = "lesson-quiz";
 
 export default function IntroduceYourselfQuiz() {
@@ -71,14 +78,14 @@ export default function IntroduceYourselfQuiz() {
       EXERCISE_ID,
     );
 
-    const score = result.score;
+    const bestScore =
+      exercise?.bestScore ?? result.score;
 
-    const bestScore = exercise?.bestScore ?? score;
-
-    const attempts = exercise?.attempts ?? 1;
+    const attempts =
+      exercise?.attempts ?? 1;
 
     return (
-      <ActivityResults
+      <LessonResults
         result={{
           session: result,
           bestScore,
@@ -88,11 +95,7 @@ export default function IntroduceYourselfQuiz() {
           resetQuiz();
           refresh();
         }}
-        onNext={() => {
-          console.log(
-            "[IntroduceYourselfQuiz] Aucun exercice suivant configuré.",
-          );
-        }}
+        finishHref="/courses/beginner"
       />
     );
   };

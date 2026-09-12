@@ -1,12 +1,15 @@
-"use client";
-
-import { ActivityType } from "./activityTypes";
-
-/* ================= PART ================= */
+export type FillGapsSpeaker =
+  | "conseillere"
+  | "xavier";
 
 export type GapPart =
   | {
       type: "text";
+      value: string;
+    }
+  | {
+      type: "dialogue";
+      speaker: FillGapsSpeaker;
       value: string;
     }
   | {
@@ -15,25 +18,22 @@ export type GapPart =
       hint?: string;
     };
 
-/* ================= SENTENCE ================= */
-
-export type GapSentence = {
+export type Sentence = {
   id: number;
-
   parts: GapPart[];
-
-  /* UI / META */
-  teacherImage?: string;
 };
-
-/* ================= DATA ================= */
 
 export type FillGapsData = {
   title?: string;
   instruction?: string;
   verbs?: string[];
+  sentences: Sentence[];
+};
 
-  sentences: GapSentence[];
-
-  activityType?: ActivityType;
+export type GapResult = {
+  index: number;
+  question: string;
+  user: string;
+  correct: string;
+  isCorrect: boolean;
 };

@@ -210,44 +210,45 @@ export default function ActivityCard({
           </div>
         )}
 
-    {/* DESCRIPTION */}
+        {/* DESCRIPTION */}
 
-<div
-  className="
-    mt-3
-    text-left
-    sm:mt-4 mx-auto
-  "
->
-  <p
-    className="
-      line-clamp-2
-      text-sm
-      font-semibold
-      leading-5
-      text-black
-      sm:text-base
-    "
-  >
-    • {activity.description}
-  </p>
+        <div
+          className="
+            mt-3
+            mx-auto
+            text-center
+            sm:mt-4
+          "
+        >
+          <p
+            className="
+              line-clamp-2
+              text-sm
+              font-semibold
+              leading-5
+              text-black
+              sm:text-base
+            "
+          >
+            • {activity.description}
+          </p>
 
-  {activity.additionalDescription && (
-    <p
-      className="
-        mt-1
-        line-clamp-2
-        text-sm
-        font-semibold
-        leading-5
-        text-black
-        sm:text-base
-      "
-    >
-      • {activity.additionalDescription}
-    </p>
-  )}
-</div>
+          {activity.additionalDescription && (
+            <p
+              className="
+                mt-1
+                line-clamp-2
+                text-sm
+                font-semibold
+                leading-5
+                text-black
+                sm:text-base
+              "
+            >
+              • {activity.additionalDescription}
+            </p>
+          )}
+        </div>
       </article>
     </Link>
   );

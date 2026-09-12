@@ -1,7 +1,8 @@
+
 import { TableCompletionActivity } from "@/components/activity/table-completion/types";
 
 export const activity2Data: TableCompletionActivity = {
-  instruction:"",
+  instruction: "",
   title: "Complète les informations",
 
   questions: [
@@ -157,6 +158,36 @@ export const activity2Data: TableCompletionActivity = {
         "une femme de 30 ans, sympathique et sportive",
         "une femme de 85 ans, vieille et édentée",
         "une femme de son âge, plutôt intellectuelle",
+      ],
+    },
+
+    // =========================================================
+    // QUESTION 15 — IMAGE
+    // =========================================================
+
+    {
+      id: "15",
+      type: "image",
+      before: "",
+      after: "",
+      answer: "classic",
+      options: [],
+      images: [
+        {
+          id: "classic",
+          src: "/images/courses/beginner/activities/activity2/classic.png",
+          alt: "Xavier Plantu",
+        },
+        {
+          id: "punk",
+          src: "/images/courses/beginner/activities/activity2/punk.png",
+          alt: "Portrait punk",
+        },
+        {
+          id: "old",
+          src: "/images/courses/beginner/activities/activity2/old.png",
+          alt: "Portrait âgé",
+        },
       ],
     },
   ],

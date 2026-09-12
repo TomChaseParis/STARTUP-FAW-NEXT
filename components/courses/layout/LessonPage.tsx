@@ -335,8 +335,7 @@ export default function LessonPage({
 
                     <p className="mt-3 text-sm leading-6 text-slate-700">
                       Écoute chaque question à l’aide du bouton audio, puis
-                      sélectionne la bonne réponse. Pour certaines questions,
-                      plusieurs réponses peuvent être correctes.
+                      sélectionne la bonne réponse.
                     </p>
 
                     <div className="mt-4 rounded-2xl border border-amber-200 bg-white/80 px-4 py-3">

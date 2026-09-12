@@ -7,7 +7,7 @@ export default function LessonPageRoute() {
       title="Se présenter en français"
       subtitle="Les bases pour parler de soi"
       description="Apprends à te présenter naturellement en français."
-      videoSrc="https://vz-29802eea-b38.b-cdn.net/bc1452b5-9b7d-4c0d-baca-a611dd21ff33/playlist.m3u8"
+      videoSrc="https://vz-59620af9-b1f.b-cdn.net/15e8f303-14a7-448e-9690-0634dc67d365/playlist.m3u8"
       poster=""
       quiz={<IntroduceYourselfQuiz />}
     />

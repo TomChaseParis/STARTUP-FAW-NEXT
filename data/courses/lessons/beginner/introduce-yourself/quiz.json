@@ -154,7 +154,7 @@
     },
     {
       "id": 8,
-      "type": "multiple-choice",
+      "type": "single-choice",
       "image": "/images/courses/beginner/lessons/lesson1/quiz/Q8.png",
       "question": "Quelles sont les deux réponses possibles à la question « Qu’est-ce que tu fais dans la vie ? »",
       "teacherAudioQuestion": "/audios/courses/beginner/lessons/introduce-yourself/quiz/Q8.mp3",
@@ -173,9 +173,7 @@
         }
       ],
       "correctAnswers": [
-        "a",
-        "c"
-      ]
+        "a"      ]
     }
   ]
 }

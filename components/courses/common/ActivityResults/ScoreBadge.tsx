@@ -6,10 +6,12 @@ import confetti from "canvas-confetti";
 
 type ScoreBadgeProps = {
   score: number;
+  variant?: "activity" | "lesson";
 };
 
 export default function ScoreBadge({
   score,
+  variant = "activity",
 }: ScoreBadgeProps) {
   const emojiRef = useRef<HTMLDivElement>(null);
 
@@ -76,27 +78,35 @@ export default function ScoreBadge({
 
   let emoji = "💪";
   let title = "";
-  let message = "";
 
-  if (score < 50) {
-    // 0 à 49 %
-    emoji = "😕";
-    title = "Try again !";
-
-  } else if (score < 75) {
-    // 50 à 74 %
-    emoji = "👍";
-    title = "Keep it up !";
-
-  } else if (score < 100) {
-    // 75 à 99 %
-    emoji = "👍";
-    title = "Good work !";
-
+  if (variant === "lesson") {
+    if (score < 50) {
+      emoji = "📚";
+      title = "";
+    } else if (score < 75) {
+      emoji = "🔎";
+      title = "";
+    } else if (score < 100) {
+      emoji = "👍";
+      title = "";
+    } else {
+      emoji = "🏆";
+      title = "";
+    }
   } else {
-    // 100 %
-    emoji = "🏆";
-    title = "You nailed it !";
+    if (score < 50) {
+      emoji = "😕";
+      title = "Try again !";
+    } else if (score < 75) {
+      emoji = "👍";
+      title = "Keep it up !";
+    } else if (score < 100) {
+      emoji = "👍";
+      title = "Good work !";
+    } else {
+      emoji = "🏆";
+      title = "You nailed it !";
+    }
   }
 
   return (
@@ -118,13 +128,11 @@ export default function ScoreBadge({
         </span>
       </div>
 
-      <h3 className="mt-8 text-3xl font-bold text-slate-900">
-        {title}
-      </h3>
-
-      <p className="mt-3 max-w-lg text-center text-lg leading-relaxed text-slate-600">
-        {message}
-      </p>
+      {title && (
+        <h3 className="mt-8 text-3xl font-bold text-slate-900">
+          {title}
+        </h3>
+      )}
     </div>
   );
 }

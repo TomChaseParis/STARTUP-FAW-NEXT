@@ -9,6 +9,8 @@ import TeacherBubble from "./TeacherBubble";
 type TeacherFeedbackProps = {
   score: number;
 
+  variant?: "activity" | "lesson";
+
   teacherFeedbackImages?: {
     bad: string;
     middle: string;
@@ -26,6 +28,7 @@ type TeacherFeedbackProps = {
 
 export default function TeacherFeedback({
   score,
+  variant = "activity",
   teacherFeedbackImages,
   teacherFeedbackAudios,
 }: TeacherFeedbackProps) {
@@ -36,8 +39,53 @@ export default function TeacherFeedback({
   let message = "";
   let audio = "";
 
-  if (score < 50) {
-    // 0 à 49 %
+  if (variant === "lesson") {
+    if (score === 100) {
+      image =
+        teacherFeedbackImages?.perfect ??
+        "/images/courses/results-expressions/beginner/perfect-red.png";
+
+      audio =
+        teacherFeedbackAudios?.perfect ??
+        "/audios/teacher/marie/score/marie-parfait.mp3";
+
+      message =
+        "Bravo ! Tu sembles avoir très bien assimilé la leçon. Tu peux passer l'esprit tranquille aux activités.";
+    } else if (score >= 75) {
+      image =
+        teacherFeedbackImages?.good ??
+        "/images/courses/results-expressions/beginner/bingo-red.png";
+
+      audio =
+        teacherFeedbackAudios?.good ??
+        "/audios/teacher/marie/score/marie-parfait.mp3";
+
+      message =
+        "Tu as retenu l'essentiel, mais tu as fait quelques erreurs. Regarde bien la correction et passe aux activités.";
+    } else if (score >= 50) {
+      image =
+        teacherFeedbackImages?.middle ??
+        "/images/courses/results-expressions/beginner/middle-red.png";
+
+      audio =
+        teacherFeedbackAudios?.middle ??
+        "/audios/teacher/marie/score/marie-peutmieuxfaire.mp3";
+
+      message =
+        "Il reste des points à revoir, apparemment. Analyse tes erreurs et visualise à nouveau la leçon si tu en sens le besoin.";
+    } else {
+      image =
+        teacherFeedbackImages?.bad ??
+        "/images/courses/results-expressions/beginner/noob-red.png";
+
+      audio =
+        teacherFeedbackAudios?.bad ??
+        "/audios/teacher/marie/score/pasgenial-marie.mp3";
+
+      message =
+        "Tu ne sembles pas encore tout à fait prêt à passer aux activités. Visualise à nouveau attentivement la leçon et refais le test. Ce sera sûrement bien mieux la prochaine fois !";
+    }
+  } else if (score < 50) {
     image =
       teacherFeedbackImages?.bad ??
       "/images/courses/results-expressions/beginner/noob-red.png";
@@ -51,7 +99,6 @@ export default function TeacherFeedback({
     message =
       "Mon conseil : réécoute attentivement le dialogue, analyse tes erreurs et recommence l’exercice. Ce sera mieux la prochaine fois !";
   } else if (score < 75) {
-    // 50 à 74 %
     image =
       teacherFeedbackImages?.middle ??
       "/images/courses/results-expressions/beginner/middle-red.png";
@@ -65,7 +112,6 @@ export default function TeacherFeedback({
     message =
       "Tu as bien répondu à la majorité des questions, mais il te reste une marge de progression. Mon conseil : regarde attentivement les corrections et recommence l’exercice. Tu y es presque !";
   } else if (score < 100) {
-    // 75 à 99 %
     image =
       teacherFeedbackImages?.good ??
       "/images/courses/results-expressions/beginner/bingo-red.png";
@@ -79,7 +125,6 @@ export default function TeacherFeedback({
     message =
       "L’essentiel est compris. Analyse les quelques erreurs que tu as faites et passe à l’exercice suivant !";
   } else {
-    // 100 %
     image =
       teacherFeedbackImages?.perfect ??
       "/images/courses/results-expressions/beginner/perfect-red.png";

@@ -10,9 +10,10 @@ import ActivityFlow from "@/core/navigation/ActivityFlow";
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 
 import FillGapsBrunoSection from "./exercises/exercise-1/FillGapsBrunoSection";
-
+import TrueFalseBrunoSection from "./exercises/exercise-2/TrueFalseBrunoSection";
 
 import { activity6 } from "@/data/courses/activities/beginner/activity6";
+import ThirdPersonBrunoSection from "./exercises/exercise-3/ThirdPersonBrunoSection";
 
 export default function Activity() {
   const [started, setStarted] = useState(false);
@@ -37,7 +38,7 @@ export default function Activity() {
         level="beginner"
         title="MEETING BRUNO GALOPIN"
         description="Regarde la vidéo puis lance les exercices."
-        videoSrc="/videos/courses/beginner/activities/activity6/bruno-galopin.mp4"
+        videoSrc="/videos/courses/beginner/activities/bruno-galopin/presentation.mp4"
         info={{
           objectifs: [
             "Repérer et restituer des informations personnelles",
@@ -108,6 +109,10 @@ export default function Activity() {
                 finishHref="/courses/beginner"
               >
                 <FillGapsBrunoSection />
+
+                <TrueFalseBrunoSection />
+
+                <ThirdPersonBrunoSection />
               </ActivityFlow>
             </ActivityNavigationProvider>
           </motion.div>

@@ -1,8 +1,24 @@
+export interface TableCompletionImage {
+  id: string;
+  src: string;
+  alt: string;
+}
+
 export interface TableCompletionItem {
   id: string;
 
-  before: string;
+  /**
+   * Type de question.
+   *
+   * - "text" : question classique du tableau
+   * - "image" : sélection d'une image
+   *
+   * Si le type n'est pas renseigné, la question
+   * est considérée comme une question texte classique.
+   */
+  type?: "text" | "image";
 
+  before: string;
   after: string;
 
   options: string[];
@@ -10,6 +26,11 @@ export interface TableCompletionItem {
   answer: string;
 
   hint?: string;
+
+  /**
+   * Utilisé uniquement pour les questions de type "image".
+   */
+  images?: TableCompletionImage[];
 }
 
 export interface TableCompletionActivity {
