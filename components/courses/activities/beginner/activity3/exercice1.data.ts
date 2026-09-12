@@ -4,7 +4,6 @@ import { FillGapsData } from "@/types/fillGapsTypes";
 
 export const exercice1Data: FillGapsData = {
   title: "✍️ Conjugaison — Je / Vous",
-  activityType: "type",
 
   instruction:
     "Complète avec la forme « je » et « vous » des verbes suivants.",

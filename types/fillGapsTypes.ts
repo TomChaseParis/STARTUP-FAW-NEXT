@@ -20,12 +20,14 @@ export type GapPart =
 
 export type Sentence = {
   id: number;
+  teacherImage?: string;
   parts: GapPart[];
 };
 
 export type FillGapsData = {
   title?: string;
   instruction?: string;
+  activityType?: string;
   verbs?: string[];
   sentences: Sentence[];
 };

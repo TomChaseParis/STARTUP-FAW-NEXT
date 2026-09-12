@@ -2,7 +2,7 @@
 
 import FillGapInput from "./FillGapInput";
 
-import { Sentence } from "@/hooks/useFillGapsEngine";
+import { Sentence } from "@/types/fillGapsTypes";
 
 type Props = {
   sentence: Sentence;
@@ -14,18 +14,15 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-
-    export default function FillGapsRenderer({
-      sentence,
-      value,
-      validated,
-      isCorrect,
-      correctAnswer,
-      hint,
-      onChange,
-    }: Props) {
-
-  
+export default function FillGapsRenderer({
+  sentence,
+  value,
+  validated,
+  isCorrect,
+  correctAnswer,
+  hint,
+  onChange,
+}: Props) {
   return (
     <div className="space-y-6">
       {hint && (
@@ -37,7 +34,32 @@ type Props = {
       <div className="whitespace-pre-line text-lg leading-9 text-slate-800">
         {sentence.parts.map((part, index) => {
           if (part.type === "text") {
-            return <span key={index}>{part.value}</span>;
+            return (
+              <span key={index}>
+                {part.value}
+              </span>
+            );
+          }
+
+          /*
+           * Les éléments "dialogue" font partie
+           * des nouveaux types FillGaps.
+           *
+           * On les affiche comme du texte ici.
+           */
+          if (part.type === "dialogue") {
+            return (
+              <span
+                key={index}
+                className={
+                  part.speaker === "conseillere"
+                    ? "text-pink-700"
+                    : "text-blue-700"
+                }
+              >
+                {part.value}
+              </span>
+            );
           }
 
           return (

@@ -9,38 +9,11 @@ import {
   useExerciseSession,
 } from "@/components/courses/common/hooks/useExerciseSession";
 
-/* ================= TYPES ================= */
-
-export type GapPart =
-  | {
-      type: "text";
-      value: string;
-    }
-  | {
-      type: "input";
-      answer: string;
-      hint?: string;
-    };
-
-export type Sentence = {
-  id: number;
-  parts: GapPart[];
-};
-
-export type FillGapsData = {
-  title?: string;
-  instruction?: string;
-  verbs?: string[];
-  sentences: Sentence[];
-};
-
-export type GapResult = {
-  index: number;
-  question: string;
-  user: string;
-  correct: string;
-  isCorrect: boolean;
-};
+import {
+  FillGapsData,
+  GapPart,
+  GapResult,
+} from "@/types/fillGapsTypes";
 
 /* ================= UTILS ================= */
 
@@ -72,7 +45,8 @@ const sentenceToQuestion = (
   return parts
     .map((part) => {
       if (
-        part.type === "text"
+        part.type === "text" ||
+        part.type === "dialogue"
       ) {
         return part.value;
       }
