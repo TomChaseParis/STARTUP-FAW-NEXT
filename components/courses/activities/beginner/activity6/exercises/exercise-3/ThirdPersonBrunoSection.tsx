@@ -84,8 +84,9 @@ export default function ThirdPersonBrunoSection() {
               stampLabel="EXERCICE 3"
               typeLabel="RÉÉCRITURE"
               title="IL S'APPELLE BRUNO GALOPIN..."
-              subtitle="Transforme le texte de l’exercice 1 de la 1ère personne à la 3ème personne (« Je » > « Il » ; « Nous » > « Ils »)
-              ."
+              subtitle={
+                "Transforme le texte de l’exercice 1 de la 1ère personne à la 3ème personne (« Je » > « Il » ; « Nous » > « Ils »)."
+              }
               activityType="type"
               description={
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
@@ -133,7 +134,7 @@ l’oral.
 
 
                       <p>
-                        Exemple : « Nous vivons » => « Ils vivent »
+                        Exemple : « Nous vivons » ➡️ « Ils vivent »
                       </p>
                     </div>
                   </div>
