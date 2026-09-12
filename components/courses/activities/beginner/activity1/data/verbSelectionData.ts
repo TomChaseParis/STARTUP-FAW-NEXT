@@ -4,7 +4,6 @@ import { FillGapsData } from "@/types/fillGapsTypes";
 
 export const verbSelectionData: FillGapsData = {
   title: "✍️ EXERCICE 3 : Choisis le bon verbe à la bonne forme",
-  activityType: "type",
 
   verbs: ["être", "avoir", "faire", "aller"],
 
