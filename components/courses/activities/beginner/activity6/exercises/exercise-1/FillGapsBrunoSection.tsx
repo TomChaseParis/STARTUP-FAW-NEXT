@@ -86,29 +86,59 @@ export default function FillGapsBrunoSection() {
                 <div
                   className="
                     flex
+                    flex-col
                     items-center
-                    gap-5
+                    gap-4
                     rounded-xl
                     border
                     border-slate-300
                     bg-white
                     px-4
                     py-4
+                    sm:flex-row
+                    sm:items-center
+                    sm:gap-5
                     sm:px-5
                     sm:py-4
                   "
                 >
                   {/* IMAGE POINT D'ATTENTION */}
-                  <div className="flex shrink-0 items-center justify-center">
+                  <div
+                    className="
+                      flex
+                      shrink-0
+                      items-center
+                      justify-center
+                    "
+                  >
                     <img
                       src="/images/courses/beginner/activities/brunogalopin/point.png"
                       alt="Point d'attention"
-                      className="h-28 w-24 object-contain"
+                      className="
+                        h-20
+                        w-20
+                        object-contain
+                        sm:h-28
+                        sm:w-24
+                      "
                     />
                   </div>
 
                   {/* CONSIGNES */}
-                  <div className="space-y-5 text-sm leading-relaxed text-slate-800 sm:text-base">
+                  <div
+                    className="
+                      min-w-0
+                      w-full
+                      space-y-4
+                      text-center
+                      text-sm
+                      leading-relaxed
+                      text-slate-800
+                      sm:space-y-5
+                      sm:text-left
+                      sm:text-base
+                    "
+                  >
                     <div>
                       <p className="font-semibold">
                         Pense à écrire le pronom sujet + le verbe

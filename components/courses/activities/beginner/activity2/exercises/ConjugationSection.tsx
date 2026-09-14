@@ -100,21 +100,74 @@ export default function ConjugationSection() {
                     partir de la liste ci-dessous :
                   </p>
 
-                  <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 font-semibold tracking-wide text-slate-800">
-                    <span className="mr-3">à</span>
-                    <span className="mr-3">â</span>
-                    <span className="mr-3">ä</span>
-                    <span className="mr-3">é</span>
-                    <span className="mr-3">è</span>
-                    <span className="mr-3">ê</span>
-                    <span className="mr-3">ë</span>
-                    <span className="mr-3">î</span>
-                    <span className="mr-3">ï</span>
-                    <span className="mr-3">ô</span>
-                    <span className="mr-3">ö</span>
-                    <span className="mr-3">ù</span>
-                    <span className="mr-3">û</span>
-                    <span>ü</span>
+                  {/* ================================================= */}
+                  {/* VOYELLES ACCENTUÉES */}
+                  {/* ================================================= */}
+
+                  <div
+                    className="
+                      w-full
+                      overflow-hidden
+                      rounded-xl
+                      border
+                      border-slate-200
+                      bg-white/80
+                      px-3
+                      py-3
+                      sm:px-4
+                      sm:py-3
+                    "
+                  >
+                    <div
+                      className="
+                        flex
+                        w-full
+                        flex-wrap
+                        items-center
+                        justify-center
+                        gap-2
+                        sm:justify-start
+                        sm:gap-3
+                      "
+                    >
+                      {[
+                        "à",
+                        "â",
+                        "ä",
+                        "é",
+                        "è",
+                        "ê",
+                        "ë",
+                        "î",
+                        "ï",
+                        "ô",
+                        "ö",
+                        "ù",
+                        "û",
+                        "ü",
+                      ].map((character) => (
+                        <span
+                          key={character}
+                          className="
+                            flex
+                            h-9
+                            min-w-9
+                            items-center
+                            justify-center
+                            rounded-lg
+                            bg-slate-50
+                            px-2
+                            font-semibold
+                            tracking-wide
+                            text-slate-800
+                            ring-1
+                            ring-slate-200
+                          "
+                        >
+                          {character}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               }

@@ -105,36 +105,65 @@ export default function ThirdPersonBrunoSection() {
                   <div
                     className="
                       flex
+                      flex-col
                       items-center
-                      gap-5
+                      gap-4
                       rounded-xl
                       border
                       border-slate-300
                       bg-white
-                      px-5
+                      px-4
                       py-4
                       shadow-sm
+                      sm:flex-row
+                      sm:items-center
+                      sm:gap-5
+                      sm:px-5
+                      sm:py-4
                     "
                   >
-                    <div className="w-16 shrink-0 sm:w-20">
+                    {/* IMAGE POINT D'ATTENTION */}
+                    <div
+                      className="
+                        flex
+                        shrink-0
+                        items-center
+                        justify-center
+                      "
+                    >
                       <img
                         src="/images/courses/beginner/activities/brunogalopin/point.png"
                         alt="Point d'attention"
-                        className="h-auto w-full object-contain"
+                        className="
+                          h-20
+                          w-20
+                          object-contain
+                          sm:h-28
+                          sm:w-24
+                        "
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    {/* TEXTE */}
+                    <div
+                      className="
+                        min-w-0
+                        w-full
+                        space-y-2
+                        text-center
+                        sm:text-left
+                      "
+                    >
                       <p className="font-bold text-slate-800">
-                      Lors de la transposition du « nous » en « ils », faites attention 
-à la terminaison du verbe. Rappel : le « ent » ne s’entend pas à
-l’oral.
-
+                        Lors de la transposition du « nous »
+                        en « ils », faites attention à la
+                        terminaison du verbe. Rappel : le
+                        « ent » ne s’entend pas à l’oral.
                       </p>
 
-
                       <p>
-                        Exemple : « Nous vivons » ➡️ « Ils vivent »
+                        Exemple : « Nous vivons » ➡️ « Ils
+                        vivent »
                       </p>
                     </div>
                   </div>
