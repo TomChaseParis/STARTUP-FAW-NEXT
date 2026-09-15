@@ -59,7 +59,7 @@ export default function LessonPage({
       <div className="pointer-events-none fixed inset-0 -z-0 overflow-hidden">
         <div className="absolute left-[-180px] top-[180px] h-[420px] w-[420px] rounded-full bg-amber-100/30 blur-3xl" />
 
-        <div className="absolute right-[-180px] top-[420px] h-[420px] w-[420px] rounded-full bg-yellow-100/20 blur-3xl" />
+        <div className="bg-yellow-100/20 absolute right-[-180px] top-[420px] h-[420px] w-[420px] rounded-full blur-3xl" />
       </div>
 
       {/* =========================================================
@@ -76,10 +76,10 @@ export default function LessonPage({
               HEADER DE LA LEÇON
           ===================================================== */}
 
-          <div className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-br from-amber-50 via-white to-yellow-50 px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
+          <div className="to-yellow-50 relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-br from-amber-50 via-white px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
             <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-amber-200/30 blur-3xl" />
 
-            <div className="pointer-events-none absolute bottom-[-100px] left-[30%] h-48 w-48 rounded-full bg-yellow-200/20 blur-3xl" />
+            <div className="bg-yellow-200/20 pointer-events-none absolute bottom-[-100px] left-[30%] h-48 w-48 rounded-full blur-3xl" />
 
             <div className="relative max-w-4xl">
               {/* Badge */}
@@ -151,7 +151,6 @@ export default function LessonPage({
                 onEnded={handleVideoEnded}
               >
                 <source src={videoSrc} />
-
                 Ton navigateur ne supporte pas la lecture vidéo.
               </video>
             </div>
@@ -289,10 +288,7 @@ export default function LessonPage({
         ======================================================= */}
 
         {showQuiz && (
-          <section
-            id="lesson-quiz"
-            className="scroll-mt-8 pt-10 sm:pt-12"
-          >
+          <section id="lesson-quiz" className="scroll-mt-8 pt-10 sm:pt-12">
             {/* Header étape */}
 
             <div className="mb-6 flex items-center gap-4">
@@ -317,36 +313,6 @@ export default function LessonPage({
 
             <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:p-6 lg:p-8">
               {/* Introduction pédagogique */}
-
-              <div className="mb-8 rounded-[24px] border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-yellow-50 p-5 sm:p-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-400 text-xl shadow-sm">
-                    📝
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-black text-slate-950 sm:text-xl">
-                      Quiz de compréhension
-                    </h3>
-
-                    <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
-                      Teste ce que tu as retenu de la leçon.
-                    </p>
-
-                    <p className="mt-3 text-sm leading-6 text-slate-700">
-                      Écoute chaque question à l’aide du bouton audio, puis
-                      sélectionne la bonne réponse.
-                    </p>
-
-                    <div className="mt-4 rounded-2xl border border-amber-200 bg-white/80 px-4 py-3">
-                      <p className="text-sm font-semibold leading-6 text-slate-700">
-                        💡 Conseil : prends le temps de lire toutes les
-                        propositions avant de répondre.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* Quiz */}
 
