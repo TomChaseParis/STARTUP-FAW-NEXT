@@ -1,9 +1,7 @@
 "use client";
 
-import {
+import React, {
   Fragment,
-  useEffect,
-  useState,
 } from "react";
 
 import {
@@ -13,14 +11,15 @@ import {
 
 import { useFillGapsEngine } from "@/hooks/useFillGapsEngine";
 
-import ExerciseResult from "@/components/courses/common/result/ExerciseResult";
-import ExerciseReport from "@/components/courses/common/result/ExerciseReport";
-
-import { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
+import {
+  ExerciseSessionResult,
+} from "@/components/courses/common/types/exerciseSessionTypes";
 
 type Props = {
   data: FillGapsData;
+
   teacherImage?: string;
+
   onComplete?: (
     result: ExerciseSessionResult,
   ) => void;
@@ -29,19 +28,6 @@ type Props = {
 /* ========================================================= */
 /* NORMALISATION                                             */
 /* ========================================================= */
-
-/*
- * Les accents sont obligatoires.
- *
- * "a" !== "à"
- * "e" !== "é"
- * "ete" !== "été"
- *
- * On accepte :
- * - majuscules / minuscules
- * - apostrophe droite ou typographique
- * - espaces multiples
- */
 
 const normalizeText = (str: string) =>
   str
@@ -95,7 +81,6 @@ const FillGapsEngine: React.FC<Props> = ({
     setAnswer,
     showCorrection,
     checkAnswers,
-    reset,
     progress,
     totalInputs,
     answeredCount,
@@ -103,59 +88,49 @@ const FillGapsEngine: React.FC<Props> = ({
     session,
   } = useFillGapsEngine(data);
 
-  const [showReport, setShowReport] =
-    useState(false);
-
   /* ========================================================= */
   /* FIN DE SESSION                                            */
   /* ========================================================= */
 
-  useEffect(() => {
-    if (session.isFinished) {
-      onComplete?.(session.result);
+  React.useEffect(() => {
+    if (!session.isFinished) {
+      return;
     }
+
+    onComplete?.(session.result);
   }, [
     session.isFinished,
     session.result,
     onComplete,
   ]);
 
+  /* ========================================================= */
+  /* VÉRIFICATION                                              */
+  /* ========================================================= */
+
   const handleCheck = () => {
+    if (!allAnswered) {
+      return;
+    }
+
     checkAnswers();
   };
 
   /* ========================================================= */
-  /* RÉSULTATS                                                 */
+  /* FIN                                                        */
   /* ========================================================= */
 
-  if (session.isFinished) {
-    if (showReport) {
-      return (
-        <ExerciseReport
-          history={session.history}
-          onRestart={() => {
-            setShowReport(false);
-            reset();
-          }}
-          onBack={() =>
-            setShowReport(false)
-          }
-        />
-      );
-    }
+  /*
+   * Le moteur FillGaps ne gère PAS l'écran de résultat.
+   *
+   * Le résultat est transmis à ExerciseContainer,
+   * puis à ActivityNavigationProvider,
+   * puis à ActivityFlow,
+   * qui affiche ActivityResults.
+   */
 
-    return (
-      <ExerciseResult
-        result={session.result}
-        onRestart={() => {
-          setShowReport(false);
-          reset();
-        }}
-        onShowReport={() =>
-          setShowReport(true)
-        }
-      />
-    );
+  if (session.isFinished) {
+    return null;
   }
 
   /* ========================================================= */
@@ -164,45 +139,50 @@ const FillGapsEngine: React.FC<Props> = ({
 
   return (
     <section className="mt-8 overflow-x-hidden bg-gradient-to-b from-white to-slate-50 pb-16 sm:mt-12 sm:pb-20">
+
       <div className="container mx-auto w-full max-w-5xl px-4 sm:px-6">
 
-        {/* ===================================================== */}
-        {/* PROGRESSION                                           */}
-        {/* ===================================================== */}
+        {/* =================================================== */}
+        {/* PROGRESSION                                         */}
+        {/* =================================================== */}
 
         <div className="mb-4 flex items-center justify-between gap-4 text-sm text-slate-600">
+
           <span className="min-w-0">
-            Progression : {answeredCount} /{" "}
-            {totalInputs}
+            Progression :{" "}
+            {answeredCount} / {totalInputs}
           </span>
 
           <span className="shrink-0 font-semibold text-amber-600">
             {Math.round(progress)}%
           </span>
+
         </div>
 
         <div className="mb-5 h-2.5 w-full overflow-hidden rounded-full bg-slate-200 sm:mb-6 sm:h-3">
+
           <div
             className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-600 transition-all duration-500"
             style={{
               width: `${progress}%`,
             }}
           />
+
         </div>
 
-        {/* ===================================================== */}
-        {/* CONTENU                                               */}
-        {/* ===================================================== */}
+        {/* =================================================== */}
+        {/* CONTENU                                             */}
+        {/* =================================================== */}
 
-        <div className="w-full min-w-0 rounded-2xl bg-white p-4 shadow-xl ring-1 ring-black/5 sm:rounded-2xl sm:p-6 md:p-8">
+        <div className="w-full min-w-0 rounded-2xl bg-white p-4 shadow-xl ring-1 ring-black/5 sm:p-6 md:p-8">
 
           <h3 className="mb-5 text-base font-semibold text-black sm:mb-6 sm:text-lg">
             ✍️ Complète le texte :
           </h3>
 
-          {/* =================================================== */}
-          {/* UN SEUL BLOC POUR TOUT LE DIALOGUE                  */}
-          {/* =================================================== */}
+          {/* ================================================= */}
+          {/* TEXTE UNIQUE                                      */}
+          {/* ================================================= */}
 
           <div className="w-full min-w-0 rounded-2xl bg-slate-50 p-4 shadow-sm ring-1 ring-slate-200 sm:p-5 md:p-6">
 
@@ -211,10 +191,6 @@ const FillGapsEngine: React.FC<Props> = ({
                 sentence,
                 sentenceIndex,
               ) => {
-                /*
-                 * Index global des inputs
-                 * avant cette phrase.
-                 */
 
                 const inputsBeforeSentence =
                   sentences
@@ -238,10 +214,6 @@ const FillGapsEngine: React.FC<Props> = ({
 
                 let localInputIndex = 0;
 
-                /*
-                 * Locuteur actuellement affiché.
-                 */
-
                 let currentSpeaker:
                   | FillGapsSpeaker
                   | null = null;
@@ -249,23 +221,22 @@ const FillGapsEngine: React.FC<Props> = ({
                 return (
                   <div
                     key={sentence.id}
-                    className={`
-                      ${
-                        sentenceIndex >
-                        0
-                          ? "mt-5 border-t border-slate-200 pt-5"
-                          : ""
-                      }
-                    `}
+                    className={
+                      sentenceIndex > 0
+                        ? "mt-5 border-t border-slate-200 pt-5"
+                        : ""
+                    }
                   >
+
                     {sentence.parts.map(
                       (
                         part,
                         partIndex,
                       ) => {
-                        /* ======================================= */
-                        /* DIALOGUE                                 */
-                        /* ======================================= */
+
+                        /* ===================================== */
+                        /* DIALOGUE                               */
+                        /* ===================================== */
 
                         if (
                           part.type ===
@@ -283,13 +254,6 @@ const FillGapsEngine: React.FC<Props> = ({
                               part.speaker
                             ];
 
-                          /*
-                           * On enlève le nom du
-                           * locuteur puisque nous
-                           * allons l'afficher
-                           * correctement.
-                           */
-
                           const speakerText =
                             part.value.replace(
                               /^([^:]+):\s*/,
@@ -302,6 +266,7 @@ const FillGapsEngine: React.FC<Props> = ({
                                 partIndex
                               }
                             >
+
                               {speakerChanged && (
                                 <div className="mt-3 first:mt-0" />
                               )}
@@ -317,6 +282,7 @@ const FillGapsEngine: React.FC<Props> = ({
                                   ${speakerStyle.text}
                                 `}
                               >
+
                                 {speakerChanged && (
                                   <span className="font-extrabold">
                                     {
@@ -328,17 +294,17 @@ const FillGapsEngine: React.FC<Props> = ({
                                   </span>
                                 )}
 
-                                {
-                                  speakerText
-                                }
+                                {speakerText}
+
                               </span>
+
                             </Fragment>
                           );
                         }
 
-                        /* ======================================= */
-                        /* TEXTE NORMAL                              */
-                        /* ======================================= */
+                        /* ===================================== */
+                        /* TEXTE NORMAL                            */
+                        /* ===================================== */
 
                         if (
                           part.type ===
@@ -357,16 +323,14 @@ const FillGapsEngine: React.FC<Props> = ({
                                 sm:text-[17px]
                               "
                             >
-                              {
-                                part.value
-                              }
+                              {part.value}
                             </span>
                           );
                         }
 
-                        /* ======================================= */
-                        /* INPUT                                    */
-                        /* ======================================= */
+                        /* ===================================== */
+                        /* INPUT                                   */
+                        /* ===================================== */
 
                         const globalIndex =
                           inputsBeforeSentence +
@@ -386,11 +350,6 @@ const FillGapsEngine: React.FC<Props> = ({
                           normalizeText(
                             part.answer,
                           );
-
-                        /*
-                         * Couleur du champ selon
-                         * le locuteur.
-                         */
 
                         const speakerStyle =
                           currentSpeaker
@@ -415,6 +374,7 @@ const FillGapsEngine: React.FC<Props> = ({
                               sm:my-0
                             "
                           >
+
                             <input
                               type="text"
                               value={val}
@@ -473,37 +433,32 @@ const FillGapsEngine: React.FC<Props> = ({
                                   text-amber-600
                                 "
                               >
-                                (
-                                {
-                                  part.hint
-                                }
-                                )
+                                ({part.hint})
                               </span>
                             )}
+
                           </span>
                         );
                       },
                     )}
+
                   </div>
                 );
               },
             )}
+
           </div>
 
-      
-          {/* ===================================================== */}
-          {/* BOUTON                                                */}
-          {/* ===================================================== */}
+          {/* ================================================= */}
+          {/* BOUTON                                             */}
+          {/* ================================================= */}
 
           <div className="mt-8 flex justify-center sm:mt-10">
+
             <button
               type="button"
-              onClick={
-                handleCheck
-              }
-              disabled={
-                !allAnswered
-              }
+              onClick={handleCheck}
+              disabled={!allAnswered}
               className="
                 w-full
                 max-w-xs
@@ -527,9 +482,13 @@ const FillGapsEngine: React.FC<Props> = ({
             >
               Vérifier mes réponses
             </button>
+
           </div>
+
         </div>
+
       </div>
+
     </section>
   );
 };

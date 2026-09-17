@@ -1,11 +1,19 @@
 "use client";
 
-import { Children, ReactNode } from "react";
+import {
+  Children,
+  ReactNode,
+} from "react";
+
 import { useRouter } from "next/navigation";
 
 import { useNavigation } from "./ActivityNavigationProvider";
 
 import ActivityResults from "@/components/courses/common/ActivityResults";
+
+import {
+  ActivityResult,
+} from "@/core/activity/models/ActivityResult";
 
 type TeacherFeedbackImages = {
   bad: string;
@@ -27,9 +35,23 @@ type Props = {
   teacherFeedbackAudios?: TeacherFeedbackAudios;
 
   /**
+   * Correction détaillée personnalisée.
+   *
+   * Le renderer reçoit :
+   *
+   * - le résultat de l'exercice
+   * - l'index de l'exercice
+   *
+   * Cela permet de réserver une correction
+   * personnalisée à certains exercices uniquement.
+   */
+  detailedReportRenderer?: (
+    result: ActivityResult,
+    exerciseIndex: number,
+  ) => ReactNode;
+
+  /**
    * Destination après le dernier exercice.
-   * Exemple :
-   * /courses/beginner
    */
   finishHref?: string;
 };
@@ -38,6 +60,7 @@ export default function ActivityFlow({
   children,
   teacherFeedbackImages,
   teacherFeedbackAudios,
+  detailedReportRenderer,
   finishHref,
 }: Props) {
   const router = useRouter();
@@ -51,16 +74,29 @@ export default function ActivityFlow({
     transitionFinished,
   } = useNavigation();
 
-  const exercises = Children.toArray(children);
+  const exercises =
+    Children.toArray(children);
 
   const isLastExercise =
-    currentExerciseIndex === exercises.length - 1;
+    currentExerciseIndex ===
+    exercises.length - 1;
 
-  if (flowState === "results" && !lastResult) {
+  /* ========================================================= */
+  /* SÉCURITÉ                                                  */
+  /* ========================================================= */
+
+  if (
+    flowState === "results" &&
+    !lastResult
+  ) {
     throw new Error(
       "ActivityFlow: results screen requested without a result.",
     );
   }
+
+  /* ========================================================= */
+  /* RÉSULTATS                                                 */
+  /* ========================================================= */
 
   if (flowState === "results") {
     return (
@@ -70,7 +106,9 @@ export default function ActivityFlow({
         onNext={() => {
           if (isLastExercise) {
             if (finishHref) {
-              router.push(finishHref);
+              router.push(
+                finishHref,
+              );
             }
 
             return;
@@ -82,18 +120,34 @@ export default function ActivityFlow({
             transitionFinished();
           }, 300);
         }}
-        isLastExercise={isLastExercise}
+        isLastExercise={
+          isLastExercise
+        }
         teacherFeedbackImages={
           teacherFeedbackImages
         }
         teacherFeedbackAudios={
           teacherFeedbackAudios
         }
+        detailedReport={
+          detailedReportRenderer
+            ? detailedReportRenderer(
+                lastResult,
+                currentExerciseIndex,
+              )
+            : undefined
+        }
       />
     );
   }
 
-  if (flowState === "transition") {
+  /* ========================================================= */
+  /* TRANSITION                                                */
+  /* ========================================================= */
+
+  if (
+    flowState === "transition"
+  ) {
     return (
       <section className="py-24 text-center">
         <p className="text-xl font-semibold">
@@ -103,7 +157,13 @@ export default function ActivityFlow({
     );
   }
 
-  if (flowState === "finished") {
+  /* ========================================================= */
+  /* FIN                                                        */
+  /* ========================================================= */
+
+  if (
+    flowState === "finished"
+  ) {
     return (
       <section className="py-24 text-center">
         <h2 className="text-4xl font-bold">
@@ -111,15 +171,24 @@ export default function ActivityFlow({
         </h2>
 
         <p className="mt-4 text-slate-600">
-          Félicitations ! Tu as terminé cette activité.
+          Félicitations ! Tu as terminé
+          cette activité.
         </p>
       </section>
     );
   }
 
+  /* ========================================================= */
+  /* EXERCICE COURANT                                          */
+  /* ========================================================= */
+
   return (
     <>
-      {exercises[currentExerciseIndex]}
+      {
+        exercises[
+          currentExerciseIndex
+        ]
+      }
     </>
   );
 }

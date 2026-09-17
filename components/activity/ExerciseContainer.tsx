@@ -11,6 +11,13 @@ import { ActivityResult } from "@/core/activity/models/ActivityResult";
 type ExerciseContainerProps = {
   exerciseId: string;
 
+  /*
+   * Permet à certains moteurs d'exercice,
+   * comme FillGaps, de contrôler eux-mêmes
+   * le moment où l'exercice est quitté.
+   */
+  deferNavigation?: boolean;
+
   children: (props: {
     onComplete: (result: ExerciseSessionResult) => void;
   }) => ReactNode;
@@ -18,6 +25,7 @@ type ExerciseContainerProps = {
 
 export default function ExerciseContainer({
   exerciseId,
+  deferNavigation = false,
   children,
 }: ExerciseContainerProps) {
   const {
@@ -30,12 +38,6 @@ export default function ExerciseContainer({
     completeExercise,
   } = useNavigation();
 
-  /*
-   * =========================================================
-   * RÉCUPÉRATION DE L'EXERCICE
-   * =========================================================
-   */
-
   const exercise =
     activity.exercises.find(
       (item) => item.id === exerciseId,
@@ -47,60 +49,49 @@ export default function ExerciseContainer({
     );
   }
 
-  /*
-   * =========================================================
-   * IMPORTANT
-   * =========================================================
-   *
-   * Le déblocage d'un exercice est géré par ActivityFlow /
-   * ActivityNavigationProvider.
-   *
-   * ActivityFlow affiche uniquement l'exercice correspondant
-   * à currentExerciseIndex.
-   *
-   * On ne doit donc PAS faire :
-   *
-   *   if (!unlocked) return null;
-   *
-   * ici.
-   *
-   * Sinon ActivityFlow peut parfaitement être passé à
-   * l'exercice suivant alors que ExerciseContainer retourne
-   * null, ce qui donne un écran vide.
-   *
-   * Le système ProgressEngine reste utilisé pour enregistrer
-   * les scores et les tentatives.
-   */
-
   const handleComplete = (
     result: ExerciseSessionResult,
   ) => {
     /*
-     * Enregistrement du score dans le système global.
+     * On enregistre toujours le score.
      */
+
     progress.submitScore(
       activity.id,
       exerciseId,
       result.score,
     );
 
-    /*
-     * Mise à jour de la progression.
-     */
     refresh();
 
     /*
-     * Construction du résultat d'activité.
+     * Pour les exercices classiques :
+     *
+     * score
+     * ↓
+     * completeExercise()
+     * ↓
+     * exercice suivant
+     *
+     * Pour FillGaps :
+     *
+     * score
+     * ↓
+     * on laisse FillGapsEngine afficher
+     * son résultat et sa correction.
      */
+
+    if (deferNavigation) {
+      return;
+    }
+
     const activityResult: ActivityResult = {
       session: result,
-
       bestScore:
         progress.getBestScore(
           activity.id,
           exerciseId,
         ),
-
       attempts:
         progress.getAttempts(
           activity.id,
@@ -108,25 +99,10 @@ export default function ExerciseContainer({
         ),
     };
 
-    /*
-     * La navigation prend ensuite le relais.
-     *
-     * completeExercise()
-     *        ↓
-     * ActivityFlow
-     *        ↓
-     * ActivityResults
-     *        ↓
-     * Exercice suivant
-     */
-    completeExercise(activityResult);
+    completeExercise(
+      activityResult,
+    );
   };
-
-  /*
-   * =========================================================
-   * RENDU
-   * =========================================================
-   */
 
   return (
     <section className="mt-20">

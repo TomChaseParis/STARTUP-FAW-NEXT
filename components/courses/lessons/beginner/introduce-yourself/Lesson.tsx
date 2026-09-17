@@ -134,7 +134,7 @@ export default function IntroduceYourselfQuiz() {
           level="beginner"
           stampLabel="EXERCICE 1"
           typeLabel="QUIZ DE COMPRÉHENSION"
-          title="SE PRÉSENTER EN FRANÇAIS"
+          title="PRÉSENTATIONS"
           subtitle="Vérifie tes connaissances après avoir regardé la leçon."
           activityType="listen"
           description={

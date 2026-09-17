@@ -32,7 +32,8 @@ export default function TeacherFeedback({
   teacherFeedbackImages,
   teacherFeedbackAudios,
 }: TeacherFeedbackProps) {
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRef =
+    useRef<HTMLAudioElement>(null);
 
   let image = "";
   let title = "";
@@ -145,7 +146,8 @@ export default function TeacherFeedback({
     }
 
     const timer = window.setTimeout(() => {
-      const audioElement = audioRef.current;
+      const audioElement =
+        audioRef.current;
 
       if (!audioElement) {
         return;

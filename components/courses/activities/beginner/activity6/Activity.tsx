@@ -1,30 +1,43 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+} from "framer-motion";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 
 import ActivityFlow from "@/core/navigation/ActivityFlow";
-import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
+import {
+  ActivityNavigationProvider,
+} from "@/core/navigation/ActivityNavigationProvider";
 
 import FillGapsBrunoSection from "./exercises/exercise-1/FillGapsBrunoSection";
 import TrueFalseBrunoSection from "./exercises/exercise-2/TrueFalseBrunoSection";
-
-import { activity6 } from "@/data/courses/activities/beginner/activity6";
 import ThirdPersonBrunoSection from "./exercises/exercise-3/ThirdPersonBrunoSection";
 
+import { activity6 } from "@/data/courses/activities/beginner/activity6";
+
+import FillGapsReport from "@/components/courses/common/result/FillGapsReport";
+
+import { brunoGalopinData } from "./data/brunoGalopinData";
+
+import { thirdPersonBrunoData } from "./data/thirdPersonBrunoData";
+
 export default function Activity() {
-  const [started, setStarted] = useState(false);
+  const [started, setStarted] =
+    useState(false);
 
   const handleStart = () => {
     setStarted(true);
 
-    // Attend que l'exercice soit affiché avant de scroller
     setTimeout(() => {
       document
-        .getElementById("exercise-1-instruction")
+        .getElementById(
+          "exercise-1-instruction",
+        )
         ?.scrollIntoView({
           behavior: "smooth",
           block: "start",
@@ -33,7 +46,9 @@ export default function Activity() {
   };
 
   return (
-    <ActivityLayout activity={activity6}>
+    <ActivityLayout
+      activity={activity6}
+    >
       <LessonBlock
         level="beginner"
         title="MEETING BRUNO GALOPIN"
@@ -107,6 +122,85 @@ export default function Activity() {
             >
               <ActivityFlow
                 finishHref="/courses/beginner"
+                detailedReportRenderer={(
+                  result,
+                  exerciseIndex,
+                ) => {
+                  /*
+                   * =================================================
+                   * EXERCICE 1 — TEXTE À TROUS
+                   * =================================================
+                   */
+
+                  if (
+                    exerciseIndex === 0
+                  ) {
+                    return (
+                      <FillGapsReport
+                        data={
+                          brunoGalopinData
+                        }
+                        history={
+                          result.session
+                            .history
+                        }
+                      />
+                    );
+                  }
+
+                  /*
+                   * =================================================
+                   * EXERCICE 2 — VRAI / FAUX
+                   * =================================================
+                   *
+                   * Pas de correction personnalisée.
+                   *
+                   * ActivityResults utilisera donc
+                   * automatiquement AnswerHistory.
+                   */
+
+                  if (
+                    exerciseIndex === 1
+                  ) {
+                    return null;
+                  }
+
+                  /*
+                   * =================================================
+                   * EXERCICE 3 — RÉÉCRITURE
+                   * =================================================
+                   *
+                   * C'est également un FillGaps.
+                   *
+                   * On utilise donc exactement le même
+                   * système de correction que pour
+                   * l'exercice 1.
+                   */
+
+                  if (
+                    exerciseIndex === 2
+                  ) {
+                    return (
+                      <FillGapsReport
+                        data={
+                          thirdPersonBrunoData
+                        }
+                        history={
+                          result.session
+                            .history
+                        }
+                      />
+                    );
+                  }
+
+                  /*
+                   * =================================================
+                   * SÉCURITÉ
+                   * =================================================
+                   */
+
+                  return null;
+                }}
               >
                 <FillGapsBrunoSection />
 
