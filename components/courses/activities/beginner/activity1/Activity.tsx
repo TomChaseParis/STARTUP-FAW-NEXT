@@ -14,6 +14,7 @@ import ActivityFlow from "@/core/navigation/ActivityFlow";
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 import VerbConjugationSection from "./exercises/exercice-1/VerbConjugationSection";
 import VerbListeningSection from "./exercises/exercice-1/VerbListeningSection";
+import VerbSelectionSection from "./exercises/VerbSelectionSection";
 
 export default function Activity() {
   const [started, setStarted] = useState(false);
@@ -140,17 +141,17 @@ export default function Activity() {
         <div id="activity-1-exercises" className="scroll-mt-10">
           <ActivityNavigationProvider
             totalExercises={bigFourActivity.exercises.length}
-          >
-            <ActivityFlow>
-              {/* EXERCICE 1 */}
-              <VerbListeningSection />
 
-              {/* EXERCICE 2 */}
-              <VerbConjugationSection />
+
+          >
+
+            <VerbListeningSection />
+            <VerbConjugationSection />
+              {/* EXERCICE 1 */}
+           <VerbSelectionSection />
 
               {/* EXERCICE 3 */}
               <CharacterPresentationSection />
-            </ActivityFlow>
           </ActivityNavigationProvider>
         </div>
       )}
