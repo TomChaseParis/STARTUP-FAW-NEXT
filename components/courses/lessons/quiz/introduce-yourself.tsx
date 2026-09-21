@@ -10,7 +10,7 @@ import type { Question } from "@/hooks/useQuizEngine";
 
 import { useProgress } from "@/components/courses/engines/ProgressEngine/useProgress";
 
-import ActivityResults from "@/components/courses/common/ActivityResults/ActivityResults";
+import LessonResults from "@/components/courses/common/LessonResults/LessonResults";
 
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
@@ -120,13 +120,10 @@ export default function IntroduceYourselfQuiz() {
   const [started, setStarted] =
     useState(false);
 
-  /*
-   * Lorsque l'utilisateur clique sur
-   * "Lancer l'exercice", le QCM est monté.
-   *
-   * On attend donc que le DOM soit réellement disponible
-   * avant de déclencher le scroll.
-   */
+  /* ======================================================================== */
+  /* SCROLL VERS LE QCM                                                       */
+  /* ======================================================================== */
+
   useEffect(() => {
     if (!started) {
       return;
@@ -173,10 +170,6 @@ export default function IntroduceYourselfQuiz() {
       });
     };
 
-    /*
-     * Petit délai pour laisser React terminer
-     * le rendu du QCM avant de calculer sa position.
-     */
     timer =
       window.setTimeout(
         scrollToQcm,
@@ -218,7 +211,7 @@ export default function IntroduceYourselfQuiz() {
       1;
 
     return (
-      <ActivityResults
+      <LessonResults
         result={{
           session: result,
           bestScore,
@@ -229,22 +222,19 @@ export default function IntroduceYourselfQuiz() {
           setStarted(false);
           refresh();
         }}
-        onNext={() => {
-          console.log(
-            "[IntroduceYourselfQuiz] Aucun exercice suivant configuré.",
-          );
-        }}
+        finishHref="/courses/beginner"
       />
     );
   };
 
   /* ======================================================================== */
-  /* RENDER                                                                    */
+  /* RENDER                                                                   */
   /* ======================================================================== */
 
   return (
     <div className="w-full">
       <ExerciseSection>
+
         {/* ================================================================ */}
         {/* BLOC D'INSTRUCTION                                               */}
         {/* ================================================================ */}
@@ -262,6 +252,7 @@ export default function IntroduceYourselfQuiz() {
             activityType="click-or-speak"
             description={
               <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
+
                 {/* ===================================================== */}
                 {/* BOUTON AUDIO */}
                 {/* ===================================================== */}
@@ -448,6 +439,7 @@ export default function IntroduceYourselfQuiz() {
             </div>
           </div>
         )}
+
       </ExerciseSection>
     </div>
   );
