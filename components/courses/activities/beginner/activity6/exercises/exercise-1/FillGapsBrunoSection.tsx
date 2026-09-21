@@ -82,6 +82,7 @@ export default function FillGapsBrunoSection() {
               activityType="listen-type"
               audioSrc="/audios/courses/beginner/bruno-galopin/bruno-galopin.mp3"
               audioBadge="Bruno Galopin"
+              audioImage="/images/courses/audioBlock/beginner/bruno-galopin.jpg"
               description={
                 <div
                   className="
@@ -102,7 +103,6 @@ export default function FillGapsBrunoSection() {
                     sm:py-4
                   "
                 >
-                  {/* IMAGE POINT D'ATTENTION */}
                   <div
                     className="
                       flex
@@ -124,7 +124,6 @@ export default function FillGapsBrunoSection() {
                     />
                   </div>
 
-                  {/* CONSIGNES */}
                   <div
                     className="
                       min-w-0

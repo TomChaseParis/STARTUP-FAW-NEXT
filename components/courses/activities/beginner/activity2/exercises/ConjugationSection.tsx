@@ -80,6 +80,7 @@ export default function ConjugationSection() {
               title="Conjugaison"
               subtitle='Réécoute une dernière fois le dialogue et complète les phrases avec les bonnes formes des verbes "être" et "avoir" au présent de l’indicatif.'
               activityType="listen-type"
+              audioImage="/images/courses/audioBlock/beginner/am.png"
               audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
               audioBadge="Dialogue"
               description={

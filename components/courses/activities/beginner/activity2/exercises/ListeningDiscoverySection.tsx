@@ -85,74 +85,20 @@ export default function ListeningDiscoverySection() {
               subtitle="Écoute une première fois le dialogue ci-dessus, puis réponds aux questions."
               activityType="click-or-speak"
               audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
+              audioImage="/images/courses/audioBlock/beginner/am.png"
               audioBadge="Dialogue"
               description={
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
 
                   {/* ===================================================== */}
-                  {/* BOUTON AUDIO */}
+                  {/* UTILISATION DU LECTEUR AUDIO */}
                   {/* ===================================================== */}
 
-                  <div
-                    className="
-                      flex
-                      flex-col
-                      gap-2
-                      sm:grid
-                      sm:grid-cols-[120px_40px_1fr]
-                      sm:items-center
-                      sm:gap-3
-                    "
-                  >
-                    <span>
-                      Appuie sur le bouton
-                    </span>
-
-                    <button
-                      type="button"
-                      tabIndex={-1}
-                      aria-hidden="true"
-                      className="
-                        pointer-events-none
-                        relative
-                        flex
-                        h-10
-                        w-10
-                        shrink-0
-                        items-center
-                        justify-center
-                        self-start
-                        rounded-full
-                        border
-                        border-slate-200
-                        bg-white
-                        text-amber-500
-                        shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-                        sm:self-auto
-                      "
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="
-                          relative
-                          z-10
-                          ml-0.5
-                          h-4
-                          w-4
-                        "
-                      >
-                        <path d="M8.5 5.2a1.5 1.5 0 0 1 2.35-1.23l8.4 6.8a1.57 1.57 0 0 1 0 2.46l-8.4 6.8A1.5 1.5 0 0 1 8.5 18.8V5.2Z" />
-                      </svg>
-                    </button>
-
-                    <span>
-                      si tu veux entendre le professeur
-                      présenter la question et les
-                      réponses proposées.
-                    </span>
-                  </div>
+                  <p>
+                    Utilise le lecteur audio ci-dessus pour
+                    écouter le professeur présenter la
+                    question et les réponses proposées.
+                  </p>
 
                   {/* ===================================================== */}
                   {/* BOUTON MICRO */}
@@ -224,7 +170,7 @@ export default function ListeningDiscoverySection() {
                     Pour aider l&apos;outil de reconnaissance
                     vocale à bien identifier ta réponse,
                     pense à dire la lettre (A, B ou C) qui
-                    correspond à ta réponse, suivi de la
+                    correspond à ta réponse, suivie de la
                     réponse en entier. Exemple :
                     <span className="font-semibold text-slate-900">
                       {" « A : ingénieur »."}
@@ -243,10 +189,7 @@ export default function ListeningDiscoverySection() {
             {/* ========================================================= */}
 
             {started && (
-              <div
-                id="exercise-1-qcm"
-                className="scroll-mt-10"
-              >
+              <div className="scroll-mt-10">
                 <ListeningDiscoveryExercise
                   onComplete={onComplete}
                 />

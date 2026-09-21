@@ -73,8 +73,11 @@ export default function TrueFalseBrunoSection() {
               title="VRAI OU FAUX ?"
               subtitle="Écoute une nouvelle fois le dialogue et dis si les phrases proposées sont vraies ou fausses."
               activityType="listen-click"
+
               audioSrc="/audios/courses/beginner/bruno-galopin/bruno-galopin.mp3"
               audioBadge="Bruno Galopin"
+              audioImage="/images/courses/audioBlock/beginner/bruno-galopin.jpg"
+
               description={
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
                   <p className="font-semibold text-slate-800">
@@ -111,9 +114,11 @@ export default function TrueFalseBrunoSection() {
                   </div>
                 </div>
               }
+
               onStart={() => {
                 setStarted(true);
               }}
+
               started={started}
             />
 

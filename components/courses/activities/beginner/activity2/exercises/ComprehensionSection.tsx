@@ -82,6 +82,7 @@ export default function ComprehensionSection() {
               subtitle="Écoute une deuxième fois le dialogue puis complète le tableau."
               activityType="listen-click"
               audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
+              audioImage="/images/courses/audioBlock/beginner/am.png"
               audioBadge="Dialogue"
               description={
                 <div className="text-sm leading-relaxed text-slate-700 sm:text-base">

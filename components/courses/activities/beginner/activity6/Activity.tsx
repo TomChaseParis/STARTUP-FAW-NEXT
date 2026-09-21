@@ -121,7 +121,7 @@ export default function Activity() {
               }
             >
               <ActivityFlow
-                finishHref="/courses/beginner"
+                finishHref="/courses/beginner/modules/se-presenter"
                 detailedReportRenderer={(
                   result,
                   exerciseIndex,

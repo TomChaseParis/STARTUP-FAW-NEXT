@@ -1,12 +1,14 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode } from "react";
 import Image from "next/image";
 import { Poppins } from "next/font/google";
 
 import { ActivityType } from "@/types/activityTypes";
 import { activitySignals } from "@/data/courses/activitySignals";
 import { courseThemes } from "../common/theme/courseThemes";
+
+import AudioPlayer from "@/components/courses/common/AudioPlayer/AudioPlayer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -42,6 +44,7 @@ interface InstructionBlockProps {
 
   audioSrc?: string;
   audioBadge?: string;
+  audioImage?: string;
 
   onStart?: () => void;
   startLabel?: string;
@@ -62,6 +65,7 @@ export default function InstructionBlock({
   level,
   audioSrc,
   audioBadge = "Dialogue",
+  audioImage,
   onStart,
   startLabel = "Lancer l'exercice",
   started = false,
@@ -70,291 +74,11 @@ export default function InstructionBlock({
 
   const hasCards = Boolean(cards && cards.length > 0);
 
-  /* =========================================================
-     AUDIO
-  ========================================================= */
-
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const animationFrameRef = useRef<number | null>(null);
-
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  const stopProgressAnimation = () => {
-    if (animationFrameRef.current !== null) {
-      cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = null;
-    }
-  };
-
-  const updateProgress = () => {
-    const audio = audioRef.current;
-
-    if (!audio) return;
-
-    setProgress(audio.currentTime);
-
-    if (!audio.paused && !audio.ended) {
-      animationFrameRef.current =
-        requestAnimationFrame(updateProgress);
-    }
-  };
-
-  const startProgressAnimation = () => {
-    stopProgressAnimation();
-
-    animationFrameRef.current =
-      requestAnimationFrame(updateProgress);
-  };
-
-  const toggleAudio = async () => {
-    const audio = audioRef.current;
-
-    if (!audio) return;
-
-    try {
-      if (audio.paused) {
-        await audio.play();
-      } else {
-        audio.pause();
-      }
-    } catch (error) {
-      console.error(
-        "Impossible de lire l'audio :",
-        error,
-      );
-
-      setIsPlaying(false);
-      stopProgressAnimation();
-    }
-  };
-
-  /* =========================================================
-     EVENTS AUDIO
-  ========================================================= */
-
-  useEffect(() => {
-    const audio = audioRef.current;
-
-    if (!audio || !audioSrc) {
-      return;
-    }
-
-    const handleLoadedMetadata = () => {
-      if (
-        Number.isFinite(audio.duration) &&
-        audio.duration > 0
-      ) {
-        setDuration(audio.duration);
-      }
-    };
-
-    const handleDurationChange = () => {
-      if (
-        Number.isFinite(audio.duration) &&
-        audio.duration > 0
-      ) {
-        setDuration(audio.duration);
-      }
-    };
-
-    const handlePlay = () => {
-      setIsPlaying(true);
-      startProgressAnimation();
-    };
-
-    const handlePause = () => {
-      setIsPlaying(false);
-      stopProgressAnimation();
-      setProgress(audio.currentTime);
-    };
-
-    const handleEnded = () => {
-      setIsPlaying(false);
-      stopProgressAnimation();
-      setProgress(0);
-    };
-
-    const handleTimeUpdate = () => {
-      setProgress(audio.currentTime);
-    };
-
-    const handleError = () => {
-      setIsPlaying(false);
-      stopProgressAnimation();
-    };
-
-    audio.addEventListener(
-      "loadedmetadata",
-      handleLoadedMetadata,
-    );
-
-    audio.addEventListener(
-      "durationchange",
-      handleDurationChange,
-    );
-
-    audio.addEventListener(
-      "play",
-      handlePlay,
-    );
-
-    audio.addEventListener(
-      "pause",
-      handlePause,
-    );
-
-    audio.addEventListener(
-      "ended",
-      handleEnded,
-    );
-
-    audio.addEventListener(
-      "timeupdate",
-      handleTimeUpdate,
-    );
-
-    audio.addEventListener(
-      "error",
-      handleError,
-    );
-
-    if (
-      Number.isFinite(audio.duration) &&
-      audio.duration > 0
-    ) {
-      setDuration(audio.duration);
-    }
-
-    return () => {
-      audio.removeEventListener(
-        "loadedmetadata",
-        handleLoadedMetadata,
-      );
-
-      audio.removeEventListener(
-        "durationchange",
-        handleDurationChange,
-      );
-
-      audio.removeEventListener(
-        "play",
-        handlePlay,
-      );
-
-      audio.removeEventListener(
-        "pause",
-        handlePause,
-      );
-
-      audio.removeEventListener(
-        "ended",
-        handleEnded,
-      );
-
-      audio.removeEventListener(
-        "timeupdate",
-        handleTimeUpdate,
-      );
-
-      audio.removeEventListener(
-        "error",
-        handleError,
-      );
-
-      stopProgressAnimation();
-    };
-  }, [audioSrc]);
-
-  /* =========================================================
-     RESET AUDIO WHEN SOURCE CHANGES
-  ========================================================= */
-
-  useEffect(() => {
-    const audio = audioRef.current;
-
-    if (!audio) return;
-
-    audio.pause();
-    audio.currentTime = 0;
-
-    setIsPlaying(false);
-    setProgress(0);
-    setDuration(0);
-
-    stopProgressAnimation();
-  }, [audioSrc]);
-
-  /* =========================================================
-     SEEK
-  ========================================================= */
-
-  const handleSeek = (
-    e: React.MouseEvent<HTMLDivElement>,
-  ) => {
-    const audio = audioRef.current;
-
-    if (!audio || !duration) return;
-
-    const rect =
-      e.currentTarget.getBoundingClientRect();
-
-    const percent = Math.max(
-      0,
-      Math.min(
-        1,
-        (e.clientX - rect.left) /
-          rect.width,
-      ),
-    );
-
-    const newTime =
-      percent * duration;
-
-    audio.currentTime = newTime;
-
-    setProgress(newTime);
-  };
-
-  /* =========================================================
-     TIME
-  ========================================================= */
-
-  const formatTime = (time: number) => {
-    if (
-      !Number.isFinite(time) ||
-      time <= 0
-    ) {
-      return "0:00";
-    }
-
-    const minutes =
-      Math.floor(time / 60);
-
-    const seconds =
-      Math.floor(time % 60)
-        .toString()
-        .padStart(2, "0");
-
-    return `${minutes}:${seconds}`;
-  };
-
-  const progressPercent =
-    duration > 0
-      ? Math.min(
-          100,
-          (progress / duration) * 100,
-        )
-      : 0;
-
   return (
     <div className="flex w-full justify-center px-4 sm:px-6">
       <div className="relative w-full max-w-5xl">
-
         {/* ========================================================= */}
-        {/* HALO EXTÉRIEUR */}
+        {/* HALO EXTÉRIEUR                                           */}
         {/* ========================================================= */}
 
         <div
@@ -369,7 +93,7 @@ export default function InstructionBlock({
         />
 
         {/* ========================================================= */}
-        {/* TAMPON EXERCICE */}
+        {/* TAMPON EXERCICE                                          */}
         {/* ========================================================= */}
 
         <div
@@ -426,7 +150,7 @@ export default function InstructionBlock({
         </div>
 
         {/* ========================================================= */}
-        {/* BLOC PRINCIPAL */}
+        {/* BLOC PRINCIPAL                                            */}
         {/* ========================================================= */}
 
         <div
@@ -445,7 +169,7 @@ export default function InstructionBlock({
           `}
         >
           {/* ======================================================= */}
-          {/* DÉCORATIONS */}
+          {/* DÉCORATIONS                                             */}
           {/* ======================================================= */}
 
           <div
@@ -498,17 +222,15 @@ export default function InstructionBlock({
           />
 
           {/* ======================================================= */}
-          {/* CONTENU */}
+          {/* CONTENU                                                  */}
           {/* ======================================================= */}
 
           <div className="relative z-10 p-6 sm:p-9 lg:p-11">
-
             {/* ===================================================== */}
-            {/* HEADER */}
+            {/* HEADER                                                 */}
             {/* ===================================================== */}
 
             <div className="relative min-h-[110px] pr-0 md:pr-40">
-
               <div className="mb-4 flex items-center gap-3">
                 <div
                   className={`
@@ -582,7 +304,9 @@ export default function InstructionBlock({
                 </div>
               </div>
 
-              {/* SIGNAL DESKTOP */}
+              {/* =================================================== */}
+              {/* SIGNAL DESKTOP                                      */}
+              {/* =================================================== */}
 
               {activityType && (
                 <div
@@ -627,7 +351,7 @@ export default function InstructionBlock({
             </div>
 
             {/* ===================================================== */}
-            {/* SIGNAL MOBILE */}
+            {/* SIGNAL MOBILE                                          */}
             {/* ===================================================== */}
 
             {activityType && (
@@ -676,7 +400,7 @@ export default function InstructionBlock({
             )}
 
             {/* ===================================================== */}
-            {/* SÉPARATEUR */}
+            {/* SÉPARATEUR                                             */}
             {/* ===================================================== */}
 
             <div className="my-7 flex items-center gap-4">
@@ -695,7 +419,7 @@ export default function InstructionBlock({
             </div>
 
             {/* ===================================================== */}
-            {/* DESCRIPTION / CONSIGNE */}
+            {/* DESCRIPTION / CONSIGNE                                 */}
             {/* ===================================================== */}
 
             {description && (
@@ -732,240 +456,22 @@ export default function InstructionBlock({
             )}
 
             {/* ===================================================== */}
-            {/* AUDIO INTÉGRÉ */}
+            {/* AUDIO                                                  */}
             {/* ===================================================== */}
 
             {audioSrc && (
-              <div
-                className="
-                  mb-7
-                  overflow-hidden
-                  rounded-2xl
-                  border
-                  border-slate-200/80
-                  bg-white/80
-                  shadow-[0_8px_25px_rgba(15,23,42,0.06)]
-                  backdrop-blur-sm
-                  transition-all
-                  duration-300
-                "
-              >
-                <div
-                  className="
-                    flex
-                    items-center
-                    gap-4
-                    px-4
-                    py-4
-                    sm:px-5
-                    sm:py-4
-                  "
-                >
-                  {/* ================================================= */}
-                  {/* BOUTON PLAY */}
-                  {/* ================================================= */}
-
-                  <button
-                    type="button"
-                    onClick={toggleAudio}
-                    aria-label={
-                      isPlaying
-                        ? "Mettre en pause"
-                        : "Lire le dialogue"
-                    }
-                    className={`
-                      relative
-                      flex
-                      h-12
-                      w-12
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-full
-                      ${theme.badge}
-                      shadow-[0_6px_18px_rgba(15,23,42,0.16)]
-                      transition-all
-                      duration-300
-                      hover:scale-105
-                      active:scale-95
-                    `}
-                  >
-                    {/* Halo animé */}
-
-                    {isPlaying && (
-                      <span
-                        className={`
-                          pointer-events-none
-                          absolute
-                          inset-0
-                          rounded-full
-                          ${theme.badge}
-                          opacity-20
-                          animate-ping
-                        `}
-                      />
-                    )}
-
-                    {isPlaying ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="relative z-10 h-5 w-5"
-                        aria-hidden="true"
-                      >
-                        <path d="M7 5.5A1.5 1.5 0 0 1 8.5 7v10a1.5 1.5 0 1 1-3 0V7A1.5 1.5 0 0 1 7 5.5Zm10 0A1.5 1.5 0 0 1 18.5 7v10a1.5 1.5 0 1 1-3 0V7A1.5 1.5 0 0 1 17 5.5Z" />
-                      </svg>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="relative z-10 ml-0.5 h-5 w-5"
-                        aria-hidden="true"
-                      >
-                        <path d="M8.5 5.2a1.5 1.5 0 0 1 2.35-1.23l8.4 6.8a1.57 1.57 0 0 1 0 2.46L10.85 20.23A1.5 1.5 0 0 1 8.5 19V5.2Z" />
-                      </svg>
-                    )}
-                  </button>
-
-                  {/* ================================================= */}
-                  {/* INFORMATIONS */}
-                  {/* ================================================= */}
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="min-w-0">
-                        <p
-                          className="
-                            truncate
-                            text-[10px]
-                            font-extrabold
-                            uppercase
-                            tracking-[0.2em]
-                            text-slate-400
-                          "
-                        >
-                          {audioBadge}
-                        </p>
-
-                        <p
-                          className="
-                            mt-0.5
-                            truncate
-                            text-sm
-                            font-semibold
-                            text-slate-800
-                          "
-                        >
-                          {isPlaying
-                            ? "Lecture en cours"
-                            : "Écouter le dialogue"}
-                        </p>
-                      </div>
-
-                      {/* ================================================= */}
-                      {/* TEMPS */}
-                      {/* ================================================= */}
-
-                      <span
-                        className="
-                          shrink-0
-                          text-xs
-                          font-medium
-                          tabular-nums
-                          text-slate-400
-                        "
-                      >
-                        {formatTime(progress)} /{" "}
-                        {formatTime(duration)}
-                      </span>
-                    </div>
-
-                    {/* ================================================= */}
-                    {/* BARRE DE PROGRESSION */}
-                    {/* ================================================= */}
-
-                    <div
-                      onClick={handleSeek}
-                      role="slider"
-                      aria-label="Progression audio"
-                      aria-valuemin={0}
-                      aria-valuemax={duration || 0}
-                      aria-valuenow={progress}
-                      tabIndex={0}
-                      className="
-                        group/progress
-                        relative
-                        mt-3
-                        h-1.5
-                        w-full
-                        cursor-pointer
-                        overflow-visible
-                        rounded-full
-                        bg-slate-200
-                      "
-                    >
-                      {/* Barre remplie */}
-
-                      <div
-                        className={`
-                          absolute
-                          left-0
-                          top-0
-                          h-full
-                          rounded-full
-                          ${theme.badge}
-                          transition-[width]
-                          duration-100
-                        `}
-                        style={{
-                          width: `${progressPercent}%`,
-                        }}
-                      />
-
-                      {/* Curseur */}
-
-                      {progressPercent > 0 && (
-                        <div
-                          className={`
-                            pointer-events-none
-                            absolute
-                            top-1/2
-                            h-3
-                            w-3
-                            -translate-y-1/2
-                            rounded-full
-                            border-2
-                            border-white
-                            ${theme.badge}
-                            shadow-[0_2px_5px_rgba(15,23,42,0.18)]
-                            transition-[left]
-                            duration-100
-                          `}
-                          style={{
-                            left: `calc(${progressPercent}% - 6px)`,
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* ================================================= */}
-                {/* AUDIO HTML */}
-                {/* ================================================= */}
-
-                <audio
-                  ref={audioRef}
+              <div className="mb-7">
+                <AudioPlayer
                   src={audioSrc}
-                  preload="metadata"
+                  badge={audioBadge}
+                  image={audioImage}
+                  accentClassName={theme.badge}
                 />
               </div>
             )}
 
             {/* ===================================================== */}
-            {/* RAPPEL */}
+            {/* RAPPEL                                                 */}
             {/* ===================================================== */}
 
             {reminder && (
@@ -1009,7 +515,7 @@ export default function InstructionBlock({
             )}
 
             {/* ===================================================== */}
-            {/* CARTES */}
+            {/* CARTES                                                 */}
             {/* ===================================================== */}
 
             {hasCards && (
@@ -1159,10 +665,7 @@ export default function InstructionBlock({
                       {card.items && (
                         <ul className="relative z-10 space-y-3">
                           {card.items.map(
-                            (
-                              item,
-                              itemIndex,
-                            ) => (
+                            (item, itemIndex) => (
                               <li
                                 key={itemIndex}
                                 className="flex items-start gap-3 text-sm leading-6 text-slate-700 sm:text-base"
@@ -1178,9 +681,7 @@ export default function InstructionBlock({
                                   `}
                                 />
 
-                                <span>
-                                  {item}
-                                </span>
+                                <span>{item}</span>
                               </li>
                             ),
                           )}
@@ -1193,13 +694,13 @@ export default function InstructionBlock({
             )}
 
             {/* ===================================================== */}
-            {/* CONTENU LIBRE */}
+            {/* CONTENU LIBRE                                          */}
             {/* ===================================================== */}
 
             {children}
 
             {/* ===================================================== */}
-            {/* ZONE DE LANCEMENT */}
+            {/* ZONE DE LANCEMENT                                      */}
             {/* ===================================================== */}
 
             {onStart && !started && (
