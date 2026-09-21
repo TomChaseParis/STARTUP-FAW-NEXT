@@ -222,7 +222,7 @@ export default function IntroduceYourselfQuiz() {
           setStarted(false);
           refresh();
         }}
-        finishHref="/courses/beginner"
+        finishHref="/courses/beginner/modules/se-presenter"
       />
     );
   };
