@@ -18,6 +18,7 @@ const exampleSentences = [
     spoken: "J’ai vingt ans.",
     start: 0,
     end: 0.76,
+    
   },
   {
     prompt: "Être jeune",
