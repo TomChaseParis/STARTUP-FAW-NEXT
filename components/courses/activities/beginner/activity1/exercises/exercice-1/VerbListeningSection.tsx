@@ -14,11 +14,7 @@ import avoirSpeakingData from "../../data/verbSpeaking/avoir";
 import faireSpeakingData from "../../data/verbSpeaking/faire";
 import allerSpeakingData from "../../data/verbSpeaking/aller";
 
-type VerbKey =
-  | "etre"
-  | "avoir"
-  | "faire"
-  | "aller";
+type VerbKey = "etre" | "avoir" | "faire" | "aller";
 
 type VerbScore = {
   score: number;
@@ -29,12 +25,7 @@ type VerbListeningSectionProps = {
   onNext?: () => void;
 };
 
-const verbOrder: VerbKey[] = [
-  "etre",
-  "avoir",
-  "faire",
-  "aller",
-];
+const verbOrder: VerbKey[] = ["etre", "avoir", "faire", "aller"];
 
 const verbConfig: Record<
   VerbKey,
@@ -58,17 +49,9 @@ const verbConfig: Record<
       "Ils / Elles sont",
     ],
 
-    timings: [
-      0,
-      1.1,
-      2.4,
-      4.8,
-      6.5,
-      8.1,
-    ],
+    timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
 
-    audioSrc:
-      "/audios/courses/beginner/activity1/exercice4/etreverbe.mp3",
+    audioSrc: "/audios/courses/beginner/activity1/exercice4/etreverbe.mp3",
 
     speakingData: etreSpeakingData,
   },
@@ -85,17 +68,9 @@ const verbConfig: Record<
       "Ils / Elles ont",
     ],
 
-    timings: [
-      0,
-      1.1,
-      2.4,
-      4.8,
-      6.5,
-      8.1,
-    ],
+    timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
 
-    audioSrc:
-      "/audios/courses/beginner/activity1/exercice4/avoirverbe.mp3",
+    audioSrc: "/audios/courses/beginner/activity1/exercice4/avoirverbe.mp3",
 
     speakingData: avoirSpeakingData,
   },
@@ -112,17 +87,9 @@ const verbConfig: Record<
       "Ils / Elles font",
     ],
 
-    timings: [
-      0,
-      1.1,
-      2.4,
-      4.8,
-      6.5,
-      8.1,
-    ],
+    timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
 
-    audioSrc:
-      "/audios/courses/beginner/activity1/exercice4/faireverbe.mp3",
+    audioSrc: "/audios/courses/beginner/activity1/exercice4/faireverbe.mp3",
 
     speakingData: faireSpeakingData,
   },
@@ -139,17 +106,9 @@ const verbConfig: Record<
       "Ils / Elles vont",
     ],
 
-    timings: [
-      0,
-      1.1,
-      2.4,
-      4.8,
-      6.5,
-      8.1,
-    ],
+    timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
 
-    audioSrc:
-      "/audios/courses/beginner/activity1/exercice4/allerverbe.mp3",
+    audioSrc: "/audios/courses/beginner/activity1/exercice4/allerverbe.mp3",
 
     speakingData: allerSpeakingData,
   },
@@ -158,16 +117,12 @@ const verbConfig: Record<
 export default function VerbListeningSection({
   onNext,
 }: VerbListeningSectionProps) {
-  const [exerciseStarted, setExerciseStarted] =
+  const [exerciseStarted, setExerciseStarted] = useState(false);
+
+  const [currentVerbIndex, setCurrentVerbIndex] = useState(0);
+
+  const [hasListenedToCurrentVerb, setHasListenedToCurrentVerb] =
     useState(false);
-
-  const [currentVerbIndex, setCurrentVerbIndex] =
-    useState(0);
-
-  const [
-    hasListenedToCurrentVerb,
-    setHasListenedToCurrentVerb,
-  ] = useState(false);
 
   /*
    * =========================================================
@@ -175,10 +130,9 @@ export default function VerbListeningSection({
    * =========================================================
    */
 
-  const [verbScores, setVerbScores] =
-    useState<
-      Partial<Record<VerbKey, VerbScore>>
-    >({});
+  const [verbScores, setVerbScores] = useState<
+    Partial<Record<VerbKey, VerbScore>>
+  >({});
 
   /*
    * =========================================================
@@ -186,18 +140,13 @@ export default function VerbListeningSection({
    * =========================================================
    */
 
-  const [showFinalResults, setShowFinalResults] =
-    useState(false);
+  const [showFinalResults, setShowFinalResults] = useState(false);
 
-  const currentVerb =
-    verbOrder[currentVerbIndex];
+  const currentVerb = verbOrder[currentVerbIndex];
 
-  const currentVerbConfig =
-    verbConfig[currentVerb];
+  const currentVerbConfig = verbConfig[currentVerb];
 
-  const isLastVerb =
-    currentVerbIndex ===
-    verbOrder.length - 1;
+  const isLastVerb = currentVerbIndex === verbOrder.length - 1;
 
   /*
    * =========================================================
@@ -209,14 +158,10 @@ export default function VerbListeningSection({
     setExerciseStarted(true);
 
     requestAnimationFrame(() => {
-      document
-        .getElementById(
-          "verb-exercise-content",
-        )
-        ?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+      document.getElementById("verb-exercise-content")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     });
   };
 
@@ -226,21 +171,16 @@ export default function VerbListeningSection({
    * =========================================================
    */
 
-  const handleFirstListenComplete =
-    () => {
-      setHasListenedToCurrentVerb(true);
+  const handleFirstListenComplete = () => {
+    setHasListenedToCurrentVerb(true);
 
-      requestAnimationFrame(() => {
-        document
-          .getElementById(
-            "verb-speaking-exercise",
-          )
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
+    requestAnimationFrame(() => {
+      document.getElementById("verb-speaking-exercise")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
       });
-    };
+    });
+  };
 
   /*
    * =========================================================
@@ -248,9 +188,7 @@ export default function VerbListeningSection({
    * =========================================================
    */
 
-  const handleVerbComplete = (
-    result: VerbScore,
-  ) => {
+  const handleVerbComplete = (result: VerbScore) => {
     setVerbScores((previous) => ({
       ...previous,
       [currentVerb]: result,
@@ -276,19 +214,13 @@ export default function VerbListeningSection({
 
     setHasListenedToCurrentVerb(false);
 
-    setCurrentVerbIndex(
-      (previous) => previous + 1,
-    );
+    setCurrentVerbIndex((previous) => previous + 1);
 
     requestAnimationFrame(() => {
-      document
-        .getElementById(
-          "verb-exercise-content",
-        )
-        ?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+      document.getElementById("verb-exercise-content")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     });
   };
 
@@ -298,9 +230,7 @@ export default function VerbListeningSection({
    * =========================================================
    */
 
-  const handleActivityComplete = (
-    result: VerbScore,
-  ) => {
+  const handleActivityComplete = (result: VerbScore) => {
     /*
      * ALLER est le dernier verbe.
      *
@@ -392,14 +322,9 @@ export default function VerbListeningSection({
         activityType="listen"
         description={
           <>
-            Écoute d&apos;abord la conjugaison
-            des verbes{" "}
-            <strong>
-              être, avoir, faire et aller
-            </strong>
-            .
-            Puis prononce les phrases une
-            par une.
+            Écoute d&apos;abord la conjugaison des verbes{" "}
+            <strong>être, avoir, faire et aller</strong>. Puis prononce les
+            phrases une par une.
           </>
         }
         onStart={handleStartExercise}
@@ -412,10 +337,7 @@ export default function VerbListeningSection({
       ====================================================== */}
 
       {exerciseStarted && (
-        <div
-          id="verb-exercise-content"
-          className="scroll-mt-10"
-        >
+        <div id="verb-exercise-content" className="scroll-mt-10">
           {/* =================================================
               ÉCOUTE DU VERBE
           ================================================== */}
@@ -424,18 +346,12 @@ export default function VerbListeningSection({
             <VerbListeningExercise
               key={currentVerb}
               category={{
-                title:
-                  currentVerbConfig.title,
-                forms:
-                  currentVerbConfig.forms,
-                timings:
-                  currentVerbConfig.timings,
-                audioSrc:
-                  currentVerbConfig.audioSrc,
+                title: currentVerbConfig.title,
+                forms: currentVerbConfig.forms,
+                timings: currentVerbConfig.timings,
+                audioSrc: currentVerbConfig.audioSrc,
               }}
-              onFirstListenComplete={
-                handleFirstListenComplete
-              }
+              onFirstListenComplete={handleFirstListenComplete}
             />
           </div>
 
@@ -444,44 +360,25 @@ export default function VerbListeningSection({
           ================================================== */}
 
           {hasListenedToCurrentVerb && (
-            <div
-              id="verb-speaking-exercise"
-              className="mt-12 scroll-mt-10"
-            >
+            <div id="verb-speaking-exercise" className="mt-12 scroll-mt-10">
               <div className="mx-auto w-full max-w-5xl px-6">
                 <VerbSpeakingExercise
                   key={currentVerb}
-                  data={
-                    currentVerbConfig.speakingData
-                  }
-                  verbTitle={
-                    currentVerbConfig.title
-                  }
+                  data={currentVerbConfig.speakingData}
+                  verbTitle={currentVerbConfig.title}
                   onComplete={
-                    isLastVerb
-                      ? handleActivityComplete
-                      : handleVerbComplete
+                    isLastVerb ? handleActivityComplete : handleVerbComplete
                   }
-                  onNextVerb={
-                    isLastVerb
-                      ? undefined
-                      : handleNextVerb
-                  }
+                  onNextVerb={isLastVerb ? undefined : handleNextVerb}
                   nextVerbLabel={
                     isLastVerb
                       ? undefined
                       : `Passer au verbe ${
-                          verbOrder[
-                            currentVerbIndex +
-                              1
-                          ] === "avoir"
+                          verbOrder[currentVerbIndex + 1] === "avoir"
                             ? "AVOIR"
-                            : verbOrder[
-                                  currentVerbIndex +
-                                    1
-                                ] === "faire"
-                              ? "FAIRE"
-                              : "ALLER"
+                            : verbOrder[currentVerbIndex + 1] === "faire"
+                            ? "FAIRE"
+                            : "ALLER"
                         } →`
                   }
                 />
@@ -490,7 +387,6 @@ export default function VerbListeningSection({
           )}
         </div>
       )}
-      
     </ExerciseSection>
   );
 }
