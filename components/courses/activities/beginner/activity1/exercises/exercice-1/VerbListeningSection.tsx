@@ -490,6 +490,7 @@ export default function VerbListeningSection({
           )}
         </div>
       )}
+      
     </ExerciseSection>
   );
 }
