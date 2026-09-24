@@ -13,135 +13,179 @@ import VerbListeningSection from "./exercises/exercice-1/VerbListeningSection";
 import VerbSelectionSection from "./exercises/VerbSelectionSection";
 import CharacterPresentationSection from "./exercises/exercice-3/CharacterPresentationSection";
 
-
 export default function Activity() {
   const [started, setStarted] = useState(false);
 
-  const [showExercise2, setShowExercise2] = useState(false);
-  const [showExercise3, setShowExercise3] = useState(false);
+  const [showExercise2, setShowExercise2] =
+    useState(false);
+
+  const [showExercise3, setShowExercise3] =
+    useState(false);
+
+  /*
+   * =========================================================
+   * DÉMARRER L'ACTIVITÉ
+   * =========================================================
+   */
+
+  const handleStartActivity = () => {
+    setStarted(true);
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document
+          .getElementById("activity-1-exercises")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      }, 50);
+    });
+  };
+
+  /*
+   * =========================================================
+   * EXERCICE 1 TERMINÉ
+   * =========================================================
+   */
+
+  const handleExercise1Complete = () => {
+    setShowExercise2(true);
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document
+          .getElementById("activity-1-exercise-2")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      }, 50);
+    });
+  };
+
+  /*
+   * =========================================================
+   * EXERCICE 2 TERMINÉ
+   * =========================================================
+   */
+
+  const handleExercise2Complete = () => {
+    setShowExercise3(true);
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document
+          .getElementById(
+            "character-presentation-instruction",
+          )
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      }, 50);
+    });
+  };
 
   return (
-    <ActivityLayout activity={bigFourActivity}>
-      <LessonBlock
-        level="beginner"
-        title="ZE BIG FOUR : Être – Avoir – Faire – Aller"
-        description="Regarde la vidéo puis fais les exercices."
-        videoSrc="/videos/courses/beginner/activities/activity1/presentation.mp4"
-        poster="/images/courses/beginner/activities/activity1/postermarie.png"
-        info={{
-          objectifs: [
-            "Conjuguer des verbes de base pour faire des phrases simples",
-          ],
-          competences: [
-            "Compréhension écrite",
-            "Transformation grammaticale",
-            "Phonie / graphie",
-            "Prononciation",
-          ],
-          prerequis: [
-            "Les verbes « être », « avoir », « aller » et « faire » au présent",
-            "Les pronoms sujets : « Je », « Tu », « Il », « Elle », « On », « Nous », « Vous », « Ils » et « Elles »",
-          ],
-          duree: "30 minutes",
-        }}
-      />
+    <ActivityNavigationProvider
+      totalExercises={3}
+    >
+      <ActivityLayout activity={bigFourActivity}>
+        <LessonBlock
+          level="beginner"
+          title="ZE BIG FOUR : Être – Avoir – Faire – Aller"
+          description="Regarde la vidéo puis fais les exercices."
+          videoSrc="/videos/courses/beginner/activities/activity1/presentation.mp4"
+          poster="/images/courses/beginner/activities/activity1/postermarie.png"
+          info={{
+            objectifs: [
+              "Conjuguer des verbes de base pour faire des phrases simples",
+            ],
+            competences: [
+              "Compréhension écrite",
+              "Transformation grammaticale",
+              "Phonie / graphie",
+              "Prononciation",
+            ],
+            prerequis: [
+              "Les verbes « être », « avoir », « aller » et « faire » au présent",
+              "Les pronoms sujets : « Je », « Tu », « Il », « Elle », « On », « Nous », « Vous », « Ils » et « Elles »",
+            ],
+            duree: "30 minutes",
+          }}
+        />
 
-      {!started && (
-        <div className="container flex justify-center">
-          <button
-            type="button"
-            onClick={() => {
-              setStarted(true);
+        {/* =====================================================
+            BOUTON DE DÉMARRAGE
+        ====================================================== */}
 
-              requestAnimationFrame(() => {
-                document
-                  .getElementById("activity-1-exercises")
-                  ?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-              });
-            }}
-            className="
-              rounded-xl
-              bg-[#E09F00]
-              px-8
-              py-4
-              text-lg
-              font-semibold
-              text-white
-              transition-all
-              duration-300
-              hover:scale-105
-              hover:bg-[#C98D00]
-            "
+        {!started && (
+          <div className="container flex justify-center">
+            <button
+              type="button"
+              onClick={handleStartActivity}
+              className="
+                rounded-xl
+                bg-[#E09F00]
+                px-8
+                py-4
+                text-lg
+                font-semibold
+                text-white
+                transition-all
+                duration-300
+                hover:scale-105
+                hover:bg-[#C98D00]
+              "
+            >
+              Commencer l&apos;activité
+            </button>
+          </div>
+        )}
+
+        {/* =====================================================
+            EXERCICES
+        ====================================================== */}
+
+        {started && (
+          <div
+            id="activity-1-exercises"
+            className="scroll-mt-10"
           >
-            Commencer l&apos;activité
-          </button>
-        </div>
-      )}
+            {/* =================================================
+                EXERCICE 1
+            ================================================== */}
 
-      {started && (
-        <div
-          id="activity-1-exercises"
-          className="scroll-mt-10"
-        >
-          <ActivityNavigationProvider
-            totalExercises={bigFourActivity.exercises.length}
-          >
-            {/* EXERCICE 1 */}
-            {!showExercise2 && !showExercise3 && (
-              <VerbListeningSection
-                onNext={() => {
-                  setShowExercise2(true);
+            <VerbListeningSection
+              onNext={handleExercise1Complete}
+            />
 
-                  requestAnimationFrame(() => {
-                    document
-                      .getElementById("activity-1-exercise-2")
-                      ?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                      });
-                  });
-                }}
-              />
-            )}
+            {/* =================================================
+                EXERCICE 2
+            ================================================== */}
 
-            {/* EXERCICE 2 */}
-            {showExercise2 && !showExercise3 && (
+            {showExercise2 && (
               <div
                 id="activity-1-exercise-2"
                 className="scroll-mt-10"
               >
                 <VerbSelectionSection
-                  onNext={() => {
-                    setShowExercise3(true);
-
-                    requestAnimationFrame(() => {
-                      document
-                        .getElementById("activity-1-exercise-3")
-                        ?.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start",
-                        });
-                    });
-                  }}
+                  onNext={handleExercise2Complete}
                 />
               </div>
             )}
 
-            {/* EXERCICE 3 */}
+            {/* =================================================
+                EXERCICE 3
+            ================================================== */}
+
             {showExercise3 && (
-              <div
-                id="activity-1-exercise-3"
-                className="scroll-mt-10"
-              >
-                <CharacterPresentationSection />
-              </div>
+              <CharacterPresentationSection />
             )}
-          </ActivityNavigationProvider>
-        </div>
-      )}
-    </ActivityLayout>
+          </div>
+        )}
+      </ActivityLayout>
+    </ActivityNavigationProvider>
   );
 }

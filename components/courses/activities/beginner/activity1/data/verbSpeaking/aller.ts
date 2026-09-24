@@ -47,7 +47,7 @@ export const allerSpeakingData: ExerciseCategory = {
           "/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q1/answer.mp3",
       },
     },
-/* 
+
     {
       phrase: "Elle ....... où ?",
       answer: "va",
@@ -190,7 +190,7 @@ export const allerSpeakingData: ExerciseCategory = {
         solution:
           "/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q7/answer.mp3",
       },
-    }, */
+    },
   ],
 };
 

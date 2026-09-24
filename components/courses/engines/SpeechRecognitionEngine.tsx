@@ -14,6 +14,7 @@ export default function SpeechRecognitionEngine({
   onResult,
 }: Props) {
   const recognitionRef = useRef<any>(null);
+
   const [isListening, setIsListening] = useState(false);
 
   /* ---------------- NORMALIZE ---------------- */
@@ -29,14 +30,23 @@ export default function SpeechRecognitionEngine({
   };
 
   /* ---------------- TOKENIZE ---------------- */
-  const tokenize = (text: string) => normalize(text).split(" ");
+  const tokenize = (text: string) => {
+    const normalized = normalize(text);
+
+    return normalized ? normalized.split(" ") : [];
+  };
 
   /* ---------------- LEVENSHTEIN ---------------- */
   const levenshtein = (a: string, b: string) => {
     const matrix: number[][] = [];
 
-    for (let i = 0; i <= b.length; i++) matrix[i] = [i];
-    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+    for (let i = 0; i <= b.length; i++) {
+      matrix[i] = [i];
+    }
+
+    for (let j = 0; j <= a.length; j++) {
+      matrix[0][j] = j;
+    }
 
     for (let i = 1; i <= b.length; i++) {
       for (let j = 1; j <= a.length; j++) {
@@ -57,20 +67,33 @@ export default function SpeechRecognitionEngine({
 
   /* ---------------- WORD MATCH ---------------- */
   const isWordMatch = (expected: string, spoken: string) => {
+    if (!expected || !spoken) return false;
+
     const dist = levenshtein(expected, spoken);
     const maxLen = Math.max(expected.length, spoken.length);
+
+    if (maxLen === 0) return true;
 
     return dist / maxLen < 0.4;
   };
 
   /* ---------------- SENTENCE SCORE ---------------- */
-  const scoreSentence = (expectedWords: string[], spokenWords: string[]) => {
+  const scoreSentence = (
+    expectedWords: string[],
+    spokenWords: string[],
+  ) => {
+    if (expectedWords.length === 0) return 0;
+
     let matchCount = 0;
 
     expectedWords.forEach((expWord) => {
-      const found = spokenWords.some((spWord) => isWordMatch(expWord, spWord));
+      const found = spokenWords.some((spWord) =>
+        isWordMatch(expWord, spWord),
+      );
 
-      if (found) matchCount++;
+      if (found) {
+        matchCount++;
+      }
     });
 
     return matchCount / expectedWords.length;
@@ -86,6 +109,8 @@ export default function SpeechRecognitionEngine({
 
   /* ---------------- START ---------------- */
   const start = () => {
+    if (isListening) return;
+
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
@@ -96,27 +121,71 @@ export default function SpeechRecognitionEngine({
     }
 
     const recognition = new SpeechRecognition();
+
+    recognitionRef.current = recognition;
+
     recognition.lang = "fr-FR";
-    recognition.continuous = true;
+
+    /*
+     * IMPORTANT :
+     *
+     * false = le navigateur considère cette prise de parole
+     * comme une seule session.
+     *
+     * Après que l'utilisateur a terminé sa phrase et fait
+     * une pause, le navigateur déclenche automatiquement
+     * "onend".
+     *
+     * C'est ce qui permet d'afficher la correction sans
+     * avoir besoin de rappuyer sur le micro.
+     */
+    recognition.continuous = false;
+
     recognition.interimResults = false;
 
     let finalTranscript = "";
 
-    recognition.onstart = () => setIsListening(true);
+    /* ---------------- ON START ---------------- */
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    /* ---------------- ON RESULT ---------------- */
 
     recognition.onresult = (event: any) => {
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        finalTranscript += event.results[i][0].transcript + " ";
+      for (
+        let i = event.resultIndex;
+        i < event.results.length;
+        i++
+      ) {
+        const transcript = event.results[i][0]?.transcript;
+
+        if (transcript) {
+          finalTranscript += `${transcript} `;
+        }
       }
     };
 
+    /* ---------------- ON END ---------------- */
+
     recognition.onend = () => {
       setIsListening(false);
+
+      /*
+       * On libère immédiatement la référence.
+       */
+      recognitionRef.current = null;
 
       const chunks = splitIntoChunks(finalTranscript);
 
       const results = expectedSentences.map((sentence) => {
         const expectedWords = tokenize(sentence);
+
+        /*
+         * Le premier mot de la phrase attendue correspond
+         * au pronom demandé.
+         */
         const expectedPronoun = expectedWords[0];
 
         let bestScore = 0;
@@ -127,16 +196,28 @@ export default function SpeechRecognitionEngine({
 
           if (spokenWords.length === 0) return;
 
-          if (isWordMatch(expectedPronoun, spokenWords[0])) {
+          /*
+           * Vérification du pronom.
+           */
+          if (
+            expectedPronoun &&
+            isWordMatch(expectedPronoun, spokenWords[0])
+          ) {
             pronounValid = true;
 
-            const score = scoreSentence(expectedWords, spokenWords);
+            const score = scoreSentence(
+              expectedWords,
+              spokenWords,
+            );
 
-            if (score > bestScore) bestScore = score;
+            if (score > bestScore) {
+              bestScore = score;
+            }
           }
         });
 
-        const isCorrect = pronounValid && bestScore >= 0.75;
+        const isCorrect =
+          pronounValid && bestScore >= 0.75;
 
         return {
           text: sentence,
@@ -144,22 +225,50 @@ export default function SpeechRecognitionEngine({
         };
       });
 
+      /*
+       * La correction est envoyée automatiquement
+       * dès que la reconnaissance se termine.
+       */
       onResult(results);
     };
 
-    recognition.start();
-    recognitionRef.current = recognition;
+    /* ---------------- ON ERROR ---------------- */
+
+    recognition.onerror = () => {
+      setIsListening(false);
+      recognitionRef.current = null;
+    };
+
+    /* ---------------- START RECOGNITION ---------------- */
+
+    try {
+      recognition.start();
+    } catch (error) {
+      setIsListening(false);
+      recognitionRef.current = null;
+
+      console.error(
+        "Impossible de démarrer la reconnaissance vocale :",
+        error,
+      );
+    }
   };
 
   /* ---------------- STOP ---------------- */
+
   const stop = () => {
     recognitionRef.current?.stop();
   };
 
   return (
     <button
+      type="button"
       onClick={isListening ? stop : start}
-      aria-label={isListening ? "Arrêter l'écoute" : "Commencer à parler"}
+      aria-label={
+        isListening
+          ? "Arrêter l'écoute"
+          : "Commencer à parler"
+      }
       className={`
         group/button relative flex h-14 w-14 shrink-0
         items-center justify-center overflow-hidden rounded-2xl
@@ -185,6 +294,7 @@ export default function SpeechRecognitionEngine({
       {isListening && (
         <>
           <span className="absolute h-12 w-12 rounded-full border-2 border-white/50 animate-ping" />
+
           <span className="absolute h-16 w-16 rounded-full border border-white/30 animate-ping [animation-delay:300ms]" />
         </>
       )}
@@ -227,6 +337,7 @@ export default function SpeechRecognitionEngine({
             strokeLinejoin="round"
             d="M12 14a3 3 0 003-3V7a3 3 0 10-6 0v4a3 3 0 003 3z"
           />
+
           <path
             strokeLinecap="round"
             strokeLinejoin="round"

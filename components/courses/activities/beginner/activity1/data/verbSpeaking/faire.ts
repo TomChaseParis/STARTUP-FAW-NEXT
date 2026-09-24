@@ -48,7 +48,7 @@ export const faireSpeakingData: ExerciseCategory = {
       },
     },
 
-   /*  {
+    {
       phrase: "Vous ....... du sport ?",
       answer: "faites",
       expectedSentence:
@@ -190,7 +190,7 @@ export const faireSpeakingData: ExerciseCategory = {
         solution:
           "/audios/courses/beginner/activity1/exercice2/prononciation/FAIRE/Q7/answer.mp3",
       },
-    }, */
+    },
   ],
 };
 

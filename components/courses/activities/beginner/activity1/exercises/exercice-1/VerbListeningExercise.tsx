@@ -12,7 +12,7 @@ type VerbListeningExerciseProps = {
     audio?: string;
   };
 
-  onFirstListenComplete?: () => void;
+  onFirstListenComplete?: () => void; 
 };
 
 export default function VerbListeningExercise({

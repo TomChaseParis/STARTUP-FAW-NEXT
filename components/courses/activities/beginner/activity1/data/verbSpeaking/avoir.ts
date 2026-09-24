@@ -47,7 +47,7 @@ export const avoirSpeakingData: ExerciseCategory = {
       },
     },
 
-  /*   {
+    {
       phrase: "Excusez-moi, je n'....... pas le temps",
       answer: "ai",
       expectedSentence:
@@ -213,7 +213,7 @@ export const avoirSpeakingData: ExerciseCategory = {
         solution:
           "/audios/courses/beginner/activity1/exercice2/prononciation/AVOIR/Q8/answer.mp3",
       },
-    }, */
+    },
   ],
 };
 
