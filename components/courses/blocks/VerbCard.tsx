@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 type VerbCardProps = {
   title: string;
@@ -9,6 +10,20 @@ type VerbCardProps = {
   isPlaying?: boolean;
   currentTime?: number;
   timings?: number[];
+};
+
+const verbImages: Record<string, string> = {
+  ÊTRE: "/images/courses/beginner/activities/activity1/asset-etre.png",
+  AVOIR: "/images/courses/beginner/activities/activity1/asset-avoir.png",
+  FAIRE: "/images/courses/beginner/activities/activity1/asset-faire.png",
+  ALLER: "/images/courses/beginner/activities/activity1/asset-aller.png",
+};
+
+const imagePositions: Record<string, string> = {
+  ÊTRE: "50% center",
+  AVOIR: "43% center",
+  FAIRE: "36% center",
+  ALLER: "50% center",
 };
 
 const VerbCard: React.FC<VerbCardProps> = ({
@@ -21,16 +36,15 @@ const VerbCard: React.FC<VerbCardProps> = ({
 }) => {
   const activeIndex = (() => {
     if (!isPlaying) return -1;
-  
+
     return timings.findIndex((start, index) => {
       const next = timings[index + 1];
-  
-      return (
-        currentTime >= start &&
-        (next === undefined || currentTime < next)
-      );
+
+      return currentTime >= start && (next === undefined || currentTime < next);
     });
   })();
+
+  const imageSrc = verbImages[title.toUpperCase()];
 
   return (
     <div
@@ -44,149 +58,299 @@ const VerbCard: React.FC<VerbCardProps> = ({
         hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)]
       "
     >
+      {/* =====================================================
+          DÉCORATION
+      ====================================================== */}
+
       <div
         className="
-          pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500
+          pointer-events-none absolute inset-0
+          opacity-0 transition-opacity duration-500
           group-hover:opacity-100
         "
       >
         <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-amber-100/40 blur-3xl" />
+
         <div className="absolute -left-8 bottom-0 h-24 w-24 rounded-full bg-slate-100/60 blur-2xl" />
       </div>
 
-      <div className="relative px-7 py-7">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Verbe
-            </p>
+      {/* =====================================================
+          CONTENU PRINCIPAL
+      ====================================================== */}
 
-            <h3 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-              {title}
-            </h3>
-          </div>
+      <div
+        className="
+          relative
+          grid
+          grid-cols-1
+          lg:grid-cols-[0.9fr_1.1fr]
+        "
+      >
+        {/* ===================================================
+            IMAGE
+        ==================================================== */}
 
-          <button
-            onClick={onPlay}
-            aria-label={`Écouter ${title}`}
-            className={`
-              group/button relative inline-flex items-center justify-center
-              overflow-hidden rounded-2xl
-              px-5 py-4
-              transition-all duration-300
-              active:scale-[0.98]
-
-              ${
-                isPlaying
-                  ? `
-                    bg-gradient-to-br
-                    from-amber-100
-                    via-yellow-100
-                    to-amber-200
-                    shadow-[0_12px_28px_rgba(251,191,36,0.18)]
-                    scale-105
-                  `
-                  : `
-                    bg-amber-300
-                    shadow-[0_8px_20px_rgba(0,0,0,0.06)]
-                    hover:-translate-y-1
-                    hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
-                  `
-              }
-            `}
+        {imageSrc && (
+          <div
+            className="
+      relative
+      aspect-[0.86]
+      w-full
+      overflow-hidden
+      bg-slate-100
+      lg:aspect-auto
+      lg:min-h-[320px]
+    "
           >
-            {isPlaying && (
-              <>
-                <span className="absolute h-12 w-12 animate-ping rounded-full border border-amber-300/50" />
-                <span className="absolute h-16 w-16 animate-ping rounded-full border border-amber-200/40 [animation-delay:300ms]" />
-              </>
-            )}
+            <Image
+              src={imageSrc}
+              alt={`Illustration du verbe ${title}`}
+              fill
+              sizes="
+        (max-width: 1024px) 100vw,
+        40vw
+      "
+              className="
+        object-cover
+        transition-transform
+        duration-700
+      "
+              style={{
+                objectPosition:
+                  imagePositions[title.toUpperCase()] ?? "50% center",
+              }}
+              priority
+            />
 
             <div
+              className="
+        pointer-events-none
+        absolute inset-0
+        bg-gradient-to-t
+        from-black/20
+        via-transparent
+        to-transparent
+      "
+            />
+          </div>
+        )}
+        {/* ===================================================
+            PARTIE DROITE
+        ==================================================== */}
+
+        <div className="relative px-7 py-8 sm:px-9 sm:py-9">
+          {/* =================================================
+              HEADER
+          ================================================== */}
+
+          <div className="flex items-center justify-between gap-5">
+            <div>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                Verbe
+              </p>
+
+              <h3 className="text-3xl font-bold tracking-tight text-slate-900">
+                {title}
+              </h3>
+            </div>
+
+            {/* =================================================
+                BOUTON AUDIO
+            ================================================== */}
+
+            <button
+              type="button"
+              onClick={onPlay}
+              aria-label={`Écouter ${title}`}
               className={`
-                relative flex items-center justify-center transition-transform duration-300
+                group/button relative
+                inline-flex shrink-0
+                items-center justify-center
+                overflow-hidden
+                rounded-2xl
+                px-5 py-4
+                transition-all duration-300
+                active:scale-[0.98]
+
                 ${
                   isPlaying
-                    ? "animate-pulse scale-110 text-amber-700"
-                    : "text-black"
+                    ? `
+                      via-yellow-100
+                      scale-105
+                      bg-gradient-to-br
+                      from-amber-100
+                      to-amber-200
+                      shadow-[0_12px_28px_rgba(251,191,36,0.18)]
+                    `
+                    : `
+                      bg-amber-300
+                      shadow-[0_8px_20px_rgba(0,0,0,0.06)]
+                      hover:-translate-y-1
+                      hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
+                    `
                 }
               `}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2.2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M11 5L6 9H3v6h3l5 4V5z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.5 8.5a5 5 0 010 7"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M18 6a8.5 8.5 0 010 12"
-                />
-              </svg>
-            </div>
-          </button>
-        </div>
+              {isPlaying && (
+                <>
+                  <span className="absolute h-12 w-12 animate-ping rounded-full border border-amber-300/50" />
 
-        <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+                  <span className="absolute h-16 w-16 animate-ping rounded-full border border-amber-200/40 [animation-delay:300ms]" />
+                </>
+              )}
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {forms.map((form, index) => {
-            const isActive = index === activeIndex;
-
-            return (
               <div
-                key={index}
                 className={`
-                  flex items-center
-                  rounded-2xl
-                  px-5 py-4
-                  transition-all duration-300
+                  relative flex items-center justify-center
+                  transition-transform duration-300
 
                   ${
-                    isActive
-                      ? `
-                        border border-green-300
-                        bg-gradient-to-br from-green-50 to-emerald-50
-                        shadow-[0_8px_20px_rgba(34,197,94,0.18)]
-                        scale-[1.02]
-                      `
-                      : `
-                        border border-slate-100
-                        bg-gradient-to-br from-slate-50 to-white
-                        hover:border-amber-100
-                        hover:shadow-[0_8px_18px_rgba(15,23,42,0.06)]
-                      `
+                    isPlaying
+                      ? "scale-110 animate-pulse text-amber-700"
+                      : "text-black"
                   }
                 `}
               >
-                <p
-                  className={`
-                    text-base font-medium leading-relaxed transition-all duration-300
-                    ${
-                      isActive
-                        ? "font-bold text-green-700"
-                        : "text-slate-700"
-                    }
-                  `}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-7 w-7"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
                 >
-                  {form}
-                </p>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M11 5L6 9H3v6h3l5 4V5z"
+                  />
+
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.5 8.5a5 5 0 010 7"
+                  />
+
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M18 6a8.5 8.5 0 010 12"
+                  />
+                </svg>
               </div>
-            );
-          })}
+            </button>
+          </div>
+
+          {/* =================================================
+              SÉPARATION
+          ================================================== */}
+
+          <div className="my-7 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+          {/* =================================================
+              CONJUGAISON
+          ================================================== */}
+
+          <div>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+              Conjugaison au présent
+            </p>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {forms.map((form, index) => {
+                const isActive = index === activeIndex;
+
+                return (
+                  <div
+                    key={index}
+                    className={`
+                      flex min-h-[62px]
+                      items-center
+                      rounded-2xl
+                      px-5 py-4
+                      transition-all duration-300
+
+                      ${
+                        isActive
+                          ? `
+                            scale-[1.02]
+                            border
+                            border-green-300
+                            bg-gradient-to-br
+                            from-green-50
+                            to-emerald-50
+                            shadow-[0_8px_20px_rgba(34,197,94,0.18)]
+                          `
+                          : `
+                            border
+                            border-slate-100
+                            bg-gradient-to-br
+                            from-slate-50
+                            to-white
+                            hover:border-amber-100
+                            hover:shadow-[0_8px_18px_rgba(15,23,42,0.06)]
+                          `
+                      }
+                    `}
+                  >
+                    <p
+                      className={`
+                        text-base
+                        font-medium
+                        leading-relaxed
+                        transition-all
+                        duration-300
+
+                        ${
+                          isActive
+                            ? "font-bold text-green-700"
+                            : "text-slate-700"
+                        }
+                      `}
+                    >
+                      {form}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* =================================================
+              INDICATION AUDIO
+          ================================================== */}
+
+          <div
+            className={`
+              mt-7
+              rounded-2xl
+              border
+              px-4
+              py-3
+              text-center
+              transition-all
+              duration-300
+
+              ${
+                isPlaying
+                  ? "border-amber-200 bg-amber-50"
+                  : "border-slate-100 bg-slate-50"
+              }
+            `}
+          >
+            <p
+              className={`
+                text-sm
+                font-medium
+
+                ${isPlaying ? "text-amber-700" : "text-slate-500"}
+              `}
+            >
+              {isPlaying
+                ? "🎧 Écoute la conjugaison..."
+                : "🔊 Clique sur le bouton pour écouter"}
+            </p>
+          </div>
         </div>
       </div>
     </div>
