@@ -1,23 +1,42 @@
 "use client";
 
 import { useRef, useState } from "react";
-
 import VerbCard from "@/components/courses/blocks/VerbCard";
 
-export default function VerbListeningExercise() {
+type VerbListeningExerciseProps = {
+  category: {
+    title: string;
+    forms?: string[];
+    timings?: number[];
+    audioSrc?: string;
+    audio?: string;
+  };
+
+  onFirstListenComplete?: () => void;
+};
+
+export default function VerbListeningExercise({
+  category,
+  onFirstListenComplete,
+}: VerbListeningExerciseProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const [currentlyPlayingId, setCurrentlyPlayingId] = useState<string | null>(
-    null,
-  );
+  const [currentlyPlayingId, setCurrentlyPlayingId] =
+    useState<string | null>(null);
 
   const [currentTime, setCurrentTime] = useState(0);
 
-  const playVerbAudio = (id: string, src: string) => {
-    /*
-     * Si un autre audio est déjà en cours,
-     * on l'arrête avant de lancer le nouveau.
-     */
+  const [hasListenedOnce, setHasListenedOnce] =
+    useState(false);
+
+  const forms = category.forms ?? [];
+  const timings = category.timings ?? [];
+  const audioSrc = category.audioSrc ?? category.audio;
+
+  const playVerbAudio = (
+    id: string,
+    src: string,
+  ) => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -30,138 +49,71 @@ export default function VerbListeningExercise() {
     setCurrentlyPlayingId(id);
     setCurrentTime(0);
 
-    void audio.play();
-
-    /*
-     * Permet à VerbCard de savoir quelle forme
-     * est actuellement en train d'être prononcée.
-     */
     audio.ontimeupdate = () => {
       setCurrentTime(audio.currentTime);
     };
 
-    /*
-     * Quand l'audio est terminé,
-     * on remet la carte à son état initial.
-     */
     audio.onended = () => {
       setCurrentlyPlayingId(null);
       setCurrentTime(0);
+      audioRef.current = null;
+
+      if (!hasListenedOnce) {
+        setHasListenedOnce(true);
+        onFirstListenComplete?.();
+      }
     };
 
-    /*
-     * En cas d'erreur de lecture,
-     * on remet également la carte à son état initial.
-     */
     audio.onerror = () => {
       setCurrentlyPlayingId(null);
       setCurrentTime(0);
+      audioRef.current = null;
     };
+
+    void audio.play().catch(() => {
+      setCurrentlyPlayingId(null);
+      setCurrentTime(0);
+      audioRef.current = null;
+    });
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6">
-      <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-        {/* ============================================================
-            ÊTRE
-        ============================================================ */}
-
-        <VerbCard
-          title="ÊTRE"
-          forms={[
-            "Je suis",
-            "Tu es",
-            "Il/Elle/On est",
-            "Nous sommes",
-            "Vous êtes",
-            "Ils/Elles sont",
-          ]}
-          timings={[0, 1.1, 2.4, 4.8, 6.5, 8.1]}
-          onPlay={() =>
-            playVerbAudio(
-              "etre",
-              "/audios/courses/beginner/activity1/exercice4/etreverbe.mp3",
-            )
+    <div className="mx-auto w-full max-w-5xl px-6">
+      <VerbCard
+        title={category.title}
+        forms={forms}
+        timings={timings}
+        onPlay={() => {
+          if (!audioSrc) {
+            console.error(
+              `Aucun audio trouvé pour le verbe "${category.title}".`,
+            );
+            return;
           }
-          isPlaying={currentlyPlayingId === "etre"}
-          currentTime={currentlyPlayingId === "etre" ? currentTime : 0}
-        />
 
-        {/* ============================================================
-            AVOIR
-        ============================================================ */}
+          playVerbAudio(
+            category.title,
+            audioSrc,
+          );
+        }}
+        isPlaying={
+          currentlyPlayingId === category.title
+        }
+        currentTime={
+          currentlyPlayingId === category.title
+            ? currentTime
+            : 0
+        }
+      />
 
-        <VerbCard
-          title="AVOIR"
-          forms={[
-            "J’ai",
-            "Tu as",
-            "Il/Elle/On a",
-            "Nous avons",
-            "Vous avez",
-            "Ils/Elles ont",
-          ]}
-          timings={[0, 1.1, 2.4, 4.8, 6.5, 8.1]}
-          onPlay={() =>
-            playVerbAudio(
-              "avoir",
-              "/audios/courses/beginner/activity1/exercice4/avoirverbe.mp3",
-            )
-          }
-          isPlaying={currentlyPlayingId === "avoir"}
-          currentTime={currentlyPlayingId === "avoir" ? currentTime : 0}
-        />
-
-        {/* ============================================================
-            FAIRE
-        ============================================================ */}
-
-        <VerbCard
-          title="FAIRE"
-          forms={[
-            "Je fais",
-            "Tu fais",
-            "Il/Elle/On fait",
-            "Nous faisons",
-            "Vous faites",
-            "Ils/Elles font",
-          ]}
-          timings={[0, 1.1, 2.4, 4.8, 6.5, 8.1]}
-          onPlay={() =>
-            playVerbAudio(
-              "faire",
-              "/audios/courses/beginner/activity1/exercice4/faireverbe.mp3",
-            )
-          }
-          isPlaying={currentlyPlayingId === "faire"}
-          currentTime={currentlyPlayingId === "faire" ? currentTime : 0}
-        />
-
-        {/* ============================================================
-            ALLER
-        ============================================================ */}
-
-        <VerbCard
-          title="ALLER"
-          forms={[
-            "Je vais",
-            "Tu vas",
-            "Il/Elle/On va",
-            "Nous allons",
-            "Vous allez",
-            "Ils/Elles vont",
-          ]}
-          timings={[0, 1.1, 2.4, 4.8, 6.5, 8.1]}
-          onPlay={() =>
-            playVerbAudio(
-              "aller",
-              "/audios/courses/beginner/activity1/exercice4/allerverbe.mp3",
-            )
-          }
-          isPlaying={currentlyPlayingId === "aller"}
-          currentTime={currentlyPlayingId === "aller" ? currentTime : 0}
-        />
-      </div>
+      {!hasListenedOnce && (
+        <div className="mt-5 text-center">
+          <p className="text-sm font-medium text-slate-500">
+            🎧 Écoute la conjugaison jusqu&apos;au bout
+            avant de commencer l&apos;exercice.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -103,12 +103,10 @@ export default function ActivityResults({
   const totalQuestions =
     result.session.totalQuestions;
 
-  const errorCount =
-    Math.max(
-      0,
-      totalQuestions -
-        correctAnswers,
-    );
+  const errorCount = Math.max(
+    0,
+    totalQuestions - correctAnswers,
+  );
 
   return (
     <section
@@ -133,7 +131,6 @@ export default function ActivityResults({
         md:p-12
       "
     >
-
       {/* ===================================================== */}
       {/* FEEDBACK PROFESSEUR                                   */}
       {/* ===================================================== */}
@@ -165,6 +162,7 @@ export default function ActivityResults({
       {/* ===================================================== */}
 
       <section className="mt-8 grid gap-4 sm:mt-10 sm:gap-6 md:grid-cols-2">
+        {/* RÉPONSES CORRECTES */}
 
         <ResultCard
           icon="✅"
@@ -172,11 +170,15 @@ export default function ActivityResults({
           value={`${correctAnswers} / ${totalQuestions}`}
         />
 
+        {/* TEMPS */}
+
         <ResultCard
           icon="⏱"
           label="Temps"
           value={`${result.session.duration} s`}
         />
+
+        {/* MEILLEUR SCORE */}
 
         <ResultCard
           icon="🏆"
@@ -184,12 +186,13 @@ export default function ActivityResults({
           value={`${result.bestScore}%`}
         />
 
+        {/* TENTATIVES */}
+
         <ResultCard
           icon="🔁"
           label="Tentatives"
           value={`${result.attempts}`}
         />
-
       </section>
 
       {/* ===================================================== */}
@@ -215,7 +218,8 @@ export default function ActivityResults({
           </p>
 
           <p className="mt-1 text-sm text-emerald-700">
-            Bravo ! Tu as terminé tous les exercices de cette activité.
+            Bravo ! Tu as terminé tous les
+            exercices de cette activité.
           </p>
         </div>
       )}
@@ -236,7 +240,6 @@ export default function ActivityResults({
             sm:mt-10
           "
         >
-
           {/* ================================================= */}
           {/* EN-TÊTE CLIQUABLE                                 */}
           {/* ================================================= */}
@@ -267,13 +270,11 @@ export default function ActivityResults({
               sm:py-5
             "
           >
-
             {/* =============================================== */}
             {/* TEXTE + BADGES                                  */}
             {/* =============================================== */}
 
             <div className="min-w-0">
-
               <h3
                 className="
                   text-base
@@ -294,7 +295,9 @@ export default function ActivityResults({
                   sm:text-sm
                 "
               >
-                Consulte chaque réponse pour comprendre tes erreurs et progresser.
+                Consulte chaque réponse pour
+                comprendre tes erreurs et
+                progresser.
               </p>
 
               {/* ============================================= */}
@@ -302,7 +305,6 @@ export default function ActivityResults({
               {/* ============================================= */}
 
               <div className="mt-3 flex flex-wrap gap-2">
-
                 {/* BONNES RÉPONSES */}
 
                 <span
@@ -384,9 +386,7 @@ export default function ActivityResults({
                     ? "s"
                     : ""}
                 </span>
-
               </div>
-
             </div>
 
             {/* =============================================== */}
@@ -399,7 +399,7 @@ export default function ActivityResults({
                 shrink-0
                 text-2xl
                 leading-none
-                text-white
+                text-slate-400
                 transition-transform
                 duration-300
                 ${
@@ -412,7 +412,6 @@ export default function ActivityResults({
             >
               ▼
             </span>
-
           </button>
 
           {/* ================================================= */}
@@ -433,7 +432,6 @@ export default function ActivityResults({
               {detailedReport}
             </div>
           )}
-
         </div>
       ) : (
         /* =================================================== */
@@ -461,8 +459,9 @@ export default function ActivityResults({
           sm:gap-5
         "
       >
-
-        {/* RECOMMENCER */}
+        {/* ================================================= */}
+        {/* RECOMMENCER                                       */}
+        {/* ================================================= */}
 
         <button
           type="button"
@@ -485,7 +484,9 @@ export default function ActivityResults({
           Recommencer
         </button>
 
-        {/* EXERCICE SUIVANT */}
+        {/* ================================================= */}
+        {/* EXERCICE SUIVANT                                  */}
+        {/* ================================================= */}
 
         <button
           type="button"
@@ -508,9 +509,7 @@ export default function ActivityResults({
             ? "Terminer l'activité"
             : "Exercice suivant →"}
         </button>
-
       </div>
-
     </section>
   );
 }

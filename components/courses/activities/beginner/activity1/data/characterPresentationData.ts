@@ -1,6 +1,6 @@
 "use client";
 
-import type { CharacterPresentationItem } from "../exercises/characterPresentationItem";
+import type { CharacterPresentationItem } from "../exercises/exercice-3/characterPresentationItem";
 
 export type characterPresentationSpeechData = {
   id: number;
