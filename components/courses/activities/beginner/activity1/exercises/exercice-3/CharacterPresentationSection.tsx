@@ -18,7 +18,6 @@ const exampleSentences = [
     spoken: "J’ai vingt ans.",
     start: 0,
     end: 0.76,
-    
   },
   {
     prompt: "Être jeune",
@@ -57,8 +56,7 @@ const exampleSentences = [
     end: 16.84,
   },
   {
-    prompt:
-      "Avoir un seul ami : mon professeur de chimie.",
+    prompt: "Avoir un seul ami : mon professeur de chimie.",
     spoken: (
       <>
         J’ai un seul ami : mon professeur
@@ -73,17 +71,17 @@ const exampleSentences = [
 
 type CharacterPresentationSectionProps = {
   onComplete?: (result: ActivityResult) => void;
+  onFinishActivity?: () => void;
 };
 
 export default function CharacterPresentationSection({
   onComplete,
+  onFinishActivity,
 }: CharacterPresentationSectionProps) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef =
+    useRef<HTMLAudioElement | null>(null);
 
   const [isPlayingExample, setIsPlayingExample] =
-    useState(false);
-
-  const [hasStartedExample, setHasStartedExample] =
     useState(false);
 
   const [
@@ -116,10 +114,6 @@ export default function CharacterPresentationSection({
   /*
    * =========================================================
    * CLÉ DE L'EXERCICE
-   *
-   * Permet de recréer complètement
-   * CharacterPresentationExercise
-   * lorsqu'on clique sur "Recommencer".
    * =========================================================
    */
 
@@ -128,7 +122,7 @@ export default function CharacterPresentationSection({
 
   /*
    * =========================================================
-   * DÉBUT DE L'EXERCICE
+   * DÉBUT DE L'EXEMPLE
    * =========================================================
    */
 
@@ -149,14 +143,25 @@ export default function CharacterPresentationSection({
 
   /*
    * =========================================================
-   * DÉBUT DU VRAI EXERCICE
+   * AUDIO EXEMPLE
    * =========================================================
    */
 
-  const handleStartRealExercise = () => {
+  const handlePlayExample = () => {
     /*
-     * Si l'exemple est encore en train de jouer,
-     * on l'arrête avant de commencer le vrai exercice.
+     * Si l'audio est déjà en cours de lecture,
+     * on ne fait rien.
+     */
+
+    if (
+      audioRef.current &&
+      !audioRef.current.paused
+    ) {
+      return;
+    }
+
+    /*
+     * Nettoyage d'un ancien audio.
      */
 
     if (audioRef.current) {
@@ -165,57 +170,8 @@ export default function CharacterPresentationSection({
       audioRef.current = null;
     }
 
-    setIsPlayingExample(false);
-    setHasStartedExample(false);
-
-    setExerciseStep(3);
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        document
-          .getElementById(
-            "character-presentation-exercise",
-          )
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-      }, 50);
-    });
-  };
-
-  /*
-   * =========================================================
-   * AUDIO EXEMPLE
-   * =========================================================
-   */
-
-  const handlePlayExample = () => {
     /*
-     * Si l'audio existe déjà et est en pause,
-     * on reprend exactement où il était.
-     */
-
-    if (audioRef.current) {
-      if (audioRef.current.paused) {
-        audioRef.current
-          .play()
-          .then(() => {
-            setIsPlayingExample(true);
-          })
-          .catch(() => {
-            setIsPlayingExample(false);
-          });
-      } else {
-        audioRef.current.pause();
-        setIsPlayingExample(false);
-      }
-
-      return;
-    }
-
-    /*
-     * Première lecture.
+     * Création de l'audio.
      */
 
     const audio = new Audio(
@@ -225,16 +181,21 @@ export default function CharacterPresentationSection({
     audioRef.current = audio;
 
     setCurrentExampleSentenceIndex(0);
-    setHasStartedExample(true);
     setIsPlayingExample(true);
 
+    /*
+     * Synchronisation audio / phrase.
+     */
+
     audio.ontimeupdate = () => {
-      const currentTime = audio.currentTime;
+      const currentTime =
+        audio.currentTime;
 
       const sentenceIndex =
         exampleSentences.findIndex(
           (sentence) =>
-            currentTime >= sentence.start &&
+            currentTime >=
+              sentence.start &&
             currentTime < sentence.end,
         );
 
@@ -245,26 +206,57 @@ export default function CharacterPresentationSection({
       }
     };
 
+    /*
+     * =======================================================
+     * AUDIO TERMINÉ
+     * =======================================================
+     */
+
     audio.onended = () => {
       setIsPlayingExample(false);
-      setHasStartedExample(false);
 
       setCurrentExampleSentenceIndex(
         exampleSentences.length - 1,
       );
 
       audioRef.current = null;
+
+      /*
+       * Déblocage automatique
+       * du véritable exercice.
+       */
+
+      setExerciseStep(3);
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          document
+            .getElementById(
+              "character-presentation-exercise",
+            )
+            ?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+        }, 50);
+      });
     };
+
+    /*
+     * Erreur audio.
+     */
 
     audio.onerror = () => {
       setIsPlayingExample(false);
-      setHasStartedExample(false);
       audioRef.current = null;
     };
 
+    /*
+     * Lancement.
+     */
+
     audio.play().catch(() => {
       setIsPlayingExample(false);
-      setHasStartedExample(false);
       audioRef.current = null;
     });
   };
@@ -298,7 +290,7 @@ export default function CharacterPresentationSection({
 
   const handleRestart = () => {
     /*
-     * Arrêt de l'audio exemple si nécessaire.
+     * Arrêt de l'audio exemple.
      */
 
     if (audioRef.current) {
@@ -308,7 +300,6 @@ export default function CharacterPresentationSection({
     }
 
     setIsPlayingExample(false);
-    setHasStartedExample(false);
 
     /*
      * Suppression du résultat.
@@ -381,11 +372,12 @@ export default function CharacterPresentationSection({
               onRestart={handleRestart}
               onNext={() => {
                 /*
-                 * L&apos;exercice 3 est actuellement
-                 * le dernier exercice de cette activité.
+                 * L'exercice 3 est le dernier exercice.
                  *
-                 * On ne force donc aucune navigation.
+                 * On retourne donc au module.
                  */
+
+                onFinishActivity?.();
               }}
               isLastExercise={true}
               detailedReport={
@@ -396,8 +388,8 @@ export default function CharacterPresentationSection({
                     </h3>
 
                     <p className="mt-1 text-sm text-slate-500">
-                      Voici le détail de tes réponses
-                      phrase par phrase.
+                      Voici le détail de tes
+                      réponses phrase par phrase.
                     </p>
                   </div>
 
@@ -549,51 +541,26 @@ export default function CharacterPresentationSection({
                       </p>
 
                       <p>
-                        Présente chaque personnage en
-                        conjuguant les verbes à la bonne
-                        forme.
-                      </p>
-                    </div>
-
-                    <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
-                      <p className="mb-2 text-sm font-medium text-slate-600">
-                        👤 Pronoms
-                      </p>
-
-                      <p>
-                        JE • TU • IL • ELLE • NOUS • VOUS •
-                        ILS
+                        Présente chacun des
+                        personnages de ces images
+                        en conjuguant les verbes à
+                        l’infinitif à la forme
+                        <br />
+                        <span className="font-semibold">
+                          « JE », « TU », « IL »,
+                          « ELLE », « NOUS », « VOUS »
+                          ou « ILS »
+                        </span>{" "}
+                        comme dans l’exemple
+                        proposé.
                       </p>
                     </div>
                   </div>
                 }
+                onStart={handleStartExercise}
+                startLabel="Commencer l'exercice"
+                started={exerciseStep >= 2}
               />
-
-              {exerciseStep === 1 && (
-                <div className="mt-8 flex justify-center px-4">
-                  <button
-                    type="button"
-                    onClick={handleStartExercise}
-                    className="
-                      rounded-2xl
-                      bg-slate-900
-                      px-8
-                      py-4
-                      text-sm
-                      font-bold
-                      text-white
-                      shadow-lg
-                      transition-all
-                      duration-200
-                      hover:-translate-y-0.5
-                      hover:bg-slate-800
-                      hover:shadow-xl
-                    "
-                  >
-                    COMMENCER L&apos;EXERCICE →
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* =================================================
@@ -611,8 +578,9 @@ export default function CharacterPresentationSection({
                   </p>
 
                   <p className="mt-1 text-sm text-slate-400">
-                    Observe comment transformer chaque
-                    expression avec le bon pronom.
+                    Observe comment transformer
+                    chaque expression avec le bon
+                    pronom.
                   </p>
                 </div>
 
@@ -625,6 +593,8 @@ export default function CharacterPresentationSection({
                     md:grid-cols-[1.15fr_1fr]
                   "
                 >
+                  {/* IMAGE */}
+
                   <div className="relative h-[220px] w-full md:h-full">
                     <Image
                       src="/images/courses/beginner/activities/activity1/exercice4/p1.png"
@@ -634,8 +604,12 @@ export default function CharacterPresentationSection({
                     />
                   </div>
 
+                  {/* CONTENU */}
+
                   <div className="relative flex flex-col bg-slate-50 p-8">
                     <div className="flex h-full w-full flex-col items-center justify-center">
+                      {/* PRONOM */}
+
                       <div className="mb-6 w-full text-center">
                         <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
                           Pronom
@@ -647,6 +621,8 @@ export default function CharacterPresentationSection({
 
                         <div className="mx-auto mt-3 h-1 w-14 rounded-full bg-[#E09F00]" />
                       </div>
+
+                      {/* PHRASE */}
 
                       <div
                         className="
@@ -705,71 +681,97 @@ export default function CharacterPresentationSection({
                         </div>
                       </div>
 
+                      {/* BOUTON AUDIO */}
+
                       <button
                         type="button"
                         onClick={handlePlayExample}
+                        aria-label="Écouter l'exemple"
+                        disabled={isPlayingExample}
                         className={`
-                          flex items-center gap-2
-                          rounded-xl
-                          px-6 py-3
-                          text-sm font-bold
-                          shadow-md
-                          transition-all duration-200
+                          group/button relative
+                          inline-flex shrink-0
+                          items-center justify-center
+                          overflow-hidden
+                          rounded-2xl
+                          px-5 py-4
+                          transition-all duration-300
+                          active:scale-[0.98]
+
                           ${
                             isPlayingExample
-                              ? "scale-105 bg-green-500 text-white"
-                              : "bg-black text-white hover:bg-green-600"
+                              ? `
+                                scale-105
+                                cursor-default
+                                bg-gradient-to-br
+                                from-amber-100
+                                to-amber-200
+                                shadow-[0_12px_28px_rgba(251,191,36,0.18)]
+                              `
+                              : `
+                                bg-amber-300
+                                shadow-[0_8px_20px_rgba(0,0,0,0.06)]
+                                hover:-translate-y-1
+                                hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
+                              `
                           }
                         `}
                       >
-                        <span aria-hidden="true">
-                          {isPlayingExample
-                            ? "Ⅱ"
-                            : "▶"}
-                        </span>
+                        {isPlayingExample && (
+                          <>
+                            <span className="absolute h-12 w-12 animate-ping rounded-full border border-amber-300/50" />
 
-                        {isPlayingExample
-                          ? "PAUSE"
-                          : hasStartedExample
-                            ? "REPRENDRE"
-                            : "ÉCOUTER"}
+                            <span className="absolute h-16 w-16 animate-ping rounded-full border border-amber-200/40 [animation-delay:300ms]" />
+                          </>
+                        )}
+
+                        <div
+                          className={`
+                            relative flex items-center justify-center
+                            transition-transform duration-300
+
+                            ${
+                              isPlayingExample
+                                ? "scale-110 animate-pulse text-amber-700"
+                                : "text-black"
+                            }
+                          `}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-7 w-7"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M11 5L6 9H3v6h3l5 4V5z"
+                            />
+
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M15.5 8.5a5 5 0 010 7"
+                            />
+
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M18 6a8.5 8.5 0 010 12"
+                            />
+                          </svg>
+                        </div>
                       </button>
 
                       <p className="mt-3 text-xs font-medium text-slate-400">
-                        {isPlayingExample
-                          ? "Tu peux mettre l’écoute en pause à tout moment."
-                          : hasStartedExample
-                            ? "L’écoute reprendra là où tu l’as arrêtée."
-                            : "Écoute attentivement chaque phrase."}
+                        Écoute attentivement chaque
+                        phrase.
                       </p>
                     </div>
                   </div>
-                </div>
-
-                {/* Bouton vers le vrai exercice */}
-
-                <div className="mt-8 flex justify-center">
-                  <button
-                    type="button"
-                    onClick={handleStartRealExercise}
-                    className="
-                      rounded-2xl
-                      bg-slate-900
-                      px-8
-                      py-4
-                      text-sm
-                      font-bold
-                      text-white
-                      shadow-lg
-                      transition-all
-                      duration-200
-                      hover:-translate-y-0.5
-                      hover:bg-slate-800
-                      hover:shadow-xl
-                    "
-                  >
-                    COMMENCER L&apos;EXERCICE →
-                  </button>
                 </div>
               </div>
             )}

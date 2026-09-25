@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
@@ -14,7 +15,12 @@ import VerbSelectionSection from "./exercises/VerbSelectionSection";
 import CharacterPresentationSection from "./exercises/exercice-3/CharacterPresentationSection";
 
 export default function Activity() {
+  const router = useRouter();
+
   const [started, setStarted] = useState(false);
+
+  const [showExercise1, setShowExercise1] =
+    useState(true);
 
   const [showExercise2, setShowExercise2] =
     useState(false);
@@ -50,6 +56,8 @@ export default function Activity() {
    */
 
   const handleExercise1Complete = () => {
+    setShowExercise1(false);
+
     setShowExercise2(true);
 
     requestAnimationFrame(() => {
@@ -71,6 +79,8 @@ export default function Activity() {
    */
 
   const handleExercise2Complete = () => {
+    setShowExercise2(false);
+
     setShowExercise3(true);
 
     requestAnimationFrame(() => {
@@ -87,10 +97,22 @@ export default function Activity() {
     });
   };
 
+  /*
+   * =========================================================
+   * TERMINER L'ACTIVITÉ
+   * =========================================================
+   *
+   * C'est ici que tu peux modifier le chemin
+   * vers ton module.
+   * =========================================================
+   */
+
+  const handleFinishActivity = () => {
+    router.push("/courses/beginner/modules/present-tense");
+  };
+
   return (
-    <ActivityNavigationProvider
-      totalExercises={3}
-    >
+    <ActivityNavigationProvider totalExercises={3}>
       <ActivityLayout activity={bigFourActivity}>
         <LessonBlock
           level="beginner"
@@ -157,9 +179,11 @@ export default function Activity() {
                 EXERCICE 1
             ================================================== */}
 
-            <VerbListeningSection
-              onNext={handleExercise1Complete}
-            />
+            {showExercise1 && (
+              <VerbListeningSection
+                onNext={handleExercise1Complete}
+              />
+            )}
 
             {/* =================================================
                 EXERCICE 2
@@ -181,7 +205,11 @@ export default function Activity() {
             ================================================== */}
 
             {showExercise3 && (
-              <CharacterPresentationSection />
+              <CharacterPresentationSection
+                onFinishActivity={
+                  handleFinishActivity
+                }
+              />
             )}
           </div>
         )}

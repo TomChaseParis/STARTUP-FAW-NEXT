@@ -131,7 +131,7 @@ export default function VerbSelectionSection({
                 level="beginner"
                 stampLabel="EXERCICE 2"
                 typeLabel="TEXTE À TROUS"
-                title="CHOISIS LE BON VERBE"
+                title="Choisis le bon verbe à la bonne forme pour chacune des phrases proposées"
                 subtitle="Complète chaque phrase avec le verbe correctement conjugué."
                 activityType="type"
                 description={
@@ -190,6 +190,7 @@ export default function VerbSelectionSection({
                   </div>
                 }
                 onStart={() => setStarted(true)}
+                startLabel="Commencer l'exercice"
                 started={started}
               />
 
