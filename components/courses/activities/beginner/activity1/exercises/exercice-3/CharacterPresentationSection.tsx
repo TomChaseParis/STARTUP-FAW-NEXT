@@ -175,7 +175,7 @@ export default function CharacterPresentationSection({
      */
 
     const audio = new Audio(
-      "/audios/courses/beginner/activity1/exercice4/exempleaudio.mp3",
+      "/audios/courses/beginner/activity1/exercice3/exemple/exempleaudio.mp3",
     );
 
     audioRef.current = audio;

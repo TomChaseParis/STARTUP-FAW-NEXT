@@ -51,7 +51,7 @@ const verbConfig: Record<
 
     timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
 
-    audioSrc: "/audios/courses/beginner/activity1/exercice4/etreverbe.mp3",
+    audioSrc: "/audios/courses/beginner/activity1/exercice1/etreverbe.mp3",
 
     speakingData: etreSpeakingData,
   },
@@ -70,7 +70,7 @@ const verbConfig: Record<
 
     timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
 
-    audioSrc: "/audios/courses/beginner/activity1/exercice4/avoirverbe.mp3",
+    audioSrc: "/audios/courses/beginner/activity1/exercice1/avoirverbe.mp3",
 
     speakingData: avoirSpeakingData,
   },
@@ -89,7 +89,7 @@ const verbConfig: Record<
 
     timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
 
-    audioSrc: "/audios/courses/beginner/activity1/exercice4/faireverbe.mp3",
+    audioSrc: "/audios/courses/beginner/activity1/exercice1/faireverbe.mp3",
 
     speakingData: faireSpeakingData,
   },
@@ -108,7 +108,7 @@ const verbConfig: Record<
 
     timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
 
-    audioSrc: "/audios/courses/beginner/activity1/exercice4/allerverbe.mp3",
+    audioSrc: "/audios/courses/beginner/activity1/exercice1/allerverbe.mp3",
 
     speakingData: allerSpeakingData,
   },

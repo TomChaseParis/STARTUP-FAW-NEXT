@@ -134,7 +134,7 @@ export default function Activity() {
               "Les verbes « être », « avoir », « aller » et « faire » au présent",
               "Les pronoms sujets : « Je », « Tu », « Il », « Elle », « On », « Nous », « Vous », « Ils » et « Elles »",
             ],
-            duree: "30 minutes",
+            duree: "40 minutes",
           }}
         />
 
