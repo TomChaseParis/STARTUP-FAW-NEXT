@@ -17,6 +17,9 @@ export default function ThirdPersonBrunoSection() {
   const [started, setStarted] =
     useState(false);
 
+  const [showSourceText, setShowSourceText] =
+    useState(false);
+
   useEffect(() => {
     if (!started) {
       return;
@@ -89,7 +92,11 @@ export default function ThirdPersonBrunoSection() {
               }
               activityType="type"
               description={
-                <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
+                <div className="space-y-5 text-sm leading-relaxed text-slate-700 sm:text-base">
+                  {/* =====================================================
+                      CONSIGNE
+                  ====================================================== */}
+
                   <div>
                     <p className="mb-2 font-semibold text-slate-800">
                       Consigne :
@@ -101,6 +108,10 @@ export default function ThirdPersonBrunoSection() {
                       la troisième personne du singulier.
                     </p>
                   </div>
+
+                  {/* =====================================================
+                      POINT D'ATTENTION
+                  ====================================================== */}
 
                   <div
                     className="
@@ -123,6 +134,7 @@ export default function ThirdPersonBrunoSection() {
                     "
                   >
                     {/* IMAGE POINT D'ATTENTION */}
+
                     <div
                       className="
                         flex
@@ -145,6 +157,7 @@ export default function ThirdPersonBrunoSection() {
                     </div>
 
                     {/* TEXTE */}
+
                     <div
                       className="
                         min-w-0
@@ -167,6 +180,112 @@ export default function ThirdPersonBrunoSection() {
                       </p>
                     </div>
                   </div>
+
+                  {/* =====================================================
+                      TEXTE À TRANSFORMER
+                  ====================================================== */}
+
+                  <div
+                    className="
+                      rounded-2xl
+                      border
+                      border-amber-200
+                      bg-amber-50
+                      px-5
+                      py-5
+                      shadow-sm
+                      sm:px-6
+                      sm:py-6
+                    "
+                  >
+                    <div className="mb-4">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-amber-700">
+                        Texte de départ
+                      </p>
+
+                      <p className="mt-1 text-sm font-medium text-slate-500">
+                        Lis attentivement la présentation avant de commencer.
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowSourceText(
+                          (current) => !current,
+                        )
+                      }
+                      className="
+                        inline-flex
+                        items-center
+                        gap-2
+                        rounded-lg
+                        border
+                        border-amber-300
+                        bg-white
+                        px-4
+                        py-2.5
+                        text-sm
+                        font-semibold
+                        text-amber-800
+                        shadow-sm
+                        transition
+                        hover:bg-amber-100
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-amber-400
+                        focus:ring-offset-2
+                      "
+                      aria-expanded={showSourceText}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="text-base"
+                      >
+                        {showSourceText ? "−" : "+"}
+                      </span>
+
+                      {showSourceText
+                        ? "Masquer le texte de départ"
+                        : "Afficher le texte de départ"}
+                    </button>
+
+                    {showSourceText && (
+                      <div className="mt-4 rounded-xl bg-white px-5 py-5 text-base leading-8 text-slate-800 shadow-sm sm:px-6 sm:py-6">
+                        <p>
+                          Bonjour. Je m’appelle Bruno
+                          Galopin. J’ai 37 ans et j’habite
+                          à Toulouse depuis trois ans. C’est
+                          une ville de 500 000 habitants qui
+                          se situe au sud-ouest de la France.
+                        </p>
+
+                        <p className="mt-4">
+                          Je suis en couple. J’ai deux
+                          enfants : une fille de 8 ans et un
+                          garçon de 5 ans. Nous habitons un
+                          appartement dans le centre-ville.
+                        </p>
+
+                        <p className="mt-4">
+                          Je travaille comme développeur web.
+                          La plupart du temps, je travaille
+                          chez moi. Parfois, je vais à mon
+                          bureau pour assister à des réunions
+                          et faire le point sur des projets
+                          avec mes collègues.
+                        </p>
+
+                        <p className="mt-4">
+                          Pendant mon temps libre, je joue du
+                          piano ou je fais du vélo le long des
+                          berges de la Garonne. J’aime aussi
+                          visiter des expositions d’art
+                          contemporain.
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               }
               onStart={() =>
@@ -174,6 +293,10 @@ export default function ThirdPersonBrunoSection() {
               }
               started={started}
             />
+
+            {/* =================================================
+                EXERCICE
+            ================================================== */}
 
             {started && (
               <div
