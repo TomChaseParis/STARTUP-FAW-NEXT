@@ -81,26 +81,58 @@ export default function ListeningDiscoverySection() {
                   {/* UTILISATION DU LECTEUR AUDIO */}
                   {/* ===================================================== */}
 
-                  <p>
-                    Utilise le lecteur audio ci-dessus pour écouter le
-                    professeur présenter la question et les réponses proposées.
+                  <p className="flex flex-wrap items-center gap-2">
+                    <span>Utilise le bouton</span>
+
+                    {/* ICÔNE D'ÉCOUTE */}
+
+                    <span
+                      className="
+                        inline-flex
+                        h-10
+                        w-10
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        bg-white
+                        text-amber-600
+                        shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                      "
+                      aria-hidden="true"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M11 5L6 9H3v6h3l5 4V5z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
+                        />
+                      </svg>
+                    </span>
+
+                    <span>
+                     pour écouter le professeur présenter la question et les réponses
+                      proposées.
+                    </span>
                   </p>
 
                   {/* ===================================================== */}
                   {/* BOUTON MICRO */}
                   {/* ===================================================== */}
 
-                  <div
-                    className="
-                      flex
-                      flex-col
-                      gap-2
-                      sm:grid
-                      sm:grid-cols-[120px_40px_1fr]
-                      sm:items-center
-                      sm:gap-3
-                    "
-                  >
+                  <div className="flex flex-wrap items-center gap-2">
                     <span>Appuie sur le bouton</span>
 
                     <button
@@ -116,12 +148,10 @@ export default function ListeningDiscoverySection() {
                         shrink-0
                         items-center
                         justify-center
-                        self-start
                         rounded-full
                         bg-white
                         text-amber-600
                         shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-                        sm:self-auto
                       "
                     >
                       <svg
