@@ -221,31 +221,35 @@ export default function ActivityCard({
           "
         >
           <p
-            className="
-              line-clamp-2
+            className={`
+              ${activity.slug === "big-four" ? "whitespace-pre-line" : "line-clamp-2"}
               text-sm
               font-semibold
               leading-5
               text-black
               sm:text-base
-            "
+            `}
           >
-            • {activity.description}
+            {activity.slug === "big-four"
+              ? activity.description
+              : `• ${activity.description}`}
           </p>
 
           {activity.additionalDescription && (
             <p
-              className="
+              className={`
                 mt-1
-                line-clamp-2
+                ${activity.slug === "big-four" ? "whitespace-pre-line" : "line-clamp-2"}
                 text-sm
                 font-semibold
                 leading-5
                 text-black
                 sm:text-base
-              "
+              `}
             >
-              • {activity.additionalDescription}
+              {activity.slug === "big-four"
+                ? activity.additionalDescription
+                : `• ${activity.additionalDescription}`}
             </p>
           )}
         </div>
