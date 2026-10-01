@@ -1,14 +1,22 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import {
+  useCallback,
+  useMemo,
+} from "react";
 
 import { useTeacherAudio } from "./useTeacherAudio";
 import { useSpeechRecognition } from "./useSpeechRecognition";
+import { useOpenAISpeechRecognition } from "@/components/courses/speech/useOpenAISpeechRecognition";
 
 type UseTeacherControllerProps = {
   language?: string;
 
   onSpeech: (text: string) => void;
+
+  speechEngine?:
+    | "browser"
+    | "openai";
 };
 
 export type TeacherState =
@@ -20,6 +28,7 @@ export type TeacherState =
 export function useTeacherController({
   language = "fr-FR",
   onSpeech,
+  speechEngine = "browser",
 }: UseTeacherControllerProps) {
   const {
     play,
@@ -27,92 +36,104 @@ export function useTeacherController({
     isTeacherTalking,
   } = useTeacherAudio();
 
+  const browserSpeech =
+    useSpeechRecognition({
+      language,
+      onResult: onSpeech,
+    });
+
+  const openAISpeech =
+    useOpenAISpeechRecognition({
+      language,
+      onResult: onSpeech,
+    });
+
+  const activeSpeech =
+    speechEngine === "openai"
+      ? openAISpeech
+      : browserSpeech;
+
   const {
     isListening,
     isSupported,
     startListening,
     stopListening,
-  } = useSpeechRecognition({
-    language,
-    onResult: onSpeech,
-  });
+  } = activeSpeech;
 
-  /**
-   * Lecture de la question
-   */
-  const playQuestion = useCallback(
-    (audio?: string) => {
-      play(audio);
-    },
-    [play],
-  );
+  const playQuestion =
+    useCallback(
+      (audio?: string) => {
+        play(audio);
+      },
+      [play],
+    );
 
-  /**
-   * Lecture d'une correction
-   */
-  const playFeedback = useCallback(
-    (audio?: string) => {
-      play(audio);
-    },
-    [play],
-  );
+  const playFeedback =
+    useCallback(
+      (audio?: string) => {
+        play(audio);
+      },
+      [play],
+    );
 
-  /**
-   * Lecture d'un message libre
-   */
-  const playMessage = useCallback(
-    (audio?: string) => {
-      play(audio);
-    },
-    [play],
-  );
+  const playMessage =
+    useCallback(
+      (audio?: string) => {
+        play(audio);
+      },
+      [play],
+    );
 
-  /**
-   * Arrêt global
-   */
-  const stopEverything = useCallback(() => {
-    stop();
-    stopListening();
-  }, [stop, stopListening]);
+  const stopEverything =
+    useCallback(() => {
+      stop();
+      stopListening();
+    }, [
+      stop,
+      stopListening,
+    ]);
 
-  /**
-   * Le professeur est occupé ?
-   */
-  const isBusy = isTeacherTalking || isListening;
+  const isBusy =
+    isTeacherTalking ||
+    isListening;
 
-  /**
-   * Etat courant du professeur
-   */
-  const avatarState: TeacherState = useMemo(() => {
-    if (isTeacherTalking) {
-      return "speaking";
-    }
-
-    if (isListening) {
-      return "listening";
-    }
-
-    return "idle";
-  }, [isTeacherTalking, isListening]);
-
-  const handleAnswer = useCallback(
-    (
-      isCorrect: boolean,
-      correctAudio?: string,
-      wrongAudio?: string,
-    ) => {
-      if (isCorrect) {
-        playFeedback(correctAudio);
-      } else {
-        playFeedback(wrongAudio);
+  const avatarState: TeacherState =
+    useMemo(() => {
+      if (isTeacherTalking) {
+        return "speaking";
       }
-    },
-    [playFeedback],
-  );
+
+      if (isListening) {
+        return "listening";
+      }
+
+      return "idle";
+    }, [
+      isTeacherTalking,
+      isListening,
+    ]);
+
+  const handleAnswer =
+    useCallback(
+      (
+        isCorrect: boolean,
+        correctAudio?: string,
+        wrongAudio?: string,
+      ) => {
+        if (isCorrect) {
+          playFeedback(
+            correctAudio,
+          );
+        } else {
+          playFeedback(
+            wrongAudio,
+          );
+        }
+      },
+      [playFeedback],
+    );
 
   return {
-    /* ================= AUDIO ================= */
-
     playQuestion,
 
     playFeedback,
@@ -121,19 +142,16 @@ export function useTeacherController({
 
     stopAudio: stop,
 
-    /* ================= SPEECH ================= */
-
     startListening,
 
     stopListening,
 
     isSupported,
 
-    /* ================= GLOBAL ================= */
-
     stopEverything,
 
-    isTalking: isTeacherTalking,
+    isTalking:
+      isTeacherTalking,
 
     isListening,
 
@@ -141,6 +159,6 @@ export function useTeacherController({
 
     avatarState,
 
-    handleAnswer
+    handleAnswer,
   };
 }

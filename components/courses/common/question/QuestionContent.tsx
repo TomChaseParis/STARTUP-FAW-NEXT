@@ -97,7 +97,12 @@ export default function QuestionContent({
           <div className="mt-5 flex items-center gap-3">
             <button
               onClick={onSpeech}
-              disabled={isListening}
+              disabled={false}
+              aria-label={
+                isListening
+                  ? "Arrêter l'enregistrement"
+                  : "Commencer l'enregistrement"
+              }
               className={`
                 relative flex h-14 w-14
                 items-center justify-center
@@ -146,7 +151,9 @@ export default function QuestionContent({
 
                 <div className="h-2 w-2 animate-bounce rounded-full bg-black delay-150" />
 
-                <span>Parle...</span>
+                <span>
+                  Parle... puis clique pour arrêter
+                </span>
               </div>
             )}
           </div>

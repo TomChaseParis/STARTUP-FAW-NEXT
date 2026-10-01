@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import QuizEngine from "@/components/courses/engines/QuizEngine";
 import type { Question } from "@/hooks/useQuizEngine";
 
 import { useProgress } from "@/components/courses/engines/ProgressEngine/useProgress";
 
-import LessonResults from "@/components/courses/common/LessonResults/LessonResults";
+import ActivityResults from "@/components/courses/common/ActivityResults/ActivityResults";
 
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
@@ -18,10 +13,6 @@ import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import { LessonQuizData } from "@/data/courses/lessons/beginner/introduce-yourself/QuizData";
 
 import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
-
-/* ========================================================================== */
-/* TYPES                                                                      */
-/* ========================================================================== */
 
 type QuizOption = {
   id: string;
@@ -46,11 +37,8 @@ type QuizData = {
   questions: QuizQuestion[];
 };
 
-/* ========================================================================== */
-/* DATA                                                                       */
-/* ========================================================================== */
-
-const data = LessonQuizData as QuizData;
+const data =
+  LessonQuizData as QuizData;
 
 const questions: Question[] =
   data.questions.map(
@@ -63,30 +51,19 @@ const questions: Question[] =
 
       return {
         id: question.id,
-
         type: question.type,
-
         question:
           question.question,
-
-        image:
-          question.image,
-
+        image: question.image,
         teacherImage:
           question.teacherImage,
-
         teacherAudioQuestion:
           question.teacherAudioQuestion,
-
         choices:
           question.options.map(
             (option) => ({
-              id:
-                option.id.toUpperCase(),
-
-              label:
-                option.text,
-
+              id: option.id.toUpperCase(),
+              label: option.text,
               isCorrect:
                 correctAnswers.includes(
                   option.id,
@@ -97,97 +74,17 @@ const questions: Question[] =
     },
   );
 
-/* ========================================================================== */
-/* PROGRESSION                                                                */
-/* ========================================================================== */
-
 const ACTIVITY_ID =
   "beginner-introduce-yourself";
 
 const EXERCISE_ID =
   "lesson-quiz";
 
-/* ========================================================================== */
-/* COMPONENT                                                                  */
-/* ========================================================================== */
-
 export default function IntroduceYourselfQuiz() {
   const {
     progress,
     refresh,
   } = useProgress();
-
-  const [started, setStarted] =
-    useState(false);
-
-  /* ======================================================================== */
-  /* SCROLL VERS LE QCM                                                       */
-  /* ======================================================================== */
-
-  useEffect(() => {
-    if (!started) {
-      return;
-    }
-
-    let attempts = 0;
-    let timer:
-      | number
-      | undefined;
-
-    const scrollToQcm = () => {
-      const element =
-        document.getElementById(
-          "exercise-1-qcm",
-        );
-
-      if (!element) {
-        attempts += 1;
-
-        if (attempts < 20) {
-          timer =
-            window.setTimeout(
-              scrollToQcm,
-              100,
-            );
-        }
-
-        return;
-      }
-
-      const elementTop =
-        element.getBoundingClientRect()
-          .top +
-        window.scrollY;
-
-      const offset = 100;
-
-      window.scrollTo({
-        top: Math.max(
-          0,
-          elementTop - offset,
-        ),
-        behavior: "smooth",
-      });
-    };
-
-    timer =
-      window.setTimeout(
-        scrollToQcm,
-        100,
-      );
-
-    return () => {
-      if (timer) {
-        window.clearTimeout(
-          timer,
-        );
-      }
-    };
-  }, [started]);
-
-  /* ======================================================================== */
-  /* RESULTAT                                                                 */
-  /* ======================================================================== */
 
   const renderResult = (
     result: ExerciseSessionResult,
@@ -211,7 +108,7 @@ export default function IntroduceYourselfQuiz() {
       1;
 
     return (
-      <LessonResults
+      <ActivityResults
         result={{
           session: result,
           bestScore,
@@ -219,17 +116,16 @@ export default function IntroduceYourselfQuiz() {
         }}
         onRestart={() => {
           resetQuiz();
-          setStarted(false);
           refresh();
         }}
-        finishHref="/courses/beginner/modules/se-presenter"
+        onNext={() => {
+          console.log(
+            "[IntroduceYourselfQuiz] Aucun exercice suivant configuré.",
+          );
+        }}
       />
     );
   };
-
-  /* ======================================================================== */
-  /* RENDER                                                                   */
-  /* ======================================================================== */
 
   return (
     <div className="w-full">
@@ -239,206 +135,72 @@ export default function IntroduceYourselfQuiz() {
         {/* BLOC D'INSTRUCTION                                               */}
         {/* ================================================================ */}
 
-        <div
-          id="exercise-1-instruction"
-          className="scroll-mt-10"
-        >
-          <InstructionBlock
-            level="beginner"
-            stampLabel="EXERCICE"
-            typeLabel="QUIZ DE COMPRÉHENSION"
-            title="SE PRÉSENTER EN FRANÇAIS"
-            subtitle="Écoute chaque question puis choisis la bonne réponse."
-            activityType="click-or-speak"
-            description={
-              <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-
-                {/* ===================================================== */}
-                {/* BOUTON AUDIO */}
-                {/* ===================================================== */}
-
-                <div
-                  className="
-                    flex
-                    flex-col
-                    gap-2
-                    sm:grid
-                    sm:grid-cols-[120px_40px_1fr]
-                    sm:items-center
-                    sm:gap-3
-                  "
-                >
-                  <span>
-                    Appuie sur le bouton
-                  </span>
-
-                  <button
-                    type="button"
-                    tabIndex={-1}
-                    aria-hidden="true"
-                    className="
-                      pointer-events-none
-                      relative
-                      flex
-                      h-10
-                      w-10
-                      shrink-0
-                      items-center
-                      justify-center
-                      self-start
-                      rounded-full
-                      border
-                      border-slate-200
-                      bg-white
-                      text-amber-500
-                      shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-                      sm:self-auto
-                    "
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="
-                        relative
-                        z-10
-                        ml-0.5
-                        h-4
-                        w-4
-                      "
-                    >
-                      <path d="M8.5 5.2a1.5 1.5 0 0 1 2.35-1.23l8.4 6.8a1.57 1.57 0 0 1 0 2.46l-8.4 6.8A1.5 1.5 0 0 1 8.5 18.8V5.2Z" />
-                    </svg>
-                  </button>
-
-                  <span>
-                    si tu veux entendre le professeur
-                    présenter la question et les
-                    réponses proposées.
-                  </span>
-                </div>
-
-                {/* ===================================================== */}
-                {/* BOUTON MICRO */}
-                {/* ===================================================== */}
-
-                <div
-                  className="
-                    flex
-                    flex-col
-                    gap-2
-                    sm:grid
-                    sm:grid-cols-[120px_40px_1fr]
-                    sm:items-center
-                    sm:gap-3
-                  "
-                >
-                  <span>
-                    Appuie sur le bouton
-                  </span>
-
-                  <button
-                    type="button"
-                    tabIndex={-1}
-                    aria-hidden="true"
-                    className="
-                      pointer-events-none
-                      relative
-                      flex
-                      h-10
-                      w-10
-                      shrink-0
-                      items-center
-                      justify-center
-                      self-start
-                      rounded-full
-                      bg-white
-                      text-amber-600
-                      shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-                      sm:self-auto
-                    "
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="2"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
-                      />
-                    </svg>
-                  </button>
-
-                  <span>
-                    si tu préfères répondre à la
-                    question à l&apos;oral.
-                  </span>
-                </div>
-
-                {/* ===================================================== */}
-                {/* RECONNAISSANCE VOCALE */}
-                {/* ===================================================== */}
+        <InstructionBlock
+          level="beginner"
+          stampLabel="EXERCICE 1"
+          typeLabel="QUIZ DE COMPRÉHENSION"
+          title="PRÉSENTATIONS"
+          subtitle="Vérifie tes connaissances après avoir regardé la leçon."
+          activityType="listen"
+          description={
+            <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
+              <div>
+                <p className="mb-2 font-semibold text-slate-800">
+                  Consigne :
+                </p>
 
                 <p>
-                  Pour aider l&apos;outil de
-                  reconnaissance vocale à bien
-                  identifier ta réponse, pense à dire la
-                  lettre (A, B ou C) qui correspond à ta
-                  réponse, suivi de la réponse en entier.
-                  Exemple :
-                  <span className="font-semibold text-slate-900">
-                    {" « A : ingénieur »."}
-                  </span>
+                  Écoute chaque question puis choisis la bonne
+                  réponse.
                 </p>
               </div>
-            }
-            onStart={() => {
-              setStarted(true);
-            }}
-            started={started}
-          />
-        </div>
+
+              <div
+                className="
+                  rounded-xl
+                  border
+                  border-slate-300
+                  bg-white
+                  px-4
+                  py-4
+                  shadow-sm
+                  sm:px-5
+                  sm:py-4
+                "
+              >
+                <p className="font-semibold text-slate-800">
+                  Pour chaque question, choisis la réponse qui
+                  correspond à la situation proposée.
+                </p>
+              </div>
+            </div>
+          }
+        />
 
         {/* ================================================================ */}
         {/* QCM                                                               */}
         {/* ================================================================ */}
 
-        {started && (
-          <div
-            id="exercise-1-qcm"
-            className="scroll-mt-10"
-          >
-            <div className="mt-8">
-              <QuizEngine
-                questions={
-                  questions
-                }
-                progressConfig={{
-                  progress,
-
-                  activityId:
-                    ACTIVITY_ID,
-
-                  exerciseId:
-                    EXERCISE_ID,
-
-                  onScoreSubmitted:
-                    () => {
-                      refresh();
-                    },
-                }}
-                resultRenderer={
-                  renderResult
-                }
-              />
-            </div>
-          </div>
-        )}
+        <div className="mt-8">
+          <QuizEngine
+            questions={questions}
+            speechEngine="openai"
+            progressConfig={{
+              progress,
+              activityId:
+                ACTIVITY_ID,
+              exerciseId:
+                EXERCISE_ID,
+              onScoreSubmitted:
+                () => {
+                  refresh();
+                },
+            }}
+            resultRenderer={
+              renderResult
+            }
+          />
+        </div>
 
       </ExerciseSection>
     </div>

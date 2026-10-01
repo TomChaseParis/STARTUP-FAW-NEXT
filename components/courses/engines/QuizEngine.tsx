@@ -37,6 +37,10 @@ type Props = {
     result: ExerciseSessionResult,
     resetQuiz: () => void,
   ) => ReactNode;
+
+  speechEngine?:
+    | "browser"
+    | "openai";
 };
 
 const QuizEngine: React.FC<Props> = ({
@@ -44,6 +48,7 @@ const QuizEngine: React.FC<Props> = ({
   progressConfig,
   onComplete,
   resultRenderer,
+  speechEngine = "browser",
 }) => {
   const {
     currentIndex,
@@ -73,37 +78,23 @@ const QuizEngine: React.FC<Props> = ({
     onComplete,
   ]);
 
-  /* ================= AUDIO CONTROL ================= */
-
   const teacher =
     useTeacherController({
       onSpeech:
         processSpeechAnswer,
+      speechEngine,
     });
 
   const {
     playQuestion,
-    stopEverything,
-    startListening,
     isTalking,
     isListening,
+    startListening,
+    stopListening,
   } = teacher;
 
   const { handleAnswer } =
     teacher;
-
-  /*
-   * ==================================================
-   * FEEDBACK AUDIO
-   * ==================================================
-   *
-   * Single-choice :
-   * feedback après sélection.
-   *
-   * Multiple-choice :
-   * le feedback est également joué après
-   * chaque nouvelle réponse sélectionnée.
-   */
 
   useEffect(() => {
     if (!currentQuestion) {
@@ -143,12 +134,6 @@ const QuizEngine: React.FC<Props> = ({
     handleAnswer,
   ]);
 
-  /*
-   * ==================================================
-   * RESULT PAGE
-   * ==================================================
-   */
-
   if (
     !currentQuestion &&
     !session.isFinished
@@ -174,12 +159,6 @@ const QuizEngine: React.FC<Props> = ({
       />
     );
   }
-
-  /*
-   * ==================================================
-   * QUESTION PAGE
-   * ==================================================
-   */
 
   if (!currentQuestion) {
     return null;
@@ -216,6 +195,16 @@ const QuizEngine: React.FC<Props> = ({
       );
     };
 
+  const handleSpeechButton =
+    () => {
+      if (isListening) {
+        stopListening();
+        return;
+      }
+
+      startListening();
+    };
+
   return (
     <QuestionController
       current={
@@ -238,12 +227,8 @@ const QuizEngine: React.FC<Props> = ({
       }
       content={
         <QuestionContent
-          question={
-            question
-          }
-          choices={
-            choices
-          }
+          question={question}
+          choices={choices}
           selectedChoiceId={
             selectedChoiceId
           }
@@ -256,9 +241,7 @@ const QuizEngine: React.FC<Props> = ({
           onSelect={
             selectChoice
           }
-          image={
-            image
-          }
+          image={image}
           teacherImage={
             teacherImage
           }
@@ -269,7 +252,7 @@ const QuizEngine: React.FC<Props> = ({
             isListening
           }
           onSpeech={
-            startListening
+            handleSpeechButton
           }
           disabled={false}
         />
