@@ -37,7 +37,8 @@ export default function ListeningDiscoverySection() {
         return;
       }
 
-      const elementTop = element.getBoundingClientRect().top + window.scrollY;
+      const elementTop =
+        element.getBoundingClientRect().top + window.scrollY;
 
       const offset = 100;
 
@@ -63,7 +64,10 @@ export default function ListeningDiscoverySection() {
   return (
     <ExerciseContainer exerciseId="exercise-1">
       {({ onComplete }) => (
-        <div id="exercise-1-instruction" className="scroll-mt-10">
+        <div
+          id="exercise-1-instruction"
+          className="scroll-mt-10"
+        >
           <ExerciseSection>
             <InstructionBlock
               level="beginner"
@@ -81,8 +85,10 @@ export default function ListeningDiscoverySection() {
                   {/* UTILISATION DU LECTEUR AUDIO */}
                   {/* ===================================================== */}
 
-                  <p className="flex flex-wrap items-center gap-2">
-                    <span>Utilise le bouton</span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span>
+                      Utilise le bouton
+                    </span>
 
                     {/* ICÔNE D'ÉCOUTE */}
 
@@ -123,10 +129,10 @@ export default function ListeningDiscoverySection() {
                     </span>
 
                     <span>
-                     pour écouter le professeur présenter la question et les réponses
-                      proposées.
+                      pour écouter le professeur présenter la question et les
+                      réponses proposées.
                     </span>
-                  </p>
+                  </div>
 
                   {/* ===================================================== */}
                   {/* BOUTON MICRO */}
@@ -171,7 +177,8 @@ export default function ListeningDiscoverySection() {
                     </button>
 
                     <span>
-                      si tu préfères répondre à la question à l&apos;oral.
+                      si tu préfères répondre à la question à
+                      l&apos;oral.
                     </span>
                   </div>
 
@@ -180,10 +187,10 @@ export default function ListeningDiscoverySection() {
                   {/* ===================================================== */}
 
                   <p>
-                    Pour aider l&apos;outil de reconnaissance vocale à bien
-                    identifier ta réponse, pense à dire la lettre (A, B ou C)
-                    qui correspond à ta réponse, suivie de la réponse en entier.
-                    Exemple :
+                    Pour aider l&apos;outil de reconnaissance vocale à
+                    bien identifier ta réponse, pense à dire la lettre
+                    (A, B ou C) qui correspond à ta réponse, suivie de
+                    la réponse en entier. Exemple :
                     <span className="font-semibold text-slate-900">
                       {" « A : ingénieur »."}
                     </span>
@@ -201,8 +208,13 @@ export default function ListeningDiscoverySection() {
             {/* ========================================================= */}
 
             {started && (
-              <div id="exercise-1-qcm" className="scroll-mt-10">
-                <ListeningDiscoveryExercise onComplete={onComplete} />
+              <div
+                id="exercise-1-qcm"
+                className="scroll-mt-10"
+              >
+                <ListeningDiscoveryExercise
+                  onComplete={onComplete}
+                />
               </div>
             )}
           </ExerciseSection>
