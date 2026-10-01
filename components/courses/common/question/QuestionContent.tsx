@@ -152,7 +152,7 @@ export default function QuestionContent({
                 <div className="h-2 w-2 animate-bounce rounded-full bg-black delay-150" />
 
                 <span>
-                  Parle... puis clique pour arrêter
+                  Parle...
                 </span>
               </div>
             )}

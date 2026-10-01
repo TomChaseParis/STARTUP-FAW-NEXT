@@ -25,25 +25,19 @@ export default function ListeningDiscoverySection() {
     let timer: number | undefined;
 
     const scrollToQcm = () => {
-      const element =
-        document.getElementById("exercise-1-qcm");
+      const element = document.getElementById("exercise-1-qcm");
 
       if (!element) {
         attempts += 1;
 
         if (attempts < 20) {
-          timer = window.setTimeout(
-            scrollToQcm,
-            100,
-          );
+          timer = window.setTimeout(scrollToQcm, 100);
         }
 
         return;
       }
 
-      const elementTop =
-        element.getBoundingClientRect().top +
-        window.scrollY;
+      const elementTop = element.getBoundingClientRect().top + window.scrollY;
 
       const offset = 100;
 
@@ -57,10 +51,7 @@ export default function ListeningDiscoverySection() {
      * Petit délai pour laisser React terminer le rendu
      * du QCM avant de calculer sa position.
      */
-    timer = window.setTimeout(
-      scrollToQcm,
-      100,
-    );
+    timer = window.setTimeout(scrollToQcm, 100);
 
     return () => {
       if (timer) {
@@ -72,10 +63,7 @@ export default function ListeningDiscoverySection() {
   return (
     <ExerciseContainer exerciseId="exercise-1">
       {({ onComplete }) => (
-        <div
-          id="exercise-1-instruction"
-          className="scroll-mt-10"
-        >
+        <div id="exercise-1-instruction" className="scroll-mt-10">
           <ExerciseSection>
             <InstructionBlock
               level="beginner"
@@ -89,15 +77,13 @@ export default function ListeningDiscoverySection() {
               audioBadge="Dialogue"
               description={
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-
                   {/* ===================================================== */}
                   {/* UTILISATION DU LECTEUR AUDIO */}
                   {/* ===================================================== */}
 
                   <p>
-                    Utilise le lecteur audio ci-dessus pour
-                    écouter le professeur présenter la
-                    question et les réponses proposées.
+                    Utilise le lecteur audio ci-dessus pour écouter le
+                    professeur présenter la question et les réponses proposées.
                   </p>
 
                   {/* ===================================================== */}
@@ -115,9 +101,7 @@ export default function ListeningDiscoverySection() {
                       sm:gap-3
                     "
                   >
-                    <span>
-                      Appuie sur le bouton
-                    </span>
+                    <span>Appuie sur le bouton</span>
 
                     <button
                       type="button"
@@ -157,8 +141,7 @@ export default function ListeningDiscoverySection() {
                     </button>
 
                     <span>
-                      si tu préfères répondre à la
-                      question à l&apos;oral.
+                      si tu préfères répondre à la question à l&apos;oral.
                     </span>
                   </div>
 
@@ -167,11 +150,10 @@ export default function ListeningDiscoverySection() {
                   {/* ===================================================== */}
 
                   <p>
-                    Pour aider l&apos;outil de reconnaissance
-                    vocale à bien identifier ta réponse,
-                    pense à dire la lettre (A, B ou C) qui
-                    correspond à ta réponse, suivie de la
-                    réponse en entier. Exemple :
+                    Pour aider l&apos;outil de reconnaissance vocale à bien
+                    identifier ta réponse, pense à dire la lettre (A, B ou C)
+                    qui correspond à ta réponse, suivie de la réponse en entier.
+                    Exemple :
                     <span className="font-semibold text-slate-900">
                       {" « A : ingénieur »."}
                     </span>
@@ -189,10 +171,8 @@ export default function ListeningDiscoverySection() {
             {/* ========================================================= */}
 
             {started && (
-              <div className="scroll-mt-10">
-                <ListeningDiscoveryExercise
-                  onComplete={onComplete}
-                />
+              <div id="exercise-1-qcm" className="scroll-mt-10">
+                <ListeningDiscoveryExercise onComplete={onComplete} />
               </div>
             )}
           </ExerciseSection>

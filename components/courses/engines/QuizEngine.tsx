@@ -41,6 +41,10 @@ type Props = {
   speechEngine?:
     | "browser"
     | "openai";
+
+  onLastQuestion?: () => void;
+
+  lastQuestionLabel?: string;
 };
 
 const QuizEngine: React.FC<Props> = ({
@@ -49,6 +53,8 @@ const QuizEngine: React.FC<Props> = ({
   onComplete,
   resultRenderer,
   speechEngine = "browser",
+  onLastQuestion,
+  lastQuestionLabel,
 }) => {
   const {
     currentIndex,
@@ -205,6 +211,23 @@ const QuizEngine: React.FC<Props> = ({
       startListening();
     };
 
+  const isLastQuestion =
+    currentIndex + 1 ===
+    totalQuestions;
+
+  const handleNext =
+    () => {
+      if (
+        isLastQuestion &&
+        onLastQuestion
+      ) {
+        onLastQuestion();
+        return;
+      }
+
+      nextQuestion();
+    };
+
   return (
     <QuestionController
       current={
@@ -261,12 +284,13 @@ const QuizEngine: React.FC<Props> = ({
         hasSelectedChoice ? (
           <ExerciseNavigation
             isLastQuestion={
-              currentIndex +
-                1 ===
-              totalQuestions
+              isLastQuestion
             }
             onNext={
-              nextQuestion
+              handleNext
+            }
+            lastQuestionLabel={
+              lastQuestionLabel
             }
           />
         ) : undefined

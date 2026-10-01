@@ -39,6 +39,8 @@ type Props = {
 
   isLastExercise?: boolean;
 
+  finishLabel?: string;
+
   teacherFeedbackImages?: TeacherFeedbackImages;
 
   teacherFeedbackAudios?: TeacherFeedbackAudios;
@@ -63,6 +65,7 @@ export default function ActivityResults({
   onRestart,
   onNext,
   isLastExercise = false,
+  finishLabel = "Terminer l'activité",
   teacherFeedbackImages,
   teacherFeedbackAudios,
   teacher = "beginner",
@@ -518,7 +521,7 @@ export default function ActivityResults({
         </button>
 
         {/* ================================================= */}
-        {/* EXERCICE SUIVANT                                  */}
+        {/* EXERCICE SUIVANT / TERMINER                       */}
         {/* ================================================= */}
 
         <button
@@ -539,7 +542,7 @@ export default function ActivityResults({
           "
         >
           {isLastExercise
-            ? "Terminer l'activité"
+            ? finishLabel
             : "Exercice suivant →"}
         </button>
       </div>

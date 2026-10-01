@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import QuizEngine from "@/components/courses/engines/QuizEngine";
 import type { Question } from "@/hooks/useQuizEngine";
 
@@ -37,42 +39,37 @@ type QuizData = {
   questions: QuizQuestion[];
 };
 
-const data =
-  LessonQuizData as QuizData;
+const data = LessonQuizData as QuizData;
 
-const questions: Question[] =
-  data.questions.map(
-    (question): Question => {
-      const correctAnswers =
-        question.correctAnswers ??
-        (question.correctAnswer
-          ? [question.correctAnswer]
-          : []);
+const questions: Question[] = data.questions.map(
+  (question): Question => {
+    const correctAnswers =
+      question.correctAnswers ??
+      (question.correctAnswer
+        ? [question.correctAnswer]
+        : []);
 
-      return {
-        id: question.id,
-        type: question.type,
-        question:
-          question.question,
-        image: question.image,
-        teacherImage:
-          question.teacherImage,
-        teacherAudioQuestion:
-          question.teacherAudioQuestion,
-        choices:
-          question.options.map(
-            (option) => ({
-              id: option.id.toUpperCase(),
-              label: option.text,
-              isCorrect:
-                correctAnswers.includes(
-                  option.id,
-                ),
-            }),
-          ),
-      };
-    },
-  );
+    return {
+      id: question.id,
+      type: question.type,
+      question: question.question,
+      image: question.image,
+      teacherImage: question.teacherImage,
+      teacherAudioQuestion:
+        question.teacherAudioQuestion,
+      choices: question.options.map(
+        (option) => ({
+          id: option.id.toUpperCase(),
+          label: option.text,
+          isCorrect:
+            correctAnswers.includes(
+              option.id,
+            ),
+        }),
+      ),
+    };
+  },
+);
 
 const ACTIVITY_ID =
   "beginner-introduce-yourself";
@@ -81,6 +78,8 @@ const EXERCISE_ID =
   "lesson-quiz";
 
 export default function IntroduceYourselfQuiz() {
+  const router = useRouter();
+
   const {
     progress,
     refresh,
@@ -119,10 +118,12 @@ export default function IntroduceYourselfQuiz() {
           refresh();
         }}
         onNext={() => {
-          console.log(
-            "[IntroduceYourselfQuiz] Aucun exercice suivant configuré.",
+          router.push(
+            "/courses/beginner/modules/se-presenter",
           );
         }}
+        isLastExercise={true}
+        finishLabel="Terminer la leçon"
       />
     );
   };

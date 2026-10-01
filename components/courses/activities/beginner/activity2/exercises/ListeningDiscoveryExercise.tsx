@@ -7,7 +7,9 @@ import { ExerciseSessionResult } from "@/components/courses/common/types/exercis
 import { listeningDiscoveryQuizData } from "../data/listeningDiscoveryQuizData";
 
 type ListeningDiscoveryExerciseProps = {
-  onComplete?: (result: ExerciseSessionResult) => void;
+  onComplete?: (
+    result: ExerciseSessionResult,
+  ) => void;
 };
 
 export default function ListeningDiscoveryExercise({
@@ -15,7 +17,10 @@ export default function ListeningDiscoveryExercise({
 }: ListeningDiscoveryExerciseProps) {
   return (
     <QuizEngine
-      questions={listeningDiscoveryQuizData}
+      questions={
+        listeningDiscoveryQuizData
+      }
+      speechEngine="openai"
       onComplete={onComplete}
     />
   );

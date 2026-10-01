@@ -3,11 +3,13 @@
 type Props = {
   isLastQuestion: boolean;
   onNext: () => void;
+  lastQuestionLabel?: string;
 };
 
 export default function ExerciseNavigation({
   isLastQuestion,
   onNext,
+  lastQuestionLabel = "Voir mon score →",
 }: Props) {
   return (
     <div className="mt-10 text-right">
@@ -25,7 +27,7 @@ export default function ExerciseNavigation({
         "
       >
         {isLastQuestion
-          ? "Voir mon score →"
+          ? lastQuestionLabel
           : "Question suivante →"}
       </button>
     </div>

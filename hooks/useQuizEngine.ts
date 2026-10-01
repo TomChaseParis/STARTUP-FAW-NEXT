@@ -61,8 +61,224 @@ function normalize(text: string) {
       /[\u0300-\u036f]/g,
       "",
     )
-    .replace(/[^\w\s]/g, "")
+    .replace(/[^\w\s-]/g, " ")
     .replace(/\s+/g, " ")
+    .trim();
+}
+
+/* ----------------------------- */
+/* NORMALISATION DES NOMBRES */
+/* ----------------------------- */
+
+function normalizeNumbers(
+  text: string,
+): string {
+  let normalized =
+    normalize(text);
+
+  /*
+   * On transforme les nombres écrits
+   * en lettres vers leur équivalent
+   * numérique.
+   *
+   * Exemples :
+   *
+   * quarante-six → 46
+   * quarante six → 46
+   * quarante → 40
+   * trente-six → 36
+   * trente six → 36
+   */
+
+  const numberReplacements: Array<
+    [RegExp, string]
+  > = [
+    [
+      /\bquarante[\s-]+six\b/g,
+      "46",
+    ],
+    [
+      /\bquarante[\s-]+cinq\b/g,
+      "45",
+    ],
+    [
+      /\bquarante[\s-]+quatre\b/g,
+      "44",
+    ],
+    [
+      /\bquarante[\s-]+trois\b/g,
+      "43",
+    ],
+    [
+      /\bquarante[\s-]+deux\b/g,
+      "42",
+    ],
+    [
+      /\bquarante[\s-]+un\b/g,
+      "41",
+    ],
+    [
+      /\btrente[\s-]+neuf\b/g,
+      "39",
+    ],
+    [
+      /\btrente[\s-]+huit\b/g,
+      "38",
+    ],
+    [
+      /\btrente[\s-]+sept\b/g,
+      "37",
+    ],
+    [
+      /\btrente[\s-]+six\b/g,
+      "36",
+    ],
+    [
+      /\btrente[\s-]+cinq\b/g,
+      "35",
+    ],
+    [
+      /\btrente[\s-]+quatre\b/g,
+      "34",
+    ],
+    [
+      /\btrente[\s-]+trois\b/g,
+      "33",
+    ],
+    [
+      /\btrente[\s-]+deux\b/g,
+      "32",
+    ],
+    [
+      /\btrente[\s-]+un\b/g,
+      "31",
+    ],
+    [
+      /\bquarante\b/g,
+      "40",
+    ],
+    [
+      /\btrente\b/g,
+      "30",
+    ],
+    [
+      /\bvingt\b/g,
+      "20",
+    ],
+    [
+      /\bdix-neuf\b/g,
+      "19",
+    ],
+    [
+      /\bdix neuf\b/g,
+      "19",
+    ],
+    [
+      /\bdix-huit\b/g,
+      "18",
+    ],
+    [
+      /\bdix huit\b/g,
+      "18",
+    ],
+    [
+      /\bdix-sept\b/g,
+      "17",
+    ],
+    [
+      /\bdix sept\b/g,
+      "17",
+    ],
+    [
+      /\bseize\b/g,
+      "16",
+    ],
+    [
+      /\bquinze\b/g,
+      "15",
+    ],
+    [
+      /\bquatorze\b/g,
+      "14",
+    ],
+    [
+      /\btreize\b/g,
+      "13",
+    ],
+    [
+      /\bdouze\b/g,
+      "12",
+    ],
+    [
+      /\bonze\b/g,
+      "11",
+    ],
+    [
+      /\bdix\b/g,
+      "10",
+    ],
+    [
+      /\bneuf\b/g,
+      "9",
+    ],
+    [
+      /\bhuit\b/g,
+      "8",
+    ],
+    [
+      /\bsept\b/g,
+      "7",
+    ],
+    [
+      /\bsix\b/g,
+      "6",
+    ],
+    [
+      /\bcinq\b/g,
+      "5",
+    ],
+    [
+      /\bquatre\b/g,
+      "4",
+    ],
+    [
+      /\btrois\b/g,
+      "3",
+    ],
+    [
+      /\bdeux\b/g,
+      "2",
+    ],
+    [
+      /\bun\b/g,
+      "1",
+    ],
+    [
+      /\bzéro\b/g,
+      "0",
+    ],
+    [
+      /\bzero\b/g,
+      "0",
+    ],
+  ];
+
+  for (const [
+    pattern,
+    replacement,
+  ] of numberReplacements) {
+    normalized =
+      normalized.replace(
+        pattern,
+        replacement,
+      );
+  }
+
+  return normalized
+    .replace(
+      /\s+/g,
+      " ",
+    )
     .trim();
 }
 
@@ -82,7 +298,8 @@ function similarity(
 
   for (
     let i = 0;
-    i < Math.min(
+    i <
+    Math.min(
       a.length,
       b.length,
     );
@@ -109,34 +326,139 @@ function similarity(
 function detectLetter(
   speech: string,
 ): string | null {
-  const map: Record<
-    string,
-    string
-  > = {
-    a: "A",
-    b: "B",
-    c: "C",
-    d: "D",
-  };
+  const normalized =
+    normalize(speech);
 
-  for (const key in map) {
+  /*
+   * Une lettre seule est une réponse
+   * valide.
+   */
+
+  if (normalized === "a") {
+    return "A";
+  }
+
+  if (normalized === "b") {
+    return "B";
+  }
+
+  if (normalized === "c") {
+    return "C";
+  }
+
+  if (normalized === "d") {
+    return "D";
+  }
+
+  /*
+   * ==================================================
+   * LETTRE + RÉPONSE
+   * ==================================================
+   *
+   * Exemples acceptés :
+   *
+   * B. Fido est mon prénom...
+   * B : Fido est mon prénom...
+   * B, Fido est mon prénom...
+   * B - Fido est mon prénom...
+   * B; Fido est mon prénom...
+   *
+   * IMPORTANT :
+   *
+   * On exige une ponctuation après la lettre.
+   *
+   * Cela évite qu'une phrase comme :
+   *
+   * "A Marseille..."
+   *
+   * soit interprétée comme une réponse A.
+   */
+
+  const explicitLetterMatch =
+    speech
+      .trim()
+      .match(
+        /^([ABCD])\s*[.:,;-]\s*\S/i,
+      );
+
+  if (explicitLetterMatch) {
+    const letter =
+      explicitLetterMatch[1].toUpperCase();
+
+    console.log(
+      "[QuizEngine] Lettre explicite détectée :",
+      letter,
+    );
+
+    return letter;
+  }
+
+  /*
+   * ==================================================
+   * FORMULATIONS EXPLICITES
+   * ==================================================
+   *
+   * Exemples :
+   *
+   * Réponse B
+   * Choix B
+   * Je choisis B
+   * Je prends B
+   */
+
+  const patterns: Array<{
+    pattern: RegExp;
+    letter: string;
+  }> = [
+    {
+      pattern:
+        /^(?:reponse|réponse)\s+a$/,
+      letter: "A",
+    },
+    {
+      pattern:
+        /^(?:reponse|réponse)\s+b$/,
+      letter: "B",
+    },
+    {
+      pattern:
+        /^(?:reponse|réponse)\s+c$/,
+      letter: "C",
+    },
+    {
+      pattern:
+        /^(?:reponse|réponse)\s+d$/,
+      letter: "D",
+    },
+    {
+      pattern:
+        /^(?:choix|choisis|je choisis|je prends|je prend)\s+a$/,
+      letter: "A",
+    },
+    {
+      pattern:
+        /^(?:choix|choisis|je choisis|je prends|je prend)\s+b$/,
+      letter: "B",
+    },
+    {
+      pattern:
+        /^(?:choix|choisis|je choisis|je prends|je prend)\s+c$/,
+      letter: "C",
+    },
+    {
+      pattern:
+        /^(?:choix|choisis|je choisis|je prends|je prend)\s+d$/,
+      letter: "D",
+    },
+  ];
+
+  for (const item of patterns) {
     if (
-      speech === key ||
-      speech.includes(
-        ` ${key} `,
-      ) ||
-      speech.startsWith(key) ||
-      speech.includes(
-        `reponse ${key}`,
-      ) ||
-      speech.includes(
-        `choisis ${key}`,
-      ) ||
-      speech.includes(
-        `choix ${key}`,
+      item.pattern.test(
+        normalized,
       )
     ) {
-      return map[key];
+      return item.letter;
     }
   }
 
@@ -154,9 +476,19 @@ function detectChoiceFromSpeech(
   const normalizedSpeech =
     normalize(speech);
 
+  const normalizedSpeechNumbers =
+    normalizeNumbers(
+      speech,
+    );
+
   console.log(
     "[QuizEngine] Texte vocal normalisé :",
     normalizedSpeech,
+  );
+
+  console.log(
+    "[QuizEngine] Texte vocal avec nombres normalisés :",
+    normalizedSpeechNumbers,
   );
 
   /*
@@ -167,7 +499,7 @@ function detectChoiceFromSpeech(
 
   const letter =
     detectLetter(
-      normalizedSpeech,
+      speech,
     );
 
   if (letter) {
@@ -179,7 +511,8 @@ function detectChoiceFromSpeech(
     const found =
       choices.find(
         (choice) =>
-          choice.id === letter,
+          choice.id.toUpperCase() ===
+          letter,
       );
 
     if (found) {
@@ -204,6 +537,15 @@ function detectChoiceFromSpeech(
         choice.label,
       );
 
+    const labelNumbers =
+      normalizeNumbers(
+        choice.label,
+      );
+
+    /*
+     * Comparaison classique.
+     */
+
     if (
       label &&
       normalizedSpeech.includes(
@@ -212,6 +554,25 @@ function detectChoiceFromSpeech(
     ) {
       console.log(
         "[QuizEngine] Réponse trouvée par texte :",
+        choice,
+      );
+
+      return choice;
+    }
+
+    /*
+     * Comparaison avec les nombres
+     * normalisés.
+     */
+
+    if (
+      labelNumbers &&
+      normalizedSpeechNumbers.includes(
+        labelNumbers,
+      )
+    ) {
+      console.log(
+        "[QuizEngine] Réponse trouvée par texte avec nombres normalisés :",
         choice,
       );
 
@@ -238,6 +599,11 @@ function detectChoiceFromSpeech(
           variant,
         );
 
+      const normalizedVariantNumbers =
+        normalizeNumbers(
+          variant,
+        );
+
       if (
         normalizedVariant &&
         normalizedSpeech.includes(
@@ -246,6 +612,20 @@ function detectChoiceFromSpeech(
       ) {
         console.log(
           "[QuizEngine] Réponse trouvée par variante :",
+          choice,
+        );
+
+        return choice;
+      }
+
+      if (
+        normalizedVariantNumbers &&
+        normalizedSpeechNumbers.includes(
+          normalizedVariantNumbers,
+        )
+      ) {
+        console.log(
+          "[QuizEngine] Réponse trouvée par variante avec nombres normalisés :",
           choice,
         );
 
@@ -266,6 +646,15 @@ function detectChoiceFromSpeech(
         choice.label,
       );
 
+    const labelNumbers =
+      normalizeNumbers(
+        choice.label,
+      );
+
+    /*
+     * Similarité classique.
+     */
+
     const score =
       similarity(
         normalizedSpeech,
@@ -278,6 +667,32 @@ function detectChoiceFromSpeech(
         {
           choice,
           score,
+        },
+      );
+
+      return choice;
+    }
+
+    /*
+     * Similarité après normalisation
+     * des nombres.
+     */
+
+    const numberScore =
+      similarity(
+        normalizedSpeechNumbers,
+        labelNumbers,
+      );
+
+    if (
+      numberScore > 0.7
+    ) {
+      console.log(
+        "[QuizEngine] Réponse trouvée par similarité avec nombres normalisés :",
+        {
+          choice,
+          score:
+            numberScore,
         },
       );
 
