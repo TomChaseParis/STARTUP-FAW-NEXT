@@ -167,12 +167,114 @@ export default function QuizGogoFlow() {
                   subtitle="Écoute les questions puis choisis la bonne réponse"
                   activityType="listen"
                   description={
-                    <p>
-                      Écoute chaque question à l&apos;aide du
-                      bouton audio, observe l&apos;image lorsqu&apos;il
-                      y en a une, puis sélectionne la réponse
-                      correcte parmi les propositions.
-                    </p>
+                    <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
+                      {/* ===================================================== */}
+                      {/* ÉCOUTE */}
+                      {/* ===================================================== */}
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span>
+                          Utilise le bouton pour écouter
+                        </span>
+
+                        {/* ICÔNE D'ÉCOUTE */}
+
+                        <span
+                          className="
+                            inline-flex
+                            h-10
+                            w-10
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-white
+                            text-amber-600
+                            shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                          "
+                          aria-hidden="true"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M11 5L6 9H3v6h3l5 4V5z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
+                            />
+                          </svg>
+                        </span>
+
+                        <span>
+                          le professeur présenter la question et
+                          les réponses proposées.
+                        </span>
+                      </div>
+
+                      {/* ===================================================== */}
+                      {/* MICRO */}
+                      {/* ===================================================== */}
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span>Appuie sur le bouton</span>
+
+                        <button
+                          type="button"
+                          tabIndex={-1}
+                          aria-hidden="true"
+                          className="
+                            pointer-events-none
+                            relative
+                            flex
+                            h-10
+                            w-10
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-white
+                            text-amber-600
+                            shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                          "
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
+                            />
+                          </svg>
+                        </button>
+
+                        <span>
+                          si tu préfères répondre à la question à
+                          l&apos;oral.
+                        </span>
+                      </div>
+
+                      {/* ===================================================== */}
+                      {/* CONSIGNE ORIGINALE */}
+                      {/* ===================================================== */}
+
+                 
+                    </div>
                   }
                   onStart={handleStartExercise1}
                   started={exercise1Started}
@@ -217,11 +319,114 @@ export default function QuizGogoFlow() {
                   subtitle="Teste tes connaissances sur la France et les Français"
                   activityType="listen"
                   description={
-                    <p>
-                      Écoute attentivement chaque question,
-                      observe l&apos;image et sélectionne la
-                      bonne réponse parmi les propositions.
-                    </p>
+                    <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
+                      {/* ===================================================== */}
+                      {/* ÉCOUTE */}
+                      {/* ===================================================== */}
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span>
+                          Utilise le bouton pour écouter
+                        </span>
+
+                        {/* ICÔNE D'ÉCOUTE */}
+
+                        <span
+                          className="
+                            inline-flex
+                            h-10
+                            w-10
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-white
+                            text-amber-600
+                            shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                          "
+                          aria-hidden="true"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M11 5L6 9H3v6h3l5 4V5z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
+                            />
+                          </svg>
+                        </span>
+
+                        <span>
+                          le professeur présenter la question et
+                          les réponses proposées.
+                        </span>
+                      </div>
+
+                      {/* ===================================================== */}
+                      {/* MICRO */}
+                      {/* ===================================================== */}
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span>Appuie sur le bouton</span>
+
+                        <button
+                          type="button"
+                          tabIndex={-1}
+                          aria-hidden="true"
+                          className="
+                            pointer-events-none
+                            relative
+                            flex
+                            h-10
+                            w-10
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-white
+                            text-amber-600
+                            shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                          "
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
+                            />
+                          </svg>
+                        </button>
+
+                        <span>
+                          si tu préfères répondre à la question à
+                          l&apos;oral.
+                        </span>
+                      </div>
+
+                      {/* ===================================================== */}
+                      {/* CONSIGNE ORIGINALE */}
+                      {/* ===================================================== */}
+
+                   
+                    </div>
                   }
                   onStart={handleStartExercise2}
                   started={exercise2Started}
