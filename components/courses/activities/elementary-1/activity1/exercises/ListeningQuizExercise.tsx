@@ -79,6 +79,9 @@ export default function ListeningQuizExercise({
 
           attempts,
         }}
+
+        teacher="elementary-1"
+
         teacherFeedbackImages={{
           bad:
             "/images/courses/teacher/bulles/bad.png",
@@ -89,14 +92,17 @@ export default function ListeningQuizExercise({
           good:
             "/images/courses/teacher/bulles/good.png",
         }}
+
         teacherFeedbackAudios={
           TEACHER_FEEDBACK_AUDIOS
         }
+
         onRestart={() => {
           resetQuiz();
 
           refresh();
         }}
+
         onNext={() => {
           onCompleted?.(result);
         }}

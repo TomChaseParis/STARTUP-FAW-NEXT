@@ -98,17 +98,6 @@ const ACTIVITY_ID =
 const EXERCISE_ID =
   "quiz-france";
 
-const TEACHER_FEEDBACK_AUDIOS = {
-  bad:
-    "/audios/teacher/jean/score/JEAN-DOWN.mp3",
-
-  middle:
-    "/audios/teacher/jean/score/JEAN-MIDDLE.mp3",
-
-  good:
-    "/audios/teacher/jean/score/JEAN-100.mp3",
-};
-
 export default function QuizFranceSection({
   onCompleted,
 }: QuizFranceSectionProps) {
@@ -147,19 +136,7 @@ export default function QuizFranceSection({
 
           attempts,
         }}
-        teacherFeedbackImages={{
-          bad:
-            "/images/courses/teacher/bulles/bad.png",
-
-          middle:
-            "/images/courses/teacher/bulles/middle.png",
-
-          good:
-            "/images/courses/teacher/bulles/good.png",
-        }}
-        teacherFeedbackAudios={
-          TEACHER_FEEDBACK_AUDIOS
-        }
+        teacher="elementary-1"
         onRestart={() => {
           resetQuiz();
 

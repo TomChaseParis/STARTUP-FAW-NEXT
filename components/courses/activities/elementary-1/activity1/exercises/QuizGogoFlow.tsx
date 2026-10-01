@@ -280,7 +280,7 @@ export default function QuizGogoFlow() {
                 className="mt-10 scroll-mt-8"
               >
                 <TeacherQuestionExercise
-                  onCompleted={(result) => {
+                  onCompleted={() => {
                     handleQuiz3Completed();
                   }}
                 />

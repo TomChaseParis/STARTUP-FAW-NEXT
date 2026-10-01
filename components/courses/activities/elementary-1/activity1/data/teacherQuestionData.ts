@@ -12,6 +12,8 @@ export interface TeacherQuestionExerciseData {
   expectedQuestion: string;
 
   teacherAnswer: string;
+
+  image: string;
 }
 
 export const teacherQuestionData: TeacherQuestionExerciseData[] = [
@@ -40,6 +42,9 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "La capitale du Canada est Ottawa.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q1.png",
   },
 
   {
@@ -67,6 +72,9 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "Une tortue marine peut vivre jusqu'à 100 ans.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q2.png",
   },
 
   {
@@ -94,6 +102,9 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "Le Nouvel An Chinois commence entre le 21 janvier et le 21 février.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q3.png",
   },
 
   {
@@ -121,6 +132,9 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "On prépare un cassoulet avec des saucisses, du confit de canard et des haricots secs.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q4.png",
   },
 
   {
@@ -148,6 +162,9 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "Wolfgang Amadeus Mozart est né à Salzbourg.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q5.png",
   },
 
   {
@@ -175,6 +192,9 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "Parce que l'huile est moins dense que l'eau, alors elle flotte au-dessus.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q6.png",
   },
 
   {
@@ -202,6 +222,9 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "L'inventeur de la recette du Coca-Cola est John Pemberton.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q7.png",
   },
 
   {
@@ -224,6 +247,9 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "Oui. Il a gagné 8 fois Wimbledon, 6 fois l'Open d'Australie, 5 fois l'US Open et une seule fois Roland-Garros.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q8.png",
   },
 
   {
@@ -246,5 +272,8 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     teacherAnswer:
       "Ils partent loin de Paris.",
+
+    image:
+      "/images/courses/elementary/activities/activity1/exercice-3/Q9.png",
   },
 ];

@@ -9,7 +9,9 @@ import {
 
 import { ActivityResult } from "@/core/activity/models/ActivityResult";
 
-import TeacherFeedback from "@/components/activity/results/TeacherFeedback";
+import BeginnerTeacherFeedback from "@/components/activity/results/TeacherFeedback";
+import Elementary1TeacherFeedback from "@/components/activity/results/elementary-1/TeacherFeedback";
+
 import AnswerHistory from "./AnswerHistory";
 import ResultCard from "./ResultCard";
 import ScoreBadge from "./ScoreBadge";
@@ -41,6 +43,8 @@ type Props = {
 
   teacherFeedbackAudios?: TeacherFeedbackAudios;
 
+  teacher?: "beginner" | "elementary-1";
+
   /**
    * Correction détaillée personnalisée.
    *
@@ -61,6 +65,7 @@ export default function ActivityResults({
   isLastExercise = false,
   teacherFeedbackImages,
   teacherFeedbackAudios,
+  teacher = "beginner",
   detailedReport,
 }: Props) {
   const sectionRef =
@@ -108,6 +113,40 @@ export default function ActivityResults({
     totalQuestions - correctAnswers,
   );
 
+  /* ========================================================= */
+  /* FEEDBACK PROFESSEUR                                       */
+  /* ========================================================= */
+
+  const TeacherFeedback =
+    teacher === "elementary-1"
+      ? Elementary1TeacherFeedback
+      : BeginnerTeacherFeedback;
+
+  /*
+   * =========================================================
+   * IMPORTANT
+   * =========================================================
+   *
+   * Pour Elementary 1, on n'envoie volontairement aucun
+   * teacherFeedbackImages ni teacherFeedbackAudios.
+   *
+   * Le composant Elementary1TeacherFeedback utilise donc
+   * directement sa configuration générale.
+   *
+   * Pour Beginner, le comportement existant est conservé.
+   */
+
+  const teacherFeedbackProps =
+    teacher === "elementary-1"
+      ? {
+          score: result.session.score,
+        }
+      : {
+          score: result.session.score,
+          teacherFeedbackImages,
+          teacherFeedbackAudios,
+        };
+
   return (
     <section
       ref={sectionRef}
@@ -136,13 +175,7 @@ export default function ActivityResults({
       {/* ===================================================== */}
 
       <TeacherFeedback
-        score={result.session.score}
-        teacherFeedbackImages={
-          teacherFeedbackImages
-        }
-        teacherFeedbackAudios={
-          teacherFeedbackAudios
-        }
+        {...teacherFeedbackProps}
       />
 
       {/* ===================================================== */}
