@@ -124,6 +124,7 @@ export default function IntroduceYourselfQuiz() {
         }}
         isLastExercise={true}
         finishLabel="Terminer la leçon"
+        feedbackVariant="lesson"
       />
     );
   };

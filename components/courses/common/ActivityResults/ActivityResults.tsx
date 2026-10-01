@@ -48,6 +48,17 @@ type Props = {
   teacher?: "beginner" | "elementary-1";
 
   /**
+   * Variante des audios de feedback professeur.
+   *
+   * "activity" = audios utilisés par les activités classiques.
+   * "lesson" = audios utilisés par les quiz de leçon.
+   *
+   * Par défaut, on conserve "activity" afin de ne pas
+   * modifier le comportement des autres activités.
+   */
+  feedbackVariant?: "activity" | "lesson";
+
+  /**
    * Correction détaillée personnalisée.
    *
    * Exemple :
@@ -69,6 +80,7 @@ export default function ActivityResults({
   teacherFeedbackImages,
   teacherFeedbackAudios,
   teacher = "beginner",
+  feedbackVariant = "activity",
   detailedReport,
 }: Props) {
   const sectionRef =
@@ -179,6 +191,7 @@ export default function ActivityResults({
 
       <TeacherFeedback
         {...teacherFeedbackProps}
+        variant={feedbackVariant}
       />
 
       {/* ===================================================== */}

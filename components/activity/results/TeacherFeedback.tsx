@@ -40,6 +40,10 @@ export default function TeacherFeedback({
   let message = "";
   let audio = "";
 
+  /* ========================================================= */
+  /* FEEDBACK DE LEÇON                                        */
+  /* ========================================================= */
+
   if (variant === "lesson") {
     if (score === 100) {
       image =
@@ -47,8 +51,9 @@ export default function TeacherFeedback({
         "/images/courses/results-expressions/beginner/perfect-red.png";
 
       audio =
-        teacherFeedbackAudios?.perfect ??
         "/audios/teacher/marie/lessons/score-lessons/lesson-100.mp3";
+
+      title = "Bravo !";
 
       message =
         "Bravo ! Tu sembles avoir très bien assimilé la leçon. Tu peux passer l'esprit tranquille aux activités.";
@@ -58,8 +63,9 @@ export default function TeacherFeedback({
         "/images/courses/results-expressions/beginner/bingo-red.png";
 
       audio =
-        teacherFeedbackAudios?.good ??
         "/audios/teacher/marie/lessons/score-lessons/lesson-75-99.mp3";
+
+      title = "Très bien !";
 
       message =
         "Tu as retenu l'essentiel, mais tu as fait quelques erreurs. Regarde bien la correction et passe aux activités.";
@@ -69,8 +75,9 @@ export default function TeacherFeedback({
         "/images/courses/results-expressions/beginner/middle-red.png";
 
       audio =
-        teacherFeedbackAudios?.middle ??
         "/audios/teacher/marie/lessons/score-lessons/lesson-50-75.mp3";
+
+      title = "À revoir";
 
       message =
         "Il reste des points à revoir, apparemment. Analyse tes erreurs et visualise à nouveau la leçon si tu en sens le besoin.";
@@ -80,13 +87,20 @@ export default function TeacherFeedback({
         "/images/courses/results-expressions/beginner/noob-red.png";
 
       audio =
-        teacherFeedbackAudios?.bad ??
         "/audios/teacher/marie/lessons/score-lessons/lesson-0-50.mp3";
+
+      title = "Encore un petit effort !";
 
       message =
         "Tu ne sembles pas encore tout à fait prêt à passer aux activités. Visualise à nouveau attentivement la leçon et refais le test. Ce sera sûrement bien mieux la prochaine fois !";
     }
-  } else if (score < 50) {
+  }
+
+  /* ========================================================= */
+  /* FEEDBACK ACTIVITÉ                                        */
+  /* ========================================================= */
+
+  else if (score < 50) {
     image =
       teacherFeedbackImages?.bad ??
       "/images/courses/results-expressions/beginner/noob-red.png";
@@ -121,7 +135,6 @@ export default function TeacherFeedback({
       teacherFeedbackAudios?.good ??
       "/audios/teacher/marie/activities/score-activities/activity-75-99.mp3";
 
-
     title = "Bon travail !";
 
     message =
@@ -140,6 +153,10 @@ export default function TeacherFeedback({
     message =
       "Tu as bien répondu à toutes les questions. Tu peux passer à l’exercice suivant !";
   }
+
+  /* ========================================================= */
+  /* LECTURE AUDIO                                            */
+  /* ========================================================= */
 
   useEffect(() => {
     if (!audio) {
