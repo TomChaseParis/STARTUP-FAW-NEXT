@@ -18,6 +18,7 @@ export default function ListeningDiscoverySection() {
    * On attend donc que le DOM soit réellement disponible
    * avant de déclencher le scroll.
    */
+  
   useEffect(() => {
     if (!started) return;
 
