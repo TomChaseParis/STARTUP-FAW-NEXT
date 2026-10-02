@@ -6,6 +6,7 @@ type Answer = "true" | "false";
 
 type TrueFalseQuestionCardProps = {
   statement: string;
+  image: string;
   selectedAnswer: Answer | null;
   correctAnswer: Answer;
   explanation: string;
@@ -15,6 +16,7 @@ type TrueFalseQuestionCardProps = {
 
 export default function TrueFalseQuestionCard({
   statement,
+  image,
   selectedAnswer,
   correctAnswer,
   explanation,
@@ -73,242 +75,346 @@ export default function TrueFalseQuestionCard({
 
   return (
     <div className="w-full">
-      {/* =====================================================
-          AFFIRMATION
-      ====================================================== */}
-
-      <motion.div
-        key={statement}
-        initial={{
-          opacity: 0,
-          y: 12,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 0.35,
-        }}
+      <div
         className="
-          relative
-          mb-8
-          overflow-hidden
-          rounded-3xl
-          border
-          border-slate-200
-          bg-white
-          px-6
-          py-10
-          text-center
-          shadow-[0_15px_50px_rgba(15,23,42,0.08)]
-          sm:px-10
-          sm:py-14
+          grid
+          grid-cols-1
+          gap-6
+          lg:grid-cols-[minmax(260px,0.85fr)_minmax(0,1.4fr)]
+          lg:items-stretch
         "
       >
-        {/* Décoration */}
+        {/* =====================================================
+            IMAGE
+        ====================================================== */}
 
-        <div
+        <motion.div
+          key={image}
+          initial={{
+            opacity: 0,
+            scale: 0.97,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          transition={{
+            duration: 0.35,
+          }}
           className="
-            pointer-events-none
-            absolute
-            -right-16
-            -top-16
-            h-40
-            w-40
-            rounded-full
-            bg-amber-100/60
-            blur-2xl
+            relative
+            overflow-hidden
+            rounded-3xl
+            border
+            border-slate-200
+            bg-white
+            shadow-[0_15px_50px_rgba(15,23,42,0.08)]
           "
-        />
-
-        <div
-          className="
-            pointer-events-none
-            absolute
-            -bottom-20
-            -left-16
-            h-40
-            w-40
-            rounded-full
-            bg-sky-100/50
-            blur-2xl
-          "
-        />
-
-        <div className="relative">
+        >
           <div
             className="
-              mx-auto
-              mb-5
+              pointer-events-none
+              absolute
+              -right-16
+              -top-16
+              h-40
+              w-40
+              rounded-full
+              bg-amber-100/60
+              blur-2xl
+            "
+          />
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -bottom-20
+              -left-16
+              h-40
+              w-40
+              rounded-full
+              bg-sky-100/50
+              blur-2xl
+            "
+          />
+
+          <div
+            className="
+              relative
               flex
-              h-12
-              w-12
+              min-h-[280px]
               items-center
               justify-center
-              rounded-2xl
-              bg-amber-100
-              text-xl
+              p-4
+              sm:min-h-[340px]
+              lg:min-h-[390px]
             "
           >
-            💬
+            <img
+              src={image}
+              alt=""
+              className="
+                h-full
+                max-h-[360px]
+                w-full
+                rounded-2xl
+                object-cover
+                shadow-md
+                sm:max-h-[420px]
+                lg:max-h-[460px]
+              "
+            />
           </div>
+        </motion.div>
 
-          <p
+        {/* =====================================================
+            QUESTION + RÉPONSES
+        ====================================================== */}
+
+        <div className="flex min-w-0 flex-col">
+          {/* ===================================================
+              AFFIRMATION
+          ==================================================== */}
+
+          <motion.div
+            key={statement}
+            initial={{
+              opacity: 0,
+              y: 12,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.35,
+            }}
             className="
-              mx-auto
-              max-w-3xl
-              text-xl
-              font-bold
-              leading-relaxed
-              text-slate-900
-              sm:text-2xl
-              md:text-3xl
+              relative
+              mb-6
+              flex
+              min-h-[220px]
+              flex-1
+              items-center
+              overflow-hidden
+              rounded-3xl
+              border
+              border-slate-200
+              bg-white
+              px-6
+              py-8
+              text-center
+              shadow-[0_15px_50px_rgba(15,23,42,0.08)]
+              sm:px-10
+              sm:py-10
             "
           >
-            {statement}
-          </p>
+            {/* Décoration */}
+
+            <div
+              className="
+                pointer-events-none
+                absolute
+                -right-16
+                -top-16
+                h-40
+                w-40
+                rounded-full
+                bg-amber-100/60
+                blur-2xl
+              "
+            />
+
+            <div
+              className="
+                pointer-events-none
+                absolute
+                -bottom-20
+                -left-16
+                h-40
+                w-40
+                rounded-full
+                bg-sky-100/50
+                blur-2xl
+              "
+            />
+
+            <div className="relative w-full">
+              <div
+                className="
+                  mx-auto
+                  mb-5
+                  flex
+                  h-12
+                  w-12
+                  items-center
+                  justify-center
+                  rounded-2xl
+                  bg-amber-100
+                  text-xl
+                "
+              >
+                💬
+              </div>
+
+              <p
+                className="
+                  mx-auto
+                  max-w-3xl
+                  text-xl
+                  font-bold
+                  leading-relaxed
+                  text-slate-900
+                  sm:text-2xl
+                  md:text-3xl
+                "
+              >
+                {statement}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* ===================================================
+              RÉPONSES
+          ==================================================== */}
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* VRAI */}
+
+            <motion.button
+              type="button"
+              disabled={disabled || hasAnswered}
+              onClick={() => onAnswer("true")}
+              whileHover={
+                !disabled && !hasAnswered
+                  ? {
+                      scale: 1.02,
+                    }
+                  : undefined
+              }
+              whileTap={
+                !disabled && !hasAnswered
+                  ? {
+                      scale: 0.98,
+                    }
+                  : undefined
+              }
+              className={`
+                group
+                relative
+                min-h-[100px]
+                overflow-hidden
+                rounded-2xl
+                border-2
+                px-6
+                py-6
+                transition-all
+                duration-300
+                ${getButtonClasses("true")}
+              `}
+            >
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-center
+                  gap-4
+                "
+              >
+                <span
+                  className="
+                    flex
+                    h-12
+                    w-12
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-emerald-100
+                    text-xl
+                    transition-transform
+                    duration-300
+                    group-hover:scale-110
+                  "
+                >
+                  ✓
+                </span>
+
+                <span className="text-lg font-extrabold">
+                  VRAI
+                </span>
+              </div>
+            </motion.button>
+
+            {/* FAUX */}
+
+            <motion.button
+              type="button"
+              disabled={disabled || hasAnswered}
+              onClick={() => onAnswer("false")}
+              whileHover={
+                !disabled && !hasAnswered
+                  ? {
+                      scale: 1.02,
+                    }
+                  : undefined
+              }
+              whileTap={
+                !disabled && !hasAnswered
+                  ? {
+                      scale: 0.98,
+                    }
+                  : undefined
+              }
+              className={`
+                group
+                relative
+                min-h-[100px]
+                overflow-hidden
+                rounded-2xl
+                border-2
+                px-6
+                py-6
+                transition-all
+                duration-300
+                ${getButtonClasses("false")}
+              `}
+            >
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-center
+                  gap-4
+                "
+              >
+                <span
+                  className="
+                    flex
+                    h-12
+                    w-12
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-red-100
+                    text-xl
+                    transition-transform
+                    duration-300
+                    group-hover:scale-110
+                  "
+                >
+                  ✕
+                </span>
+
+                <span className="text-lg font-extrabold">
+                  FAUX
+                </span>
+              </div>
+            </motion.button>
+          </div>
         </div>
-      </motion.div>
-
-      {/* =====================================================
-          RÉPONSES
-      ====================================================== */}
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {/* VRAI */}
-
-        <motion.button
-          type="button"
-          disabled={disabled || hasAnswered}
-          onClick={() => onAnswer("true")}
-          whileHover={
-            !disabled && !hasAnswered
-              ? {
-                  scale: 1.02,
-                }
-              : undefined
-          }
-          whileTap={
-            !disabled && !hasAnswered
-              ? {
-                  scale: 0.98,
-                }
-              : undefined
-          }
-          className={`
-            group
-            relative
-            min-h-[110px]
-            overflow-hidden
-            rounded-2xl
-            border-2
-            px-6
-            py-6
-            transition-all
-            duration-300
-            ${getButtonClasses("true")}
-          `}
-        >
-          <div
-            className="
-              flex
-              items-center
-              justify-center
-              gap-4
-            "
-          >
-            <span
-              className="
-                flex
-                h-12
-                w-12
-                shrink-0
-                items-center
-                justify-center
-                rounded-full
-                bg-emerald-100
-                text-xl
-                transition-transform
-                duration-300
-                group-hover:scale-110
-              "
-            >
-              ✓
-            </span>
-
-            <span className="text-lg font-extrabold">
-              VRAI
-            </span>
-          </div>
-        </motion.button>
-
-        {/* FAUX */}
-
-        <motion.button
-          type="button"
-          disabled={disabled || hasAnswered}
-          onClick={() => onAnswer("false")}
-          whileHover={
-            !disabled && !hasAnswered
-              ? {
-                  scale: 1.02,
-                }
-              : undefined
-          }
-          whileTap={
-            !disabled && !hasAnswered
-              ? {
-                  scale: 0.98,
-                }
-              : undefined
-          }
-          className={`
-            group
-            relative
-            min-h-[110px]
-            overflow-hidden
-            rounded-2xl
-            border-2
-            px-6
-            py-6
-            transition-all
-            duration-300
-            ${getButtonClasses("false")}
-          `}
-        >
-          <div
-            className="
-              flex
-              items-center
-              justify-center
-              gap-4
-            "
-          >
-            <span
-              className="
-                flex
-                h-12
-                w-12
-                shrink-0
-                items-center
-                justify-center
-                rounded-full
-                bg-red-100
-                text-xl
-                transition-transform
-                duration-300
-                group-hover:scale-110
-              "
-            >
-              ✕
-            </span>
-
-            <span className="text-lg font-extrabold">
-              FAUX
-            </span>
-          </div>
-        </motion.button>
       </div>
 
       {/* =====================================================

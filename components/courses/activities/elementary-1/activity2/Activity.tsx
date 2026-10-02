@@ -9,17 +9,18 @@ import LessonBlock from "@/components/courses/layout/LessonBlock";
 import ActivityFlow from "@/core/navigation/ActivityFlow";
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 
-import LeisureConjugationSection from "./exercises/LeisureConjugationSection";
+import FillInTheBlankSection from "./exercises/FillInTheBlankSection";
+import FillGapsReport from "@/components/courses/common/result/FillGapsReport";
 import QuizChoiceSection from "./exercises/QuizChoiceSection";
+
+import { frenchLeisureData } from "./data/frenchLeisureData";
 
 import { elementary1Activity2 } from "@/data/courses/activities/elementary-1/activity2/activity2";
 
 const teacherFeedbackImages = {
   bad: "/images/courses/results-expressions/elementary-1/JEAN3.png",
-  middle:
-    "/images/courses/results-expressions/elementary-1/JEAN2.png",
-  good:
-    "/images/courses/results-expressions/elementary-1/JEAN1.png",
+  middle: "/images/courses/results-expressions/elementary-1/JEAN2.png",
+  good: "/images/courses/results-expressions/elementary-1/JEAN1.png",
 };
 
 const teacherFeedbackAudios = {
@@ -31,8 +32,7 @@ const teacherFeedbackAudios = {
 export default function Activity() {
   const [started, setStarted] = useState(false);
 
-  const exercisesRef =
-    useRef<HTMLDivElement>(null);
+  const exercisesRef = useRef<HTMLDivElement>(null);
 
   const handleStart = () => {
     setStarted(true);
@@ -46,9 +46,7 @@ export default function Activity() {
   };
 
   return (
-    <ActivityLayout
-      activity={elementary1Activity2}
-    >
+    <ActivityLayout activity={elementary1Activity2}>
       <LessonBlock
         level="elementary-1"
         title="Les loisirs des Français"
@@ -56,16 +54,9 @@ export default function Activity() {
         videoSrc="/videos/courses/elementary-1/activities/activity2/presentation.mp4"
         poster="/images/courses/elementary/activities/activity2/poster.png"
         info={{
-          objectifs: [
-            "Parler des loisirs",
-          ],
-          competences: [
-            "Compréhension orale",
-            "Vocabulaire",
-          ],
-          prerequis: [
-            "Présent — 3e personne du pluriel",
-          ],
+          objectifs: ["Parler des loisirs"],
+          competences: ["Compréhension orale", "Vocabulaire"],
+          prerequis: ["Présent — 3e personne du pluriel"],
           duree: "25 minutes",
         }}
       />
@@ -103,19 +94,27 @@ export default function Activity() {
             }}
           >
             <ActivityNavigationProvider
-              totalExercises={
-                elementary1Activity2.exercises.length
-              }
+              totalExercises={elementary1Activity2.exercises.length}
             >
               <ActivityFlow
-                teacherFeedbackImages={
-                  teacherFeedbackImages
-                }
-                teacherFeedbackAudios={
-                  teacherFeedbackAudios
-                }
+                teacher="elementary-1"
+                teacherFeedbackImages={teacherFeedbackImages}
+                teacherFeedbackAudios={teacherFeedbackAudios}
+                finishHref="/courses/elementary-1/modules/gouts-loisirs"
+                detailedReportRenderer={(result, exerciseIndex) => {
+                  if (exerciseIndex !== 0) {
+                    return undefined;
+                  }
+
+                  return (
+                    <FillGapsReport
+                      data={frenchLeisureData}
+                      history={result.session.history}
+                    />
+                  );
+                }}
               >
-                <LeisureConjugationSection />
+                <FillInTheBlankSection />
 
                 <QuizChoiceSection />
               </ActivityFlow>

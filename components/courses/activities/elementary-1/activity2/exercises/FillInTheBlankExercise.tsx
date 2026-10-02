@@ -1,11 +1,27 @@
+"use client";
+
 import FillGapsEngine from "@/components/courses/engines/FillGapsEngine";
+import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
+
 import { frenchLeisureData } from "../data/frenchLeisureData";
 
-export default function FillInTheBlankExercise() {
+type FillInTheBlankExerciseProps = {
+  onComplete?: (
+    result: ExerciseSessionResult,
+  ) => void;
+};
+
+export default function FillInTheBlankExercise({
+  onComplete,
+}: FillInTheBlankExerciseProps) {
   return (
-    <FillGapsEngine
-      data={frenchLeisureData}
-      teacherImage="/images/courses/elementary/activities/activity2/bubble.png"
-    />
+    <section className="mt-8">
+      <FillGapsEngine
+        data={frenchLeisureData}
+        onComplete={(result: ExerciseSessionResult) => {
+          onComplete?.(result);
+        }}
+      />
+    </section>
   );
 }

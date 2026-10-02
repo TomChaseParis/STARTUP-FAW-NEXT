@@ -28,7 +28,7 @@ export const thirdPersonBrunoData: FillGapsData = {
 
         {
           type: "input",
-          answer: "il habite",
+          answer: "ils habite",
         },
 
         {
@@ -60,7 +60,7 @@ export const thirdPersonBrunoData: FillGapsData = {
 
         {
           type: "input",
-          answer: "il a",
+          answer: "il habitent",
         },
 
         {
@@ -103,7 +103,7 @@ export const thirdPersonBrunoData: FillGapsData = {
 
         {
           type: "input",
-          answer: "il fait",
+          answer: "il joue",
         },
 
         {

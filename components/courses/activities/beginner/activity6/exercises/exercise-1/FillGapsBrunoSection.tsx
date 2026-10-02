@@ -154,7 +154,7 @@ export default function FillGapsBrunoSection() {
 
                     <div>
                       <p className="font-semibold">
-                        Pense à l&apos;élision (« J ») devant une
+                        Pense à l&apos;élision « J » devant une
                         voyelle ou un « h ».
                       </p>
 

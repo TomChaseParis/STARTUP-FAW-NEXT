@@ -30,6 +30,8 @@ type TeacherFeedbackAudios = {
 type Props = {
   children: ReactNode;
 
+  teacher?: "beginner" | "elementary-1";
+
   teacherFeedbackImages?: TeacherFeedbackImages;
 
   teacherFeedbackAudios?: TeacherFeedbackAudios;
@@ -58,6 +60,7 @@ type Props = {
 
 export default function ActivityFlow({
   children,
+  teacher,
   teacherFeedbackImages,
   teacherFeedbackAudios,
   detailedReportRenderer,
@@ -123,6 +126,7 @@ export default function ActivityFlow({
         isLastExercise={
           isLastExercise
         }
+        teacher={teacher}
         teacherFeedbackImages={
           teacherFeedbackImages
         }

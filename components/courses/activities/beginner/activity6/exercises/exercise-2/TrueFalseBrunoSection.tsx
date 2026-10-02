@@ -84,11 +84,7 @@ export default function TrueFalseBrunoSection() {
                     Consigne :
                   </p>
 
-                  <p>
-                    Écoute une nouvelle fois le dialogue et
-                    dis si les phrases proposées sont vraies
-                    ou fausses.
-                  </p>
+               
 
                   <div
                     className="

@@ -1,32 +1,21 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import {
-  useExerciseSession,
-} from "@/components/courses/common/hooks/useExerciseSession";
+import { useExerciseSession } from "@/components/courses/common/hooks/useExerciseSession";
 
-import type {
-  ExerciseSessionResult,
-} from "@/components/courses/common/types/exerciseSessionTypes";
+import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
 
 import TrueFalseQuestionCard from "./TrueFalseQuestionCard";
 
-import {
-  trueFalseBrunoData,
-} from "../../data/trueFalseBrunoData";
+import { trueFalseBrunoData } from "../../data/trueFalseBrunoData";
 
 type Answer = "true" | "false";
 
 type TrueFalseBrunoExerciseProps = {
-  onComplete?: (
-    result: ExerciseSessionResult,
-  ) => void;
+  onComplete?: (result: ExerciseSessionResult) => void;
 };
 
 export default function TrueFalseBrunoExercise({
@@ -38,13 +27,9 @@ export default function TrueFalseBrunoExercise({
    * =========================================================
    */
 
-  const totalQuestions =
-    trueFalseBrunoData.length;
+  const totalQuestions = trueFalseBrunoData.length;
 
-  const session =
-    useExerciseSession(
-      totalQuestions,
-    );
+  const session = useExerciseSession(totalQuestions);
 
   /*
    * =========================================================
@@ -52,15 +37,9 @@ export default function TrueFalseBrunoExercise({
    * =========================================================
    */
 
-  const [
-    currentQuestionIndex,
-    setCurrentQuestionIndex,
-  ] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  const [
-    selectedAnswer,
-    setSelectedAnswer,
-  ] = useState<Answer | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
 
   /*
    * Historique visuel des réponses.
@@ -69,14 +48,8 @@ export default function TrueFalseBrunoExercise({
    * dans la progression.
    */
 
-  const [
-    answerHistory,
-    setAnswerHistory,
-  ] = useState<
-    Array<Answer | null>
-  >(
-    () =>
-      Array(totalQuestions).fill(null),
+  const [answerHistory, setAnswerHistory] = useState<Array<Answer | null>>(() =>
+    Array(totalQuestions).fill(null),
   );
 
   /*
@@ -85,10 +58,7 @@ export default function TrueFalseBrunoExercise({
    * =========================================================
    */
 
-  const currentQuestion =
-    trueFalseBrunoData[
-      currentQuestionIndex
-    ];
+  const currentQuestion = trueFalseBrunoData[currentQuestionIndex];
 
   /*
    * =========================================================
@@ -101,14 +71,8 @@ export default function TrueFalseBrunoExercise({
       return;
     }
 
-    onComplete?.(
-      session.result,
-    );
-  }, [
-    session.isFinished,
-    session.result,
-    onComplete,
-  ]);
+    onComplete?.(session.result);
+  }, [session.isFinished, session.result, onComplete]);
 
   /*
    * =========================================================
@@ -126,9 +90,7 @@ export default function TrueFalseBrunoExercise({
    * =========================================================
    */
 
-  const handleAnswer = (
-    answer: Answer,
-  ) => {
+  const handleAnswer = (answer: Answer) => {
     if (selectedAnswer !== null) {
       return;
     }
@@ -137,45 +99,28 @@ export default function TrueFalseBrunoExercise({
 
     setSelectedAnswer(answer);
 
-    setAnswerHistory(
-      (previous) => {
-        const next = [
-          ...previous,
-        ];
+    setAnswerHistory((previous) => {
+      const next = [...previous];
 
-        next[currentQuestionIndex] =
-          answer;
+      next[currentQuestionIndex] = answer;
 
-        return next;
-      },
-    );
+      return next;
+    });
 
-    const isCorrect =
-      answer ===
-      currentQuestion.correctAnswer;
+    const isCorrect = answer === currentQuestion.correctAnswer;
 
     session.addAnswer({
-      questionId:
-        currentQuestion.id,
+      questionId: currentQuestion.id,
 
-      question:
-        currentQuestion.statement,
+      question: currentQuestion.statement,
 
-      selectedAnswer:
-        answer === "true"
-          ? "VRAI"
-          : "FAUX",
+      selectedAnswer: answer === "true" ? "VRAI" : "FAUX",
 
-      correctAnswer:
-        currentQuestion.correctAnswer ===
-        "true"
-          ? "VRAI"
-          : "FAUX",
+      correctAnswer: currentQuestion.correctAnswer === "true" ? "VRAI" : "FAUX",
 
       isCorrect,
 
-      explanation:
-        currentQuestion.explanation,
+      explanation: currentQuestion.explanation,
     });
   };
 
@@ -189,22 +134,17 @@ export default function TrueFalseBrunoExercise({
     if (selectedAnswer === null) {
       return;
     }
-  
-    const isLastQuestion =
-      currentQuestionIndex ===
-      totalQuestions - 1;
-  
+
+    const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
+
     if (isLastQuestion) {
       session.complete();
       return;
     }
-  
+
     setSelectedAnswer(null);
-  
-    setCurrentQuestionIndex(
-      (previous) =>
-        previous + 1,
-    );
+
+    setCurrentQuestionIndex((previous) => previous + 1);
   };
 
   /*
@@ -214,10 +154,7 @@ export default function TrueFalseBrunoExercise({
    */
 
   const progress =
-    ((currentQuestionIndex +
-      (selectedAnswer !== null
-        ? 1
-        : 0)) /
+    ((currentQuestionIndex + (selectedAnswer !== null ? 1 : 0)) /
       totalQuestions) *
     100;
 
@@ -309,9 +246,7 @@ export default function TrueFalseBrunoExercise({
               "
             >
               Question{" "}
-              <span className="text-amber-600">
-                {currentQuestionIndex + 1}
-              </span>{" "}
+              <span className="text-amber-600">{currentQuestionIndex + 1}</span>{" "}
               / {totalQuestions}
             </div>
           </div>
@@ -359,19 +294,15 @@ export default function TrueFalseBrunoExercise({
             gap-2
           "
         >
-          {trueFalseBrunoData.map(
-            (question, index) => {
-              const answer =
-                answerHistory[index];
+          {trueFalseBrunoData.map((question, index) => {
+            const answer = answerHistory[index];
 
-              const isCurrent =
-                index ===
-                currentQuestionIndex;
+            const isCurrent = index === currentQuestionIndex;
 
-              return (
-                <div
-                  key={question.id}
-                  className={`
+            return (
+              <div
+                key={question.id}
+                className={`
                     flex
                     h-8
                     w-8
@@ -387,28 +318,20 @@ export default function TrueFalseBrunoExercise({
                         ? isCurrent
                           ? "bg-amber-100 text-amber-700 ring-2 ring-amber-400 ring-offset-2"
                           : "bg-slate-200 text-slate-400"
-                        : answer ===
-                          trueFalseBrunoData[
-                            index
-                          ].correctAnswer
+                        : answer === trueFalseBrunoData[index].correctAnswer
                         ? "bg-emerald-500 text-white"
                         : "bg-red-500 text-white"
                     }
                   `}
-                >
-                  {answer === null
-                    ? index + 1
-                    : answer ===
-                        trueFalseBrunoData[
-                          index
-                        ]
-                          .correctAnswer
-                      ? "✓"
-                      : "✕"}
-                </div>
-              );
-            },
-          )}
+              >
+                {answer === null
+                  ? index + 1
+                  : answer === trueFalseBrunoData[index].correctAnswer
+                  ? "✓"
+                  : "✕"}
+              </div>
+            );
+          })}
         </div>
 
         {/* ===================================================
@@ -436,24 +359,13 @@ export default function TrueFalseBrunoExercise({
             }}
           >
             <TrueFalseQuestionCard
-              statement={
-                currentQuestion.statement
-              }
-              selectedAnswer={
-                selectedAnswer
-              }
-              correctAnswer={
-                currentQuestion.correctAnswer
-              }
-              explanation={
-                currentQuestion.explanation
-              }
-              disabled={
-                selectedAnswer !== null
-              }
-              onAnswer={
-                handleAnswer
-              }
+              statement={currentQuestion.statement}
+              image={currentQuestion.image}
+              selectedAnswer={selectedAnswer}
+              correctAnswer={currentQuestion.correctAnswer}
+              explanation={currentQuestion.explanation}
+              disabled={selectedAnswer !== null}
+              onAnswer={handleAnswer}
             />
 
             {/* =================================================
@@ -461,8 +373,7 @@ export default function TrueFalseBrunoExercise({
             ================================================== */}
 
             <AnimatePresence>
-              {selectedAnswer !==
-                null && (
+              {selectedAnswer !== null && (
                 <motion.div
                   initial={{
                     opacity: 0,
@@ -480,9 +391,7 @@ export default function TrueFalseBrunoExercise({
                 >
                   <motion.button
                     type="button"
-                    onClick={
-                      handleNext
-                    }
+                    onClick={handleNext}
                     whileHover={{
                       scale: 1.03,
                     }}
@@ -506,8 +415,7 @@ export default function TrueFalseBrunoExercise({
                       hover:bg-slate-800
                     "
                   >
-                    {currentQuestionIndex ===
-                    totalQuestions - 1
+                    {currentQuestionIndex === totalQuestions - 1
                       ? "Voir mon résultat"
                       : "Question suivante"}
 

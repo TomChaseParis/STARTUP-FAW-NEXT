@@ -64,7 +64,7 @@ export const brunoGalopinData: FillGapsData = {
 
         {
           type: "input",
-          answer: "j'ai",
+          answer: "nous habitons",
         },
 
         {
@@ -107,7 +107,7 @@ export const brunoGalopinData: FillGapsData = {
 
         {
           type: "input",
-          answer: "je fais",
+          answer: "je joue",
         },
 
         {

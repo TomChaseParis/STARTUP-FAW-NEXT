@@ -8,71 +8,59 @@ import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 
 import LeisureConjugationExercise from "./LeisureConjugationExercise";
 
-
-
 export default function FillInTheBlankSection() {
-  const [started, setStarted] =
-    useState(false);
+  const [started, setStarted] = useState(false);
 
   return (
-    <ExerciseContainer
-      exerciseId="exercise-1"
-    >
+    <ExerciseContainer exerciseId="exercise-1">
       {({ onComplete }) => (
         <ExerciseSection>
           <InstructionBlock
             level="elementary1"
             stampLabel="EXERCICE 1"
-            title="Complète les phrases"
-            activityType="type"
+            typeLabel="COMPRÉHENSION ORALE"
+            title="Complète les phrases
+            "
+            subtitle="Écoute une première fois le dialogue ci-dessus, puis complète les phrases."
+            activityType="listen-type"
+            audioSrc="/audios/courses/elementary/activities/loisirs.mp3"
+            audioImage="/images/courses/audioBlock/beginner/am.png"
+            audioBadge="Dialogue"
             description={
-              <div className="space-y-5 text-black">
+              <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
+                {/* ===================================================== */}
+                {/* UTILISATION DU LECTEUR AUDIO */}
+                {/* ===================================================== */}
+
+                {/* ===================================================== */}
+                {/* RECONNAISSANCE VOCALE */}
+                {/* ===================================================== */}
+
                 <p>
-                  Complète chaque phrase
-                  avec la bonne forme du
-                  verbe.
+                  Pour aider l&apos;outil de reconnaissance vocale à bien
+                  identifier ta réponse, pense à dire la lettre (A, B ou C) qui
+                  correspond à ta réponse, suivie de la réponse en entier.
+                  Exemple :
+                  <span className="font-semibold text-slate-900">
+                    {" « A : ingénieur »."}
+                  </span>
                 </p>
-
-                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                  <p className="mb-2 text-sm font-medium text-slate-600">
-                    💡 Exemple :
-                  </p>
-
-                  <p className="text-base">
-                    Les jeunes{" "}
-                    <span className="font-semibold">
-                      passent
-                    </span>{" "}
-                    beaucoup de temps
-                    sur internet.
-                  </p>
-                </div>
-
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="mb-2 text-sm font-medium text-slate-600">
-                    🎯 Astuce :
-                  </p>
-
-                  <p className="text-base">
-                    Fais attention au sujet
-                    pour choisir la bonne
-                    terminaison du verbe.
-                  </p>
-                </div>
               </div>
             }
-            onStart={() =>
-              setStarted(true)
-            }
+            onStart={() => {
+              setStarted(true);
+            }}
             started={started}
           />
 
+          {/* ========================================================= */}
+          {/* EXERCICE */}
+          {/* ========================================================= */}
+
           {started && (
-            <LeisureConjugationExercise
-              onComplete={
-                onComplete
-              }
-            />
+            <div id="exercise-1-qcm" className="scroll-mt-10">
+              <LeisureConjugationExercise />
+            </div>
           )}
         </ExerciseSection>
       )}
