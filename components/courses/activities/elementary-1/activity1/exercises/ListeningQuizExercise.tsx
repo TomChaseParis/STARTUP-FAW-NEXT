@@ -114,6 +114,9 @@ export default function ListeningQuizExercise({
     <section className="w-full">
       <QuizEngine
         questions={questions}
+
+        speechEngine="openai"
+
         progressConfig={{
           progress,
 
@@ -128,6 +131,7 @@ export default function ListeningQuizExercise({
               refresh();
             },
         }}
+
         resultRenderer={
           renderResult
         }

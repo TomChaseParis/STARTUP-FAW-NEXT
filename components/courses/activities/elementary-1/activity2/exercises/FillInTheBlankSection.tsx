@@ -78,117 +78,15 @@ export default function FillInTheBlankSection() {
               level="elementary1"
               stampLabel="EXERCICE 1"
               title="Complète les phrases"
-              activityType="type"
+              activityType="listen-type"
               audioSrc={
                 leisureConjugationData.audioSrc
               }
-              audioImage="/images/courses/audioBlock/elementary1/am.png"
+              audioImage="/images/courses/elementary/lesloisirsdesfrancais/loisirs-fr.png"
               audioBadge="Compréhension orale"
               description={
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-                  {/* ===================================================== */}
-                  {/* UTILISATION DU LECTEUR AUDIO */}
-                  {/* ===================================================== */}
-
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span>
-                      Utilise le bouton
-                    </span>
-
-                    {/* ICÔNE D'ÉCOUTE */}
-
-                    <span
-                      className="
-                        inline-flex
-                        h-10
-                        w-10
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-white
-                        text-amber-600
-                        shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-                      "
-                      aria-hidden="true"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M11 5L6 9H3v6h3l5 4V5z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
-                        />
-                      </svg>
-                    </span>
-
-                    <span>
-                      pour écouter le professeur présenter la
-                      question et les réponses proposées.
-                    </span>
-                  </div>
-
-                  {/* ===================================================== */}
-                  {/* BOUTON MICRO */}
-                  {/* ===================================================== */}
-
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span>
-                      Appuie sur le bouton
-                    </span>
-
-                    <button
-                      type="button"
-                      tabIndex={-1}
-                      aria-hidden="true"
-                      className="
-                        pointer-events-none
-                        relative
-                        flex
-                        h-10
-                        w-10
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-white
-                        text-amber-600
-                        shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-                      "
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
-                        />
-                      </svg>
-                    </button>
-
-                    <span>
-                      si tu préfères répondre à la question à
-                      l&apos;oral.
-                    </span>
-                  </div>
-
+            
                   {/* ===================================================== */}
                   {/* CONSIGNE DE L'EXERCICE */}
                   {/* ===================================================== */}

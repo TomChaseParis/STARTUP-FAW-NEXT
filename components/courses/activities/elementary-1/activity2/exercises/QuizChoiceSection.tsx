@@ -1,6 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import ExerciseContainer from "@/components/activity/ExerciseContainer";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
@@ -10,6 +14,61 @@ import QuizChoiceExercise from "./QuizChoiceExercise";
 
 export default function QuizChoiceSection() {
   const [started, setStarted] = useState(false);
+
+  const exerciseRef =
+    useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!started) {
+      return;
+    }
+
+    let attempts = 0;
+    let timer: number | undefined;
+
+    const scrollToExercise = () => {
+      const element =
+        exerciseRef.current;
+
+      if (!element) {
+        attempts += 1;
+
+        if (attempts < 20) {
+          timer = window.setTimeout(
+            scrollToExercise,
+            100,
+          );
+        }
+
+        return;
+      }
+
+      const elementTop =
+        element.getBoundingClientRect().top +
+        window.scrollY;
+
+      const offset = 100;
+
+      window.scrollTo({
+        top: Math.max(
+          0,
+          elementTop - offset,
+        ),
+        behavior: "smooth",
+      });
+    };
+
+    timer = window.setTimeout(
+      scrollToExercise,
+      100,
+    );
+
+    return () => {
+      if (timer) {
+        window.clearTimeout(timer);
+      }
+    };
+  }, [started]);
 
   return (
     <ExerciseContainer exerciseId="exercise-2">
@@ -41,14 +100,21 @@ export default function QuizChoiceSection() {
                 </div>
               </div>
             }
-            onStart={() => setStarted(true)}
+            onStart={() => {
+              setStarted(true);
+            }}
             started={started}
           />
 
           {started && (
-            <QuizChoiceExercise
-              onComplete={onComplete}
-            />
+            <div
+              ref={exerciseRef}
+              className="scroll-mt-10"
+            >
+              <QuizChoiceExercise
+                onComplete={onComplete}
+              />
+            </div>
           )}
         </ExerciseSection>
       )}

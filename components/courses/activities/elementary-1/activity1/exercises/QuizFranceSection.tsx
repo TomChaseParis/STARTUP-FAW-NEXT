@@ -153,6 +153,7 @@ export default function QuizFranceSection({
     <section className="w-full">
       <QuizEngine
         questions={questions}
+        speechEngine="openai"
         progressConfig={{
           progress,
 

@@ -55,9 +55,9 @@ export default function Activity() {
         poster="/images/courses/elementary/activities/activity2/poster.png"
         info={{
           objectifs: ["Parler des loisirs"],
-          competences: ["Compréhension orale", "Vocabulaire"],
-          prerequis: ["Présent — 3e personne du pluriel"],
-          duree: "25 minutes",
+          competences: ["Compréhension orale", "Phonie / graphie", "Prononciation", "Expression orale"],
+          prerequis: ["Conjugaison au présent : 3ème personne du pluriel (ils/elles)", "Questions et mots interrogatifs"],
+          duree: "20 minutes",
         }}
       />
 

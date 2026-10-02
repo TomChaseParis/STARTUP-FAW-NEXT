@@ -74,7 +74,7 @@ export default function ExerciseContainer({
      * exercice suivant
      *
      * Pour FillGaps :
-     *
+     *  
      * score
      * ↓
      * on laisse FillGapsEngine afficher
