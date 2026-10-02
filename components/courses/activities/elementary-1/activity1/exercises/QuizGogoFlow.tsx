@@ -165,7 +165,7 @@ export default function QuizGogoFlow() {
                   stampLabel="EXERCICE 1"
                   title="Quiz panaché"
                   subtitle="Écoute les questions puis choisis la bonne réponse"
-                  activityType="listen"
+                  activityType="click-or-speak"
                   description={
                     <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
                       {/* ===================================================== */}
@@ -317,7 +317,7 @@ export default function QuizGogoFlow() {
                   stampLabel="EXERCICE 2"
                   title="Quiz sur la France et les français"
                   subtitle="Teste tes connaissances sur la France et les Français"
-                  activityType="listen"
+                  activityType="click-or-speak"
                   description={
                     <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
                       {/* ===================================================== */}
@@ -466,6 +466,7 @@ export default function QuizGogoFlow() {
               level="elementary1"
               stampLabel="EXERCICE 3"
               title="Le professeur je-sais-tout"
+              activityType="speak"
               subtitle="Complète la question avec le bon mot interrogatif, puis pose la question à Jean"
               description={
                 <p>

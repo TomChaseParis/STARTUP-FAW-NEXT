@@ -6,4 +6,5 @@ export type ActivityType =
   | "click-or-speak"
   | "click"
   | "type"
-  | "converse";
+  | "converse"
+  | "speak";
