@@ -19,6 +19,7 @@ export default function QuizChoiceExercise({
     <section className="w-full">
       <QuizEngine
         questions={quizChoiceQuestions}
+        speechEngine="openai"
         onComplete={onComplete}
       />
     </section>
