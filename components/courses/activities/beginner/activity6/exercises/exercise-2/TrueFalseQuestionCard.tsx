@@ -75,18 +75,22 @@ export default function TrueFalseQuestionCard({
 
   return (
     <div className="w-full">
+      {/* =====================================================
+          IMAGE + QUESTION
+      ====================================================== */}
+
       <div
         className="
           grid
           grid-cols-1
-          gap-6
-          lg:grid-cols-[minmax(260px,0.85fr)_minmax(0,1.4fr)]
-          lg:items-stretch
+          gap-8
+          lg:grid-cols-[minmax(220px,0.7fr)_minmax(0,1.5fr)]
+          lg:items-center
         "
       >
-        {/* =====================================================
+        {/* ===================================================
             IMAGE
-        ====================================================== */}
+        ==================================================== */}
 
         <motion.div
           key={image}
@@ -102,80 +106,34 @@ export default function TrueFalseQuestionCard({
             duration: 0.35,
           }}
           className="
-            relative
-            overflow-hidden
-            rounded-3xl
-            border
-            border-slate-200
-            bg-white
-            shadow-[0_15px_50px_rgba(15,23,42,0.08)]
+            flex
+            items-center
+            justify-center
           "
         >
-          <div
+          <img
+            src={image}
+            alt=""
             className="
-              pointer-events-none
-              absolute
-              -right-16
-              -top-16
-              h-40
-              w-40
-              rounded-full
-              bg-amber-100/60
-              blur-2xl
+              max-h-[240px]
+              max-w-full
+              rounded-2xl
+              object-contain
+              shadow-md
+              sm:max-h-[280px]
+              lg:max-h-[320px]
             "
           />
-
-          <div
-            className="
-              pointer-events-none
-              absolute
-              -bottom-20
-              -left-16
-              h-40
-              w-40
-              rounded-full
-              bg-sky-100/50
-              blur-2xl
-            "
-          />
-
-          <div
-            className="
-              relative
-              flex
-              min-h-[280px]
-              items-center
-              justify-center
-              p-4
-              sm:min-h-[340px]
-              lg:min-h-[390px]
-            "
-          >
-            <img
-              src={image}
-              alt=""
-              className="
-                h-full
-                max-h-[360px]
-                w-full
-                rounded-2xl
-                object-cover
-                shadow-md
-                sm:max-h-[420px]
-                lg:max-h-[460px]
-              "
-            />
-          </div>
         </motion.div>
 
-        {/* =====================================================
+        {/* ===================================================
             QUESTION + RÉPONSES
-        ====================================================== */}
+        ==================================================== */}
 
         <div className="flex min-w-0 flex-col">
-          {/* ===================================================
+          {/* =================================================
               AFFIRMATION
-          ==================================================== */}
+          ================================================== */}
 
           <motion.div
             key={statement}
@@ -194,70 +152,19 @@ export default function TrueFalseQuestionCard({
               relative
               mb-6
               flex
-              min-h-[220px]
-              flex-1
+              min-h-[180px]
               items-center
               overflow-hidden
               rounded-3xl
-              border
-              border-slate-200
               bg-white
               px-6
               py-8
               text-center
-              shadow-[0_15px_50px_rgba(15,23,42,0.08)]
               sm:px-10
               sm:py-10
             "
           >
-            {/* Décoration */}
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                -right-16
-                -top-16
-                h-40
-                w-40
-                rounded-full
-                bg-amber-100/60
-                blur-2xl
-              "
-            />
-
-            <div
-              className="
-                pointer-events-none
-                absolute
-                -bottom-20
-                -left-16
-                h-40
-                w-40
-                rounded-full
-                bg-sky-100/50
-                blur-2xl
-              "
-            />
-
             <div className="relative w-full">
-              <div
-                className="
-                  mx-auto
-                  mb-5
-                  flex
-                  h-12
-                  w-12
-                  items-center
-                  justify-center
-                  rounded-2xl
-                  bg-amber-100
-                  text-xl
-                "
-              >
-                💬
-              </div>
-
               <p
                 className="
                   mx-auto
@@ -275,9 +182,9 @@ export default function TrueFalseQuestionCard({
             </div>
           </motion.div>
 
-          {/* ===================================================
+          {/* =================================================
               RÉPONSES
-          ==================================================== */}
+          ================================================== */}
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {/* VRAI */}
