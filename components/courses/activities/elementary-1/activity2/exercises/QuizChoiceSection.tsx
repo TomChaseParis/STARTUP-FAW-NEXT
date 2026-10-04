@@ -77,26 +77,87 @@ export default function QuizChoiceSection() {
           <InstructionBlock
             level="elementary1"
             stampLabel="EXERCICE 2"
-            title="Trouve la bonne réponse à chaque question"
-            subtitle="Écoute les questions puis choisis la bonne réponse"
-            activityType="listen"
+            title="QU’EST-CE QU’ILS FONT ?"
+            activityType="click-or-speak"
             description={
               <div className="space-y-5 text-black">
                 <p>
-                  Écoute chaque question à l&apos;aide du bouton audio,
-                  observe l&apos;image lorsqu&apos;il y en a une, puis
-                  sélectionne la bonne réponse parmi les propositions.
+                  <span className="font-semibold">
+                    Consigne :
+                  </span>{" "}
+                  Associe chaque image à ce qu’elle représente
+                  en choisissant parmi les trois phrases proposées.
                 </p>
 
-                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                  <p className="mb-2 text-sm font-medium text-slate-600">
-                    💡 Astuce :
-                  </p>
+                <div
+                  className="
+                    flex
+                    flex-col
+                    items-center
+                    gap-4
+                    rounded-xl
+                    border
+                    border-slate-300
+                    bg-white
+                    px-4
+                    py-4
+                    sm:flex-row
+                    sm:items-center
+                    sm:gap-5
+                    sm:px-5
+                    sm:py-4
+                  "
+                >
+                  <div
+                    className="
+                      flex
+                      shrink-0
+                      items-center
+                      justify-center
+                    "
+                  >
+                    <img
+                      src="/images/courses/beginner/activities/brunogalopin/point.png"
+                      alt="Point d'attention"
+                      className="
+                        h-20
+                        w-20
+                        object-contain
+                        sm:h-28
+                        sm:w-24
+                      "
+                    />
+                  </div>
 
-                  <p className="text-base">
-                    Écoute bien les informations et observe attentivement
-                    les images avant de répondre.
-                  </p>
+                  <div
+                    className="
+                      min-w-0
+                      w-full
+                      space-y-3
+                      text-center
+                      text-sm
+                      leading-relaxed
+                      text-slate-800
+                      sm:text-left
+                      sm:text-base
+                    "
+                  >
+                    <p className="font-bold">
+                      Attention (1) : si vous utilisez le micro
+                      pour répondre à l’oral, vous devez dire{" "}
+                      <strong>toute la phrase</strong>.
+                    </p>
+
+                    <p>
+                      Exemple : « Ils boivent du thé. »
+                    </p>
+
+                    <p className="font-bold">
+                      Attention (2) : le <em>–ent</em>{" "}
+                      <strong>ne se prononce pas</strong> à la fin
+                      des verbes à la 3ème personne du pluriel.
+                    </p>
+                  </div>
                 </div>
               </div>
             }

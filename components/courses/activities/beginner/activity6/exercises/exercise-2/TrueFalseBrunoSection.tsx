@@ -18,25 +18,19 @@ export default function TrueFalseBrunoSection() {
     let timer: number | undefined;
 
     const scrollToExercise = () => {
-      const element =
-        document.getElementById("exercise-2-content");
+      const element = document.getElementById("exercise-2-content");
 
       if (!element) {
         attempts += 1;
 
         if (attempts < 20) {
-          timer = window.setTimeout(
-            scrollToExercise,
-            100,
-          );
+          timer = window.setTimeout(scrollToExercise, 100);
         }
 
         return;
       }
 
-      const elementTop =
-        element.getBoundingClientRect().top +
-        window.scrollY;
+      const elementTop = element.getBoundingClientRect().top + window.scrollY;
 
       const offset = 100;
 
@@ -46,10 +40,7 @@ export default function TrueFalseBrunoSection() {
       });
     };
 
-    timer = window.setTimeout(
-      scrollToExercise,
-      100,
-    );
+    timer = window.setTimeout(scrollToExercise, 100);
 
     return () => {
       if (timer) {
@@ -61,10 +52,7 @@ export default function TrueFalseBrunoSection() {
   return (
     <ExerciseContainer exerciseId="exercise-2">
       {({ onComplete }) => (
-        <div
-          id="exercise-2-instruction"
-          className="scroll-mt-10"
-        >
+        <div id="exercise-2-instruction" className="scroll-mt-10">
           <ExerciseSection>
             <InstructionBlock
               level="beginner"
@@ -73,18 +61,12 @@ export default function TrueFalseBrunoSection() {
               title="VRAI OU FAUX ?"
               subtitle="Écoute une nouvelle fois le dialogue et dis si les phrases proposées sont vraies ou fausses."
               activityType="listen-click"
-
               audioSrc="/audios/courses/beginner/bruno-galopin/bruno-galopin.mp3"
               audioBadge="Bruno Galopin"
               audioImage="/images/courses/audioBlock/beginner/bruno-galopin.jpg"
-
               description={
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-                  <p className="font-semibold text-slate-800">
-                    Consigne :
-                  </p>
-
-               
+                  <p className="font-semibold text-slate-800">Consigne :</p>
 
                   <div
                     className="
@@ -99,33 +81,20 @@ export default function TrueFalseBrunoSection() {
                     "
                   >
                     Pour chaque phrase, sélectionne{" "}
-                    <span className="text-amber-700">
-                      VRAI
-                    </span>{" "}
-                    ou{" "}
-                    <span className="text-amber-700">
-                      FAUX
-                    </span>
-                    .
+                    <span className="text-amber-700">VRAI</span> ou{" "}
+                    <span className="text-amber-700">FAUX</span>.
                   </div>
                 </div>
               }
-
               onStart={() => {
                 setStarted(true);
               }}
-
               started={started}
             />
 
             {started && (
-              <div
-                id="exercise-2-content"
-                className="scroll-mt-10"
-              >
-                <TrueFalseBrunoExercise
-                  onComplete={onComplete}
-                />
+              <div id="exercise-2-content" className="scroll-mt-10">
+                <TrueFalseBrunoExercise onComplete={onComplete} />
               </div>
             )}
           </ExerciseSection>

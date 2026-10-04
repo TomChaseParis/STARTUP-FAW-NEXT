@@ -54,7 +54,7 @@ export default function Activity() {
         videoSrc="/videos/courses/elementary-1/activities/activity2/presentation.mp4"
         poster="/images/courses/elementary/activities/activity2/poster.png"
         info={{
-          objectifs: ["Parler des loisirs"],
+          objectifs: ["Parler de ses hobbies"],
           competences: ["Compréhension orale", "Phonie / graphie", "Prononciation", "Expression orale"],
           prerequis: ["Conjugaison au présent : 3ème personne du pluriel (ils/elles)", "Questions et mots interrogatifs"],
           duree: "20 minutes",

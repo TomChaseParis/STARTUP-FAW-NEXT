@@ -77,56 +77,89 @@ export default function FillInTheBlankSection() {
             <InstructionBlock
               level="elementary1"
               stampLabel="EXERCICE 1"
-              title="Complète les phrases"
+              title="Les loisirs des français"
               activityType="listen-type"
-              audioSrc={
-                leisureConjugationData.audioSrc
-              }
-              audioImage="/images/courses/elementary/lesloisirsdesfrancais/loisirs-fr.png"
               audioBadge="Compréhension orale"
               description={
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-            
-                  {/* ===================================================== */}
-                  {/* CONSIGNE DE L'EXERCICE */}
-                  {/* ===================================================== */}
-
-                  <p>
-                    Complète chaque phrase avec la bonne forme
-                    du verbe.
+                  <p className="font-semibold text-slate-800">
+                    Consigne :
                   </p>
 
-                  {/* ===================================================== */}
-                  {/* EXEMPLE */}
-                  {/* ===================================================== */}
-
-                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                    <p className="mb-2 text-sm font-medium text-slate-600">
-                      💡 Exemple :
-                    </p>
-
-                    <p className="text-base">
-                      Les jeunes{" "}
-                      <span className="font-semibold">
-                        passent
-                      </span>{" "}
-                      beaucoup de temps sur internet.
-                    </p>
+                  <div
+                    className="
+                      rounded-2xl
+                      border
+                      border-amber-200
+                      bg-amber-50
+                      px-4
+                      py-3
+                      font-semibold
+                      text-slate-800
+                    "
+                  >
+                    Écoute le texte et conjuge tous les verbes à la troisième personne du pluriel.
                   </div>
 
-                  {/* ===================================================== */}
-                  {/* ASTUCE */}
-                  {/* ===================================================== */}
+                  <div
+                    className="
+                      flex
+                      flex-col
+                      items-center
+                      gap-4
+                      rounded-xl
+                      border
+                      border-slate-300
+                      bg-white
+                      px-4
+                      py-4
+                      sm:flex-row
+                      sm:items-center
+                      sm:gap-5
+                      sm:px-5
+                      sm:py-4
+                    "
+                  >
+                    <div
+                      className="
+                        flex
+                        shrink-0
+                        items-center
+                        justify-center
+                      "
+                    >
+                      <img
+                        src="/images/courses/beginner/activities/brunogalopin/point.png"
+                        alt="Point d'attention"
+                        className="
+                          h-20
+                          w-20
+                          object-contain
+                          sm:h-28
+                          sm:w-24
+                        "
+                      />
+                    </div>
 
-                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                    <p className="mb-2 text-sm font-medium text-slate-600">
-                      🎯 Astuce :
-                    </p>
+                    <div
+                      className="
+                        min-w-0
+                        w-full
+                        space-y-2
+                        text-center
+                        sm:text-left
+                      "
+                    >
+                      <p className="font-bold text-slate-800">
+                        La marque du pluriel (–ent) ne s’entend pas à l’oral !
+                      </p>
 
-                    <p className="text-base">
-                      Fais attention au sujet pour choisir la
-                      bonne terminaison du verbe.
-                    </p>
+                      <p>
+                        Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet <br></br>
+                        <p className="mt-1">➡️ Les jeunes{" "}
+                        <strong>passent</strong> beaucoup de temps sur internet.</p> 
+                      </p>
+                    </div>
                   </div>
                 </div>
               }
