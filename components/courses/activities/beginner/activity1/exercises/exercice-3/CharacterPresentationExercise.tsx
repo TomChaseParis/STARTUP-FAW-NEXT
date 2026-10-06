@@ -12,7 +12,7 @@ import { useSpeechRecognition } from "@/components/courses/speech/useSpeechRecog
 
 import type {
   ExerciseHistoryItem,
-  ExerciseSessionResult,
+  ExerciseSessionResult,  
 } from "@/components/courses/common/types/exerciseSessionTypes";
 
 import type { ActivityResult } from "@/core/activity/models/ActivityResult";
@@ -846,12 +846,12 @@ export default function CharacterPresentationExercise({
         <div className="border-b border-amber-100 bg-gradient-to-r from-amber-50 to-yellow-50 px-6 py-5 sm:px-8">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                Présentation
+              <p className="text-[16px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+               CONJUGAISON
               </p>
 
               <h3 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">
-                Présente le personnage
+                Présente le(s) personnage(s) avec le pronom indiqué
               </h3>
             </div>
 

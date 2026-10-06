@@ -3,21 +3,28 @@
 import { useState } from "react";
 
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
+
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 
 import VerbListeningExercise from "./VerbListeningExercise";
+
 import VerbSpeakingExercise from "./VerbSpeakingExercise";
+
 import BigFourFinalResults from "../../../zeBigFour/ZeBigFourFinalResults";
 
 import etreSpeakingData from "../../data/verbSpeaking/etre";
+
 import avoirSpeakingData from "../../data/verbSpeaking/avoir";
+
 import faireSpeakingData from "../../data/verbSpeaking/faire";
+
 import allerSpeakingData from "../../data/verbSpeaking/aller";
 
 type VerbKey = "etre" | "avoir" | "faire" | "aller";
 
 type VerbScore = {
   score: number;
+
   totalQuestions: number;
 };
 
@@ -31,9 +38,13 @@ const verbConfig: Record<
   VerbKey,
   {
     title: string;
+
     forms: string[];
+
     timings: number[];
+
     audioSrc: string;
+
     speakingData: typeof etreSpeakingData;
   }
 > = {
@@ -42,10 +53,15 @@ const verbConfig: Record<
 
     forms: [
       "Je suis",
+
       "Tu es",
+
       "Il / Elle / On est",
+
       "Nous sommes",
+
       "Vous êtes",
+
       "Ils / Elles sont",
     ],
 
@@ -61,10 +77,15 @@ const verbConfig: Record<
 
     forms: [
       "J'ai",
+
       "Tu as",
+
       "Il / Elle / On a",
+
       "Nous avons",
+
       "Vous avez",
+
       "Ils / Elles ont",
     ],
 
@@ -80,10 +101,15 @@ const verbConfig: Record<
 
     forms: [
       "Je fais",
+
       "Tu fais",
+
       "Il / Elle / On fait",
+
       "Nous faisons",
+
       "Vous faites",
+
       "Ils / Elles font",
     ],
 
@@ -99,10 +125,15 @@ const verbConfig: Record<
 
     forms: [
       "Je vais",
+
       "Tu vas",
+
       "Il / Elle / On va",
+
       "Nous allons",
+
       "Vous allez",
+
       "Ils / Elles vont",
     ],
 
@@ -125,9 +156,21 @@ export default function VerbListeningSection({
     useState(false);
 
   /*
+
+
+
    * =========================================================
+
+
+
    * SCORES DES 4 VERBES
+
+
+
    * =========================================================
+
+
+
    */
 
   const [verbScores, setVerbScores] = useState<
@@ -135,9 +178,21 @@ export default function VerbListeningSection({
   >({});
 
   /*
+
+
+
    * =========================================================
+
+
+
    * AFFICHAGE DU RÉSULTAT FINAL
+
+
+
    * =========================================================
+
+
+
    */
 
   const [showFinalResults, setShowFinalResults] = useState(false);
@@ -149,9 +204,21 @@ export default function VerbListeningSection({
   const isLastVerb = currentVerbIndex === verbOrder.length - 1;
 
   /*
+
+
+
    * =========================================================
+
+
+
    * DÉMARRER L'EXERCICE
+
+
+
    * =========================================================
+
+
+
    */
 
   const handleStartExercise = () => {
@@ -160,15 +227,28 @@ export default function VerbListeningSection({
     requestAnimationFrame(() => {
       document.getElementById("verb-exercise-content")?.scrollIntoView({
         behavior: "smooth",
+
         block: "start",
       });
     });
   };
 
   /*
+
+
+
    * =========================================================
+
+
+
    * PREMIÈRE ÉCOUTE DU VERBE TERMINÉE
+
+
+
    * =========================================================
+
+
+
    */
 
   const handleFirstListenComplete = () => {
@@ -177,28 +257,54 @@ export default function VerbListeningSection({
     requestAnimationFrame(() => {
       document.getElementById("verb-speaking-exercise")?.scrollIntoView({
         behavior: "smooth",
+
         block: "start",
       });
     });
   };
 
   /*
+
+
+
    * =========================================================
+
+
+
    * ENREGISTRER LE SCORE D'UN VERBE
+
+
+
    * =========================================================
+
+
+
    */
 
   const handleVerbComplete = (result: VerbScore) => {
     setVerbScores((previous) => ({
       ...previous,
+
       [currentVerb]: result,
     }));
   };
 
   /*
+
+
+
    * =========================================================
+
+
+
    * PASSER AU VERBE SUIVANT
+
+
+
    * =========================================================
+
+
+
    */
 
   const handleNextVerb = () => {
@@ -207,9 +313,21 @@ export default function VerbListeningSection({
     }
 
     /*
+
+
+
      * Le nouveau verbe doit être écouté
+
+
+
      * entièrement avant d'afficher son
+
+
+
      * exercice de prononciation.
+
+
+
      */
 
     setHasListenedToCurrentVerb(false);
@@ -219,34 +337,69 @@ export default function VerbListeningSection({
     requestAnimationFrame(() => {
       document.getElementById("verb-exercise-content")?.scrollIntoView({
         behavior: "smooth",
+
         block: "start",
       });
     });
   };
 
   /*
+
+
+
    * =========================================================
+
+
+
    * FIN DE L'ACTIVITÉ
+
+
+
    * =========================================================
+
+
+
    */
 
   const handleActivityComplete = (result: VerbScore) => {
     /*
+
+
+
      * ALLER est le dernier verbe.
+
+
+
      *
+
+
+
      * On ajoute son score aux trois précédents.
+
+
+
      */
 
     const updatedScores = {
       ...verbScores,
+
       aller: result,
     };
 
     setVerbScores(updatedScores);
 
     /*
+
+
+
      * On affiche maintenant le résultat
+
+
+
      * global des quatre verbes.
+
+
+
      */
 
     setShowFinalResults(true);
@@ -254,15 +407,28 @@ export default function VerbListeningSection({
     requestAnimationFrame(() => {
       window.scrollTo({
         top: 0,
+
         behavior: "smooth",
       });
     });
   };
 
   /*
+
+
+
    * =========================================================
+
+
+
    * RECOMMENCER L'ACTIVITÉ
+
+
+
    * =========================================================
+
+
+
    */
 
   const handleRestartActivity = () => {
@@ -279,15 +445,28 @@ export default function VerbListeningSection({
     requestAnimationFrame(() => {
       window.scrollTo({
         top: 0,
+
         behavior: "smooth",
       });
     });
   };
 
   /*
+
+
+
    * =========================================================
+
+
+
    * RÉSULTAT FINAL
+
+
+
    * =========================================================
+
+
+
    */
 
   if (showFinalResults) {
@@ -303,52 +482,373 @@ export default function VerbListeningSection({
   }
 
   /*
+
+
+
    * =========================================================
+
+
+
    * ACTIVITÉ
+
+
+
    * =========================================================
+
+
+
    */
 
   return (
     <ExerciseSection width="wide">
       {/* =====================================================
+
+
+
           INSTRUCTION UNIQUE
-      ====================================================== */}
+
+
+
+      \====================================================== */}
 
       <InstructionBlock
         level="beginner"
+        typeLabel="PRONONCIATION"
         stampLabel="EXERCICE 1"
-        title="Écoute et observe comment se conjuge chacun des verbes"
-        subtitle="Les verbes essentiels au présent"
-        activityType="listen"
-        description={
+        title="JE SUIS, TU AS, ELLE FAIT, NOUS ALLONS..."
+        subtitle={
           <>
-            Écoute d&apos;abord la conjugaison des verbes{" "}
-            <strong>être, avoir, faire et aller</strong>. Puis prononce les
-            phrases une par une.
+            Pour chaque verbe, écoute Marie décliner leur conjugaison au
+            présent, puis choisis la bonne forme verbale du verbe pour chaque
+            phrase qui t’est proposée.
+            <br />
+            <span>Exemple : « Qui est étudiant ? Qui travaille ? »</span>
           </>
         }
+        activityType="listen-and-speak"
         onStart={handleStartExercise}
         startLabel="Commencer l'exercice"
         started={exerciseStarted}
-      />
+        showPointAttention={true}
+        pointAttention={{
+          imageSrc:
+            "/images/courses/beginner/activities/brunogalopin/point.png",
+
+          imageAlt: "Point d'attention",
+
+          title: (
+            <>
+              Tu dois prononcer <strong>toute la phrase</strong> qui t’es
+              proposée.
+            </>
+          ),
+
+          example: (
+            <>
+              <strong>Exemple : </strong>« Pardon, vous avez l’heure ? »
+            </>
+          ),
+        }}
+      >
+        {/* ===================================================== */}
+
+        {/* BLOC D'AIDE ÉCOUTE / MICRO */}
+
+        {/* ===================================================== */}
+
+        <div
+          className="
+
+
+
+      bg-white/65
+
+
+
+      relative
+
+
+
+      mb-7
+
+
+
+      overflow-hidden
+
+
+
+      rounded-2xl
+
+
+
+      border
+
+
+
+      border-white/80
+
+
+
+      p-5
+
+
+
+      shadow-[0_10px_30px_rgba(15,23,42,0.05)]
+
+
+
+      backdrop-blur-sm
+
+
+
+      sm:p-6
+
+
+
+    "
+        >
+          {/* Barre verticale décorative */}
+
+          <div
+            className="
+
+
+
+        absolute
+
+
+
+        bottom-0
+
+
+
+        left-0
+
+
+
+        top-0
+
+
+
+        w-1
+
+
+
+        bg-amber-400
+
+
+
+      "
+          />
+
+          <div className="space-y-4 pl-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+            {/* ===================================================== */}
+
+            {/* ÉCOUTE */}
+
+            {/* ===================================================== */}
+
+            <div className="flex flex-wrap items-center gap-2">
+              <span>Utilise le bouton</span>
+
+              {/* ICÔNE D'ÉCOUTE */}
+
+              <span
+                className="
+
+
+
+            inline-flex
+
+
+
+            h-10
+
+
+
+            w-10
+
+
+
+            shrink-0
+
+
+
+            items-center
+
+
+
+            justify-center
+
+
+
+            rounded-full
+
+
+
+            bg-white
+
+
+
+            text-amber-600
+
+
+
+            shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+
+
+
+          "
+                aria-hidden="true"
+              >
+                <svg
+                  xmlns="http\://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M11 5L6 9H3v6h3l5 4V5z"
+                  />
+
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
+                  />
+                </svg>
+              </span>
+
+              <span>pour écouter Marie décliner la conjugaison.</span>
+            </div>
+
+            {/* ===================================================== */}
+
+            {/* MICRO */}
+
+            {/* ===================================================== */}
+
+            <div className="flex flex-wrap items-center gap-2">
+              <span>Appuie sur le bouton</span>
+
+              {/* ICÔNE MICRO */}
+
+              <button
+                type="button"
+                tabIndex={-1}
+                aria-hidden="true"
+                className="
+
+
+
+            pointer-events-none
+
+
+
+            relative
+
+
+
+            flex
+
+
+
+            h-10
+
+
+
+            w-10
+
+
+
+            shrink-0
+
+
+
+            items-center
+
+
+
+            justify-center
+
+
+
+            rounded-full
+
+
+
+            bg-white
+
+
+
+            text-amber-600
+
+
+
+            shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+
+
+
+          "
+              >
+                <svg
+                  xmlns="http\://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
+                  />
+                </svg>
+              </button>
+
+              <span>avant de prononcer ta phrase.</span>
+            </div>
+          </div>
+        </div>
+      </InstructionBlock>
 
       {/* =====================================================
+
+
+
           EXERCICE
-      ====================================================== */}
+
+
+
+      \====================================================== */}
 
       {exerciseStarted && (
         <div id="verb-exercise-content" className="scroll-mt-10">
           {/* =================================================
+
+
+
               ÉCOUTE DU VERBE
-          ================================================== */}
+
+
+
+          \================================================== */}
 
           <div className="mt-10">
             <VerbListeningExercise
               key={currentVerb}
               category={{
                 title: currentVerbConfig.title,
+
                 forms: currentVerbConfig.forms,
+
                 timings: currentVerbConfig.timings,
+
                 audioSrc: currentVerbConfig.audioSrc,
               }}
               onFirstListenComplete={handleFirstListenComplete}
@@ -356,8 +856,14 @@ export default function VerbListeningSection({
           </div>
 
           {/* =================================================
+
+
+
               PRONONCIATION
-          ================================================== */}
+
+
+
+          \================================================== */}
 
           {hasListenedToCurrentVerb && (
             <div id="verb-speaking-exercise" className="mt-12 scroll-mt-10">

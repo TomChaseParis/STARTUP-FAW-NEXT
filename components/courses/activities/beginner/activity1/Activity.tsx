@@ -19,12 +19,15 @@ export default function Activity() {
 
   const [started, setStarted] = useState(false);
 
+  // EXERCICE 1 activé
   const [showExercise1, setShowExercise1] =
     useState(true);
 
+  // EXERCICE 2 masqué au démarrage
   const [showExercise2, setShowExercise2] =
     useState(false);
 
+  // EXERCICE 3 masqué au démarrage
   const [showExercise3, setShowExercise3] =
     useState(false);
 

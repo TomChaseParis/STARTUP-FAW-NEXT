@@ -34,25 +34,19 @@ export default function VerbSelectionSection({
     let timer: number | undefined;
 
     const scrollToExercise = () => {
-      const element =
-        document.getElementById("exercise-2-content");
+      const element = document.getElementById("exercise-2-content");
 
       if (!element) {
         attempts += 1;
 
         if (attempts < 20) {
-          timer = window.setTimeout(
-            scrollToExercise,
-            100,
-          );
+          timer = window.setTimeout(scrollToExercise, 100);
         }
 
         return;
       }
 
-      const elementTop =
-        element.getBoundingClientRect().top +
-        window.scrollY;
+      const elementTop = element.getBoundingClientRect().top + window.scrollY;
 
       window.scrollTo({
         top: Math.max(0, elementTop - 100),
@@ -69,9 +63,7 @@ export default function VerbSelectionSection({
     };
   }, [started, result]);
 
-  const handleComplete = (
-    sessionResult: ExerciseSessionResult,
-  ) => {
+  const handleComplete = (sessionResult: ExerciseSessionResult) => {
     const activityResult: ActivityResult = {
       session: sessionResult,
       bestScore: sessionResult.score,
@@ -87,20 +79,15 @@ export default function VerbSelectionSection({
     setExerciseKey((previous) => previous + 1);
 
     requestAnimationFrame(() => {
-      document
-        .getElementById("activity-1-exercise-2")
-        ?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+      document.getElementById("activity-1-exercise-2")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     });
   };
 
   return (
-    <ExerciseContainer
-      key={exerciseKey}
-      exerciseId="exercise-2"
-    >
+    <ExerciseContainer key={exerciseKey} exerciseId="exercise-2">
       {({ onComplete }) => {
         if (result) {
           return (
@@ -122,83 +109,44 @@ export default function VerbSelectionSection({
         }
 
         return (
-          <div
-            id="exercise-2-instruction"
-            className="scroll-mt-10"
-          >
+          <div id="exercise-2-instruction" className="scroll-mt-10">
             <ExerciseSection>
               <InstructionBlock
                 level="beginner"
                 stampLabel="EXERCICE 2"
-                typeLabel="TEXTE À TROUS"
-                title="Choisis le bon verbe à la bonne forme pour chacune des phrases proposées"
-                subtitle="Complète chaque phrase avec le verbe correctement conjugué."
+                typeLabel="CONJUGAISON"
+                title="MES AMIS ONT UNE MAISON A LA CAMPAGNE."
+                subtitle="Complète chaque phrase avec le verbe qui t’es proposé, conjugué à la bonne forme.
+  Exemple : « La mère de Lucie est espagnole »"
                 activityType="type"
-                description={
-                  <div
-                    className="
-                      flex flex-col items-center gap-4
-                      rounded-xl border border-slate-300 bg-white
-                      px-4 py-4
-                      sm:flex-row sm:items-center sm:gap-5
-                      sm:px-5 sm:py-4
-                    "
-                  >
-                    <div className="flex shrink-0 items-center justify-center">
-                      <div
-                        className="
-                          flex h-20 w-20 items-center justify-center
-                          rounded-full bg-amber-50 text-4xl
-                          sm:h-28 sm:w-28
-                        "
-                      >
-                        ✍️
-                      </div>
-                    </div>
+                showPointAttention={true}
+                pointAttention={{
+                  imageSrc:
+                    "/images/courses/beginner/activities/brunogalopin/point.png",
 
-                    <div
-                      className="
-                        min-w-0 w-full space-y-4
-                        text-center text-sm leading-relaxed text-slate-800
-                        sm:space-y-5 sm:text-left sm:text-base
-                      "
-                    >
-                      <div>
-                        <p className="font-semibold">
-                          Complète chaque phrase avec le bon
-                          verbe.
-                        </p>
+                  imageAlt: "Point d'attention",
 
-                        <p className="mt-1">
-                          Observe bien le sujet avant de choisir
-                          la forme du verbe.
-                        </p>
-                      </div>
+                  title: (
+                    <>Attention à bien conjuguer le verbe selon le sujet !</>
+                  ),
 
-                      <div>
-                        <p className="font-semibold">
-                          Les verbes proposés sont écrits sous le
-                          texte.
-                        </p>
-
-                        <p className="mt-1">
-                          Pense à les conjuguer correctement au
-                          présent.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                }
+                  example: (
+                    <>
+                      Pense à mettre l’accent grave « ê » dans la forme « Vous
+                      êtes ».
+                      <br />
+                      Si tu n’as pas cet accent sur ton clavier, tu peux le
+                      copier / coller à partir de la liste qui t’es fournie.
+                    </>
+                  ),
+                }}
                 onStart={() => setStarted(true)}
                 startLabel="Commencer l'exercice"
                 started={started}
               />
 
               {started && (
-                <div
-                  id="exercise-2-content"
-                  className="scroll-mt-10"
-                >
+                <div id="exercise-2-content" className="scroll-mt-10">
                   <VerbSelectionExercise
                     onComplete={(sessionResult) => {
                       onComplete(sessionResult);

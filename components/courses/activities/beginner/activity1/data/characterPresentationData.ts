@@ -212,7 +212,7 @@ export const characterPresentationData: CharacterPresentationItem[] = [
     id: 3,
 
     image:
-      "/images/courses/beginner/activities/activity1/exercice4/p3.png",
+      "/images/courses/beginner/activities/activity1/exercice4/p3.jpg",
 
     buttonLabel: "ELLE",
 
@@ -354,7 +354,7 @@ export const characterPresentationData: CharacterPresentationItem[] = [
     id: 4,
 
     image:
-      "/images/courses/beginner/activities/activity1/exercice4/p4.png",
+      "/images/courses/beginner/activities/activity1/exercice4/p4.jpg",
 
     buttonLabel: "NOUS",
 
@@ -496,7 +496,7 @@ export const characterPresentationData: CharacterPresentationItem[] = [
     id: 5,
 
     image:
-      "/images/courses/beginner/activities/activity1/exercice4/p5.png",
+      "/images/courses/beginner/activities/activity1/exercice4/p5.jpg",
 
     buttonLabel: "VOUS",
 

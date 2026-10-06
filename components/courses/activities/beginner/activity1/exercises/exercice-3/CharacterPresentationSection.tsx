@@ -1,17 +1,12 @@
 "use client";
-
 import Image from "next/image";
 import { useRef, useState } from "react";
-
 import ExerciseContainer from "@/components/activity/ExerciseContainer";
 import ActivityResults from "@/components/courses/common/ActivityResults";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
-
 import type { ActivityResult } from "@/core/activity/models/ActivityResult";
-
 import CharacterPresentationExercise from "./CharacterPresentationExercise";
-
 const exampleSentences = [
   {
     prompt: "Avoir vingt ans",
@@ -68,27 +63,22 @@ const exampleSentences = [
     end: 21.94,
   },
 ];
-
 type CharacterPresentationSectionProps = {
   onComplete?: (result: ActivityResult) => void;
   onFinishActivity?: () => void;
 };
-
 export default function CharacterPresentationSection({
   onComplete,
   onFinishActivity,
 }: CharacterPresentationSectionProps) {
   const audioRef =
     useRef<HTMLAudioElement | null>(null);
-
   const [isPlayingExample, setIsPlayingExample] =
     useState(false);
-
   const [
     currentExampleSentenceIndex,
     setCurrentExampleSentenceIndex,
   ] = useState(0);
-
   /*
    * =========================================================
    * ÉTAPE DU PARCOURS
@@ -98,37 +88,29 @@ export default function CharacterPresentationSection({
    * 3 = exercice
    * =========================================================
    */
-
   const [exerciseStep, setExerciseStep] =
     useState<1 | 2 | 3>(1);
-
   /*
    * =========================================================
    * RÉSULTAT
    * =========================================================
    */
-
   const [result, setResult] =
     useState<ActivityResult | null>(null);
-
   /*
    * =========================================================
    * CLÉ DE L'EXERCICE
    * =========================================================
    */
-
   const [exerciseKey, setExerciseKey] =
     useState(0);
-
   /*
    * =========================================================
    * DÉBUT DE L'EXEMPLE
    * =========================================================
    */
-
   const handleStartExercise = () => {
     setExerciseStep(2);
-
     requestAnimationFrame(() => {
       document
         .getElementById(
@@ -140,57 +122,45 @@ export default function CharacterPresentationSection({
         });
     });
   };
-
   /*
    * =========================================================
    * AUDIO EXEMPLE
    * =========================================================
    */
-
   const handlePlayExample = () => {
     /*
      * Si l'audio est déjà en cours de lecture,
      * on ne fait rien.
      */
-
     if (
       audioRef.current &&
       !audioRef.current.paused
     ) {
       return;
     }
-
     /*
      * Nettoyage d'un ancien audio.
      */
-
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current = null;
     }
-
     /*
      * Création de l'audio.
      */
-
     const audio = new Audio(
       "/audios/courses/beginner/activity1/exercice3/exemple/exempleaudio.mp3",
     );
-
     audioRef.current = audio;
-
     setCurrentExampleSentenceIndex(0);
     setIsPlayingExample(true);
-
     /*
      * Synchronisation audio / phrase.
      */
-
     audio.ontimeupdate = () => {
       const currentTime =
         audio.currentTime;
-
       const sentenceIndex =
         exampleSentences.findIndex(
           (sentence) =>
@@ -198,36 +168,28 @@ export default function CharacterPresentationSection({
               sentence.start &&
             currentTime < sentence.end,
         );
-
       if (sentenceIndex !== -1) {
         setCurrentExampleSentenceIndex(
           sentenceIndex,
         );
       }
     };
-
     /*
      * =======================================================
      * AUDIO TERMINÉ
      * =======================================================
      */
-
     audio.onended = () => {
       setIsPlayingExample(false);
-
       setCurrentExampleSentenceIndex(
         exampleSentences.length - 1,
       );
-
       audioRef.current = null;
-
       /*
        * Déblocage automatique
        * du véritable exercice.
        */
-
       setExerciseStep(3);
-
       requestAnimationFrame(() => {
         setTimeout(() => {
           document
@@ -241,32 +203,26 @@ export default function CharacterPresentationSection({
         }, 50);
       });
     };
-
     /*
      * Erreur audio.
      */
-
     audio.onerror = () => {
       setIsPlayingExample(false);
       audioRef.current = null;
     };
-
     /*
      * Lancement.
      */
-
     audio.play().catch(() => {
       setIsPlayingExample(false);
       audioRef.current = null;
     });
   };
-
   /*
    * =========================================================
    * EXERCICE TERMINÉ
    * =========================================================
    */
-
   const handleExerciseComplete = (
     exerciseResult: ActivityResult,
     handleContainerComplete: (
@@ -274,54 +230,41 @@ export default function CharacterPresentationSection({
     ) => void,
   ) => {
     setResult(exerciseResult);
-
     handleContainerComplete(
       exerciseResult.session,
     );
-
     onComplete?.(exerciseResult);
   };
-
   /*
    * =========================================================
    * RECOMMENCER
    * =========================================================
    */
-
   const handleRestart = () => {
     /*
      * Arrêt de l'audio exemple.
      */
-
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current = null;
     }
-
     setIsPlayingExample(false);
-
     /*
      * Suppression du résultat.
      */
-
     setResult(null);
-
     /*
      * Nouvelle instance complète
      * de CharacterPresentationExercise.
      */
-
     setExerciseKey(
       (previous) => previous + 1,
     );
-
     /*
      * Retour direct au vrai exercice.
      */
-
     setExerciseStep(3);
-
     requestAnimationFrame(() => {
       setTimeout(() => {
         document
@@ -335,24 +278,20 @@ export default function CharacterPresentationSection({
       }, 100);
     });
   };
-
   /*
    * =========================================================
    * PHRASE EXEMPLE ACTUELLE
    * =========================================================
    */
-
   const currentExampleSentence =
     exampleSentences[
       currentExampleSentenceIndex
     ];
-
   /*
    * =========================================================
    * AFFICHAGE
    * =========================================================
    */
-
   return (
     <ExerciseContainer
       key={exerciseKey}
@@ -364,7 +303,6 @@ export default function CharacterPresentationSection({
          * RÉSULTAT FINAL
          * =====================================================
          */
-
         if (result) {
           return (
             <ActivityResults
@@ -376,7 +314,6 @@ export default function CharacterPresentationSection({
                  *
                  * On retourne donc au module.
                  */
-
                 onFinishActivity?.();
               }}
               isLastExercise={true}
@@ -386,13 +323,11 @@ export default function CharacterPresentationSection({
                     <h3 className="text-xl font-black text-slate-900">
                       Détail des réponses
                     </h3>
-
                     <p className="mt-1 text-sm text-slate-500">
                       Voici le détail de tes
                       réponses phrase par phrase.
                     </p>
                   </div>
-
                   <div className="space-y-4">
                     {result.session.history.map(
                       (item, index) => (
@@ -410,7 +345,6 @@ export default function CharacterPresentationSection({
                           `}
                         >
                           {/* HEADER */}
-
                           <div className="flex items-center justify-between gap-4 border-b border-slate-200/70 bg-white/70 px-5 py-4">
                             <div className="flex items-center gap-3">
                               <div
@@ -433,19 +367,16 @@ export default function CharacterPresentationSection({
                               >
                                 {index + 1}
                               </div>
-
                               <div>
                                 <p className="text-sm font-bold text-slate-900">
                                   Phrase{" "}
                                   {index + 1}
                                 </p>
-
                                 <p className="text-xs text-slate-500">
                                   {item.question}
                                 </p>
                               </div>
                             </div>
-
                             <span
                               className={`
                                 rounded-full
@@ -465,17 +396,13 @@ export default function CharacterPresentationSection({
                                 : "✕ Incorrect"}
                             </span>
                           </div>
-
                           {/* CONTENU */}
-
                           <div className="space-y-4 px-5 py-5">
                             {/* RÉPONSE PRONONCÉE */}
-
                             <div>
                               <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
                                 Ta réponse
                               </p>
-
                               <p
                                 className={`
                                   text-base
@@ -491,14 +418,11 @@ export default function CharacterPresentationSection({
                                   "Aucune réponse"}
                               </p>
                             </div>
-
                             {/* CORRECTION */}
-
                             <div className="rounded-xl border border-green-200 bg-white px-4 py-3">
                               <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.15em] text-green-600">
                                 Réponse attendue
                               </p>
-
                               <p className="font-extrabold text-green-700">
                                 {item.correctAnswer}
                               </p>
@@ -513,60 +437,179 @@ export default function CharacterPresentationSection({
             />
           );
         }
-
         /*
          * =====================================================
          * ACTIVITÉ
          * =====================================================
          */
-
         return (
           <ExerciseSection width="wide">
             {/* =================================================
                 ÉTAPE 1 — INSTRUCTION
             ================================================== */}
-
             <div id="character-presentation-instruction">
               <InstructionBlock
                 level="beginner"
                 stampLabel="EXERCICE 3"
-                title="Présente les personnages"
-                subtitle="Parle à voix haute en utilisant le bon pronom"
+                typeLabel="CONJUGAISON"
+                title="JE / TU / ELLE / NOUS / VOUS / ILS"
+                subtitle={
+                  <>
+                    Après avoir écouté l’exemple, transforme chaque groupe de mots
+                    <br />
+                    en une phrase correctement conjuguée selon le pronom demandé.
+                    <br />
+                    <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+                      <div className="flex flex-col items-center justify-center gap-2 text-base font-semibold sm:flex-row">
+                        <span className="rounded-lg bg-white px-3 py-2 shadow-sm">
+                          être marié
+                        </span>
+                        <span className="text-xl" aria-hidden="true">
+                          ➡️
+                        </span>
+                        <span className="rounded-lg bg-white px-3 py-2 shadow-sm">
+                          Ils sont mariés
+                        </span>
+                      </div>
+                      <div className="flex flex-col items-center justify-center gap-2 text-base font-semibold sm:flex-row">
+                        <span className="rounded-lg bg-white px-3 py-2 shadow-sm">
+                          avoir soixante-dix ans
+                        </span>
+                        <span className="text-xl" aria-hidden="true">
+                          ➡️
+                        </span>
+                        <span className="rounded-lg bg-white px-3 py-2 shadow-sm">
+                          Elle a soixante-dix ans
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                }
                 activityType="click-speak"
                 description={
-                  <div className="space-y-5 text-black">
-                    <div className="rounded-xl border border-red-200 bg-red-50 p-4">
-                      <p className="mb-2 text-sm font-medium text-slate-600">
-                        ⚠️ Consigne
-                      </p>
-
-                      <p>
-                        Présente chacun des
-                        personnages de ces images
-                        en conjuguant les verbes à
-                        l’infinitif à la forme
-                        <br />
-                        <span className="font-semibold">
-                          « JE », « TU », « IL »,
-                          « ELLE », « NOUS », « VOUS »
-                          ou « ILS »
-                        </span>{" "}
-                        comme dans l’exemple
-                        proposé.
-                      </p>
+                  <div className="space-y-4 pl-3 text-sm leading-relaxed text-slate-700 sm:text-base">
+                    {/* ===================================================== */}
+                    {/* ÉCOUTE */}
+                    {/* ===================================================== */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span>Utilise le bouton</span>
+                      {/* ICÔNE D'ÉCOUTE */}
+                      <span
+                        className="
+                          inline-flex
+                          h-10
+                          w-10
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-full
+                          bg-white
+                          text-amber-600
+                          shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                        "
+                        aria-hidden="true"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M11 5L6 9H3v6h3l5 4V5z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
+                          />
+                        </svg>
+                      </span>
+                      <span>pour écouter l&apos;exemple avec le pronom « Je ».</span>
+                    </div>
+                    {/* ===================================================== */}
+                    {/* MICRO */}
+                    {/* ===================================================== */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span>Appuie sur le bouton</span>
+                      {/* ICÔNE MICRO */}
+                      <button
+                        type="button"
+                        tabIndex={-1}
+                        aria-hidden="true"
+                        className="
+                          pointer-events-none
+                          relative
+                          flex
+                          h-10
+                          w-10
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-full
+                          bg-white
+                          text-amber-600
+                          shadow-[0_6px_18px_rgba(15,23,42,0.10)]
+                        "
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
+                          />
+                        </svg>
+                      </button>
+                      <span>avant de prononcer ta phrase.</span>
                     </div>
                   </div>
                 }
+                showPointAttention={true}
+                pointAttention={{
+                  imageSrc:
+                    "/images/courses/beginner/activities/brunogalopin/point.png",
+                  imageAlt: "Point d'attention",
+                  title: (
+                    <>
+                      Tu dois prononcer <strong>toute la phrase</strong> qui
+                      t’est proposée.
+                    </>
+                  ),
+                  example: (
+                    <>
+                      <span className="font-semibold">
+                        Exemple : « Ils ont un petit chien »
+                      </span>
+                      <br />
+                      <span className="font-semibold">
+                        Pense à bien faire les liaisons avec le « s » à l’oral.
+                      </span>
+                      <br />
+                      <span className="font-semibold">
+                        Exemples : Vous [z] avez ; Ils [z] ont
+                      </span>
+                    </>
+                  ),
+                }}
                 onStart={handleStartExercise}
                 startLabel="Commencer l'exercice"
                 started={exerciseStep >= 2}
               />
             </div>
-
             {/* =================================================
                 ÉTAPE 2 — EXEMPLE
             ================================================== */}
-
             {exerciseStep >= 2 && (
               <div
                 id="character-presentation-example"
@@ -576,14 +619,12 @@ export default function CharacterPresentationSection({
                   <p className="text-sm font-semibold text-slate-500">
                     EXEMPLE
                   </p>
-
                   <p className="mt-1 text-sm text-slate-400">
                     Observe comment transformer
                     chaque expression avec le bon
                     pronom.
                   </p>
                 </div>
-
                 <div
                   className="
                     relative grid h-auto
@@ -594,7 +635,6 @@ export default function CharacterPresentationSection({
                   "
                 >
                   {/* IMAGE */}
-
                   <div className="relative h-[220px] w-full md:h-full">
                     <Image
                       src="/images/courses/beginner/activities/activity1/exercice4/p1.png"
@@ -603,27 +643,20 @@ export default function CharacterPresentationSection({
                       className="object-cover"
                     />
                   </div>
-
                   {/* CONTENU */}
-
                   <div className="relative flex flex-col bg-slate-50 p-8">
                     <div className="flex h-full w-full flex-col items-center justify-center">
                       {/* PRONOM */}
-
                       <div className="mb-6 w-full text-center">
                         <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
                           Pronom
                         </p>
-
                         <h2 className="text-5xl font-extrabold tracking-wide text-slate-900">
                           JE
                         </h2>
-
                         <div className="mx-auto mt-3 h-1 w-14 rounded-full bg-[#E09F00]" />
                       </div>
-
                       {/* PHRASE */}
-
                       <div
                         className="
                           mb-7 flex min-h-[120px] w-full
@@ -644,7 +677,6 @@ export default function CharacterPresentationSection({
                             currentExampleSentence.prompt
                           }
                         </p>
-
                         <div
                           key={`spoken-${currentExampleSentenceIndex}`}
                           className="
@@ -665,7 +697,6 @@ export default function CharacterPresentationSection({
                           >
                             →
                           </span>
-
                           <p
                             className="
                               text-lg
@@ -680,9 +711,7 @@ export default function CharacterPresentationSection({
                           </p>
                         </div>
                       </div>
-
                       {/* BOUTON AUDIO */}
-
                       <button
                         type="button"
                         onClick={handlePlayExample}
@@ -697,7 +726,6 @@ export default function CharacterPresentationSection({
                           px-5 py-4
                           transition-all duration-300
                           active:scale-[0.98]
-
                           ${
                             isPlayingExample
                               ? `
@@ -720,16 +748,13 @@ export default function CharacterPresentationSection({
                         {isPlayingExample && (
                           <>
                             <span className="absolute h-12 w-12 animate-ping rounded-full border border-amber-300/50" />
-
                             <span className="absolute h-16 w-16 animate-ping rounded-full border border-amber-200/40 [animation-delay:300ms]" />
                           </>
                         )}
-
                         <div
                           className={`
                             relative flex items-center justify-center
                             transition-transform duration-300
-
                             ${
                               isPlayingExample
                                 ? "scale-110 animate-pulse text-amber-700"
@@ -750,13 +775,11 @@ export default function CharacterPresentationSection({
                               strokeLinejoin="round"
                               d="M11 5L6 9H3v6h3l5 4V5z"
                             />
-
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               d="M15.5 8.5a5 5 0 010 7"
                             />
-
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -765,7 +788,6 @@ export default function CharacterPresentationSection({
                           </svg>
                         </div>
                       </button>
-
                       <p className="mt-3 text-xs font-medium text-slate-400">
                         Écoute attentivement chaque
                         phrase.
@@ -775,11 +797,9 @@ export default function CharacterPresentationSection({
                 </div>
               </div>
             )}
-
             {/* =================================================
                 ÉTAPE 3 — VRAI EXERCICE
             ================================================== */}
-
             {exerciseStep === 3 && (
               <CharacterPresentationExercise
                 onComplete={(exerciseResult) => {
