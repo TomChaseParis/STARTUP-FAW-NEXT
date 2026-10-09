@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 import ExerciseContainer from "@/components/activity/ExerciseContainer";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
@@ -16,32 +16,25 @@ type QuizStep =
   | "exercise-2"
   | "quiz-2"
   | "exercise-3"
-  | "quiz-3"
-  | "finished";
-
+  | "quiz-3";
 export default function QuizGogoFlow() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] =
     useState<QuizStep>("exercise-1");
-
   const [exercise1Started, setExercise1Started] =
     useState(false);
-
   const [exercise2Started, setExercise2Started] =
     useState(false);
-
   const [exercise3Started, setExercise3Started] =
     useState(false);
-
   /*
    * =========================================================
    * EXERCICE 1
    * =========================================================
    */
-
   const handleStartExercise1 = () => {
     setExercise1Started(true);
     setCurrentStep("quiz-1");
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document
@@ -53,11 +46,9 @@ export default function QuizGogoFlow() {
       });
     });
   };
-
   const handleQuiz1Completed = () => {
     setCurrentStep("exercise-2");
     setExercise2Started(false);
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document
@@ -69,17 +60,14 @@ export default function QuizGogoFlow() {
       });
     });
   };
-
   /*
    * =========================================================
    * EXERCICE 2
    * =========================================================
    */
-
   const handleStartExercise2 = () => {
     setExercise2Started(true);
     setCurrentStep("quiz-2");
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document
@@ -91,11 +79,9 @@ export default function QuizGogoFlow() {
       });
     });
   };
-
   const handleQuiz2Completed = () => {
     setCurrentStep("exercise-3");
     setExercise3Started(false);
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document
@@ -107,17 +93,14 @@ export default function QuizGogoFlow() {
       });
     });
   };
-
   /*
    * =========================================================
    * EXERCICE 3
    * =========================================================
    */
-
   const handleStartExercise3 = () => {
     setExercise3Started(true);
     setCurrentStep("quiz-3");
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document
@@ -129,27 +112,14 @@ export default function QuizGogoFlow() {
       });
     });
   };
-
   const handleQuiz3Completed = () => {
-    setCurrentStep("finished");
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        document
-          .getElementById("quiz-gogo-finished")
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-      });
-    });
+    router.push("/courses/elementary-1/modules/questions-francais");
   };
-
   return (
     <section className="mt-16 w-full">
       {/* =====================================================
           EXERCICE 1
-      ===================================================== */}
+      \\===================================================== */}
 {(currentStep === "exercise-1" ||
   currentStep === "quiz-1") && (
   <section
@@ -167,19 +137,14 @@ export default function QuizGogoFlow() {
             subtitle="Testez vos connaissances en choisissant la bonne réponse pour chaque question."
             description={
               <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-
-            
                 {/* ===================================================== */}
                 {/* ÉCOUTE */}
                 {/* ===================================================== */}
-
                 <div className="flex flex-wrap items-center gap-2">
                   <span>
                     Utilise le bouton pour écouter
                   </span>
-
                   {/* ICÔNE D'ÉCOUTE */}
-
                   <span
                     className="
                       inline-flex
@@ -196,7 +161,7 @@ export default function QuizGogoFlow() {
                     aria-hidden="true"
                   >
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns="http\://www\.w3.org/2000/svg"
                       className="h-5 w-5"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -215,20 +180,16 @@ export default function QuizGogoFlow() {
                       />
                     </svg>
                   </span>
-
                   <span>
                     le professeur présenter la question et
                     les réponses proposées.
                   </span>
                 </div>
-
                 {/* ===================================================== */}
                 {/* MICRO */}
                 {/* ===================================================== */}
-
                 <div className="flex flex-wrap items-center gap-2">
                   <span>Appuie sur le bouton</span>
-
                   <button
                     type="button"
                     tabIndex={-1}
@@ -249,7 +210,7 @@ export default function QuizGogoFlow() {
                     "
                   >
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns="http\://www\.w3.org/2000/svg"
                       className="h-5 w-5"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -263,19 +224,16 @@ export default function QuizGogoFlow() {
                       />
                     </svg>
                   </button>
-
                   <span>
                     si tu préfères répondre à la question à
                     l&apos;oral.
                   </span>
                 </div>
-
               </div>
             }
             onStart={handleStartExercise1}
             started={exercise1Started}
           />
-
           {exercise1Started && (
             <section
               id="quiz-gogo-quiz-1"
@@ -294,11 +252,9 @@ export default function QuizGogoFlow() {
     </ExerciseContainer>
   </section>
 )}
-
       {/* =====================================================
           EXERCICE 2
-      ===================================================== */}
-
+      \\===================================================== */}
       {(currentStep === "exercise-2" ||
         currentStep === "quiz-2") && (
         <section
@@ -319,14 +275,11 @@ export default function QuizGogoFlow() {
                       {/* ===================================================== */}
                       {/* ÉCOUTE */}
                       {/* ===================================================== */}
-
                       <div className="flex flex-wrap items-center gap-2">
                         <span>
                           Utilise le bouton pour écouter
                         </span>
-
                         {/* ICÔNE D'ÉCOUTE */}
-
                         <span
                           className="
                             inline-flex
@@ -343,7 +296,7 @@ export default function QuizGogoFlow() {
                           aria-hidden="true"
                         >
                           <svg
-                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns="http\://www\.w3.org/2000/svg"
                             className="h-5 w-5"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -362,20 +315,16 @@ export default function QuizGogoFlow() {
                             />
                           </svg>
                         </span>
-
                         <span>
                           le professeur présenter la question et
                           les réponses proposées.
                         </span>
                       </div>
-
                       {/* ===================================================== */}
                       {/* MICRO */}
                       {/* ===================================================== */}
-
                       <div className="flex flex-wrap items-center gap-2">
                         <span>Appuie sur le bouton</span>
-
                         <button
                           type="button"
                           tabIndex={-1}
@@ -396,7 +345,7 @@ export default function QuizGogoFlow() {
                           "
                         >
                           <svg
-                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns="http\://www\.w3.org/2000/svg"
                             className="h-5 w-5"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -410,24 +359,19 @@ export default function QuizGogoFlow() {
                             />
                           </svg>
                         </button>
-
                         <span>
                           si tu préfères répondre à la question à
                           l&apos;oral.
                         </span>
                       </div>
-
                       {/* ===================================================== */}
                       {/* CONSIGNE ORIGINALE */}
                       {/* ===================================================== */}
-
-                   
                     </div>
                   }
                   onStart={handleStartExercise2}
                   started={exercise2Started}
                 />
-
                 {exercise2Started && (
                   <section
                     id="quiz-gogo-quiz-2"
@@ -446,11 +390,9 @@ export default function QuizGogoFlow() {
           </ExerciseContainer>
         </section>
       )}
-
       {/* =====================================================
           EXERCICE 3
-      ===================================================== */}
-
+      \\===================================================== */}
       {(currentStep === "exercise-3" ||
         currentStep === "quiz-3") && (
         <section
@@ -475,7 +417,6 @@ export default function QuizGogoFlow() {
               onStart={handleStartExercise3}
               started={exercise3Started}
             />
-
             {exercise3Started && (
               <section
                 id="quiz-gogo-quiz-3"
@@ -491,36 +432,6 @@ export default function QuizGogoFlow() {
           </ExerciseSection>
         </section>
       )}
-
-      {/* =====================================================
-          FIN
-      ===================================================== */}
-
-      {currentStep === "finished" && (
-        <section
-          id="quiz-gogo-finished"
-          className="container mt-16 scroll-mt-8"
-        >
-          <div className="mx-auto max-w-4xl rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-green-50 p-8 text-center shadow-sm">
-            <div className="text-5xl">
-              🎉
-            </div>
-
-            <p className="mt-5 text-xs font-extrabold uppercase tracking-[0.2em] text-emerald-700">
-              Activité terminée
-            </p>
-
-            <h3 className="mt-2 text-3xl font-black text-slate-900">
-              Bravo !
-            </h3>
-
-            <p className="mx-auto mt-3 max-w-xl leading-relaxed text-slate-600">
-              Tu as terminé les trois exercices de cette
-              activité.
-            </p>
-          </div>
-        </section>
-      )}
-    </section>
+</section>
   );
 }

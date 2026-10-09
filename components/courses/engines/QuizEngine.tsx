@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -22,6 +23,11 @@ import { useTeacherController } from "../common/hooks/useTeacherController";
 
 import { ExerciseSessionResult } from "../common/types/exerciseSessionTypes";
 
+type TeacherFeedbackImages = {
+  correct: string;
+  wrong: string;
+};
+
 type Props = {
   questions: Question[];
 
@@ -45,6 +51,15 @@ type Props = {
   onLastQuestion?: () => void;
 
   lastQuestionLabel?: string;
+
+  /**
+   * Images utilisées immédiatement après
+   * la sélection d'une réponse.
+   *
+   * correct = bonne réponse
+   * wrong = mauvaise réponse
+   */
+  teacherFeedbackImages?: TeacherFeedbackImages;
 };
 
 const QuizEngine: React.FC<Props> = ({
@@ -55,6 +70,7 @@ const QuizEngine: React.FC<Props> = ({
   speechEngine = "browser",
   onLastQuestion,
   lastQuestionLabel,
+  teacherFeedbackImages,
 }) => {
   const {
     currentIndex,
@@ -194,6 +210,50 @@ const QuizEngine: React.FC<Props> = ({
       ? selectedChoiceIds.length > 0
       : !!selectedChoiceId;
 
+  /*
+   * =========================================================
+   * RÉPONSE SÉLECTIONNÉE
+   * =========================================================
+   *
+   * Pour une question classique :
+   * selectedChoiceId contient la réponse.
+   *
+   * Pour une question multiple-choice :
+   * on utilise la dernière réponse sélectionnée
+   * afin d'afficher le feedback correspondant à
+   * l'action que vient de faire l'élève.
+   */
+
+  const feedbackChoiceId =
+    isMultipleChoice
+      ? selectedChoiceIds[
+          selectedChoiceIds.length - 1
+        ]
+      : selectedChoiceId;
+
+  const selectedChoice =
+    feedbackChoiceId
+      ? choices.find(
+          (choice) =>
+            choice.id ===
+            feedbackChoiceId,
+        )
+      : undefined;
+
+  const correctChoice =
+    choices.find(
+      (choice) =>
+        choice.isCorrect,
+    );
+
+  const teacherFeedbackImage =
+    selectedChoice &&
+    teacherFeedbackImages
+      ? selectedChoice.isCorrect
+        ? teacherFeedbackImages.correct
+        : teacherFeedbackImages.wrong
+      : undefined;
+
   const playQuestionAudio =
     () => {
       playQuestion(
@@ -278,6 +338,15 @@ const QuizEngine: React.FC<Props> = ({
             handleSpeechButton
           }
           disabled={false}
+          selectedChoice={
+            selectedChoice
+          }
+          correctChoice={
+            correctChoice
+          }
+          teacherFeedbackImage={
+            teacherFeedbackImage
+          }
         />
       }
       navigation={

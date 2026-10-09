@@ -37,6 +37,8 @@ type Props = {
 
   selectedChoice?: Choice;
   correctChoice?: Choice;
+
+  teacherFeedbackImage?: string;
 };
 
 export default function QuestionContent({
@@ -54,6 +56,7 @@ export default function QuestionContent({
   onSpeech,
   selectedChoice,
   correctChoice,
+  teacherFeedbackImage,
 }: Props) {
   const hasSelectedChoice = multipleChoice
     ? selectedChoiceIds.length > 0
@@ -86,11 +89,20 @@ export default function QuestionContent({
 
         <AnswerChoices
           choices={choices}
-          selectedChoiceId={selectedChoiceId}
-          selectedChoiceIds={selectedChoiceIds}
-          multipleChoice={multipleChoice}
+          selectedChoiceId={
+            selectedChoiceId
+          }
+          selectedChoiceIds={
+            selectedChoiceIds
+          }
+          multipleChoice={
+            multipleChoice
+          }
           disabled={disabled}
           onSelect={onSelect}
+          teacherFeedbackImage={
+            teacherFeedbackImage
+          }
         />
 
         {!hasSelectedChoice && (
@@ -159,13 +171,20 @@ export default function QuestionContent({
           </div>
         )}
 
-        {selectedChoice && correctChoice && (
-          <AnswerFeedback
-            correct={selectedChoice.isCorrect}
-            selectedAnswer={selectedChoice.label}
-            correctAnswer={correctChoice.label}
-          />
-        )}
+        {selectedChoice &&
+          correctChoice && (
+            <AnswerFeedback
+              correct={
+                selectedChoice.isCorrect
+              }
+              selectedAnswer={
+                selectedChoice.label
+              }
+              correctAnswer={
+                correctChoice.label
+              }
+            />
+          )}
       </div>
 
       {/* =====================================================

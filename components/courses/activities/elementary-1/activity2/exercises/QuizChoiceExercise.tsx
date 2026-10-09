@@ -20,6 +20,12 @@ export default function QuizChoiceExercise({
       <QuizEngine
         questions={quizChoiceQuestions}
         speechEngine="openai"
+        teacherFeedbackImages={{
+          correct:
+            "/images/bulles-QCM/elementary-1/jean-vert/correct.png",
+          wrong:
+          "/images/bulles-QCM/elementary-1/jean-vert/wrong.png",
+        }}
         onComplete={onComplete}
       />
     </section>

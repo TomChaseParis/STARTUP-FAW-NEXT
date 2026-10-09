@@ -187,6 +187,12 @@ export default function IntroduceYourselfQuiz() {
           <QuizEngine
             questions={questions}
             speechEngine="openai"
+            teacherFeedbackImages={{
+              correct:
+              "/images/bulles-QCM/beginner/marie-red/correct.png",
+              wrong:
+              "/images/bulles-QCM/beginner/marie-red/wrong.png",
+            }}
             progressConfig={{
               progress,
               activityId:

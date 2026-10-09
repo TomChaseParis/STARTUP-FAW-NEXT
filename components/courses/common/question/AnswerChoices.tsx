@@ -18,6 +18,8 @@ type Props = {
   disabled?: boolean;
 
   onSelect: (choiceId: string) => void;
+
+  teacherFeedbackImage?: string;
 };
 
 export default function AnswerChoices({
@@ -27,123 +29,152 @@ export default function AnswerChoices({
   multipleChoice = false,
   disabled = false,
   onSelect,
+  teacherFeedbackImage,
 }: Props) {
   return (
     <div className="space-y-3">
       {choices.map((choice, index) => {
         const isSelected = multipleChoice
-          ? selectedChoiceIds.includes(
-              choice.id,
-            )
-          : selectedChoiceId ===
-            choice.id;
+          ? selectedChoiceIds.includes(choice.id)
+          : selectedChoiceId === choice.id;
 
-        const letter =
-          String.fromCharCode(
-            65 + index,
-          );
+        const letter = String.fromCharCode(65 + index);
 
-        const hasSelection =
-          multipleChoice
-            ? selectedChoiceIds.length > 0
-            : !!selectedChoiceId;
+        const hasSelection = multipleChoice
+          ? selectedChoiceIds.length > 0
+          : !!selectedChoiceId;
 
-        const showFeedback =
-          hasSelection &&
-          !multipleChoice;
+        const showFeedback = hasSelection && !multipleChoice;
+
+        const showTeacherFeedback =
+          showFeedback &&
+          isSelected &&
+          !!teacherFeedbackImage;
 
         return (
-          <button
+          <div
             key={choice.id}
-            type="button"
-            onClick={() =>
-              onSelect(choice.id)
-            }
-            disabled={
-              disabled ||
-              (!multipleChoice &&
-                !!selectedChoiceId)
-            }
-            className={`
-              w-full
-              rounded-lg
-              border
-              px-4
-              py-3
-              text-left
-              text-black
-              transition-all
-              duration-200
-
-              ${
-                multipleChoice
-                  ? isSelected
-                    ? "border-amber-500 bg-amber-100 text-amber-900 shadow-sm"
-                    : "border-black/20 bg-white hover:bg-gray-50"
-                  : !selectedChoiceId
-                    ? "border-black/20 bg-white hover:bg-gray-50"
-                    : choice.isCorrect
-                      ? "border-green-500 bg-green-100 text-green-800"
-                      : isSelected
-                        ? "border-red-500 bg-red-100 text-red-800"
-                        : "border-black/10"
-              }
-
-              ${
-                multipleChoice &&
-                isSelected
-                  ? "ring-2 ring-amber-200"
-                  : ""
-              }
-            `}
+            className="relative"
           >
-            <span
+            {showTeacherFeedback && (
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  right-full
+                  top-1/2
+                  z-30
+                  mr-2
+                  flex
+                  -translate-y-1/2
+                  items-center
+                  justify-center
+                  sm:mr-4
+                "
+              >
+                <img
+                  src={teacherFeedbackImage}
+                  alt={
+                    choice.isCorrect
+                      ? "Réaction du professeur : bonne réponse"
+                      : "Réaction du professeur : mauvaise réponse"
+                  }
+                  className="
+                    block
+                    h-auto
+                    w-16
+                    max-w-none
+                    object-contain
+                    sm:w-28
+                  "
+                />
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={() => onSelect(choice.id)}
+              disabled={
+                disabled ||
+                (!multipleChoice && !!selectedChoiceId)
+              }
               className={`
-                mr-3
-                inline-flex
-                h-7
-                w-7
-                items-center
-                justify-center
-                rounded-full
-                text-sm
-                font-bold
+                w-full
+                rounded-lg
+                border
+                px-4
+                py-3
+                text-left
+                text-black
+                transition-all
+                duration-200
 
                 ${
-                  multipleChoice &&
-                  isSelected
-                    ? "bg-amber-500 text-white"
-                    : "bg-slate-100 text-slate-700"
+                  multipleChoice
+                    ? isSelected
+                      ? "border-amber-500 bg-amber-100 text-amber-900 shadow-sm"
+                      : "border-black/20 bg-white hover:bg-gray-50"
+                    : !selectedChoiceId
+                      ? "border-black/20 bg-white hover:bg-gray-50"
+                      : choice.isCorrect
+                        ? "border-green-500 bg-green-100 text-green-800"
+                        : isSelected
+                          ? "border-red-500 bg-red-100 text-red-800"
+                          : "border-black/10"
+                }
+
+                ${
+                  multipleChoice && isSelected
+                    ? "ring-2 ring-amber-200"
+                    : ""
                 }
               `}
             >
-              {letter}
-            </span>
+              <span
+                className={`
+                  mr-3
+                  inline-flex
+                  h-7
+                  w-7
+                  items-center
+                  justify-center
+                  rounded-full
+                  text-sm
+                  font-bold
 
-            {choice.label}
+                  ${
+                    multipleChoice && isSelected
+                      ? "bg-amber-500 text-white"
+                      : "bg-slate-100 text-slate-700"
+                  }
+                `}
+              >
+                {letter}
+              </span>
 
-            {multipleChoice &&
-              isSelected && (
+              {choice.label}
+
+              {multipleChoice && isSelected && (
                 <span className="float-right font-bold text-amber-600">
                   ✓
                 </span>
               )}
 
-            {showFeedback &&
-              choice.isCorrect && (
+              {showFeedback && choice.isCorrect && (
                 <span className="float-right font-bold text-green-600">
                   ✓
                 </span>
               )}
 
-            {showFeedback &&
-              isSelected &&
-              !choice.isCorrect && (
-                <span className="float-right font-bold text-red-600">
-                  ✕
-                </span>
-              )}
-          </button>
+              {showFeedback &&
+                isSelected &&
+                !choice.isCorrect && (
+                  <span className="float-right font-bold text-red-600">
+                    ✕
+                  </span>
+                )}
+            </button>
+          </div>
         );
       })}
     </div>

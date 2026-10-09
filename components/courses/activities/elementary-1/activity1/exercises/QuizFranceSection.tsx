@@ -60,28 +60,21 @@ const questions: Question[] =
 
       return {
         id: question.id,
-
         question:
           question.question,
-
         image:
           question.image,
-
         teacherImage:
           question.teacherImage,
-
         teacherAudioQuestion:
           question.teacherAudioQuestion,
-
         choices:
           question.options.map(
             (option) => ({
               id:
                 option.id.toUpperCase(),
-
               label:
                 option.text,
-
               isCorrect:
                 correctAnswers.includes(
                   option.id,
@@ -131,15 +124,12 @@ export default function QuizFranceSection({
       <ActivityResults
         result={{
           session: result,
-
           bestScore,
-
           attempts,
         }}
         teacher="elementary-1"
         onRestart={() => {
           resetQuiz();
-
           refresh();
         }}
         onNext={() => {
@@ -154,15 +144,18 @@ export default function QuizFranceSection({
       <QuizEngine
         questions={questions}
         speechEngine="openai"
+        teacherFeedbackImages={{
+          correct:
+          "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
+          wrong:
+          "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
+        }}
         progressConfig={{
           progress,
-
           activityId:
             ACTIVITY_ID,
-
           exerciseId:
             EXERCISE_ID,
-
           onScoreSubmitted:
             () => {
               refresh();

@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { useRef, useState } from "react";
 import ExerciseContainer from "@/components/activity/ExerciseContainer";

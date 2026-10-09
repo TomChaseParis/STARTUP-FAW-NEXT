@@ -21,6 +21,12 @@ export default function ListeningDiscoveryExercise({
         listeningDiscoveryQuizData
       }
       speechEngine="openai"
+      teacherFeedbackImages={{
+        correct:
+          "/images/bulles-QCM/beginner/marie-blue/correct.png",
+        wrong:
+        "/images/bulles-QCM/beginner/marie-blue/wrong.png",
+      }}
       onComplete={onComplete}
     />
   );

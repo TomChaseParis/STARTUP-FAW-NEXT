@@ -117,6 +117,14 @@ export default function ListeningQuizExercise({
 
         speechEngine="openai"
 
+        teacherFeedbackImages={{
+          correct:
+            "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
+
+          wrong:
+          "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
+        }}
+
         progressConfig={{
           progress,
 
