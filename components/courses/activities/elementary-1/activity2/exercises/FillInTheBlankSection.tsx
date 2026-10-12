@@ -75,11 +75,15 @@ export default function FillInTheBlankSection() {
         >
           <ExerciseSection>
             <InstructionBlock
-              level="elementary1"
+              level="beginner"
               stampLabel="EXERCICE 1"
-              title="Les loisirs des français"
+              typeLabel="COMPRÉHENSION ORALE"
+              title="Les loisirs des Français"
+              subtitle="Écoute le texte et conjugue les verbes à la troisième personne du pluriel."
               activityType="listen-type"
-              audioBadge="Compréhension orale"
+              audioSrc="/audios/courses/elementary/activities/loisirs.mp3"
+              audioBadge="Les loisirs des Français"
+              audioImage="/images/courses/elementary/lesloisirsdesfrancais/loisirs-fr.png"
               description={
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
                   <p className="font-semibold text-slate-800">
@@ -98,7 +102,7 @@ export default function FillInTheBlankSection() {
                       text-slate-800
                     "
                   >
-                    Écoute le texte et conjuge tous les verbes à la troisième personne du pluriel.
+                    Écoute le texte et conjugue tous les verbes à la troisième personne du pluriel.
                   </div>
 
                   <div
@@ -154,11 +158,18 @@ export default function FillInTheBlankSection() {
                         La marque du pluriel (–ent) ne s’entend pas à l’oral !
                       </p>
 
-                      <p>
-                        Exemple : Les jeunes _______ (passer) beaucoup de temps sur internet <br></br>
-                        <p className="mt-1">➡️ Les jeunes{" "}
-                        <strong>passent</strong> beaucoup de temps sur internet.</p> 
-                      </p>
+                      <div>
+                        <p>
+                          Exemple : Les jeunes _______ (passer)
+                          beaucoup de temps sur internet.
+                        </p>
+
+                        <p className="mt-1">
+                          ➡️ Les jeunes{" "}
+                          <strong>passent</strong> beaucoup de
+                          temps sur internet.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

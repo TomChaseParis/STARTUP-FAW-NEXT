@@ -66,7 +66,19 @@ export default function Activity() {
           <button
             type="button"
             onClick={handleStart}
-            className="rounded-xl bg-blue-600 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-blue-700"
+            className="
+            rounded-xl
+            bg-[rgb(87,204,153)]
+            px-8
+            py-4
+            text-lg
+            font-semibold
+            text-white
+            transition-all
+            duration-300
+            hover:scale-105
+            hover:bg-[rgb(70,185,135)]
+          "
           >
             Commencer l&apos;activité
           </button>
