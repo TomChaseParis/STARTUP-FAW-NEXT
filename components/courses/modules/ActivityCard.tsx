@@ -230,9 +230,7 @@ export default function ActivityCard({
               sm:text-base
             `}
           >
-            {activity.slug === "big-four"
-              ? activity.description
-              : `• ${activity.description}`}
+            {activity.description}
           </p>
 
           {activity.additionalDescription && (
@@ -247,9 +245,7 @@ export default function ActivityCard({
                 sm:text-base
               `}
             >
-              {activity.slug === "big-four"
-                ? activity.additionalDescription
-                : `• ${activity.additionalDescription}`}
+              {activity.additionalDescription}
             </p>
           )}
         </div>
