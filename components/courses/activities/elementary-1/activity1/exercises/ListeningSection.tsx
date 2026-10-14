@@ -11,6 +11,7 @@ export default function ListeningSection() {
       <InstructionBlock
         level="elementary1"
         stampLabel="EXERCICE 1"
+        typeLabel="okokok"
         title="QUIZZ PANACHE"
         activityType="click-or-speak"
         description={

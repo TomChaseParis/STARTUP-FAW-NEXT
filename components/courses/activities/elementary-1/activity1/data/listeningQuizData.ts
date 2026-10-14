@@ -126,7 +126,7 @@ export const quizData: Question[] = [
     choices: [
       {
         id: "A",
-        label: "Avec du fromage et des pommes de terre",
+        label: "Du fromage et des pommes de terre",
         isCorrect: false,
         explanationCorrect: "",
         explanationWrong:
@@ -135,7 +135,7 @@ export const quizData: Question[] = [
       {
         id: "B",
         label:
-          "Avec du riz, du chorizo, du poulet et/ou des fruits de mer",
+          "Du riz, du chorizo, du poulet ou des fruits de mer",
         isCorrect: true,
         explanationCorrect:
           "Les ingrédients traditionnels incluent du riz, du chorizo, du poulet et/ou des fruits de mer.",
@@ -151,7 +151,7 @@ export const quizData: Question[] = [
       },
       {
         id: "D",
-        label: "Pain et beurre",
+        label: "Du pain et beurre",
         isCorrect: false,
         explanationCorrect: "",
         explanationWrong:

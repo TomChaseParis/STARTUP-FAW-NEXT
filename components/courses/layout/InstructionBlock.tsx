@@ -1,389 +1,146 @@
 "use client";
 
-
-
-
-
-
-
 import { ReactNode } from "react";
-
-
 
 import Image from "next/image";
 
-
-
 import { Poppins } from "next/font/google";
-
-
-
-
-
-
 
 import { ActivityType } from "@/types/activityTypes";
 
-
-
 import { activitySignals } from "@/data/courses/activitySignals";
-
-
 
 import { courseThemes } from "../common/theme/courseThemes";
 
-
-
-
-
-
-
 import AudioPlayer from "@/components/courses/common/AudioPlayer/AudioPlayer";
 
-
-
-
-
-
-
 const poppins = Poppins({
-
-
-
   subsets: ["latin"],
 
-
-
   weight: ["400", "500", "600", "700", "800"],
-
-
-
 });
 
-
-
-
-
-
-
-type CourseLevel =
-
-
-
-  | "beginner"
-
-
-
-  | "elementary1"
-
-
-
-  | "elementary2"
-
-
-
-  | "intermediate1";
-
-
-
-
-
-
+type CourseLevel = "beginner" | "elementary1" | "elementary2" | "intermediate1";
 
 interface InfoCard {
-
-
-
   title: string;
 
-
-
   subtitle?: ReactNode;
-
-
 
   content?: string;
 
-
-
   items?: string[];
 
-
-
   variant?: "info" | "warning" | "success";
-
-
-
 }
 
-
-
-
-
-
-
 interface PointAttention {
-
-
-
   title: ReactNode;
-
-
 
   example?: ReactNode;
 
-
-
   imageSrc?: string;
 
-
-
   imageAlt?: string;
-
-
-
 }
 
-
-
-
-
-
-
 interface InstructionBlockProps {
-
-
-
   icon?: ReactNode;
-
-
 
   title: string;
 
-
-
   subtitle?: ReactNode;
-
-
 
   description?: ReactNode;
 
-
-
   reminder?: string;
-
-
 
   children?: ReactNode;
 
-
-
   activityType?: ActivityType;
-
-
 
   stampLabel?: string;
 
-
-
   typeLabel?: string;
-
-
 
   cards?: InfoCard[];
 
-
-
   level?: CourseLevel;
-
-
-
-
-
-
 
   audioSrc?: string;
 
-
-
   audioBadge?: string;
-
-
 
   audioImage?: string;
 
-
-
-
-
-
-
   onStart?: () => void;
-
-
 
   startLabel?: string;
 
-
-
   started?: boolean;
-
-
 
   showInteractionHints?: boolean;
 
-
-
   showPointAttention?: boolean;
 
-
-
   pointAttention?: PointAttention;
-
 }
 
-
-
-
-
-
-
 export default function InstructionBlock({
-
-
-
   icon,
-
-
 
   title,
 
-
-
   subtitle,
-
-
 
   description,
 
-
-
   reminder,
-
-
 
   children,
 
-
-
   activityType,
-
-
 
   stampLabel,
 
-
-
   typeLabel,
-
-
 
   cards,
 
-
-
   level,
-
-
 
   audioSrc,
 
-
-
   audioBadge = "Dialogue",
-
-
 
   audioImage,
 
-
-
   onStart,
-
-
 
   startLabel = "Lancer l'exercice",
 
-
-
   started = false,
-
-
 
   showInteractionHints = false,
 
-
-
   showPointAttention = false,
 
-
-
   pointAttention,
-
-
-
 }: InstructionBlockProps) {
-
-
-
   const theme = courseThemes[level ?? "beginner"];
-
-
-
-
-
-
 
   const hasCards = Boolean(cards && cards.length > 0);
 
-
-
-
-
-
-
   return (
-
-
-
     <div className="flex w-full justify-center px-4 sm:px-6">
-
-
-
       <div className="relative w-full max-w-5xl">
-
-
-
         {/* ========================================================= */}
-
-
 
         {/* HALO EXTÉRIEUR                                           */}
 
-
-
         {/* ========================================================= */}
 
-
-
-
-
-
-
         <div
-
-
-
           className="
 
 
@@ -413,37 +170,15 @@ export default function InstructionBlock({
 
 
           "
-
-
-
         />
 
-
-
-
-
-
-
         {/* ========================================================= */}
-
-
 
         {/* TAMPON EXERCICE                                          */}
 
-
-
         {/* ========================================================= */}
 
-
-
-
-
-
-
         <div
-
-
-
           className="
 
 
@@ -473,17 +208,8 @@ export default function InstructionBlock({
 
 
           "
-
-
-
         >
-
-
-
           <div
-
-
-
             className={`
 
 
@@ -561,33 +287,12 @@ export default function InstructionBlock({
 
 
             `}
-
-
-
             style={{
-
-
-
               background:
-
-
-
                 "linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.92))",
-
-
-
             }}
-
-
-
           >
-
-
-
             <div
-
-
-
               className={`
 
 
@@ -617,61 +322,19 @@ export default function InstructionBlock({
 
 
               `}
-
-
-
             />
 
-
-
-
-
-
-
-            <span className="relative z-10">
-
-
-
-              {stampLabel || "EXERCICE"}
-
-
-
-            </span>
-
-
-
+            <span className="relative z-10">{stampLabel || "EXERCICE"}</span>
           </div>
-
-
-
         </div>
 
-
-
-
-
-
-
         {/* ========================================================= */}
-
-
 
         {/* BLOC PRINCIPAL                                            */}
 
-
-
         {/* ========================================================= */}
 
-
-
-
-
-
-
         <div
-
-
-
           className={`
 
 
@@ -704,6 +367,10 @@ export default function InstructionBlock({
 
 
 
+            text-black
+
+
+
             shadow-[0_25px_80px_rgba(15,23,42,0.10)]
 
 
@@ -716,38 +383,15 @@ export default function InstructionBlock({
 
 
 
-            text-black
-
-
-
           `}
-
-
-
         >
-
-
-
           {/* ======================================================= */}
-
-
 
           {/* DÉCORATIONS                                             */}
 
-
-
           {/* ======================================================= */}
 
-
-
-
-
-
-
           <div
-
-
-
             className="
 
 
@@ -789,21 +433,9 @@ export default function InstructionBlock({
 
 
             "
-
-
-
           />
 
-
-
-
-
-
-
           <div
-
-
-
             className="
 
 
@@ -845,21 +477,9 @@ export default function InstructionBlock({
 
 
             "
-
-
-
           />
 
-
-
-
-
-
-
           <div
-
-
-
             className="
 
 
@@ -881,21 +501,9 @@ export default function InstructionBlock({
 
 
             "
-
-
-
           />
 
-
-
-
-
-
-
           <div
-
-
-
             className={`
 
 
@@ -929,65 +537,24 @@ export default function InstructionBlock({
 
 
             `}
-
-
-
           />
 
-
-
-
-
-
-
           {/* ======================================================= */}
-
-
 
           {/* CONTENU                                                  */}
 
-
-
           {/* ======================================================= */}
 
-
-
-
-
-
-
           <div className="relative z-10 p-6 sm:p-9 lg:p-11">
-
-
-
             {/* ===================================================== */}
-
-
 
             {/* HEADER                                                 */}
 
-
-
             {/* ===================================================== */}
 
-
-
-
-
-
-
             <div className="relative min-h-[110px] pr-0 md:pr-40">
-
-
-
               <div className="mb-4 flex items-center gap-3">
-
-
-
                 <div
-
-
-
                   className={`
 
 
@@ -1013,21 +580,9 @@ export default function InstructionBlock({
 
 
                   `}
-
-
-
                 />
 
-
-
-
-
-
-
                 <span
-
-
-
                   className={`
 
 
@@ -1061,41 +616,14 @@ export default function InstructionBlock({
 
 
                   `}
-
-
-
                 >
-
-
-
                   {typeLabel || "Avant de commencer"}
-
-
-
                 </span>
-
-
-
               </div>
 
-
-
-
-
-
-
               <div className="flex items-start gap-3">
-
-
-
                 {icon && (
-
-
-
                   <div
-
-
-
                     className="
 
 
@@ -1157,37 +685,13 @@ export default function InstructionBlock({
 
 
                     "
-
-
-
                   >
-
-
-
                     {icon}
-
-
-
                   </div>
-
-
-
                 )}
 
-
-
-
-
-
-
                 <div>
-
-
-
                   <h2
-
-
-
                     className={`
 
 
@@ -1221,81 +725,26 @@ export default function InstructionBlock({
 
 
                     `}
-
-
-
                   >
-
-
-
                     {title}
-
-
-
                   </h2>
 
-
-
-
-
-
-
                   {subtitle && (
-
-
-
                     <p className="mt-2 max-w-2xl text-sm font-medium leading-relaxed text-slate-600 sm:text-base">
-
-
-
                       {subtitle}
-
-
-
                     </p>
-
-
-
                   )}
-
-
-
                 </div>
-
-
-
               </div>
 
-
-
-
-
-
-
               {/* =================================================== */}
-
-
 
               {/* SIGNAL DESKTOP                                      */}
 
-
-
               {/* =================================================== */}
 
-
-
-
-
-
-
               {activityType && (
-
-
-
                 <div
-
-
-
                   className="
 
 
@@ -1341,17 +790,8 @@ export default function InstructionBlock({
 
 
                   "
-
-
-
                 >
-
-
-
                   <div
-
-
-
                     className="
 
 
@@ -1377,37 +817,13 @@ export default function InstructionBlock({
 
 
                     "
-
-
-
                   />
 
-
-
-
-
-
-
                   <Image
-
-
-
                     src={activitySignals[activityType]}
-
-
-
                     alt="Signalétique de l'exercice"
-
-
-
                     width={128}
-
-
-
                     height={128}
-
-
-
                     className="
 
 
@@ -1433,57 +849,20 @@ export default function InstructionBlock({
 
 
                     "
-
-
-
                   />
-
-
-
                 </div>
-
-
-
               )}
-
-
-
             </div>
 
-
-
-
-
-
-
             {/* ===================================================== */}
-
-
 
             {/* SIGNAL MOBILE                                          */}
 
-
-
             {/* ===================================================== */}
 
-
-
-
-
-
-
             {activityType && (
-
-
-
               <div className="mb-7 flex justify-center md:hidden">
-
-
-
                 <div
-
-
-
                   className="
 
 
@@ -1537,17 +916,8 @@ export default function InstructionBlock({
 
 
                   "
-
-
-
                 >
-
-
-
                   <div
-
-
-
                     className="
 
 
@@ -1573,37 +943,13 @@ export default function InstructionBlock({
 
 
                     "
-
-
-
                   />
 
-
-
-
-
-
-
                   <Image
-
-
-
                     src={activitySignals[activityType]}
-
-
-
                     alt="Signalétique de l'exercice"
-
-
-
                     width={96}
-
-
-
                     height={96}
-
-
-
                     className="
 
 
@@ -1629,61 +975,21 @@ export default function InstructionBlock({
 
 
                     "
-
-
-
                   />
-
-
-
                 </div>
-
-
-
               </div>
-
-
-
             )}
 
-
-
-
-
-
-
             {/* ===================================================== */}
-
-
 
             {/* SÉPARATEUR                                             */}
 
-
-
             {/* ===================================================== */}
 
-
-
-
-
-
-
             <div className="my-7 flex items-center gap-4">
-
-
-
               <div className="h-px flex-1 bg-slate-900/10" />
 
-
-
-
-
-
-
               <div
-
-
-
                 className={`
 
 
@@ -1705,54 +1011,24 @@ export default function InstructionBlock({
 
 
                 `}
-
-
-
               />
 
-
-
-
-
-
-
               <div className="h-px flex-1 bg-slate-900/10" />
-
-
-
             </div>
 
-
-
-
-
-
-
             {/* ===================================================== */}
-
-
 
             {/* DESCRIPTION / CONSIGNE                                 */}
 
-
-
             {/* ===================================================== */}
 
-
-
-
-
-
-
             {description && (
-
-
-
               <div
-
-
-
                 className="
+
+
+
+                  bg-white/65
 
 
 
@@ -1780,10 +1056,6 @@ export default function InstructionBlock({
 
 
 
-                  bg-white/65
-
-
-
                   p-5
 
 
@@ -1801,17 +1073,8 @@ export default function InstructionBlock({
 
 
                 "
-
-
-
               >
-
-
-
                 <div
-
-
-
                   className={`
 
 
@@ -1841,50 +1104,19 @@ export default function InstructionBlock({
 
 
                   `}
-
-
-
                 />
 
-
-
-
-
-
-
-                <div className="pl-3">
-
-
-
-                  {description}
-
-
-
-                </div>
-
-
-
+                <div className="pl-3">{description}</div>
               </div>
-
-
-
             )}
-
-
-
-
-
-
 
             {/* ===================================================== */}
 
-
-
             {showInteractionHints && (
-
               <div
-
                 className="
+
+                  bg-white/65
 
                   mb-7
 
@@ -1893,8 +1125,6 @@ export default function InstructionBlock({
                   border
 
                   border-white/80
-
-                  bg-white/65
 
                   p-5
 
@@ -1905,23 +1135,12 @@ export default function InstructionBlock({
                   sm:p-6
 
                 "
-
               >
-
                 <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-
                   <div className="flex flex-wrap items-center gap-2">
-
-                    <span>
-
-                      Utilise le bouton pour écouter
-
-                    </span>
-
-
+                    <span>Utilise le bouton pour écouter</span>
 
                     <span
-
                       className="
 
                         inline-flex
@@ -1945,79 +1164,43 @@ export default function InstructionBlock({
                         shadow-[0_6px_18px_rgba(15,23,42,0.10)]
 
                       "
-
                       aria-hidden="true"
-
                     >
-
                       <svg
-
                         xmlns="http\://www.w3.org/2000/svg"
-
                         className="h-5 w-5"
-
                         fill="none"
-
                         viewBox="0 0 24 24"
-
                         strokeWidth="2"
-
                         stroke="currentColor"
-
                       >
-
                         <path
-
                           strokeLinecap="round"
-
                           strokeLinejoin="round"
-
                           d="M11 5L6 9H3v6h3l5 4V5z"
-
                         />
 
                         <path
-
                           strokeLinecap="round"
-
                           strokeLinejoin="round"
-
                           d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
-
                         />
-
                       </svg>
-
                     </span>
-
-
 
                     <span>
-
-                      le professeur présente la question et
-
-                      les réponses proposées.
-
+                      le professeur présente la question et les réponses
+                      proposées.
                     </span>
-
                   </div>
 
-
-
                   <div className="flex flex-wrap items-center gap-2">
-
                     <span>Appuie sur le bouton</span>
 
-
-
                     <button
-
                       type="button"
-
                       tabIndex={-1}
-
                       aria-hidden="true"
-
                       className="
 
                         pointer-events-none
@@ -2045,127 +1228,50 @@ export default function InstructionBlock({
                         shadow-[0_6px_18px_rgba(15,23,42,0.10)]
 
                       "
-
                     >
-
                       <svg
-
                         xmlns="http\://www.w3.org/2000/svg"
-
                         className="h-5 w-5"
-
                         fill="none"
-
                         viewBox="0 0 24 24"
-
                         strokeWidth="2"
-
                         stroke="currentColor"
-
                       >
-
                         <path
-
                           strokeLinecap="round"
-
                           strokeLinejoin="round"
-
                           d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
-
                         />
-
                       </svg>
-
                     </button>
 
-
-
                     <span>
-
-                      si tu préfères répondre à la question à
-
-                      l&apos;oral.
-
+                      si tu préfères répondre à la question à l&apos;oral.
                     </span>
-
                   </div>
-
                 </div>
-
               </div>
-
             )}
-
-
 
             {audioSrc && (
-
-
-
               <div className="mb-7">
-
-
-
                 <AudioPlayer
-
-
-
                   src={audioSrc}
-
-
-
                   badge={audioBadge}
-
-
-
                   image={audioImage}
-
-
-
                   accentClassName={theme.badge}
-
-
-
                 />
-
-
-
               </div>
-
-
-
             )}
 
-
-
-
-
-
-
             {/* ===================================================== */}
-
-
 
             {/* RAPPEL                                                 */}
 
-
-
             {/* ===================================================== */}
 
-
-
-
-
-
-
             {reminder && (
-
-
-
               <div
-
-
-
                 className="
 
 
@@ -2215,17 +1321,8 @@ export default function InstructionBlock({
 
 
                 "
-
-
-
               >
-
-
-
                 <div
-
-
-
                   className={`
 
 
@@ -2275,253 +1372,58 @@ export default function InstructionBlock({
 
 
                   `}
-
-
-
                 >
-
-
-
                   i
-
-
-
                 </div>
 
-
-
-
-
-
-
                 <p className="pt-1 text-sm leading-relaxed text-slate-600">
-
-
-
                   {reminder}
-
-
-
                 </p>
-
-
-
               </div>
-
-
-
             )}
 
-
-
-
-
-
-
             {/* ===================================================== */}
-
-
 
             {/* CARTES                                                 */}
 
-
-
             {/* ===================================================== */}
 
-
-
-
-
-
-
             {hasCards && (
-
-
-
               <div className="space-y-5">
-
-
-
                 {cards?.map((card, index) => {
-
-
-
-                  const isWarning =
-
-
-
-                    card.variant === "warning";
-
-
-
-
-
-
-
-                  const isSuccess =
-
-
-
-                    card.variant === "success";
-
-
-
-
-
-
-
-                  const accentBackground =
-
-
-
-                    isWarning
-
-
-
-                      ? "from-amber-50 via-white to-amber-100"
-
-
-
-                      : isSuccess
-
-
-
-                        ? "from-green-50 via-white to-green-100"
-
-
-
-                        : "from-blue-50 via-white to-cyan-50";
-
-
-
-
-
-
-
-                  const accentBorder =
-
-
-
-                    isWarning
-
-
-
-                      ? "border-amber-200/80"
-
-
-
-                      : isSuccess
-
-
-
-                        ? "border-green-200/80"
-
-
-
-                        : "border-blue-200/80";
-
-
-
-
-
-
-
-                  const accentText =
-
-
-
-                    isWarning
-
-
-
-                      ? "text-amber-700"
-
-
-
-                      : isSuccess
-
-
-
-                        ? "text-green-700"
-
-
-
-                        : "text-blue-700";
-
-
-
-
-
-
-
-                  const accentDot =
-
-
-
-                    isWarning
-
-
-
-                      ? "bg-amber-500"
-
-
-
-                      : isSuccess
-
-
-
-                        ? "bg-green-500"
-
-
-
-                        : "bg-blue-500";
-
-
-
-
-
-
-
-                  const accentIcon =
-
-
-
-                    isWarning
-
-
-
-                      ? "⚠"
-
-
-
-                      : isSuccess
-
-
-
-                        ? "✓"
-
-
-
-                        : "💡";
-
-
-
-
-
-
+                  const isWarning = card.variant === "warning";
+
+                  const isSuccess = card.variant === "success";
+
+                  const accentBackground = isWarning
+                    ? "from-amber-50 via-white to-amber-100"
+                    : isSuccess
+                    ? "from-green-50 via-white to-green-100"
+                    : "from-blue-50 via-white to-cyan-50";
+
+                  const accentBorder = isWarning
+                    ? "border-amber-200/80"
+                    : isSuccess
+                    ? "border-green-200/80"
+                    : "border-blue-200/80";
+
+                  const accentText = isWarning
+                    ? "text-amber-700"
+                    : isSuccess
+                    ? "text-green-700"
+                    : "text-blue-700";
+
+                  const accentDot = isWarning
+                    ? "bg-amber-500"
+                    : isSuccess
+                    ? "bg-green-500"
+                    : "bg-blue-500";
+
+                  const accentIcon = isWarning ? "⚠" : isSuccess ? "✓" : "💡";
 
                   return (
-
-
-
                     <div
-
-
-
                       key={index}
-
-
-
                       className={`
 
 
@@ -2587,17 +1489,8 @@ export default function InstructionBlock({
 
 
                       `}
-
-
-
                     >
-
-
-
                       <div
-
-
-
                         className={`
 
 
@@ -2635,49 +1528,19 @@ export default function InstructionBlock({
 
 
                           ${
-
-
-
                             isWarning
-
-
-
                               ? "bg-amber-300/30"
-
-
-
                               : isSuccess
-
-
-
-                                ? "bg-green-300/30"
-
-
-
-                                : "bg-blue-300/30"
-
-
-
+                              ? "bg-green-300/30"
+                              : "bg-blue-300/30"
                           }
 
 
 
                         `}
-
-
-
                       />
 
-
-
-
-
-
-
                       <div
-
-
-
                         className="
 
 
@@ -2707,25 +1570,10 @@ export default function InstructionBlock({
 
 
                         "
-
-
-
                       />
 
-
-
-
-
-
-
                       <div className="relative z-10 mb-5 flex items-center gap-4">
-
-
-
                         <div
-
-
-
                           className={`
 
 
@@ -2775,41 +1623,12 @@ export default function InstructionBlock({
 
 
                           `}
-
-
-
                         >
-
-
-
-                          <span className="text-lg">
-
-
-
-                            {accentIcon}
-
-
-
-                          </span>
-
-
-
+                          <span className="text-lg">{accentIcon}</span>
                         </div>
 
-
-
-
-
-
-
                         <div>
-
-
-
                           <p
-
-
-
                             className={`
 
 
@@ -2835,118 +1654,33 @@ export default function InstructionBlock({
 
 
                             `}
-
-
-
                           >
-
-
-
                             {card.title}
-
-
-
                           </p>
 
-
-
-
-
-
-
                           {card.subtitle && (
-
-
-
                             <p className="mt-1 text-sm font-medium text-slate-500">
-
-
-
                               {card.subtitle}
-
-
-
                             </p>
-
-
-
                           )}
-
-
-
                         </div>
-
-
-
                       </div>
 
-
-
-
-
-
-
                       {card.content && (
-
-
-
                         <p className="relative z-10 text-sm leading-7 text-slate-700 sm:text-base">
-
-
-
                           {card.content}
-
-
-
                         </p>
-
-
-
                       )}
 
-
-
-
-
-
-
                       {card.items && (
-
-
-
                         <ul className="relative z-10 space-y-3">
-
-
-
-                          {card.items.map(
-
-
-
-                            (item, itemIndex) => (
-
-
-
-                              <li
-
-
-
-                                key={itemIndex}
-
-
-
-                                className="flex items-start gap-3 text-sm leading-6 text-slate-700 sm:text-base"
-
-
-
-                              >
-
-
-
-                                <span
-
-
-
-                                  className={`
+                          {card.items.map((item, itemIndex) => (
+                            <li
+                              key={itemIndex}
+                              className="flex items-start gap-3 text-sm leading-6 text-slate-700 sm:text-base"
+                            >
+                              <span
+                                className={`
 
 
 
@@ -2975,103 +1709,33 @@ export default function InstructionBlock({
 
 
                                   `}
+                              />
 
-
-
-                                />
-
-
-
-
-
-
-
-                                <span>{item}</span>
-
-
-
-                              </li>
-
-
-
-                            ),
-
-
-
-                          )}
-
-
-
+                              <span>{item}</span>
+                            </li>
+                          ))}
                         </ul>
-
-
-
                       )}
-
-
-
                     </div>
-
-
-
                   );
-
-
-
                 })}
-
-
-
               </div>
-
-
-
             )}
 
-
-
-
-
-
-
             {/* ===================================================== */}
-
-
 
             {/* CONTENU LIBRE                                          */}
 
-
-
             {/* ===================================================== */}
-
-
-
-
-
-
 
             {children}
 
             {/* POINT D'ATTENTION                                      */}
 
-
-
             {/* ===================================================== */}
 
-
-
-
-
-
-
             {showPointAttention && pointAttention && (
-
-
-
               <div
-
-
-
                 className="
 
 
@@ -3125,17 +1789,8 @@ export default function InstructionBlock({
 
 
                 "
-
-
-
               >
-
-
-
                 <div
-
-
-
                   className={`
 
 
@@ -3165,164 +1820,43 @@ export default function InstructionBlock({
 
 
                   `}
-
-
-
                 />
 
-
-
-
-
-
-
                 <div className="flex items-center gap-4 pl-2 sm:gap-5">
-
-
-
                   {pointAttention.imageSrc && (
-
-
-
                     <div className="flex shrink-0 items-center justify-center">
-
-
-
                       <Image
-
-
-
                         src={pointAttention.imageSrc}
-
-
-
                         alt={pointAttention.imageAlt ?? "Point d'attention"}
-
-
-
                         width={72}
-
-
-
                         height={72}
-
-
-
                         className="h-20 w-20 object-contain sm:h-[88px] sm:w-[88px]"
-
-
-
                       />
-
-
-
                     </div>
-
-
-
                   )}
 
-
-
-
-
-
-
                   <div className="min-w-0 text-sm leading-relaxed text-slate-700 sm:text-base">
-
-
-
                     <p className="font-bold text-slate-900">
-
-
-
                       {pointAttention.title}
-
-
-
                     </p>
 
-
-
-
-
-
-
                     {pointAttention.example && (
-
-
-
-                      <div className="mt-1">
-
-
-
-                        {pointAttention.example}
-
-
-
-                      </div>
-
-
-
+                      <div className="mt-1">{pointAttention.example}</div>
                     )}
-
-
-
                   </div>
-
-
-
                 </div>
-
-
-
               </div>
-
-
-
             )}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* ===================================================== */}
-
-
 
             {/* ZONE DE LANCEMENT                                      */}
 
-
-
             {/* ===================================================== */}
 
-
-
-
-
-
-
             {onStart && !started && (
-
-
-
               <div className="mt-9">
-
-
-
                 <div
-
-
-
                   className="
 
 
@@ -3352,25 +1886,10 @@ export default function InstructionBlock({
 
 
                   "
-
-
-
                 >
-
-
-
                   <div className="h-px flex-1 bg-slate-900/10" />
 
-
-
-
-
-
-
                   <span
-
-
-
                     className="
 
 
@@ -3396,53 +1915,17 @@ export default function InstructionBlock({
 
 
                     "
-
-
-
                   >
-
-
-
                     Prêt ?
-
-
-
                   </span>
 
-
-
-
-
-
-
                   <div className="h-px flex-1 bg-slate-900/10" />
-
-
-
                 </div>
 
-
-
-
-
-
-
                 <div className="flex justify-center">
-
-
-
                   <button
-
-
-
                     type="button"
-
-
-
                     onClick={onStart}
-
-
-
                     className="
 
 
@@ -3540,33 +2023,12 @@ export default function InstructionBlock({
 
 
                     "
-
-
-
                     style={{
-
-
-
                       background:
-
-
-
                         "linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.92))",
-
-
-
                     }}
-
-
-
                   >
-
-
-
                     <span
-
-
-
                       className={`
 
 
@@ -3595,11 +2057,11 @@ export default function InstructionBlock({
 
 
 
-                        blur-2xl
-
-
-
                         opacity-40
+
+
+
+                        blur-2xl
 
 
 
@@ -3620,37 +2082,11 @@ export default function InstructionBlock({
 
 
                       `}
-
-
-
                     />
 
-
-
-
-
-
-
-                    <span className="relative z-10">
-
-
-
-                      {startLabel}
-
-
-
-                    </span>
-
-
-
-
-
-
+                    <span className="relative z-10">{startLabel}</span>
 
                     <span
-
-
-
                       className={`
 
 
@@ -3716,55 +2152,16 @@ export default function InstructionBlock({
 
 
                       `}
-
-
-
                     >
-
-
-
                       →
-
-
-
                     </span>
-
-
-
                   </button>
-
-
-
                 </div>
-
-
-
               </div>
-
-
-
             )}
-
-
-
           </div>
-
-
-
         </div>
-
-
-
       </div>
-
-
-
     </div>
-
-
-
   );
-
-
-
 }

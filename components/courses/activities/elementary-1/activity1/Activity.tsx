@@ -6,9 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 
-import {
-  ActivityNavigationProvider,
-} from "@/core/navigation/ActivityNavigationProvider";
+import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 
 import QuizGogoFlow from "./exercises/QuizGogoFlow";
 
@@ -17,8 +15,7 @@ import { elementary1Activity1 } from "@/data/courses/activities/elementary-1/act
 export default function Activity() {
   const [started, setStarted] = useState(false);
 
-  const exercisesRef =
-    useRef<HTMLDivElement>(null);
+  const exercisesRef = useRef<HTMLDivElement>(null);
 
   const handleStart = () => {
     setStarted(true);
@@ -32,9 +29,7 @@ export default function Activity() {
   };
 
   return (
-    <ActivityLayout
-      activity={elementary1Activity1}
-    >
+    <ActivityLayout activity={elementary1Activity1}>
       {/* =====================================================
           INTRODUCTION + VIDÉO
       ===================================================== */}
@@ -48,17 +43,16 @@ export default function Activity() {
         info={{
           objectifs: [
             "Pratiquer les questions et les tournures interrogatives",
-            "Identifier les réponses adaptées.",
-            "Réutiliser ces questions dans des situations simples.",
+            "Comprendre des questions simples et y répondre",
+            "Identifier et mobiliser le mot interrogatif adéquat",
           ],
           competences: [
             "Compréhension écrite",
-            "Prononciation",
+            "Compréhension orale",
+            "Prononciation, diction et intonation",
           ],
-          prerequis: [
-            "Questions et mots interrogatifs",
-          ],
-          duree: "20 minutes",
+          prerequis: ["Questions et mots interrogatifs"],
+          duree: "25 minutes",
         }}
       />
 
@@ -115,9 +109,7 @@ export default function Activity() {
             }}
           >
             <ActivityNavigationProvider
-              totalExercises={
-                elementary1Activity1.exercises.length
-              }
+              totalExercises={elementary1Activity1.exercises.length}
             >
               <QuizGogoFlow />
             </ActivityNavigationProvider>

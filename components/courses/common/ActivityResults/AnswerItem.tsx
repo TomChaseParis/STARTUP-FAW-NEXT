@@ -98,25 +98,7 @@ export default function AnswerItem({ item }: Props) {
           </section>
         )}
 
-        {/* Explication */}
-
-        {item.explanation && (
-          <section>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">
-              Explication
-            </p>
-
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-slate-700">
-              <div className="mb-2 flex items-center gap-2 font-semibold text-amber-700">
-                💡 Conseil pédagogique
-              </div>
-
-              <p className="leading-relaxed">
-                {item.explanation}
-              </p>
-            </div>
-          </section>
-        )}
+    
 
         {/* Footer */}
 
