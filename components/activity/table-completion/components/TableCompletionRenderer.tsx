@@ -6,6 +6,7 @@ import TableCompletionRow from "./TableCompletionRow";
 
 import { TableCompletionItem } from "../types";
 
+
 type Props = {
   questions: TableCompletionItem[];
   answers: string[];
