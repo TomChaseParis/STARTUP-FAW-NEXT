@@ -143,7 +143,7 @@ export const quizData: Question[] = [
       },
       {
         id: "C",
-        label: "Avec des pâtes et de la sauce tomate",
+        label: "Des pâtes et de la sauce tomate",
         isCorrect: false,
         explanationCorrect: "",
         explanationWrong:

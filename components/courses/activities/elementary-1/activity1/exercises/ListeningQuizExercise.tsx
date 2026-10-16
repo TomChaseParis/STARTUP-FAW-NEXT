@@ -30,10 +30,10 @@ const EXERCISE_ID =
 
 const TEACHER_FEEDBACK_AUDIOS = {
   bad:
-    "/audios/teacher/jean/score/JEAN-DOWN.mp3",
+    "/audios/teacher/jean/score/JEAN-0-50.mp3",
 
   middle:
-    "/audios/teacher/jean/score/JEAN-MIDDLE.mp3",
+    "/audios/teacher/jean/score/JEAN-50-75.mp3",
 
   good:
     "/audios/teacher/jean/score/JEAN-100.mp3",

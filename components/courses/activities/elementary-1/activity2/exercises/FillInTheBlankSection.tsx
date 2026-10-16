@@ -6,19 +6,11 @@ import ExerciseContainer from "@/components/activity/ExerciseContainer";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 
-import leisureConjugationData from "./data/leisureConjugationData";
 import FillInTheBlankExercise from "./FillInTheBlankExercise";
 
 export default function FillInTheBlankSection() {
   const [started, setStarted] = useState(false);
 
-  /*
-   * Lorsque l'utilisateur clique sur
-   * "Lancer l'exercice", l'exercice est affiché.
-   *
-   * On attend que le contenu soit réellement présent
-   * dans le DOM avant de lancer le scroll.
-   */
   useEffect(() => {
     if (!started) return;
 
@@ -26,8 +18,9 @@ export default function FillInTheBlankSection() {
     let timer: number | undefined;
 
     const scrollToExercise = () => {
-      const element =
-        document.getElementById("exercise-1-content");
+      const element = document.getElementById(
+        "exercise-1-content",
+      );
 
       if (!element) {
         attempts += 1;
@@ -75,7 +68,7 @@ export default function FillInTheBlankSection() {
         >
           <ExerciseSection>
             <InstructionBlock
-              level="beginner"
+              level="elementary1"
               stampLabel="EXERCICE 1"
               typeLabel="COMPRÉHENSION ORALE"
               title="Les loisirs des Français"
@@ -102,7 +95,8 @@ export default function FillInTheBlankSection() {
                       text-slate-800
                     "
                   >
-                    Écoute le texte et conjugue tous les verbes à la troisième personne du pluriel.
+                    Écoute le texte et conjugue tous les
+                    verbes à la troisième personne du pluriel.
                   </div>
 
                   <div
@@ -155,7 +149,8 @@ export default function FillInTheBlankSection() {
                       "
                     >
                       <p className="font-bold text-slate-800">
-                        La marque du pluriel (–ent) ne s’entend pas à l’oral !
+                        La marque du pluriel (–ent) ne
+                        s’entend pas à l’oral !
                       </p>
 
                       <div>
@@ -166,9 +161,95 @@ export default function FillInTheBlankSection() {
 
                         <p className="mt-1">
                           ➡️ Les jeunes{" "}
-                          <strong>passent</strong> beaucoup de
-                          temps sur internet.
+                          <strong>passent</strong> beaucoup
+                          de temps sur internet.
                         </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AIDE AU CLAVIER */}
+                  <div className="space-y-4">
+                    <p className="font-semibold text-slate-800">
+                      Aide au clavier :
+                    </p>
+
+                    <p>
+                      Écris tes réponses à l’aide du clavier
+                      de ton ordinateur ou de ton téléphone.
+                    </p>
+
+                    <p>
+                      Si tu as du mal à trouver certaines
+                      voyelles accentuées (exemple : « ê »),
+                      copie / colle la voyelle requise à
+                      partir de la liste ci-dessous :
+                    </p>
+
+                    {/* VOYELLES ACCENTUÉES */}
+                    <div
+                      className="
+                        w-full
+                        overflow-hidden
+                        rounded-xl
+                        border
+                        border-slate-200
+                        bg-white/80
+                        px-3
+                        py-3
+                        sm:px-4
+                        sm:py-3
+                      "
+                    >
+                      <div
+                        className="
+                          flex
+                          w-full
+                          flex-wrap
+                          items-center
+                          justify-center
+                          gap-2
+                          sm:justify-start
+                          sm:gap-3
+                        "
+                      >
+                        {[
+                          "à",
+                          "â",
+                          "ä",
+                          "é",
+                          "è",
+                          "ê",
+                          "ë",
+                          "î",
+                          "ï",
+                          "ô",
+                          "ö",
+                          "ù",
+                          "û",
+                          "ü",
+                        ].map((character) => (
+                          <span
+                            key={character}
+                            className="
+                              flex
+                              h-9
+                              min-w-9
+                              items-center
+                              justify-center
+                              rounded-lg
+                              bg-slate-50
+                              px-2
+                              font-semibold
+                              tracking-wide
+                              text-slate-800
+                              ring-1
+                              ring-slate-200
+                            "
+                          >
+                            {character}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   </div>

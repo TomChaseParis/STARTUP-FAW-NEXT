@@ -17,18 +17,6 @@ import { frenchLeisureData } from "./data/frenchLeisureData";
 
 import { elementary1Activity2 } from "@/data/courses/activities/elementary-1/activity2/activity2";
 
-const teacherFeedbackImages = {
-  bad: "/images/courses/results-expressions/elementary-1/JEAN3.png",
-  middle: "/images/courses/results-expressions/elementary-1/JEAN2.png",
-  good: "/images/courses/results-expressions/elementary-1/JEAN1.png",
-};
-
-const teacherFeedbackAudios = {
-  bad: "/audios/teacher/jean/score/JEAN-DOWN.mp3",
-  middle: "/audios/teacher/jean/score/JEAN-MIDDLE.mp3",
-  good: "/audios/teacher/jean/score/JEAN-100.mp3",
-};
-
 export default function Activity() {
   const [started, setStarted] = useState(false);
 
@@ -55,8 +43,16 @@ export default function Activity() {
         poster="/images/courses/elementary/activities/activity2/poster.png"
         info={{
           objectifs: ["Parler de ses hobbies"],
-          competences: ["Compréhension orale", "Phonie / graphie", "Prononciation", "Expression orale"],
-          prerequis: ["Conjugaison au présent : 3ème personne du pluriel (ils/elles)", "Questions et mots interrogatifs"],
+          competences: [
+            "Compréhension orale",
+            "Phonie / graphie",
+            "Prononciation",
+            "Expression orale",
+          ],
+          prerequis: [
+            "Conjugaison au présent : 3ème personne du pluriel (ils/elles)",
+            "Questions et mots interrogatifs",
+          ],
           duree: "20 minutes",
         }}
       />
@@ -67,18 +63,18 @@ export default function Activity() {
             type="button"
             onClick={handleStart}
             className="
-            rounded-xl
-            bg-[rgb(87,204,153)]
-            px-8
-            py-4
-            text-lg
-            font-semibold
-            text-white
-            transition-all
-            duration-300
-            hover:scale-105
-            hover:bg-[rgb(70,185,135)]
-          "
+              rounded-xl
+              bg-[rgb(87,204,153)]
+              px-8
+              py-4
+              text-lg
+              font-semibold
+              text-white
+              transition-all
+              duration-300
+              hover:scale-105
+              hover:bg-[rgb(70,185,135)]
+            "
           >
             Commencer l&apos;activité
           </button>
@@ -110,8 +106,6 @@ export default function Activity() {
             >
               <ActivityFlow
                 teacher="elementary-1"
-                teacherFeedbackImages={teacherFeedbackImages}
-                teacherFeedbackAudios={teacherFeedbackAudios}
                 finishHref="/courses/elementary-1/modules/gouts-loisirs"
                 detailedReportRenderer={(result, exerciseIndex) => {
                   if (exerciseIndex !== 0) {

@@ -87,20 +87,23 @@ export default function TeacherFeedback({
 
   useEffect(() => {
     if (!audio) return;
-
+  
     const timer = window.setTimeout(() => {
       const audioElement = audioRef.current;
       if (!audioElement) return;
-
+  
       audioElement.currentTime = 0;
+  
       audioElement.play().catch((error) => {
-        console.warn("[TeacherFeedback] Impossible de lire automatiquement l'audio.", error);
+        console.error("[TeacherFeedback] Échec audio :", {
+          audio,
+          error,
+        });
       });
     }, 700);
-
+  
     return () => window.clearTimeout(timer);
   }, [audio]);
-
   return (
     <>
       <motion.div
