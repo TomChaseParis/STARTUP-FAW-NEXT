@@ -1,3 +1,4 @@
+
 "use client";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
@@ -8,6 +9,7 @@ import VideoExerciseBlock from "@/components/courses/blocks/VideoExerciseBlock";
 
 import Exercice from "./Exercice";
 import Exercice2 from "./Exercice2";
+
 import { elementary2Activity1 } from "@/data/courses/activities/elementary-2/activity1/activity1";
 
 export default function Activity() {
@@ -43,75 +45,44 @@ export default function Activity() {
       {/* ================= EXERCICE 1 ================= */}
       <ExerciseSection>
         <InstructionBlock
+          level="elementary2"
           stampLabel="EXERCICE 1"
-          title="La journée quotidienne de Clara"
+          title="Trouvez la question qui correspond à la réponse de Clara"
           activityType="listen"
           description={
-            <div className="space-y-5 text-black">
-              <div
-                className="
-                  rounded-2xl
-                  border border-amber-200
-                  bg-gradient-to-br from-amber-50 via-white to-amber-50
-                  p-5
-                  shadow-sm
-                "
-              >
-                <div className="mb-4 flex items-center gap-4">
-                  <div
-                    className="
-                      to-yellow-400 flex h-12 w-12 shrink-0 items-center
-                      justify-center
-                      rounded-2xl bg-gradient-to-br from-amber-300
-                      shadow-[0_10px_20px_rgba(245,158,11,0.25)]
-                    "
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 3h6v4H9z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 12h6"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 16h4"
-                      />
-                    </svg>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
-                      Consigne
-                    </p>
-
-                    <p className="text-sm text-slate-500">
-                      Observe attentivement avant de répondre
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-base leading-relaxed text-slate-800">
-                  Regarde la vidéo sur la journée de Clara, puis réponds aux
-                  questions qui suivent.
+            <div
+              className="
+                flex flex-col items-center gap-4
+                rounded-xl border border-slate-300 bg-white
+                px-4 py-4
+                sm:flex-row sm:items-center sm:gap-5 sm:px-5 sm:py-4
+              "
+            >
+              <div className="flex shrink-0 items-center justify-center">
+                <img
+                  src="/images/courses/beginner/activities/brunogalopin/point.png"
+                  alt="Point d'attention"
+                  className="h-20 w-20 object-contain sm:h-28 sm:w-24"
+                />
+              </div>
+          
+              <div className="min-w-0 w-full text-sm leading-relaxed text-slate-800 sm:text-left sm:text-base">
+                <p className="mb-2 font-semibold">
+                  Rappel : il existe trois façons de poser la même question en français :
                 </p>
+          
+                <ul className="list-disc space-y-1 pl-5">
+                  <li>
+                    <strong>Tournure formelle (écrit) :</strong> Où habites-tu ?
+                  </li>
+                  <li>
+                    <strong>Tournure classique (écrit + oral) :</strong>{" "}
+                    Où est-ce que tu habites ?
+                  </li>
+                  <li>
+                    <strong>Tournure familière (oral) :</strong> Tu habites où ?
+                  </li>
+                </ul>
               </div>
             </div>
           }
@@ -128,78 +99,15 @@ export default function Activity() {
       {/* ================= EXERCICE 2 ================= */}
       <ExerciseSection>
         <InstructionBlock
+          level="elementary2"
           stampLabel="EXERCICE 2"
-          title="Posez des questions à Clara"
+          title="Pose des questions à Clara"
           activityType="click-or-speak"
           description={
-            <div className="space-y-5 text-black">
-              <div
-                className="
-                  rounded-2xl
-                  border border-amber-200
-                  bg-gradient-to-br from-amber-50 via-white to-amber-50
-                  p-5
-                  shadow-sm
-                "
-              >
-                <div className="mb-4 flex items-center gap-4">
-                  <div
-                    className="
-                      to-yellow-400 flex h-12 w-12 shrink-0 items-center
-                      justify-center
-                      rounded-2xl bg-gradient-to-br from-amber-300
-                      shadow-[0_10px_20px_rgba(245,158,11,0.25)]
-                    "
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 3h6v4H9z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 12h6"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 16h4"
-                      />
-                    </svg>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
-                      Consigne
-                    </p>
-
-                    <p className="text-sm text-slate-500">
-                      Réfléchis avant de répondre
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-base leading-relaxed text-slate-800">
-                  Trouve la question correspondante à chaque réponse pour
-                  dialoguer avec Clara. Tu peux répondre à l’oral (micro) ou à
-                  l’écrit.
-                </p>
-              </div>
-            </div>
+            <p className="text-base leading-relaxed text-slate-800">
+              Trouve la question correspondante à chaque réponse pour dialoguer
+              avec Clara. Tu peux répondre à l’oral (micro) ou à l’écrit.
+            </p>
           }
         />
 
@@ -209,78 +117,16 @@ export default function Activity() {
       {/* ================= EXERCICE 3 ================= */}
       <ExerciseSection>
         <InstructionBlock
+          level="elementary2"
           stampLabel="EXERCICE 3"
           title="Transformation JE → ELLE"
           activityType="type"
           description={
-            <div className="space-y-5 text-black">
-              <div
-                className="
-                  rounded-2xl
-                  border border-amber-200
-                  bg-gradient-to-br from-amber-50 via-white to-amber-50
-                  p-5
-                  shadow-sm
-                "
-              >
-                <div className="mb-4 flex items-center gap-4">
-                  <div
-                    className="
-                      to-yellow-400 flex h-12 w-12 shrink-0 items-center
-                      justify-center
-                      rounded-2xl bg-gradient-to-br from-amber-300
-                      shadow-[0_10px_20px_rgba(245,158,11,0.25)]
-                    "
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 3h6v4H9z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 12h6"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 16h4"
-                      />
-                    </svg>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
-                      Consigne
-                    </p>
-
-                    <p className="text-sm text-slate-500">
-                      Applique toutes les transformations nécessaires
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-base leading-relaxed text-slate-800">
-                  Transforme l’intégralité du texte en passant de « je » à «
-                  elle » en modifiant correctement les pronoms, accords,
-                  possessifs et verbes pronominaux.
-                </p>
-              </div>
-            </div>
+            <p className="text-base leading-relaxed text-slate-800">
+              Transforme l’intégralité du texte en passant de « je » à « elle »
+              en modifiant correctement les pronoms, accords, possessifs et
+              verbes pronominaux.
+            </p>
           }
         />
 

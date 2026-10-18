@@ -10,5 +10,9 @@ export const intermediate1Activity1: ActivityDefinition = {
       id: "exercise-1",
       title: "Les vacances au bord de la mer",
     },
+    {
+      id: "exercise-2",
+      title: "QCM — Les vacances au bord de la mer",
+    },
   ],
 };

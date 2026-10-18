@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import { Lock } from "lucide-react";
@@ -18,10 +19,10 @@ type ActivityCardProps = {
 
 const ACTIVITY_COLORS: Record<string, string> = {
   beginner: "#E09F00",
-  "elementary-1": "#57cc99",
-  "elementary-2": "#31572c",
-  "intermediate-1": "#00296B",
-  "intermediate-2": "#C94F91",
+  "elementary-1": "#57CC99",
+  "elementary-2": "#31572C",
+  "intermediate-1": "#38BDF8",
+  "intermediate-2": "#00296B",
   advanced: "#C7443E",
 };
 

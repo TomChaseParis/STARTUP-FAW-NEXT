@@ -1,3 +1,4 @@
+
 /* PAGE DES MODULES */
 
 import { redirect } from "next/navigation";
@@ -29,10 +30,11 @@ const LEVEL_TITLE_COLORS: Record<string, string> = {
   beginner: "#E09F00",
   "elementary-1": "#57CC99",
   "elementary-2": "#31572C",
-  "intermediate-1": "#00296B",
-  "intermediate-2": "#C94F91",
+  "intermediate-1": "#38BDF8",
+  "intermediate-2": "#00296B",
   advanced: "#C7443E",
 };
+
 export default async function LevelPage({
   params,
 }: PageProps) {

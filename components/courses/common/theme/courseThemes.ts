@@ -12,12 +12,12 @@ export const courseThemes = {
     background: "bg-emerald-50",
     title: "text-emerald-700",
   },
-
+  
   elementary2: {
-    badge: "bg-rose-400",
-    border: "border-rose-200",
-    background: "bg-rose-50",
-    title: "text-rose-700",
+    badge: "bg-[#14532D]",
+    border: "border-[#14532D]/20",
+    background: "bg-[#14532D]/10",
+    title: "text-[#14532D]",
   },
 
   intermediate1: {

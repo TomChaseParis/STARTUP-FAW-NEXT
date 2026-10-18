@@ -1,3 +1,4 @@
+
 "use client";
 
 import FillGapsEngine from "@/components/courses/engines/FillGapsEngine";
@@ -8,8 +9,13 @@ export default function Exercice() {
   return (
     <section className="mt-12">
       <InstructionBlock
+      level="intermediate1"
+      typeLabel="Compréhenson orale"
         title={episodeVacancesData.title}
         activityType="type"
+        audioSrc="/audios/courses/intermediate/lesvacancesauborddemer.mp3"
+        audioImage="/images/courses/intermediate1/activity1/header.jpg"
+        audioBadge="Audio"
         description={
           <div className="space-y-5 text-black">
             <p>

@@ -1,60 +1,45 @@
 "use client";
 
-import {
-  Children,
-  ReactNode,
-} from "react";
-
+import { Children, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 import { useNavigation } from "./ActivityNavigationProvider";
-
 import ActivityResults from "@/components/courses/common/ActivityResults";
-
-import {
-  ActivityResult,
-} from "@/core/activity/models/ActivityResult";
+import { ActivityResult } from "@/core/activity/models/ActivityResult";
 
 type TeacherFeedbackImages = {
   bad: string;
   middle: string;
   good: string;
+  perfect?: string;
 };
 
 type TeacherFeedbackAudios = {
   bad: string;
   middle: string;
   good: string;
+  perfect?: string;
 };
 
 type Props = {
   children: ReactNode;
-
-  teacher?: "beginner" | "elementary-1";
-
+  teacher?: "beginner" | "elementary-1" | "intermediate-1";
   teacherFeedbackImages?: TeacherFeedbackImages;
-
   teacherFeedbackAudios?: TeacherFeedbackAudios;
 
   /**
-   * Correction détaillée personnalisée.
+   * Index des exercices pour lesquels l'historique
+   * question par question doit être masqué.
    *
-   * Le renderer reçoit :
-   *
-   * - le résultat de l'exercice
-   * - l'index de l'exercice
-   *
-   * Cela permet de réserver une correction
-   * personnalisée à certains exercices uniquement.
+   * Exemple : [0] masque l'historique du premier exercice.
    */
+  hideAnswerHistoryForExercises?: number[];
+
   detailedReportRenderer?: (
     result: ActivityResult,
     exerciseIndex: number,
   ) => ReactNode;
 
-  /**
-   * Destination après le dernier exercice.
-   */
   finishHref?: string;
 };
 
@@ -63,6 +48,7 @@ export default function ActivityFlow({
   teacher,
   teacherFeedbackImages,
   teacherFeedbackAudios,
+  hideAnswerHistoryForExercises = [],
   detailedReportRenderer,
   finishHref,
 }: Props) {
@@ -77,29 +63,21 @@ export default function ActivityFlow({
     transitionFinished,
   } = useNavigation();
 
-  const exercises =
-    Children.toArray(children);
+  const exercises = Children.toArray(children);
 
   const isLastExercise =
-    currentExerciseIndex ===
-    exercises.length - 1;
+    currentExerciseIndex === exercises.length - 1;
 
-  /* ========================================================= */
-  /* SÉCURITÉ                                                  */
-  /* ========================================================= */
+  const showAnswerHistory =
+    !hideAnswerHistoryForExercises.includes(
+      currentExerciseIndex,
+    );
 
-  if (
-    flowState === "results" &&
-    !lastResult
-  ) {
+  if (flowState === "results" && !lastResult) {
     throw new Error(
       "ActivityFlow: results screen requested without a result.",
     );
   }
-
-  /* ========================================================= */
-  /* RÉSULTATS                                                 */
-  /* ========================================================= */
 
   if (flowState === "results") {
     return (
@@ -109,9 +87,7 @@ export default function ActivityFlow({
         onNext={() => {
           if (isLastExercise) {
             if (finishHref) {
-              router.push(
-                finishHref,
-              );
+              router.push(finishHref);
             }
 
             return;
@@ -123,16 +99,11 @@ export default function ActivityFlow({
             transitionFinished();
           }, 300);
         }}
-        isLastExercise={
-          isLastExercise
-        }
+        isLastExercise={isLastExercise}
         teacher={teacher}
-        teacherFeedbackImages={
-          teacherFeedbackImages
-        }
-        teacherFeedbackAudios={
-          teacherFeedbackAudios
-        }
+        teacherFeedbackImages={teacherFeedbackImages}
+        teacherFeedbackAudios={teacherFeedbackAudios}
+        showAnswerHistory={showAnswerHistory}
         detailedReport={
           detailedReportRenderer
             ? detailedReportRenderer(
@@ -145,13 +116,7 @@ export default function ActivityFlow({
     );
   }
 
-  /* ========================================================= */
-  /* TRANSITION                                                */
-  /* ========================================================= */
-
-  if (
-    flowState === "transition"
-  ) {
+  if (flowState === "transition") {
     return (
       <section className="py-24 text-center">
         <p className="text-xl font-semibold">
@@ -161,13 +126,7 @@ export default function ActivityFlow({
     );
   }
 
-  /* ========================================================= */
-  /* FIN                                                        */
-  /* ========================================================= */
-
-  if (
-    flowState === "finished"
-  ) {
+  if (flowState === "finished") {
     return (
       <section className="py-24 text-center">
         <h2 className="text-4xl font-bold">
@@ -175,24 +134,11 @@ export default function ActivityFlow({
         </h2>
 
         <p className="mt-4 text-slate-600">
-          Félicitations ! Tu as terminé
-          cette activité.
+          Félicitations ! Tu as terminé cette activité.
         </p>
       </section>
     );
   }
 
-  /* ========================================================= */
-  /* EXERCICE COURANT                                          */
-  /* ========================================================= */
-
-  return (
-    <>
-      {
-        exercises[
-          currentExerciseIndex
-        ]
-      }
-    </>
-  );
+  return <>{exercises[currentExerciseIndex]}</>;
 }

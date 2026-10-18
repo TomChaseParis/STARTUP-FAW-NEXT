@@ -18,40 +18,17 @@ import {
 
 /* ================= UTILS ================= */
 
-
-
-
-/*
- * Les accents sont volontairement conservés.
- *
- * "a" !== "à"
- * "e" !== "é"
- * "ete" !== "été"
- *
- * On tolère seulement :
- * - majuscules/minuscules
- * - apostrophes typographiques
- * - espaces multiples
- */
-
-const normalizeText = (
-  str: string,
-) =>
+const normalizeText = (str: string) =>
   str
     .toLowerCase()
     .replace(/[’']/g, "'")
     .replace(/\s+/g, " ")
     .trim();
 
-const sentenceToQuestion = (
-  parts: GapPart[],
-) => {
+const sentenceToQuestion = (parts: GapPart[]) => {
   return parts
     .map((part) => {
-      if (
-        part.type === "text" ||
-        part.type === "dialogue"
-      ) {
+      if (part.type === "text" || part.type === "dialogue") {
         return part.value;
       }
 
@@ -62,198 +39,102 @@ const sentenceToQuestion = (
 
 /* ================= HOOK ================= */
 
-export function useFillGapsEngine(
-  data: FillGapsData,
-) {
+export function useFillGapsEngine(data: FillGapsData) {
   const sentences = useMemo(
     () => data.sentences ?? [],
     [data],
   );
 
-  const totalInputs = useMemo(
-    () => {
-      let count = 0;
+  const totalInputs = useMemo(() => {
+    let count = 0;
 
-      sentences.forEach(
-        (sentence) => {
-          sentence.parts.forEach(
-            (part) => {
-              if (
-                part.type ===
-                "input"
-              ) {
-                count++;
-              }
-            },
-          );
-        },
-      );
+    sentences.forEach((sentence) => {
+      sentence.parts.forEach((part) => {
+        if (part.type === "input") {
+          count++;
+        }
+      });
+    });
 
-      return count;
-    },
-    [sentences],
-  );
+    return count;
+  }, [sentences]);
 
-  const session =
-    useExerciseSession(
-      totalInputs,
-    );
+  const session = useExerciseSession(totalInputs);
 
-  const [
-    answers,
-    setAnswers,
-  ] = useState<
-    Record<number, string>
-  >({});
-
-  const [
-    showCorrection,
-    setShowCorrection,
-  ] = useState(false);
-
-  const [
-    score,
-    setScore,
-  ] = useState<number | null>(
-    null,
-  );
-
-  const [
-    history,
-    setHistory,
-  ] = useState<GapResult[]>(
-    [],
-  );
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [showCorrection, setShowCorrection] = useState(false);
+  const [history, setHistory] = useState<GapResult[]>([]);
 
   /* ================= ANSWER ================= */
 
-  const setAnswer = (
-    index: number,
-    value: string,
-  ) => {
+  const setAnswer = (index: number, value: string) => {
     session.start();
 
-    setAnswers(
-      (previous) => ({
-        ...previous,
-        [index]: value,
-      }),
-    );
+    setAnswers((previous) => ({
+      ...previous,
+      [index]: value,
+    }));
   };
 
   /* ================= PROGRESS ================= */
 
-  const answeredCount =
-    Object.values(
-      answers,
-    ).filter(
-      (value) =>
-        value.trim() !== "",
-    ).length;
+  const answeredCount = Object.values(answers).filter(
+    (value) => value.trim() !== "",
+  ).length;
 
   const progress =
-    totalInputs > 0
-      ? (answeredCount /
-          totalInputs) *
-        100
-      : 0;
+    totalInputs > 0 ? (answeredCount / totalInputs) * 100 : 0;
 
-  const allAnswered =
-    answeredCount ===
-    totalInputs;
+  const allAnswered = answeredCount === totalInputs;
 
   /* ================= CHECK ================= */
 
   const checkAnswers = () => {
+    if (!allAnswered || showCorrection) return;
+
     let globalIndex = 0;
+    const results: GapResult[] = [];
 
-    const results: GapResult[] =
-      [];
+    sentences.forEach((sentence) => {
+      const questionText = sentenceToQuestion(sentence.parts);
 
-    sentences.forEach(
-      (sentence) => {
-        const questionText =
-          sentenceToQuestion(
-            sentence.parts,
-          );
+      sentence.parts.forEach((part) => {
+        if (part.type !== "input") return;
 
-        sentence.parts.forEach(
-          (part) => {
-            if (
-              part.type !==
-              "input"
-            ) {
-              return;
-            }
+        const userAnswer = answers[globalIndex] || "";
 
-            const userAnswer =
-              answers[
-                globalIndex
-              ] || "";
+        const isCorrect =
+          normalizeText(userAnswer) === normalizeText(part.answer);
 
-            /*
-             * =================================================
-             * COMPARAISON
-             * =================================================
-             *
-             * Les accents sont obligatoires.
-             */
+        results.push({
+          index: globalIndex,
+          question: questionText,
+          user: userAnswer,
+          correct: part.answer,
+          isCorrect,
+        });
 
-            const normalizedUser =
-              normalizeText(
-                userAnswer,
-              );
-
-            const normalizedCorrect =
-              normalizeText(
-                part.answer,
-              );
-
-            const isCorrect =
-              normalizedUser ===
-              normalizedCorrect;
-
-            results.push({
-              index:
-                globalIndex,
-
-              question:
-                questionText,
-
-              user:
-                userAnswer,
-
-              correct:
-                part.answer,
-
-              isCorrect,
-            });
-
-            session.addAnswer({
-              questionId:
-                globalIndex,
-
-              question:
-                questionText,
-
-              selectedAnswer:
-                userAnswer,
-
-              correctAnswer:
-                part.answer,
-
-              isCorrect,
-            });
-
-            globalIndex++;
-          },
-        );
-      },
-    );
+        globalIndex++;
+      });
+    });
 
     setHistory(results);
-
     setShowCorrection(true);
+
+    /*
+     * Chaque réponse contribue au score de la session.
+     * La session est terminée une seule fois, à la fin
+     * de la validation de l'ensemble de l'exercice.
+     */
+    results.forEach((result) => {
+      session.addAnswer({
+        questionId: result.index,
+        question: result.question,
+        selectedAnswer: result.user,
+        correctAnswer: result.correct,
+        isCorrect: result.isCorrect,
+      });
+    });
 
     session.complete();
   };
@@ -262,41 +143,23 @@ export function useFillGapsEngine(
 
   const reset = () => {
     setAnswers({});
-
-    setShowCorrection(
-      false,
-    );
-
+    setShowCorrection(false);
     setHistory([]);
-
-    setScore(null);
-
     session.reset();
   };
 
   return {
     sentences,
-
     answers,
-
     setAnswer,
-
     showCorrection,
-
     checkAnswers,
-
     reset,
-
     progress,
-
     totalInputs,
-
     answeredCount,
-
     allAnswered,
-
     history,
-
     session,
   };
 }

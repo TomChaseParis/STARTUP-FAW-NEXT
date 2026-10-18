@@ -94,41 +94,24 @@ export default function ListeningDiscoverySection() {
                     {/* ICÔNE D'ÉCOUTE */}
 
                     <span
-                      className="
-                        inline-flex
-                        h-10
-                        w-10
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-white
-                        text-amber-600
-                        shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-                      "
-                      aria-hidden="true"
+                    className="
+                      inline-flex h-10 w-10 shrink-0
+                      items-center justify-center
+                      rounded-full border border-slate-200
+                      bg-white text-amber-500
+                      shadow-[0_3px_10px_rgba(15,23,42,0.06)]
+                    "
+                    aria-hidden="true"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M11 5L6 9H3v6h3l5 4V5z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
-                        />
-                      </svg>
-                    </span>
-
+                      <path d="M8 5.5a.75.75 0 0 1 1.14-.64l9.25 6a.75.75 0 0 1 0 1.28l-9.25 6A.75.75 0 0 1 8 17.5v-12Z" />
+                    </svg>
+                  </span>
                     <span>
                       pour écouter le professeur présenter la question et les
                       réponses proposées.
