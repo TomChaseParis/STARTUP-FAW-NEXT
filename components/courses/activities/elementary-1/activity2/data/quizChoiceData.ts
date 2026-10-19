@@ -162,8 +162,8 @@ export const quizChoiceQuestions: Question[] = [
     image:
       "/images/courses/elementary/lesloisirsdesfrancais/Q3.png",
 
-    teacherImage:
-      "/images/courses/teacher/Q3.png",
+      teacherImage:
+      "/images/courses/teacher/jeantalkquestion.png",
 
     teacherAudioQuestion:
       "/audios/teacher/elementary-1/activity2/q3/qteacher3.mp3",
@@ -618,7 +618,7 @@ export const quizChoiceQuestions: Question[] = [
       "/images/courses/elementary/lesloisirsdesfrancais/Q10.png",
 
     teacherImage:
-      "/images/teacher/jeantalkquestion.png",
+    "/images/courses/teacher/jeantalkquestion.png",
 
     teacherAudioQuestion:
       "/audios/teacher/elementary-1/activity2/q10/qteacher10.mp3",
