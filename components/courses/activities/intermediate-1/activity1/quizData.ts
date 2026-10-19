@@ -22,7 +22,7 @@ export const quizData: Question[] = [
     question: "Avec qui le chanteur passait-il ses vacances ?",
     teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion:
-      "/audios/teacher/intermediate-1/activity1/q1/qteacher1.mp3",
+      "/audios/teacher/intermediate-1/activity1/q1/Q1.mp3",
     choices: [
       {
         id: "A",
@@ -53,7 +53,7 @@ export const quizData: Question[] = [
     question: "Est-ce que sa famille avait de l’argent ?",
     teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion:
-      "/audios/teacher/intermediate-1/activity1/q2/qteacher2.mp3",
+      "/audios/teacher/intermediate-1/activity1/q2/Q2.mp3",
     choices: [
       {
         id: "A",
@@ -79,7 +79,7 @@ export const quizData: Question[] = [
       "Quelles étaient les activités de la famille pendant les vacances ?",
     teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion:
-      "/audios/teacher/intermediate-1/activity1/q3/qteacher3.mp3",
+      "/audios/teacher/intermediate-1/activity1/q3/Q3.mp3",
     choices: [
       {
         id: "A",
@@ -112,7 +112,7 @@ export const quizData: Question[] = [
       "Est-ce que la famille aimait bien rester tard au lit le matin ?",
     teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion:
-      "/audios/teacher/intermediate-1/activity1/q4/qteacher4.mp3",
+      "/audios/teacher/intermediate-1/activity1/q4/Q4.mp3",
     choices: [
       {
         id: "A",
@@ -143,7 +143,7 @@ export const quizData: Question[] = [
     question: "Quelles étaient les deux conditions pour aller aux îles ?",
     teacherImage: "/images/courses/teacher/etiennetalkquestion.png",
     teacherAudioQuestion:
-      "/audios/teacher/intermediate-1/activity1/q5/qteacher5.mp3",
+      "/audios/teacher/intermediate-1/activity1/q5/Q5.mp3",
     choices: [
       {
         id: "A",

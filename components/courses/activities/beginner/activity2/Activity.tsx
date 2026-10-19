@@ -13,6 +13,9 @@ import ListeningDiscoverySection from "./exercises/ListeningDiscoverySection";
 import ComprehensionSection from "./exercises/ComprehensionSection";
 import ConjugationSection from "./exercises/ConjugationSection";
 
+import ConjugationReport from "@/components/courses/common/result/ConjugationReport";
+import { conjugationExerciseData } from "./data/conjugationExerciseData";
+
 import { activity2 } from "@/data/courses/activities/activity2";
 
 export default function Activity() {
@@ -21,7 +24,7 @@ export default function Activity() {
   const handleStart = () => {
     setStarted(true);
 
-    // Attend que l'exercice soit affiché avant de scroller
+    // Attend que l'exercice soit affiché avant de scroller.
     setTimeout(() => {
       document
         .getElementById("exercise-1-instruction")
@@ -104,12 +107,24 @@ export default function Activity() {
             }}
           >
             <ActivityNavigationProvider
-              totalExercises={
-                activity2.exercises.length
-              }
+              totalExercises={activity2.exercises.length}
             >
               <ActivityFlow
                 finishHref="/courses/beginner/modules/se-presenter"
+                detailedReportRenderer={(result, exerciseIndex) => {
+                  // Le rapport personnalisé concerne uniquement
+                  // le troisième exercice : la conjugaison.
+                  if (exerciseIndex !== 2) {
+                    return null;
+                  }
+
+                  return (
+                    <ConjugationReport
+                      data={conjugationExerciseData}
+                      history={result.session.history}
+                    />
+                  );
+                }}
               >
                 <ListeningDiscoverySection />
 
