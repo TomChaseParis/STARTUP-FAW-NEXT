@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useMemo } from "react";
@@ -20,6 +21,7 @@ export default function QCMExercise({
     <QuizEngine
       questions={questions}
       onComplete={onComplete}
+      speechEngine="openai"
       teacherFeedbackImages={{
         correct:
           "/images/bulles-QCM/intermediate-1/etienne-blue/correct.png",
