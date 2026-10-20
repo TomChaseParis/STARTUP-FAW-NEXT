@@ -19,16 +19,17 @@
       "subtitle": "Comprendre un dialogue de présentation",
       "description": "Questions / réponses",
       "additionalDescription": "Verbes « être » et « avoir »",
-            "locked": false,
+      "bulletList": true,
+      "locked": false,
       "image": "/images/courses/modules/agence-matrimoniale.png"
     },
-
     {
       "slug": "meeting-bruno-galopin",
       "title": "MEETING BRUNO GALOPIN",
       "subtitle": "Écouter quelqu'un se présenter",
       "description": "Repérer et restituer des informations personnelles",
       "additionalDescription": "Passer du « je » au « il »",
+      "bulletList": true,
       "locked": false,
       "image": "/images/courses/modules/meeting-brunogalopin.jpg"
     }

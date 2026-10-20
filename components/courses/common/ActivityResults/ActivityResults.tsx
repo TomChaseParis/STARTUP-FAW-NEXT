@@ -38,6 +38,12 @@ type CompletionFeedback = {
   perfect: string;
 };
 
+type Teacher =
+  | "beginner"
+  | "elementary-1"
+  | "elementary-1-activity-2"
+  | "intermediate-1";
+
 type Props = {
   result: ActivityResult;
   onRestart: () => void;
@@ -47,7 +53,7 @@ type Props = {
   teacherFeedbackImages?: TeacherFeedbackImages;
   teacherFeedbackAudios?: TeacherFeedbackAudios;
   completionFeedback?: CompletionFeedback;
-  teacher?: "beginner" | "elementary-1" | "intermediate-1";
+  teacher?: Teacher;
   feedbackVariant?: "activity" | "lesson";
   detailedReport?: ReactNode;
 
@@ -74,10 +80,8 @@ export default function ActivityResults({
 }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
 
-  const [
-    showDetailedReport,
-    setShowDetailedReport,
-  ] = useState(false);
+  const [showDetailedReport, setShowDetailedReport] =
+    useState(false);
 
   /* ========================================================= */
   /* SCROLL                                                    */
@@ -120,12 +124,14 @@ export default function ActivityResults({
   const TeacherFeedback =
     teacher === "intermediate-1"
       ? TeacherFeedbackIntermediate1
-      : teacher === "elementary-1"
+      : teacher === "elementary-1" ||
+          teacher === "elementary-1-activity-2"
         ? Elementary1TeacherFeedback
         : BeginnerTeacherFeedback;
 
   const teacherFeedbackProps =
-    teacher === "elementary-1"
+    teacher === "elementary-1" ||
+    teacher === "elementary-1-activity-2"
       ? {
           score: result.session.score,
           completionFeedback,
@@ -136,6 +142,18 @@ export default function ActivityResults({
           teacherFeedbackImages,
           teacherFeedbackAudios,
         };
+
+  /* ========================================================= */
+  /* COULEUR DU BOUTON                                         */
+  /* ========================================================= */
+
+  const nextButtonColor =
+    teacher === "intermediate-1"
+      ? "bg-[rgb(56,189,248)] hover:bg-[rgb(14,165,233)]"
+      : teacher === "elementary-1" ||
+          teacher === "elementary-1-activity-2"
+        ? "bg-[rgb(87,204,153)] hover:bg-[rgb(70,185,135)]"
+        : "bg-amber-500 hover:bg-amber-600";
 
   return (
     <section
@@ -374,11 +392,7 @@ export default function ActivityResults({
             transition
             sm:w-auto
             sm:px-8
-            ${
-              teacher === "intermediate-1"
-                ? "bg-[rgb(56,189,248)] hover:bg-[rgb(14,165,233)]"
-                : "bg-amber-500 hover:bg-amber-600"
-            }
+            ${nextButtonColor}
           `}
         >
           {isLastExercise ? finishLabel : "Exercice suivant →"}

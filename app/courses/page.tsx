@@ -12,7 +12,7 @@ export default async function CoursesPage() {
         {/* TITRE */}
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-4xl font-extrabold text-gray-900">
-            Explorez nos <span className="text-amber-500">niveaux</span>
+            Explorez nos niveaux
           </h1>
 
           <p className="mt-3 text-lg text-gray-600">

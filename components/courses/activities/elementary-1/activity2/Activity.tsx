@@ -111,7 +111,7 @@ export default function Activity() {
                   if (exerciseIndex !== 0) {
                     return undefined;
                   }
-
+                  
                   return (
                     <FillGapsReport
                       data={frenchLeisureData}
