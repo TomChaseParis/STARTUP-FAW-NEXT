@@ -41,6 +41,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={intermediate1Activity1}>
       <LessonBlock
+              contentType="activity"
         level="intermediate-1"
         title="Les vacances au bord de la mer"
         description="Écoute la chanson puis réponds aux questions."

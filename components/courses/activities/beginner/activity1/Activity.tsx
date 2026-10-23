@@ -118,6 +118,7 @@ export default function Activity() {
     <ActivityNavigationProvider totalExercises={3}>
       <ActivityLayout activity={bigFourActivity}>
         <LessonBlock
+        contentType="activity"
           level="beginner"
           title="ZE BIG FOUR : Être – Avoir – Faire – Aller"
           description="Regarde la vidéo puis fais les exercices."

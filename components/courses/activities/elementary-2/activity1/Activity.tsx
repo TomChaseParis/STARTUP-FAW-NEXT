@@ -1,4 +1,3 @@
-
 "use client";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
@@ -17,6 +16,7 @@ export default function Activity() {
     <ActivityLayout activity={elementary2Activity1}>
       {/* ================= PRÉSENTATION COURS ================= */}
       <LessonBlock
+        contentType="activity"
         level="elementary-2"
         title="L’emploi du temps mouvementé de Clara"
         description="Dans cette activité, vous allez découvrir la journée quotidienne de Clara. Vous réviserez les heures, les moments de la journée, les verbes pronominaux et la conjugaison au présent."
@@ -65,19 +65,20 @@ export default function Activity() {
                   className="h-20 w-20 object-contain sm:h-28 sm:w-24"
                 />
               </div>
-          
-              <div className="min-w-0 w-full text-sm leading-relaxed text-slate-800 sm:text-left sm:text-base">
+
+              <div className="w-full min-w-0 text-sm leading-relaxed text-slate-800 sm:text-left sm:text-base">
                 <p className="mb-2 font-semibold">
-                  Rappel : il existe trois façons de poser la même question en français :
+                  Rappel : il existe trois façons de poser la même question en
+                  français :
                 </p>
-          
+
                 <ul className="list-disc space-y-1 pl-5">
                   <li>
                     <strong>Tournure formelle (écrit) :</strong> Où habites-tu ?
                   </li>
                   <li>
-                    <strong>Tournure classique (écrit + oral) :</strong>{" "}
-                    Où est-ce que tu habites ?
+                    <strong>Tournure classique (écrit + oral) :</strong> Où
+                    est-ce que tu habites ?
                   </li>
                   <li>
                     <strong>Tournure familière (oral) :</strong> Tu habites où ?

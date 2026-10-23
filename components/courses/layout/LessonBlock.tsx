@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import InfoBlock from "./InfoBlock";
 
 type LessonBlockProps = {
+  contentType?: "lesson" | "activity";
   level: string;
   title: string;
   description?: string;
@@ -31,12 +32,10 @@ const LEVEL_CONFIG: Record<
     label: "Débutant",
     color: "#E09F00",
   },
-
   "elementary-1": {
     label: "Élémentaire 1",
     color: "#57CC99",
   },
-
   "elementary-2": {
     label: "Élémentaire 2",
     color: "#31572C",
@@ -45,32 +44,18 @@ const LEVEL_CONFIG: Record<
     label: "Intermédiaire 1",
     color: "#38BDF8",
   },
-  
   "intermediate-2": {
     label: "Intermédiaire 2",
     color: "#00296B",
   },
-
   advanced: {
     label: "Avancé",
     color: "#C7443E",
   },
 };
 
-const formatTime = (time: number) => {
-  if (!time || isNaN(time)) {
-    return "0:00";
-  }
-
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-
-  return `${minutes}:${seconds
-    .toString()
-    .padStart(2, "0")}`;
-};
-
 export default function LessonBlock({
+  contentType = "lesson",
   level,
   title,
   description,
@@ -80,34 +65,11 @@ export default function LessonBlock({
   children,
   onVideoEnded,
 }: LessonBlockProps) {
-  const videoRef =
-    useRef<HTMLVideoElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const [isPlaying, setIsPlaying] =
-    useState(false);
-
-  const [currentTime, setCurrentTime] =
-    useState(0);
-
-  const [duration, setDuration] =
-    useState(0);
-
-  const levelConfig =
-    LEVEL_CONFIG[level] ?? LEVEL_CONFIG.beginner;
-
-  const togglePlayPause = () => {
-    if (!videoRef.current) {
-      return;
-    }
-
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
-  };
+  const levelConfig = LEVEL_CONFIG[level] ?? LEVEL_CONFIG.beginner;
+  const isActivity = contentType === "activity";
 
   const handleVideoEnded = () => {
     setIsPlaying(false);
@@ -115,171 +77,193 @@ export default function LessonBlock({
   };
 
   return (
-    <section className="space-y-14 bg-white">
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
+    <section className="space-y-12 bg-[#FCFCFC] pb-4 sm:space-y-14">
+      {/* HEADER */}
 
       <div className="container">
-        <div className="mx-auto max-w-5xl text-center">
-          {/* BADGE DU NIVEAU */}
-
-          <span
-            className="
-              inline-block
-              rounded-full
-              px-3
-              py-1
-              text-sm
-              font-semibold
-              text-white
-            "
+        <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
+          <div
+            className="pointer-events-none absolute left-1/2 top-[-55px] -z-10 h-44 w-72 -translate-x-1/2 rounded-full blur-3xl"
             style={{
-              backgroundColor: levelConfig.color,
+              backgroundColor: `${levelConfig.color}20`,
             }}
-          >
-            {levelConfig.label}
-          </span>
+          />
 
-          <h1 className="mt-3 text-2xl font-semibold text-black">
-            {title}
-          </h1>
+          {/* IDENTITÉ DU CONTENU + TITRE */}
 
-          {description && (
-            <p className="mx-auto mt-3 max-w-3xl text-base text-black/70">
-              {description}
-            </p>
-          )}
-        </div>
-      </div>
+          <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(260px,0.85fr)_minmax(0,1.5fr)] md:gap-8">
+            {/* BLOC GAUCHE — TYPE ET NIVEAU */}
 
-      {/* =====================================================
-          VIDEO
-      ===================================================== */}
-
-      <div className="container">
-        <div className="flex justify-center">
-          <div className="w-full max-w-[720px]">
-            <div className="relative aspect-video overflow-hidden rounded-xl bg-black shadow-lg ring-1 ring-black/5">
-              <video
-                ref={videoRef}
-                src={videoSrc}
-                poster={poster}
-                className="h-full w-full object-cover"
-                onTimeUpdate={() =>
-                  setCurrentTime(
-                    videoRef.current?.currentTime ||
-                      0,
-                  )
-                }
-                onLoadedMetadata={() =>
-                  setDuration(
-                    videoRef.current?.duration ||
-                      0,
-                  )
-                }
-                onEnded={handleVideoEnded}
-              />
-
-              <button
-                type="button"
-                onClick={togglePlayPause}
-                className="
-                  absolute
-                  inset-0
-                  m-auto
-                  flex
-                  h-16
-                  w-16
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-black/60
-                  text-2xl
-                  text-white
-                  backdrop-blur
-                  hover:bg-black/50
-                "
+            <div className="flex justify-center md:justify-start">
+              <div
+                className="relative flex w-fit max-w-full items-center gap-4 overflow-hidden rounded-full py-3 pl-3 pr-6 sm:gap-5 sm:py-4 sm:pr-8"
+                style={{
+                  backgroundColor: `${levelConfig.color}20`,
+                }}
               >
-                {isPlaying ? "⏸" : "▶"}
-              </button>
+                {/* ICÔNE */}
+
+                <div
+                  className="relative z-10 flex h-[76px] w-[76px] shrink-0 items-center justify-center rounded-full shadow-sm sm:h-[88px] sm:w-[88px]"
+                  style={{
+                    backgroundColor: levelConfig.color,
+                  }}
+                >
+                  {isActivity ? (
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="h-10 w-10 sm:h-12 sm:w-12"
+                      stroke="white"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="5" y="3" width="14" height="18" rx="1.5" />
+                      <path d="M9 7h6M9 11h6M9 15h3" />
+                      <path d="m8 3 1 2 2-2" />
+                      <path d="m8 11 1 1 2-2" />
+                      <path d="m8 15 1 1 2-2" />
+                    </svg>
+                  ) : (
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="h-10 w-10 sm:h-12 sm:w-12"
+                      stroke="white"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
+                      <path d="M8 7h8M8 11h8M8 15h5" />
+                    </svg>
+                  )}
+                </div>
+
+                {/* LIBELLÉ ET NIVEAU */}
+
+                <div className="relative z-10 flex min-w-0 flex-col items-start gap-2">
+                  <span
+                    className="text-xl font-black uppercase leading-none tracking-tight sm:text-2xl"
+                    style={{
+                      color: levelConfig.color,
+                    }}
+                  >
+                    {isActivity ? "Activité" : "Leçon"}
+                  </span>
+
+                  <span
+                    className="inline-flex max-w-full items-center rounded-full px-3 py-1.5 text-[10px] font-extrabold uppercase leading-tight tracking-[0.08em] text-white sm:px-4 sm:text-xs"
+                    style={{
+                      backgroundColor: levelConfig.color,
+                    }}
+                  >
+                    {levelConfig.label}
+                  </span>
+                </div>
+
+                {/* ACCENT DÉCORATIF */}
+
+                <div
+                  aria-hidden="true"
+                  className="absolute right-5 top-1 h-5 w-5 rounded-full opacity-30 blur-md"
+                  style={{
+                    backgroundColor: levelConfig.color,
+                  }}
+                />
+              </div>
             </div>
 
-            {/* =================================================
-                PROGRESSION
-            ================================================= */}
+            {/* BLOC DROIT — NOM DE L'ACTIVITÉ OU DE LA LEÇON */}
 
-            <div className="mt-3 space-y-2">
-              <input
-                type="range"
-                min={0}
-                max={duration}
-                step={0.1}
-                value={currentTime}
-                onChange={(e) => {
-                  if (!videoRef.current) {
-                    return;
-                  }
+            <div className="min-w-0 text-center md:pl-2 md:text-left">
+              <h1 className="text-3xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-4xl">
+                {title}
+              </h1>
 
-                  const time = Number(
-                    e.target.value,
-                  );
+              {description && (
+                <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+                  {description}
+                </p>
+              )}
 
-                  videoRef.current.currentTime =
-                    time;
-
-                  setCurrentTime(time);
+              <div
+                className="mx-auto mt-6 h-1 w-16 rounded-full md:mx-0"
+                style={{
+                  backgroundColor: levelConfig.color,
                 }}
-                className="w-full"
               />
-
-              <div className="flex items-center justify-between text-sm text-black">
-                <span>
-                  {formatTime(currentTime)} /{" "}
-                  {formatTime(duration)}
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    videoRef.current?.requestFullscreen?.()
-                  }
-                  className="
-                    rounded-md
-                    bg-black
-                    px-3
-                    py-1
-                    text-white
-                    hover:bg-black/80
-                  "
-                >
-                  ⛶ Plein écran
-                </button>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* =====================================================
-          INFO BLOCK AUTOMATIQUE
-      ===================================================== */}
+      {/* ENCADRÉ UNIQUE — VIDÉO + INFORMATIONS */}
 
-      {info && (
-        <div className="container">
-          <InfoBlock {...info} />
+      <div className="container">
+        <div
+          className="grid grid-cols-1 items-center gap-6 overflow-hidden rounded-[28px] border p-4 shadow-[0_16px_45px_rgba(15,23,42,0.07)] sm:p-6 lg:grid-cols-2 lg:gap-8 lg:p-8"
+          style={{
+            backgroundColor: `${levelConfig.color}12`,
+            borderColor: `${levelConfig.color}45`,
+          }}
+        >
+          {/* COLONNE GAUCHE — VIDÉO */}
+
+          <div className="min-w-0">
+            <div className="relative aspect-video overflow-hidden rounded-[20px] border border-black/10 bg-black shadow-md">
+              <video
+                ref={videoRef}
+                src={videoSrc}
+                poster={poster}
+                className="h-full w-full object-cover"
+                controls
+                playsInline
+                preload="metadata"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onEnded={handleVideoEnded}
+              >
+                Ton navigateur ne supporte pas la lecture vidéo.
+              </video>
+            </div>
+          </div>
+
+          {/* COLONNE DROITE — INFORMATIONS PÉDAGOGIQUES */}
+
+          {info && (
+            <div className="min-w-0 lg:pl-2">
+              <div className="mb-6 flex flex-col items-center">
+                <div
+                  className="mb-4 h-1 w-12 rounded-full"
+                  style={{
+                    backgroundColor: levelConfig.color,
+                  }}
+                />
+
+                <h2
+                  className="text-center text-xl font-black tracking-tight sm:text-2xl"
+                  style={{
+                    color: levelConfig.color,
+                  }}
+                >
+                  Au programme
+                </h2>
+              </div>
+
+              <InfoBlock {...info} accentColor={levelConfig.color} />
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
-      {/* =====================================================
-          CONTENU PÉDAGOGIQUE
-      ===================================================== */}
+      {/* CONTENU PÉDAGOGIQUE */}
 
-      {children && (
-        <div className="container">
-          {children}
-        </div>
-      )}
+      {children && <div className="container">{children}</div>}
     </section>
   );
 }

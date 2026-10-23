@@ -38,6 +38,8 @@ export default function Activity() {
   return (
     <ActivityLayout activity={activity2}>
       <LessonBlock
+              contentType="activity"
+
         level="beginner"
         title="A l’Agence matrimoniale"
         description="Regarde la vidéo puis lance les exercices."

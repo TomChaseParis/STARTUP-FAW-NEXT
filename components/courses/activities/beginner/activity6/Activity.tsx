@@ -1,18 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 
 import ActivityFlow from "@/core/navigation/ActivityFlow";
-import {
-  ActivityNavigationProvider,
-} from "@/core/navigation/ActivityNavigationProvider";
+import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 
 import FillGapsBrunoSection from "./exercises/exercise-1/FillGapsBrunoSection";
 import TrueFalseBrunoSection from "./exercises/exercise-2/TrueFalseBrunoSection";
@@ -27,29 +22,23 @@ import { brunoGalopinData } from "./data/brunoGalopinData";
 import { thirdPersonBrunoData } from "./data/thirdPersonBrunoData";
 
 export default function Activity() {
-  const [started, setStarted] =
-    useState(false);
+  const [started, setStarted] = useState(false);
 
   const handleStart = () => {
     setStarted(true);
 
     setTimeout(() => {
-      document
-        .getElementById(
-          "exercise-1-instruction",
-        )
-        ?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+      document.getElementById("exercise-1-instruction")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }, 400);
   };
 
   return (
-    <ActivityLayout
-      activity={activity6}
-    >
+    <ActivityLayout activity={activity6}>
       <LessonBlock
+        contentType="activity"
         level="beginner"
         title="MEETING BRUNO GALOPIN"
         description="Regarde la vidéo puis lance les exercices."
@@ -116,34 +105,22 @@ export default function Activity() {
             }}
           >
             <ActivityNavigationProvider
-              totalExercises={
-                activity6.exercises.length
-              }
+              totalExercises={activity6.exercises.length}
             >
               <ActivityFlow
                 finishHref="/courses/beginner/modules/se-presenter"
-                detailedReportRenderer={(
-                  result,
-                  exerciseIndex,
-                ) => {
+                detailedReportRenderer={(result, exerciseIndex) => {
                   /*
                    * =================================================
                    * EXERCICE 1 — TEXTE À TROUS
                    * =================================================
                    */
 
-                  if (
-                    exerciseIndex === 0
-                  ) {
+                  if (exerciseIndex === 0) {
                     return (
                       <FillGapsReport
-                        data={
-                          brunoGalopinData
-                        }
-                        history={
-                          result.session
-                            .history
-                        }
+                        data={brunoGalopinData}
+                        history={result.session.history}
                       />
                     );
                   }
@@ -159,9 +136,7 @@ export default function Activity() {
                    * automatiquement AnswerHistory.
                    */
 
-                  if (
-                    exerciseIndex === 1
-                  ) {
+                  if (exerciseIndex === 1) {
                     return null;
                   }
 
@@ -177,18 +152,11 @@ export default function Activity() {
                    * l'exercice 1.
                    */
 
-                  if (
-                    exerciseIndex === 2
-                  ) {
+                  if (exerciseIndex === 2) {
                     return (
                       <FillGapsReport
-                        data={
-                          thirdPersonBrunoData
-                        }
-                        history={
-                          result.session
-                            .history
-                        }
+                        data={thirdPersonBrunoData}
+                        history={result.session.history}
                       />
                     );
                   }

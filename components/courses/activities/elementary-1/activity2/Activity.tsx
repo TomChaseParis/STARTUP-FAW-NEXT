@@ -36,6 +36,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={elementary1Activity2}>
       <LessonBlock
+        contentType="activity"
         level="elementary-1"
         title="Les loisirs des Français"
         description="Écoute le texte puis conjugue les verbes à la troisième personne du pluriel."
@@ -111,7 +112,7 @@ export default function Activity() {
                   if (exerciseIndex !== 0) {
                     return undefined;
                   }
-                  
+
                   return (
                     <FillGapsReport
                       data={frenchLeisureData}

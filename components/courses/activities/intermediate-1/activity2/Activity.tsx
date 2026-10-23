@@ -13,6 +13,8 @@ export default function Activity() {
   return (
     <ActivityLayout activity={intermediate1Activity2}>
       <LessonBlock
+              contentType="activity"
+
         level="intermediate-1"
         title="L'imparfait d'habitude"
         description="Écoute la chanson puis réponds aux questions."
