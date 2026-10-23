@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 

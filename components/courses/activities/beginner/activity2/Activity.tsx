@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import ActivityBlock from "@/components/courses/layout/ActivityBlock";
 
 import ActivityFlow from "@/core/navigation/ActivityFlow";
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
@@ -26,20 +26,17 @@ export default function Activity() {
 
     // Attend que l'exercice soit affiché avant de scroller.
     setTimeout(() => {
-      document
-        .getElementById("exercise-1-instruction")
-        ?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+      document.getElementById("exercise-1-instruction")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }, 400);
   };
 
   return (
     <ActivityLayout activity={activity2}>
-      <LessonBlock
-              contentType="activity"
-
+      <ActivityBlock
+        contentType="activity"
         level="beginner"
         title="A l’Agence matrimoniale"
         description="Regarde la vidéo puis lance les exercices."

@@ -12,7 +12,7 @@ import ActivityResults from "@/components/courses/common/ActivityResults/Activit
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 
-import { LessonQuizData } from "@/data/courses/lessons/beginner/introduce-yourself/QuizData";
+import { LessonQuizData } from "@/components/courses/lessons/beginner/introduce-yourself/data/QuizData";
 
 import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
 
@@ -41,70 +41,46 @@ type QuizData = {
 
 const data = LessonQuizData as QuizData;
 
-const questions: Question[] = data.questions.map(
-  (question): Question => {
-    const correctAnswers =
-      question.correctAnswers ??
-      (question.correctAnswer
-        ? [question.correctAnswer]
-        : []);
+const questions: Question[] = data.questions.map((question): Question => {
+  const correctAnswers =
+    question.correctAnswers ??
+    (question.correctAnswer ? [question.correctAnswer] : []);
 
-    return {
-      id: question.id,
-      type: question.type,
-      question: question.question,
-      image: question.image,
-      teacherImage: question.teacherImage,
-      teacherAudioQuestion:
-        question.teacherAudioQuestion,
-      choices: question.options.map(
-        (option) => ({
-          id: option.id.toUpperCase(),
-          label: option.text,
-          isCorrect:
-            correctAnswers.includes(
-              option.id,
-            ),
-        }),
-      ),
-    };
-  },
-);
+  return {
+    id: question.id,
+    type: question.type,
+    question: question.question,
+    image: question.image,
+    teacherImage: question.teacherImage,
+    teacherAudioQuestion: question.teacherAudioQuestion,
+    choices: question.options.map((option) => ({
+      id: option.id.toUpperCase(),
+      label: option.text,
+      isCorrect: correctAnswers.includes(option.id),
+    })),
+  };
+});
 
-const ACTIVITY_ID =
-  "beginner-introduce-yourself";
+const ACTIVITY_ID = "beginner-introduce-yourself";
 
-const EXERCISE_ID =
-  "lesson-quiz";
+const EXERCISE_ID = "lesson-quiz";
 
 export default function IntroduceYourselfQuiz() {
   const router = useRouter();
 
-  const {
-    progress,
-    refresh,
-  } = useProgress();
+  const { progress, refresh } = useProgress();
 
   const renderResult = (
     result: ExerciseSessionResult,
     resetQuiz: () => void,
   ) => {
-    const exercise =
-      progress.getExercise(
-        ACTIVITY_ID,
-        EXERCISE_ID,
-      );
+    const exercise = progress.getExercise(ACTIVITY_ID, EXERCISE_ID);
 
-    const score =
-      result.score;
+    const score = result.score;
 
-    const bestScore =
-      exercise?.bestScore ??
-      score;
+    const bestScore = exercise?.bestScore ?? score;
 
-    const attempts =
-      exercise?.attempts ??
-      1;
+    const attempts = exercise?.attempts ?? 1;
 
     return (
       <ActivityResults
@@ -118,9 +94,7 @@ export default function IntroduceYourselfQuiz() {
           refresh();
         }}
         onNext={() => {
-          router.push(
-            "/courses/beginner/modules/se-presenter",
-          );
+          router.push("/courses/beginner/modules/se-presenter");
         }}
         isLastExercise={true}
         finishLabel="Terminer la leçon"
@@ -132,7 +106,6 @@ export default function IntroduceYourselfQuiz() {
   return (
     <div className="w-full">
       <ExerciseSection>
-
         {/* ================================================================ */}
         {/* BLOC D'INSTRUCTION                                               */}
         {/* ================================================================ */}
@@ -147,14 +120,9 @@ export default function IntroduceYourselfQuiz() {
           description={
             <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
               <div>
-                <p className="mb-2 font-semibold text-slate-800">
-                  Consigne :
-                </p>
+                <p className="mb-2 font-semibold text-slate-800">Consigne :</p>
 
-                <p>
-                  Écoute chaque question puis choisis la bonne
-                  réponse.
-                </p>
+                <p>Écoute chaque question puis choisis la bonne réponse.</p>
               </div>
 
               <div
@@ -171,8 +139,8 @@ export default function IntroduceYourselfQuiz() {
                 "
               >
                 <p className="font-semibold text-slate-800">
-                  Pour chaque question, choisis la réponse qui
-                  correspond à la situation proposée.
+                  Pour chaque question, choisis la réponse qui correspond à la
+                  situation proposée.
                 </p>
               </div>
             </div>
@@ -188,28 +156,20 @@ export default function IntroduceYourselfQuiz() {
             questions={questions}
             speechEngine="openai"
             teacherFeedbackImages={{
-              correct:
-              "/images/bulles-QCM/beginner/marie-red/correct.png",
-              wrong:
-              "/images/bulles-QCM/beginner/marie-red/wrong.png",
+              correct: "/images/bulles-QCM/beginner/marie-red/correct.png",
+              wrong: "/images/bulles-QCM/beginner/marie-red/wrong.png",
             }}
             progressConfig={{
               progress,
-              activityId:
-                ACTIVITY_ID,
-              exerciseId:
-                EXERCISE_ID,
-              onScoreSubmitted:
-                () => {
-                  refresh();
-                },
+              activityId: ACTIVITY_ID,
+              exerciseId: EXERCISE_ID,
+              onScoreSubmitted: () => {
+                refresh();
+              },
             }}
-            resultRenderer={
-              renderResult
-            }
+            resultRenderer={renderResult}
           />
         </div>
-
       </ExerciseSection>
     </div>
   );

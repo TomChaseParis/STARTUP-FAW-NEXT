@@ -1,202 +1,86 @@
 "use client";
 
-import QuizEngine from "@/components/courses/engines/QuizEngine";
-import type { Question } from "@/hooks/useQuizEngine";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-import { useProgress } from "@/components/courses/engines/ProgressEngine/useProgress";
+import LessonLayout from "@/components/courses/layout/LessonLayout";
+import LessonBlock from "@/components/courses/layout/LessonBlock";
 
-import ActivityResults from "@/components/courses/common/ActivityResults/ActivityResults";
+import IntroduceYourselfQuiz from "./exercice/QCM/introduce-yourself";
 
-import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
+export default function Lesson() {
+  const [started, setStarted] = useState(false);
 
-import { LessonQuizData } from "@/data/courses/lessons/beginner/introduce-yourself/QuizData";
+  const handleStart = () => {
+    setStarted(true);
 
-import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
-
-type QuizOption = {
-  id: string;
-  text: string;
-};
-
-type QuizQuestion = {
-  id: number;
-  type: "single-choice" | "multiple-choice";
-  image: string;
-  teacherImage?: string;
-  question: string;
-  teacherAudioQuestion?: string;
-  options: QuizOption[];
-  correctAnswer?: string;
-  correctAnswers?: string[];
-};
-
-type QuizData = {
-  title: string;
-  description: string;
-  questions: QuizQuestion[];
-};
-
-const data = LessonQuizData as QuizData;
-
-const questions: Question[] = data.questions.map(
-  (question): Question => {
-    const correctAnswers =
-      question.correctAnswers ??
-      (question.correctAnswer
-        ? [question.correctAnswer]
-        : []);
-
-    return {
-      id: question.id,
-      type: question.type,
-      question: question.question,
-      image: question.image,
-      teacherImage: question.teacherImage,
-      teacherAudioQuestion:
-        question.teacherAudioQuestion,
-      choices: question.options.map(
-        (option) => ({
-          id: option.id.toUpperCase(),
-          label: option.text,
-          isCorrect:
-            correctAnswers.includes(
-              option.id,
-            ),
-        }),
-      ),
-    };
-  },
-);
-
-const ACTIVITY_ID =
-  "beginner-introduce-yourself";
-
-const EXERCISE_ID =
-  "lesson-quiz";
-
-export default function IntroduceYourselfQuiz() {
-  const {
-    progress,
-    refresh,
-  } = useProgress();
-
-  const renderResult = (
-    result: ExerciseSessionResult,
-    resetQuiz: () => void,
-  ) => {
-    const exercise =
-      progress.getExercise(
-        ACTIVITY_ID,
-        EXERCISE_ID,
-      );
-
-    const score =
-      result.score;
-
-    const bestScore =
-      exercise?.bestScore ??
-      score;
-
-    const attempts =
-      exercise?.attempts ??
-      1;
-
-    return (
-      <ActivityResults
-        result={{
-          session: result,
-          bestScore,
-          attempts,
-        }}
-        onRestart={() => {
-          resetQuiz();
-          refresh();
-        }}
-        onNext={() => {
-          console.log(
-            "[IntroduceYourselfQuiz] Aucun exercice suivant configuré.",
-          );
-        }}
-      />
-    );
+    setTimeout(() => {
+      document.getElementById("lesson-content")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 400);
   };
 
   return (
-    <div className="w-full">
-      <ExerciseSection>
+    <LessonLayout>
+      <LessonBlock
+        level="beginner"
+        title="Présentations"
+        description="Apprends à te présenter naturellement en français."
+        videoSrc="https://vz-59620af9-b1f.b-cdn.net/15e8f303-14a7-448e-9690-0634dc67d365/playlist.m3u8"
+        poster=""
+        info={{
+          objectifs: [
+            "Apprendre à se présenter en français",
+            "Comprendre les informations personnelles",
+          ],
+          competences: ["Compréhension orale", "Expression orale"],
+          prerequis: [],
+          duree: "À définir",
+        }}
+      />
 
-        {/* ================================================================ */}
-        {/* BLOC D'INSTRUCTION                                               */}
-        {/* ================================================================ */}
-
-        <InstructionBlock
-          level="beginner"
-          stampLabel="EXERCICE 1"
-          typeLabel="QUIZ DE COMPRÉHENSION"
-          title="PRÉSENTATIONS"
-          subtitle="Vérifie tes connaissances après avoir regardé la leçon."
-          activityType="listen"
-          description={
-            <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-              <div>
-                <p className="mb-2 font-semibold text-slate-800">
-                  Consigne :
-                </p>
-
-                <p>
-                  Écoute chaque question puis choisis la bonne
-                  réponse.
-                </p>
-              </div>
-
-              <div
-                className="
-                  rounded-xl
-                  border
-                  border-slate-300
-                  bg-white
-                  px-4
-                  py-4
-                  shadow-sm
-                  sm:px-5
-                  sm:py-4
-                "
-              >
-                <p className="font-semibold text-slate-800">
-                  Pour chaque question, choisis la réponse qui
-                  correspond à la situation proposée.
-                </p>
-              </div>
-            </div>
-          }
-        />
-
-        {/* ================================================================ */}
-        {/* QCM                                                               */}
-        {/* ================================================================ */}
-
-        <div className="mt-8">
-          <QuizEngine
-            questions={questions}
-            progressConfig={{
-              progress,
-              activityId:
-                ACTIVITY_ID,
-              exerciseId:
-                EXERCISE_ID,
-              onScoreSubmitted:
-                () => {
-                  refresh();
-                },
-            }}
-            resultRenderer={
-              renderResult
-            }
-          />
+      {!started && (
+        <div className="container flex justify-center">
+          <button
+            type="button"
+            onClick={handleStart}
+            className="
+              rounded-xl
+              bg-[#E09F00]
+              px-8
+              py-4
+              text-lg
+              font-semibold
+              text-white
+              transition-all
+              duration-300
+              hover:scale-105
+              hover:bg-[#C98D00]
+            "
+          >
+            Commencer la leçon
+          </button>
         </div>
+      )}
 
-      </ExerciseSection>
-    </div>
+      <AnimatePresence mode="wait">
+        {started && (
+          <motion.div
+            id="lesson-content"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+          >
+            <IntroduceYourselfQuiz />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </LessonLayout>
   );
 }

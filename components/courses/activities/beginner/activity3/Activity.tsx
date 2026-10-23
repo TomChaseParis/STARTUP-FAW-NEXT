@@ -1,7 +1,7 @@
 "use client";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 import AudioBlock from "@/components/courses/blocks/AudioBlock";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import Exercice1 from "./Exercice1";
@@ -15,8 +15,8 @@ export default function Activity() {
     <ActivityLayout activity={activity3}>
       {/* 🎓 LEÇON */}
       <LessonBlock
-level="beginner"
-title="Les verbes du 1er groupe au présent"
+        level="beginner"
+        title="Les verbes du 1er groupe au présent"
         description="Apprends à conjuguer les verbes en -ER avec « je » et « vous »."
         videoSrc="/videos/marieactivity3.mp4"
         poster="/images/courses/teacher/mariegood.png"

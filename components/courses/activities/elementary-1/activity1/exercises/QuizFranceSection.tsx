@@ -13,7 +13,7 @@ import {
   ExerciseSessionResult,
 } from "@/components/courses/common/types/exerciseSessionTypes";
 
-import { quizData } from "@/data/courses/activities/elementary-1/questions-francais/questionsFrancais";
+import { quizData } from "@/components/courses/lessons/elementary-1/data/questionsFrancais";
 
 type QuizOption = {
   id: string;

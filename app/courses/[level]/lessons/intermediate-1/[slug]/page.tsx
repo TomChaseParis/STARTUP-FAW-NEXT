@@ -1,5 +1,5 @@
 import LessonPage from "@/components/courses/layout/LessonPage";
-import Intermediate1Quiz from "@/components/courses/lessons/indermediate-1/imparfait-dhabitude/Lesson";
+import Intermediate1Quiz from "@/components/courses/lessons/intermediate-1/imparfait-dhabitude/Lesson";
 
 export default function LessonPageRoute() {
   return (

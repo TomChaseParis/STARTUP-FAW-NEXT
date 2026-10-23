@@ -1,7 +1,7 @@
 "use client";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import QuizEngine from "@/components/courses/engines/QuizEngine";
 import { quizData } from "./quizData";
@@ -13,8 +13,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={intermediate1Activity2}>
       <LessonBlock
-              contentType="activity"
-
+        contentType="activity"
         level="intermediate-1"
         title="L'imparfait d'habitude"
         description="Écoute la chanson puis réponds aux questions."

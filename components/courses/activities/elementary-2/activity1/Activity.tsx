@@ -1,7 +1,7 @@
 "use client";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import VideoExerciseBlock from "@/components/courses/blocks/VideoExerciseBlock";

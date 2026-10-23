@@ -1,7 +1,7 @@
 "use client";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
 import Exercice from "./Exercice";
@@ -13,7 +13,8 @@ export default function Activity() {
     <ActivityLayout activity={activity5}>
       {/* ================= COURS ================= */}
       <LessonBlock
-level="beginner"        title="Le présent des verbes du 1er groupe"
+        level="beginner"
+        title="Le présent des verbes du 1er groupe"
         description="Écoute la chanson puis réponds aux questions."
         videoSrc="/videos/etiennesq1_V1.mp4"
         poster="/images/courses/beginner/activities/activity5/presentation.png"
@@ -42,9 +43,7 @@ level="beginner"        title="Le présent des verbes du 1er groupe"
                   💡 Astuce :
                 </p>
 
-                <p>
-                  Concentre-toi sur les habitudes décrites dans la chanson.
-                </p>
+                <p>Concentre-toi sur les habitudes décrites dans la chanson.</p>
               </div>
 
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
@@ -52,9 +51,7 @@ level="beginner"        title="Le présent des verbes du 1er groupe"
                   🎯 Conseil :
                 </p>
 
-                <p>
-                  Tu peux écouter plusieurs fois pour mieux comprendre.
-                </p>
+                <p>Tu peux écouter plusieurs fois pour mieux comprendre.</p>
               </div>
             </div>
           }

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import ActivityBlock from "@/components/courses/layout/ActivityBlock";
 
 import { bigFourActivity } from "@/data/courses/activities/bigFour";
 
@@ -20,16 +20,13 @@ export default function Activity() {
   const [started, setStarted] = useState(false);
 
   // EXERCICE 1 activé
-  const [showExercise1, setShowExercise1] =
-    useState(true);
+  const [showExercise1, setShowExercise1] = useState(true);
 
   // EXERCICE 2 masqué au démarrage
-  const [showExercise2, setShowExercise2] =
-    useState(false);
+  const [showExercise2, setShowExercise2] = useState(false);
 
   // EXERCICE 3 masqué au démarrage
-  const [showExercise3, setShowExercise3] =
-    useState(false);
+  const [showExercise3, setShowExercise3] = useState(false);
 
   /*
    * =========================================================
@@ -42,12 +39,10 @@ export default function Activity() {
 
     requestAnimationFrame(() => {
       setTimeout(() => {
-        document
-          .getElementById("activity-1-exercises")
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
+        document.getElementById("activity-1-exercises")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }, 50);
     });
   };
@@ -65,12 +60,10 @@ export default function Activity() {
 
     requestAnimationFrame(() => {
       setTimeout(() => {
-        document
-          .getElementById("activity-1-exercise-2")
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
+        document.getElementById("activity-1-exercise-2")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }, 50);
     });
   };
@@ -89,9 +82,7 @@ export default function Activity() {
     requestAnimationFrame(() => {
       setTimeout(() => {
         document
-          .getElementById(
-            "character-presentation-instruction",
-          )
+          .getElementById("character-presentation-instruction")
           ?.scrollIntoView({
             behavior: "smooth",
             block: "start",
@@ -117,8 +108,8 @@ export default function Activity() {
   return (
     <ActivityNavigationProvider totalExercises={3}>
       <ActivityLayout activity={bigFourActivity}>
-        <LessonBlock
-        contentType="activity"
+        <ActivityBlock
+          contentType="activity"
           level="beginner"
           title="ZE BIG FOUR : Être – Avoir – Faire – Aller"
           description="Regarde la vidéo puis fais les exercices."
@@ -175,18 +166,13 @@ export default function Activity() {
         ====================================================== */}
 
         {started && (
-          <div
-            id="activity-1-exercises"
-            className="scroll-mt-10"
-          >
+          <div id="activity-1-exercises" className="scroll-mt-10">
             {/* =================================================
                 EXERCICE 1
             ================================================== */}
 
             {showExercise1 && (
-              <VerbListeningSection
-                onNext={handleExercise1Complete}
-              />
+              <VerbListeningSection onNext={handleExercise1Complete} />
             )}
 
             {/* =================================================
@@ -194,13 +180,8 @@ export default function Activity() {
             ================================================== */}
 
             {showExercise2 && (
-              <div
-                id="activity-1-exercise-2"
-                className="scroll-mt-10"
-              >
-                <VerbSelectionSection
-                  onNext={handleExercise2Complete}
-                />
+              <div id="activity-1-exercise-2" className="scroll-mt-10">
+                <VerbSelectionSection onNext={handleExercise2Complete} />
               </div>
             )}
 
@@ -210,9 +191,7 @@ export default function Activity() {
 
             {showExercise3 && (
               <CharacterPresentationSection
-                onFinishActivity={
-                  handleFinishActivity
-                }
+                onFinishActivity={handleFinishActivity}
               />
             )}
           </div>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef, useState } from "react";
@@ -5,7 +6,6 @@ import { useRef, useState } from "react";
 import InfoBlock from "./InfoBlock";
 
 type LessonBlockProps = {
-  contentType?: "lesson" | "activity";
   level: string;
   title: string;
   description?: string;
@@ -55,7 +55,6 @@ const LEVEL_CONFIG: Record<
 };
 
 export default function LessonBlock({
-  contentType = "lesson",
   level,
   title,
   description,
@@ -69,7 +68,6 @@ export default function LessonBlock({
   const [isPlaying, setIsPlaying] = useState(false);
 
   const levelConfig = LEVEL_CONFIG[level] ?? LEVEL_CONFIG.beginner;
-  const isActivity = contentType === "activity";
 
   const handleVideoEnded = () => {
     setIsPlaying(false);
@@ -89,7 +87,7 @@ export default function LessonBlock({
             }}
           />
 
-          {/* IDENTITÉ DU CONTENU + TITRE */}
+          {/* IDENTITÉ DE LA LEÇON + TITRE */}
 
           <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(260px,0.85fr)_minmax(0,1.5fr)] md:gap-8">
             {/* BLOC GAUCHE — TYPE ET NIVEAU */}
@@ -101,7 +99,7 @@ export default function LessonBlock({
                   backgroundColor: `${levelConfig.color}20`,
                 }}
               >
-                {/* ICÔNE */}
+                {/* ICÔNE DU LIVRE */}
 
                 <div
                   className="relative z-10 flex h-[76px] w-[76px] shrink-0 items-center justify-center rounded-full shadow-sm sm:h-[88px] sm:w-[88px]"
@@ -109,39 +107,20 @@ export default function LessonBlock({
                     backgroundColor: levelConfig.color,
                   }}
                 >
-                  {isActivity ? (
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="h-10 w-10 sm:h-12 sm:w-12"
-                      stroke="white"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="5" y="3" width="14" height="18" rx="1.5" />
-                      <path d="M9 7h6M9 11h6M9 15h3" />
-                      <path d="m8 3 1 2 2-2" />
-                      <path d="m8 11 1 1 2-2" />
-                      <path d="m8 15 1 1 2-2" />
-                    </svg>
-                  ) : (
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="h-10 w-10 sm:h-12 sm:w-12"
-                      stroke="white"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
-                      <path d="M8 7h8M8 11h8M8 15h5" />
-                    </svg>
-                  )}
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="h-10 w-10 sm:h-12 sm:w-12"
+                    stroke="white"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
+                    <path d="M8 7h8M8 11h8M8 15h5" />
+                  </svg>
                 </div>
 
                 {/* LIBELLÉ ET NIVEAU */}
@@ -153,7 +132,7 @@ export default function LessonBlock({
                       color: levelConfig.color,
                     }}
                   >
-                    {isActivity ? "Activité" : "Leçon"}
+                    Leçon
                   </span>
 
                   <span
@@ -178,7 +157,7 @@ export default function LessonBlock({
               </div>
             </div>
 
-            {/* BLOC DROIT — NOM DE L'ACTIVITÉ OU DE LA LEÇON */}
+            {/* BLOC DROIT — TITRE ET DESCRIPTION */}
 
             <div className="min-w-0 text-center md:pl-2 md:text-left">
               <h1 className="text-3xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-4xl">

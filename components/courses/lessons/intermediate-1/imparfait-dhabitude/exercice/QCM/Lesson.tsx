@@ -13,7 +13,7 @@ import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
 
 // TODO : remplacer par le fichier de données du QCM Intermediate 1
-import { LessonQuizData } from "@/data/courses/lessons/intermediate-1/imparfait-dhabitude/QuizData";
+import { LessonQuizData } from "../../data/QuizData";
 
 type QuizOption = {
   id: string;
@@ -40,66 +40,44 @@ type QuizData = {
 
 const data = LessonQuizData as QuizData;
 
-const questions: Question[] = data.questions.map(
-  (question): Question => {
-    const correctAnswers =
-      question.correctAnswers ??
-      (question.correctAnswer
-        ? [question.correctAnswer]
-        : []);
+const questions: Question[] = data.questions.map((question): Question => {
+  const correctAnswers =
+    question.correctAnswers ??
+    (question.correctAnswer ? [question.correctAnswer] : []);
 
-    return {
-      id: question.id,
-      type: question.type,
-      question: question.question,
-      image: question.image,
-      teacherImage: question.teacherImage,
-      teacherAudioQuestion:
-        question.teacherAudioQuestion,
-      choices: question.options.map(
-        (option) => ({
-          id: option.id.toUpperCase(),
-          label: option.text,
-          isCorrect:
-            correctAnswers.includes(option.id),
-        }),
-      ),
-    };
-  },
-);
+  return {
+    id: question.id,
+    type: question.type,
+    question: question.question,
+    image: question.image,
+    teacherImage: question.teacherImage,
+    teacherAudioQuestion: question.teacherAudioQuestion,
+    choices: question.options.map((option) => ({
+      id: option.id.toUpperCase(),
+      label: option.text,
+      isCorrect: correctAnswers.includes(option.id),
+    })),
+  };
+});
 
-const ACTIVITY_ID =
-  "intermediate-1-activity-1";
+const ACTIVITY_ID = "intermediate-1-activity-1";
 
-const EXERCISE_ID =
-  "lesson-quiz";
+const EXERCISE_ID = "lesson-quiz";
 
 export default function Intermediate1Quiz() {
-  const {
-    progress,
-    refresh,
-  } = useProgress();
+  const { progress, refresh } = useProgress();
 
   const renderResult = (
     result: ExerciseSessionResult,
     resetQuiz: () => void,
   ) => {
-    const exercise =
-      progress.getExercise(
-        ACTIVITY_ID,
-        EXERCISE_ID,
-      );
+    const exercise = progress.getExercise(ACTIVITY_ID, EXERCISE_ID);
 
-    const score =
-      result.score;
+    const score = result.score;
 
-    const bestScore =
-      exercise?.bestScore ??
-      score;
+    const bestScore = exercise?.bestScore ?? score;
 
-    const attempts =
-      exercise?.attempts ??
-      1;
+    const attempts = exercise?.attempts ?? 1;
 
     return (
       <ActivityResults
@@ -113,9 +91,7 @@ export default function Intermediate1Quiz() {
           refresh();
         }}
         onNext={() => {
-          console.log(
-            "[Intermediate1Quiz] Aucun exercice suivant configuré.",
-          );
+          console.log("[Intermediate1Quiz] Aucun exercice suivant configuré.");
         }}
       />
     );
@@ -138,14 +114,9 @@ export default function Intermediate1Quiz() {
           description={
             <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
               <div>
-                <p className="mb-2 font-semibold text-slate-800">
-                  Consigne :
-                </p>
+                <p className="mb-2 font-semibold text-slate-800">Consigne :</p>
 
-                <p>
-                  Écoute chaque question puis choisis la bonne
-                  réponse.
-                </p>
+                <p>Écoute chaque question puis choisis la bonne réponse.</p>
               </div>
 
               <div
@@ -162,8 +133,8 @@ export default function Intermediate1Quiz() {
                 "
               >
                 <p className="font-semibold text-slate-800">
-                  Pour chaque question, choisis la réponse qui
-                  correspond à la vidéo.
+                  Pour chaque question, choisis la réponse qui correspond à la
+                  vidéo.
                 </p>
               </div>
             </div>
@@ -175,15 +146,13 @@ export default function Intermediate1Quiz() {
         {/* ================================================================ */}
 
         <div className="mt-8">
-   
-        <QuizEngine
+          <QuizEngine
             questions={questions}
             speechEngine="openai"
             teacherFeedbackImages={{
               correct:
                 "/images/bulles-QCM/intermediate-1/etienne-blue/correct.png",
-              wrong:
-                "/images/bulles-QCM/intermediate-1/etienne-blue/wrong.png",
+              wrong: "/images/bulles-QCM/intermediate-1/etienne-blue/wrong.png",
             }}
             progressConfig={{
               progress,
@@ -195,7 +164,6 @@ export default function Intermediate1Quiz() {
             }}
             resultRenderer={renderResult}
           />
-
         </div>
       </ExerciseSection>
     </div>

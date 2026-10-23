@@ -1,7 +1,7 @@
 "use client";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 
 import ListeningDiscoverySection from "./exercises/ListeningDiscoverySection";
 import MatchingSection from "./exercises/MatchingSection";
@@ -46,7 +46,7 @@ export default function Activity() {
 
       {/* ================= EXERCICE 2 ================= */}
 
-     <MatchingSection />
+      <MatchingSection />
 
       {/* ================= EXERCICE 3 ================= */}
 

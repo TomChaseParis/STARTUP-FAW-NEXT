@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import ActivityFlow from "@/core/navigation/ActivityFlow";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 
 import FillGapsSection from "./exercice-1/FillGapsSection";
 import QCMSection from "./exercice-2/QCMSection";
@@ -41,7 +41,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={intermediate1Activity1}>
       <LessonBlock
-              contentType="activity"
+        contentType="activity"
         level="intermediate-1"
         title="Les vacances au bord de la mer"
         description="Écoute la chanson puis réponds aux questions."

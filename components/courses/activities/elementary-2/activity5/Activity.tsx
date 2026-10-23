@@ -1,7 +1,7 @@
 "use client";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/LessonBlock";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 import ConjugationTableSection from "./exercises/ConjugationTableSection";
 import MonsterQuizSection from "./exercises/MonsterQuizSection";
 import ClassificationSection from "./exercises/ClassificationSection";
@@ -45,7 +45,6 @@ export default function Activity() {
 
       {/* <ListeningQuizSection /> */}
       <MonsterQuizSection />
-
 
       {/* ================= EXERCICE 3 ================= */}
       <ClassificationSection />
