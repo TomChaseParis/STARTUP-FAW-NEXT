@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import TeacherComicBubble from "../common/teacher/TeacherComicBubble";
 
 type VerbCardProps = {
   title: string;
@@ -10,6 +11,7 @@ type VerbCardProps = {
   isPlaying?: boolean;
   currentTime?: number;
   timings?: number[];
+  hasListenedOnce?: boolean;
 };
 
 const verbImages: Record<string, string> = {
@@ -33,230 +35,182 @@ const VerbCard: React.FC<VerbCardProps> = ({
   isPlaying = false,
   currentTime = 0,
   timings = [0, 2, 4, 6, 8, 10],
+  hasListenedOnce = false,
 }) => {
+  const [showPhoto, setShowPhoto] = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
+  const [hideTeacher, setHideTeacher] = useState(false);
+
+  const normalizedTitle = title.trim().toUpperCase();
+  const imageSrc = verbImages[normalizedTitle];
+
+  const showMarie =
+    normalizedTitle === "ÊTRE" && !hasListenedOnce && !hideTeacher;
+
+    useEffect(() => {
+      setShowPhoto(false);
+      setShowBubble(false);
+    
+      if (!showMarie) return;
+    
+      // Marie et sa bulle apparaissent simultanément.
+      const timeout = window.setTimeout(() => {
+        setShowPhoto(true);
+        setShowBubble(true);
+      }, 500);
+    
+      return () => {
+        window.clearTimeout(timeout);
+      };
+    }, [showMarie]);
+  useEffect(() => {
+    setHideTeacher(false);
+  }, [normalizedTitle]);
+
   const activeIndex = (() => {
     if (!isPlaying) return -1;
 
     return timings.findIndex((start, index) => {
       const next = timings[index + 1];
 
-      return currentTime >= start && (next === undefined || currentTime < next);
+      return (
+        currentTime >= start &&
+        (next === undefined || currentTime < next)
+      );
     });
   })();
 
-  const imageSrc = verbImages[title.toUpperCase()];
+  const handleAudioClick = () => {
+    setHideTeacher(true);
+    onPlay();
+  };
 
   return (
     <div
-      className="
-        group relative overflow-hidden rounded-3xl
-        border border-white/80 bg-white/95
-        shadow-[0_8px_30px_rgba(15,23,42,0.06)]
-        backdrop-blur-md
-        transition-all duration-300
-        hover:-translate-y-1
-        hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)]
-      "
+    className="
+    group relative mx-auto w-full min-w-0 max-w-full
+    overflow-visible rounded-3xl
+    border border-white/80 bg-white/95
+    shadow-[0_8px_30px_rgba(15,23,42,0.06)]
+    backdrop-blur-md
+    transition-all duration-300
+    hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)]
+  "
     >
-      {/* =====================================================
-          DÉCORATION
-      ====================================================== */}
-
-      <div
-        className="
-          pointer-events-none absolute inset-0
-          opacity-0 transition-opacity duration-500
-          group-hover:opacity-100
-        "
-      >
+      {/* DÉCORATION */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
         <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-amber-100/40 blur-3xl" />
-
         <div className="absolute -left-8 bottom-0 h-24 w-24 rounded-full bg-slate-100/60 blur-2xl" />
       </div>
 
-      {/* =====================================================
-          CONTENU PRINCIPAL
-      ====================================================== */}
-
-      <div
-        className="
-          relative
-          grid
-          grid-cols-1
-          lg:grid-cols-[0.9fr_1.1fr]
-        "
-      >
-        {/* ===================================================
-            IMAGE
-        ==================================================== */}
-
+      {/* CONTENU PRINCIPAL */}
+      <div className="relative grid w-full min-w-0 max-w-full grid-cols-1 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        {/* IMAGE DU VERBE */}
         {imageSrc && (
-          <div
-            className="
-      relative
-      aspect-[0.86]
-      w-full
-      overflow-hidden
-      bg-slate-100
-      lg:aspect-auto
-      lg:min-h-[320px]
-    "
-          >
+          <div className="relative aspect-[0.86] w-full min-w-0 overflow-hidden bg-slate-100 lg:aspect-auto lg:min-h-[320px]">
             <Image
               src={imageSrc}
               alt={`Illustration du verbe ${title}`}
               fill
-              sizes="
-        (max-width: 1024px) 100vw,
-        40vw
-      "
-              className="
-        object-cover
-        transition-transform
-        duration-700
-      "
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover transition-transform duration-700"
               style={{
                 objectPosition:
-                  imagePositions[title.toUpperCase()] ?? "50% center",
+                  imagePositions[normalizedTitle] ?? "50% center",
               }}
               priority
             />
 
-            <div
-              className="
-        pointer-events-none
-        absolute inset-0
-        bg-gradient-to-t
-        from-black/20
-        via-transparent
-        to-transparent
-      "
-            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
           </div>
         )}
-        {/* ===================================================
-            PARTIE DROITE
-        ==================================================== */}
 
-        <div className="relative px-7 py-8 sm:px-9 sm:py-9">
-          {/* =================================================
-              HEADER
-          ================================================== */}
-
-          <div className="flex items-center justify-between gap-5">
-            <div>
+        {/* PARTIE DROITE */}
+        <div className="relative w-full min-w-0 px-4 py-6 sm:px-6 sm:py-8 lg:px-7">
+          {/* HEADER */}
+          <div className="flex w-full min-w-0 items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
               <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                 Verbe
               </p>
 
-              <h3 className="text-3xl font-bold tracking-tight text-slate-900">
+              <h3 className="break-words text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
                 {title}
               </h3>
             </div>
 
-            {/* =================================================
-                BOUTON AUDIO
-            ================================================== */}
-
-            <button
-              type="button"
-              onClick={onPlay}
-              aria-label={`Écouter ${title}`}
-              className={`
-                group/button relative
-                inline-flex shrink-0
-                items-center justify-center
-                overflow-hidden
-                rounded-2xl
-                px-5 py-4
-                transition-all duration-300
-                active:scale-[0.98]
-
-                ${
-                  isPlaying
-                    ? `
-                      via-yellow-100
-                      scale-105
-                      bg-gradient-to-br
-                      from-amber-100
-                      to-amber-200
-                      shadow-[0_12px_28px_rgba(251,191,36,0.18)]
-                    `
-                    : `
-                      bg-amber-300
-                      shadow-[0_8px_20px_rgba(0,0,0,0.06)]
-                      hover:-translate-y-1
-                      hover:shadow-[0_16px_30px_rgba(245,158,11,0.18)]
-                    `
-                }
-              `}
-            >
-              {isPlaying && (
-                <>
-                  <span className="absolute h-12 w-12 animate-ping rounded-full border border-amber-300/50" />
-
-                  <span className="absolute h-16 w-16 animate-ping rounded-full border border-amber-200/40 [animation-delay:300ms]" />
-                </>
-              )}
-
+            {/* MARIE ET BOUTON AUDIO */}
+            <div className="relative flex w-[min(58%,280px)] shrink-0 flex-col items-center">
+              {/* MARIE ET SA BULLE EN SUPERPOSITION */}
               <div
-                className={`
-                  relative flex items-center justify-center
-                  transition-transform duration-300
-
-                  ${
-                    isPlaying
-                      ? "scale-110 animate-pulse text-amber-700"
-                      : "text-black"
-                  }
-                `}
+                className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-full"
+                aria-hidden={!showMarie}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11 5L6 9H3v6h3l5 4V5z"
+                <div className={showMarie ? "visible" : "invisible"}>
+                  <TeacherComicBubble
+                    className="w-full items-center gap-2"
+                    message="Clique ici pour écouter la conjugaison"
+                    showPhoto={showPhoto && showMarie}
+                    showBubble={showBubble && showMarie}
                   />
-
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.5 8.5a5 5 0 010 7"
-                  />
-
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M18 6a8.5 8.5 0 010 12"
-                  />
-                </svg>
+                </div>
               </div>
-            </button>
+
+              {/* BOUTON AUDIO : POSITION INITIALE CONSERVÉE */}
+              <div className="mt-2 flex w-full items-center justify-center gap-2">
+             
+
+                <button
+                  type="button"
+                  onClick={handleAudioClick}
+                  disabled={isPlaying}
+                  aria-label={
+                    isPlaying
+                      ? `Lecture de ${title} en cours`
+                      : `Écouter ${title}`
+                  }
+                  aria-busy={isPlaying}
+                  className={`
+                    group/audio relative flex h-14 w-14 shrink-0
+                    items-center justify-center rounded-full border
+                    transition-all duration-300
+                    ${
+                      isPlaying
+                        ? "cursor-not-allowed border-amber-200 bg-amber-50 text-amber-600"
+                        : showMarie
+                          ? "animate-[audioAttention_1.4s_ease-in-out_infinite] border-amber-300 bg-amber-50 text-amber-500 hover:border-amber-400 hover:bg-amber-100"
+                          : "border-slate-200 bg-white text-amber-500 shadow-[0_8px_25px_rgba(15,23,42,0.10)] hover:-translate-y-1 hover:border-amber-200 hover:bg-amber-50 hover:text-amber-600 hover:shadow-[0_14px_35px_rgba(245,158,11,0.20)] active:translate-y-0"
+                    }
+                  `}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    className={`relative z-10 h-6 w-6 transition-transform duration-300 ${
+                      isPlaying
+                        ? "scale-90 opacity-70"
+                        : "ml-0.5 group-hover/audio:scale-110"
+                    }`}
+                  >
+                    <path d="M8.5 5.2a1 1 0 0 1 1.54-.84l8.4 6.8a1.08 1.08 0 0 1 0 1.68l-8.4 6.8A1 1 0 0 1 8.5 18.8V5.2Z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* =================================================
-              SÉPARATION
-          ================================================== */}
+          {/* SÉPARATEUR */}
+          <div className="my-6 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent sm:my-7" />
 
-          <div className="my-7 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-
-          {/* =================================================
-              CONJUGAISON
-          ================================================== */}
-
-          <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+          {/* CONJUGAISON */}
+          <div className="w-full min-w-0">
+            <p className="mb-4 break-words text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
               Conjugaison au présent
             </p>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="grid w-full min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
               {forms.map((form, index) => {
                 const isActive = index === activeIndex;
 
@@ -264,43 +218,19 @@ const VerbCard: React.FC<VerbCardProps> = ({
                   <div
                     key={index}
                     className={`
-                      flex min-h-[62px]
-                      items-center
-                      rounded-2xl
-                      px-5 py-4
-                      transition-all duration-300
-
+                      flex min-h-[62px] w-full min-w-0 items-center
+                      rounded-2xl px-4 py-4 transition-all duration-300 sm:px-5
                       ${
                         isActive
-                          ? `
-                            scale-[1.02]
-                            border
-                            border-green-300
-                            bg-gradient-to-br
-                            from-green-50
-                            to-emerald-50
-                            shadow-[0_8px_20px_rgba(34,197,94,0.18)]
-                          `
-                          : `
-                            border
-                            border-slate-100
-                            bg-gradient-to-br
-                            from-slate-50
-                            to-white
-                            hover:border-amber-100
-                            hover:shadow-[0_8px_18px_rgba(15,23,42,0.06)]
-                          `
+                          ? "border border-green-300 bg-gradient-to-br from-green-50 to-emerald-50 shadow-[0_8px_20px_rgba(34,197,94,0.18)]"
+                          : "border border-slate-100 bg-gradient-to-br from-slate-50 to-white hover:border-amber-100 hover:shadow-[0_8px_18px_rgba(15,23,42,0.06)]"
                       }
                     `}
                   >
                     <p
                       className={`
-                        text-base
-                        font-medium
-                        leading-relaxed
-                        transition-all
-                        duration-300
-
+                        min-w-0 break-words text-base font-medium leading-relaxed
+                        transition-all duration-300
                         ${
                           isActive
                             ? "font-bold text-green-700"
@@ -315,44 +245,28 @@ const VerbCard: React.FC<VerbCardProps> = ({
               })}
             </div>
           </div>
-
-          {/* =================================================
-              INDICATION AUDIO
-          ================================================== */}
-
-          <div
-            className={`
-              mt-7
-              rounded-2xl
-              border
-              px-4
-              py-3
-              text-center
-              transition-all
-              duration-300
-
-              ${
-                isPlaying
-                  ? "border-amber-200 bg-amber-50"
-                  : "border-slate-100 bg-slate-50"
-              }
-            `}
-          >
-            <p
-              className={`
-                text-sm
-                font-medium
-
-                ${isPlaying ? "text-amber-700" : "text-slate-500"}
-              `}
-            >
-              {isPlaying
-                ? "🎧 Écoute la conjugaison..."
-                : "🔊 Clique sur le bouton pour écouter"}
-            </p>
-          </div>
         </div>
       </div>
+
+      {/* ANIMATION DU BOUTON AUDIO */}
+      <style jsx>{`
+        @keyframes audioAttention {
+          0%,
+          100% {
+            box-shadow:
+              0 0 0 4px rgba(245, 158, 11, 0.12),
+              0 0 12px rgba(245, 158, 11, 0.25);
+            opacity: 1;
+          }
+
+          50% {
+            box-shadow:
+              0 0 0 8px rgba(245, 158, 11, 0.22),
+              0 0 30px rgba(245, 158, 11, 0.55);
+            opacity: 0.85;
+          }
+        }
+      `}</style>
     </div>
   );
 };

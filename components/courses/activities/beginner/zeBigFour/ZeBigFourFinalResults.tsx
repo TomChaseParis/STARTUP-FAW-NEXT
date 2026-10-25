@@ -48,22 +48,26 @@ export default function BigFourFinalResults({
     useRef<HTMLElement>(null);
 
   useEffect(() => {
-    requestAnimationFrame(() => {
-      if (!sectionRef.current) {
-        return;
-      }
+    const firstFrame =
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const section =
+            sectionRef.current;
 
-      const y =
-        sectionRef.current.getBoundingClientRect()
-          .top +
-        window.scrollY -
-        100;
+          if (!section) return;
 
-      window.scrollTo({
-        top: y,
-        behavior: "smooth",
+          const top =
+            section.getBoundingClientRect().top +
+            window.scrollY -
+            24;
+
+        
+        });
       });
-    });
+
+    return () => {
+      cancelAnimationFrame(firstFrame);
+    };
   }, []);
 
   const totalQuestions = useMemo(() => {
@@ -222,9 +226,7 @@ export default function BigFourFinalResults({
                     </p>
 
                     <p className="text-xs text-slate-500">
-                      {
-                        result.totalQuestions
-                      }{" "}
+                      {result.totalQuestions}{" "}
                       questions
                     </p>
                   </div>

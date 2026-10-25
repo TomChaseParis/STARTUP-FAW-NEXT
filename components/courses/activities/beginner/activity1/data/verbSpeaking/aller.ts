@@ -48,7 +48,7 @@ export const allerSpeakingData: ExerciseCategory = {
       },
     },
 
-    {
+   {
       phrase: "Elle ....... où ?",
       answer: "va",
       expectedSentence:
@@ -190,7 +190,7 @@ export const allerSpeakingData: ExerciseCategory = {
         solution:
           "/audios/courses/beginner/activity1/exercice2/prononciation/ALLER/Q7/answer.mp3",
       },
-    },
+    }, 
   ],
 };
 

@@ -102,15 +102,94 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f5f9; /* gris clair */
+  background: #f1f5f9;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #f59e0b; /* amber */
+  background: #f59e0b;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #d97706;
+}
+
+/* ============================================================
+   🔊 ANIMATION RADIO — VERBCARD
+   Ondulations discrètes pendant la lecture audio
+=============================================================== */
+
+@keyframes radioWave {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ===== ONDES RADIO — VERBCARD ===== */
+
+.radio-wave-indicator {
+  position: relative;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.radio-wave {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid #f59e0b;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.5);
+  animation: verb-radio-wave 1.8s ease-out infinite;
+  pointer-events: none;
+}
+
+.radio-wave-delay-1 {
+  animation-delay: 0.6s;
+}
+
+.radio-wave-delay-2 {
+  animation-delay: 1.2s;
+}
+
+.radio-wave-center {
+  position: relative;
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f59e0b;
+}
+
+@keyframes verb-radio-wave {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.95;
+  }
+
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio-wave {
+    animation: none;
+    opacity: 0.6;
+    transform: scale(1);
+  }
 }

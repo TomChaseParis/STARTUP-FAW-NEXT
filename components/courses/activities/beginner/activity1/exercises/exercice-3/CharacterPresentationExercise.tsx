@@ -6,13 +6,13 @@ import React, {
   useState,
 } from "react";
 
-import SpeechButton from "@/components/courses/components/SpeechButton";
 import { validateSentence } from "@/components/courses/speech/scoring";
+import TeacherComicBubble from "@/components/courses/common/teacher/TeacherComicBubble";
 import { useSpeechRecognition } from "@/components/courses/speech/useSpeechRecognition";
 
 import type {
   ExerciseHistoryItem,
-  ExerciseSessionResult,  
+  ExerciseSessionResult,
 } from "@/components/courses/common/types/exerciseSessionTypes";
 
 import type { ActivityResult } from "@/core/activity/models/ActivityResult";
@@ -53,10 +53,30 @@ export default function CharacterPresentationExercise({
   const [currentResult, setCurrentResult] =
     useState<CharacterResult | null>(null);
 
+  // La bulle d'aide du microphone ne s'affiche qu'une seule fois par exercice.
+  const [hideTeacherBubble, setHideTeacherBubble] = useState(false);
+  const [showTeacherPhoto, setShowTeacherPhoto] = useState(false);
+  const [showTeacherBubble, setShowTeacherBubble] = useState(false);
+
   const [
     isPlayingFeedbackAudio,
     setIsPlayingFeedbackAudio,
   ] = useState(false);
+
+  React.useEffect(() => {
+    const photoTimeout = window.setTimeout(() => {
+      if (!hideTeacherBubble) setShowTeacherPhoto(true);
+    }, 500);
+
+    const bubbleTimeout = window.setTimeout(() => {
+      if (!hideTeacherBubble) setShowTeacherBubble(true);
+    }, 1200);
+
+    return () => {
+      window.clearTimeout(photoTimeout);
+      window.clearTimeout(bubbleTimeout);
+    };
+  }, [hideTeacherBubble]);
 
   /*
    * ============================================================
@@ -579,7 +599,7 @@ export default function CharacterPresentationExercise({
       requestAnimationFrame(() => {
         document
           .getElementById(
-            "character-presentation-exercise",
+            "click-and-speak-exercise",
           )
           ?.scrollIntoView({
             behavior: "smooth",
@@ -804,6 +824,11 @@ export default function CharacterPresentationExercise({
       return;
     }
 
+    // Dès le premier clic, la bulle ne revient plus aux phrases suivantes.
+    setHideTeacherBubble(true);
+    setShowTeacherPhoto(false);
+    setShowTeacherBubble(false);
+
     setFeedback(
       "🎤 Parle maintenant…",
     );
@@ -836,21 +861,21 @@ export default function CharacterPresentationExercise({
 
   return (
     <section
-      id="character-presentation-exercise"
-      className="mt-12 w-full"
+      id="click-and-speak-exercise"
+      className="container mx-auto w-full min-w-0"
     >
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_8px_30px_rgba(15,23,42,0.07)]">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_28px_rgba(15,23,42,0.08)]">
 
         {/* HEADER */}
 
-        <div className="border-b border-amber-100 bg-gradient-to-r from-amber-50 to-yellow-50 px-6 py-5 sm:px-8">
+        <div className="border-b border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 px-5 py-4 sm:px-7">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-[16px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-               CONJUGAISON
+              <p className="text-sm font-extrabold uppercase tracking-[0.16em] text-slate-800">
+                CONJUGAISON
               </p>
 
-              <h3 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">
+              <h3 className="mt-1 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
                 Présente le(s) personnage(s) avec le pronom indiqué
               </h3>
             </div>
@@ -872,7 +897,7 @@ export default function CharacterPresentationExercise({
           <div className="mt-5">
             <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
               <div
-                className="h-full rounded-full bg-amber-400 transition-all duration-500"
+                className="h-full rounded-full bg-blue-500 transition-all duration-500"
                 style={{
                   width: `${globalProgress}%`,
                 }}
@@ -883,8 +908,8 @@ export default function CharacterPresentationExercise({
 
         {/* CONTENT */}
 
-        <div className="px-6 py-8 sm:px-10 sm:py-10">
-          <div className="mx-auto max-w-5xl">
+        <div className="px-4 py-4 sm:px-6 sm:py-5">
+          <div className="w-full min-w-0">
 
             {/* CHARACTER CARD */}
 
@@ -892,14 +917,14 @@ export default function CharacterPresentationExercise({
               className="
                 relative grid
                 overflow-hidden
-                rounded-3xl
+                rounded-2xl
                 border border-slate-200
                 bg-white
                 shadow-sm
-                md:grid-cols-[1.1fr_1fr]
+                md:grid-cols-[1.15fr_1fr]
               "
             >
-              <div className="relative min-h-[280px] bg-slate-100 md:min-h-[380px]">
+              <div className="relative min-h-[260px] bg-slate-100 md:min-h-[340px]">
                 <Image
                   src={
                     currentCharacter.image
@@ -911,7 +936,7 @@ export default function CharacterPresentationExercise({
                 />
               </div>
 
-              <div className="flex flex-col items-center justify-center bg-slate-50 p-8 text-center">
+              <div className="flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-white p-6 text-center sm:p-8">
                 <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
                   Pronom
                 </p>
@@ -933,8 +958,8 @@ export default function CharacterPresentationExercise({
 
             {/* SENTENCE */}
 
-            <div className="mt-8">
-              <div className="rounded-3xl border-2 border-amber-200 bg-white px-6 py-8 text-center shadow-sm sm:px-10">
+            <div className="mt-5">
+              <div className="rounded-2xl border-2 border-amber-200 bg-gradient-to-br from-amber-50/60 to-white px-5 py-6 text-center shadow-sm sm:px-8">
                 <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
                   Dis cette phrase
                 </p>
@@ -982,18 +1007,106 @@ export default function CharacterPresentationExercise({
               </div>
             )}
 
-            {/* MICRO */}
+            {/* MICRO + BULLE DU PROFESSEUR À DROITE */}
 
             {!currentResult && (
-              <div className="mt-8 flex flex-col items-center">
-                <SpeechButton
-                  isListening={
-                    isListening
-                  }
-                  onClick={
-                    handleSpeak
-                  }
-                />
+              <div className="mt-6 flex flex-col items-center">
+                <div className="relative flex min-h-[100px] w-full items-center justify-center overflow-visible">
+
+                  {/* Bouton micro centré */}
+
+                  <button
+                    type="button"
+                    onClick={handleSpeak}
+                    aria-label={
+                      isListening
+                        ? "Arrêter l'enregistrement"
+                        : "Commencer l'enregistrement"
+                    }
+                    aria-pressed={isListening}
+                    disabled={Boolean(currentResult)}
+                    className={`
+                      relative z-10 flex h-14 w-14 shrink-0
+                      items-center justify-center rounded-full
+                      border shadow-xl transition-all duration-200
+                      disabled:cursor-not-allowed disabled:opacity-60
+                      ${
+                        isListening
+                          ? "scale-105 border-amber-500 bg-amber-400 text-black"
+                          : !hideTeacherBubble
+                            ? "animate-[audioAttention_1.4s_ease-in-out_infinite] border-amber-300 bg-white text-amber-600 hover:scale-105 hover:bg-amber-50"
+                            : "border-amber-300 bg-white text-amber-600 hover:scale-105 hover:bg-amber-50"
+                      }
+                    `}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-7 w-7"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
+                      />
+                    </svg>
+
+                    {isListening && (
+                      <div className="absolute -bottom-4 flex gap-1">
+                        <div className="animate-wave1 h-3 w-1 rounded bg-amber-300" />
+                        <div className="animate-wave2 h-4 w-1 rounded bg-amber-500" />
+                        <div className="animate-wave3 h-3 w-1 rounded bg-amber-300" />
+                      </div>
+                    )}
+                  </button>
+
+                  {/* Bulle placée à droite du micro */}
+
+                  {!hideTeacherBubble && (
+                    <div
+                      className="
+                        pointer-events-none
+                        absolute left-[calc(50%+42px)]
+                        top-1/2 z-20
+                        w-[calc(50%-58px)]
+                        max-w-[280px]
+                        -translate-y-1/2
+                        sm:left-[calc(50%+48px)]
+                        sm:w-[min(40%,280px)]
+                      "
+                      aria-hidden={
+                        !showTeacherPhoto ||
+                        !showTeacherBubble
+                      }
+                    >
+                      <div
+                        className={
+                          showTeacherPhoto &&
+                          showTeacherBubble
+                            ? "visible"
+                            : "invisible"
+                        }
+                      >
+                        <TeacherComicBubble
+                          className="w-full items-center gap-2"
+                          message="Clique ici pour parler et prononcer la phrase"
+                          showPhoto={
+                            showTeacherPhoto &&
+                            !hideTeacherBubble
+                          }
+                          showBubble={
+                            showTeacherBubble &&
+                            !hideTeacherBubble
+                          }
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 <p className="mt-3 text-sm text-slate-500">
                   {isListening

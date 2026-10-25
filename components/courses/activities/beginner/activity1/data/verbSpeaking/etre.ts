@@ -48,7 +48,7 @@ export const etreSpeakingData: ExerciseCategory = {
       },
     },
 
-    {
+     {
       phrase: "Où ....... les toilettes ?",
       answer: "sont",
       expectedSentence:
@@ -190,7 +190,7 @@ export const etreSpeakingData: ExerciseCategory = {
         solution:
           "/audios/courses/beginner/activity1/exercice2/prononciation/ETRE/Q7/answer.mp3",
       },
-    },
+    }, 
   ],
 };
 

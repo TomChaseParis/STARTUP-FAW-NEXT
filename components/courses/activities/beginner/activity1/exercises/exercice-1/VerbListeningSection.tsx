@@ -1,476 +1,262 @@
+
 "use client";
 
-import { useState } from "react";
-
-import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
+import { useEffect, useRef, useState } from "react";
 
 import VerbListeningExercise from "./VerbListeningExercise";
-
 import VerbSpeakingExercise from "./VerbSpeakingExercise";
 
 import BigFourFinalResults from "../../../zeBigFour/ZeBigFourFinalResults";
 
 import etreSpeakingData from "../../data/verbSpeaking/etre";
 
+/*
 import avoirSpeakingData from "../../data/verbSpeaking/avoir";
-
 import faireSpeakingData from "../../data/verbSpeaking/faire";
-
 import allerSpeakingData from "../../data/verbSpeaking/aller";
+*/
 
+type VerbKey = "etre";
+
+/*
 type VerbKey = "etre" | "avoir" | "faire" | "aller";
+*/
 
 type VerbScore = {
   score: number;
-
   totalQuestions: number;
 };
 
 type VerbListeningSectionProps = {
   onNext?: () => void;
+  onResults?: () => void;
+  autoStart?: boolean;
 };
 
+type ExerciseTransitionProps = {
+  number: number;
+};
+
+function ExerciseTransition({ number }: ExerciseTransitionProps) {
+  return (
+    <div
+      className="relative z-10 flex h-[120px] items-center justify-center"
+      aria-label={`Étape ${number}`}
+    >
+      {/* Ligne verticale pointillée */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-1/2 -translate-x-1/2 border-l-2 border-dashed border-[#F4B323]"
+      />
+
+      {/* Numéro centré sur la ligne */}
+      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#F2A900] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(224,159,0,0.25)] ring-1 ring-[#FFD875]">
+        {number}
+      </span>
+    </div>
+  );
+}
+
+// Seul le verbe ÊTRE est actif.
+const verbOrder: VerbKey[] = ["etre"];
+
+/*
 const verbOrder: VerbKey[] = ["etre", "avoir", "faire", "aller"];
+*/
 
 const verbConfig: Record<
   VerbKey,
   {
     title: string;
-
     forms: string[];
-
     timings: number[];
-
     audioSrc: string;
-
     speakingData: typeof etreSpeakingData;
   }
 > = {
   etre: {
     title: "ÊTRE",
-
     forms: [
       "Je suis",
-
       "Tu es",
-
       "Il / Elle / On est",
-
       "Nous sommes",
-
       "Vous êtes",
-
       "Ils / Elles sont",
     ],
-
     timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
-
     audioSrc: "/audios/courses/beginner/activity1/exercice1/etreverbe.mp3",
-
     speakingData: etreSpeakingData,
   },
 
+  /*
   avoir: {
     title: "AVOIR",
-
     forms: [
       "J'ai",
-
       "Tu as",
-
       "Il / Elle / On a",
-
       "Nous avons",
-
       "Vous avez",
-
       "Ils / Elles ont",
     ],
-
     timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
-
     audioSrc: "/audios/courses/beginner/activity1/exercice1/avoirverbe.mp3",
-
     speakingData: avoirSpeakingData,
   },
 
   faire: {
     title: "FAIRE",
-
     forms: [
       "Je fais",
-
       "Tu fais",
-
       "Il / Elle / On fait",
-
       "Nous faisons",
-
       "Vous faites",
-
       "Ils / Elles font",
     ],
-
     timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
-
     audioSrc: "/audios/courses/beginner/activity1/exercice1/faireverbe.mp3",
-
     speakingData: faireSpeakingData,
   },
 
   aller: {
     title: "ALLER",
-
     forms: [
       "Je vais",
-
       "Tu vas",
-
       "Il / Elle / On va",
-
       "Nous allons",
-
       "Vous allez",
-
       "Ils / Elles vont",
     ],
-
     timings: [0, 1.1, 2.4, 4.8, 6.5, 8.1],
-
     audioSrc: "/audios/courses/beginner/activity1/exercice1/allerverbe.mp3",
-
     speakingData: allerSpeakingData,
   },
+  */
 };
 
 export default function VerbListeningSection({
   onNext,
+  onResults,
+  autoStart = false,
 }: VerbListeningSectionProps) {
-  const [exerciseStarted, setExerciseStarted] = useState(false);
-
+  const [exerciseStarted, setExerciseStarted] = useState(autoStart);
   const [currentVerbIndex, setCurrentVerbIndex] = useState(0);
 
   const [hasListenedToCurrentVerb, setHasListenedToCurrentVerb] =
     useState(false);
 
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * SCORES DES 4 VERBES
-
-
-
-   * =========================================================
-
-
-
-   */
-
   const [verbScores, setVerbScores] = useState<
     Partial<Record<VerbKey, VerbScore>>
   >({});
 
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * AFFICHAGE DU RÉSULTAT FINAL
-
-
-
-   * =========================================================
-
-
-
-   */
-
   const [showFinalResults, setShowFinalResults] = useState(false);
 
+  // Référence vers le bloc de prononciation.
+  const speakingExerciseRef = useRef<HTMLDivElement>(null);
+
+  // Scroll lent vers le bloc de prononciation après l'écoute.
+  useEffect(() => {
+    if (!hasListenedToCurrentVerb) return;
+
+    let animationFrameId: number | undefined;
+
+    const timeoutId = window.setTimeout(() => {
+      const element = speakingExerciseRef.current;
+
+      if (!element) return;
+
+      const startPosition = window.scrollY;
+      const targetPosition =
+        element.getBoundingClientRect().top + window.scrollY - 24;
+
+      const distance = targetPosition - startPosition;
+      const duration = 1100;
+
+      let startTime: number | null = null;
+
+      const animateScroll = (currentTime: number) => {
+        if (startTime === null) {
+          startTime = currentTime;
+        }
+
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const easedProgress =
+          progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+        window.scrollTo(0, startPosition + distance * easedProgress);
+
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(animateScroll);
+        }
+      };
+
+      animationFrameId = requestAnimationFrame(animateScroll);
+    }, 300);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+
+      if (animationFrameId !== undefined) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [hasListenedToCurrentVerb]);
+
   const currentVerb = verbOrder[currentVerbIndex];
-
   const currentVerbConfig = verbConfig[currentVerb];
-
   const isLastVerb = currentVerbIndex === verbOrder.length - 1;
-
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * DÉMARRER L'EXERCICE
-
-
-
-   * =========================================================
-
-
-
-   */
-
-  const handleStartExercise = () => {
-    setExerciseStarted(true);
-
-    requestAnimationFrame(() => {
-      document.getElementById("verb-exercise-content")?.scrollIntoView({
-        behavior: "smooth",
-
-        block: "start",
-      });
-    });
-  };
-
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * PREMIÈRE ÉCOUTE DU VERBE TERMINÉE
-
-
-
-   * =========================================================
-
-
-
-   */
 
   const handleFirstListenComplete = () => {
     setHasListenedToCurrentVerb(true);
-
-    requestAnimationFrame(() => {
-      document.getElementById("verb-speaking-exercise")?.scrollIntoView({
-        behavior: "smooth",
-
-        block: "start",
-      });
-    });
   };
-
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * ENREGISTRER LE SCORE D'UN VERBE
-
-
-
-   * =========================================================
-
-
-
-   */
 
   const handleVerbComplete = (result: VerbScore) => {
     setVerbScores((previous) => ({
       ...previous,
-
       [currentVerb]: result,
     }));
+
+    setShowFinalResults(true);
   };
-
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * PASSER AU VERBE SUIVANT
-
-
-
-   * =========================================================
-
-
-
-   */
 
   const handleNextVerb = () => {
-    if (isLastVerb) {
-      return;
-    }
-
-    /*
-
-
-
-     * Le nouveau verbe doit être écouté
-
-
-
-     * entièrement avant d'afficher son
-
-
-
-     * exercice de prononciation.
-
-
-
-     */
+    if (isLastVerb) return;
 
     setHasListenedToCurrentVerb(false);
-
     setCurrentVerbIndex((previous) => previous + 1);
-
-    requestAnimationFrame(() => {
-      document.getElementById("verb-exercise-content")?.scrollIntoView({
-        behavior: "smooth",
-
-        block: "start",
-      });
-    });
   };
 
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * FIN DE L'ACTIVITÉ
-
-
-
-   * =========================================================
-
-
-
-   */
-
   const handleActivityComplete = (result: VerbScore) => {
-    /*
-
-
-
-     * ALLER est le dernier verbe.
-
-
-
-     *
-
-
-
-     * On ajoute son score aux trois précédents.
-
-
-
-     */
-
-    const updatedScores = {
-      ...verbScores,
-
-      aller: result,
-    };
-
-    setVerbScores(updatedScores);
-
-    /*
-
-
-
-     * On affiche maintenant le résultat
-
-
-
-     * global des quatre verbes.
-
-
-
-     */
+    setVerbScores((previous) => ({
+      ...previous,
+      [currentVerb]: result,
+    }));
 
     setShowFinalResults(true);
 
-    requestAnimationFrame(() => {
-      window.scrollTo({
-        top: 0,
-
-        behavior: "smooth",
-      });
-    });
+    // Informe Activity.tsx que les résultats sont affichés.
+    onResults?.();
   };
-
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * RECOMMENCER L'ACTIVITÉ
-
-
-
-   * =========================================================
-
-
-
-   */
 
   const handleRestartActivity = () => {
-    setExerciseStarted(false);
-
+    setExerciseStarted(true);
     setCurrentVerbIndex(0);
-
     setHasListenedToCurrentVerb(false);
-
     setVerbScores({});
-
     setShowFinalResults(false);
-
-    requestAnimationFrame(() => {
-      window.scrollTo({
-        top: 0,
-
-        behavior: "smooth",
-      });
-    });
   };
 
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * RÉSULTAT FINAL
-
-
-
-   * =========================================================
-
-
-
-   */
-
-  if (showFinalResults) {
-    return (
+  
+if (showFinalResults) {
+  return (
+    <div className="mx-auto w-full min-w-0 max-w-full ">
       <BigFourFinalResults
         scores={verbScores}
         onRestart={handleRestartActivity}
@@ -478,421 +264,56 @@ export default function VerbListeningSection({
           onNext?.();
         }}
       />
-    );
-  }
+    </div>
+  );
+}
 
-  /*
-
-
-
-   * =========================================================
-
-
-
-   * ACTIVITÉ
-
-
-
-   * =========================================================
-
-
-
-   */
 
   return (
-    <ExerciseSection width="wide">
-      {/* =====================================================
-
-
-
-          INSTRUCTION UNIQUE
-
-
-
-      \====================================================== */}
-
-      <InstructionBlock
-        level="beginner"
-        typeLabel="PRONONCIATION"
-        stampLabel="EXERCICE 1"
-        title="JE SUIS, TU AS, ELLE FAIT, NOUS ALLONS..."
-        subtitle={
-          <>
-            Pour chaque verbe, écoute Marie décliner leur conjugaison au
-            présent, puis choisis la bonne forme verbale du verbe pour chaque
-            phrase qui t’est proposée.
-            <br />
-            <span>Exemple : « Qui est étudiant ? Qui travaille ? »</span>
-          </>
-        }
-        activityType="listen-and-speak"
-        onStart={handleStartExercise}
-        startLabel="Commencer l'exercice"
-        started={exerciseStarted}
-        showPointAttention={true}
-        pointAttention={{
-          imageSrc:
-            "/images/courses/beginner/activities/brunogalopin/point.png",
-
-          imageAlt: "Point d'attention",
-
-          title: (
-            <>
-              Tu dois prononcer <strong>toute la phrase</strong> qui t’es
-              proposée.
-            </>
-          ),
-
-          example: (
-            <>
-              <strong>Exemple : </strong>« Pardon, vous avez l’heure ? »
-            </>
-          ),
-        }}
-      >
-        {/* ===================================================== */}
-
-        {/* BLOC D'AIDE ÉCOUTE / MICRO */}
-
-        {/* ===================================================== */}
-
-        <div
-          className="
-
-
-
-      bg-white/65
-
-
-
-      relative
-
-
-
-      mb-7
-
-
-
-      overflow-hidden
-
-
-
-      rounded-2xl
-
-
-
-      border
-
-
-
-      border-white/80
-
-
-
-      p-5
-
-
-
-      shadow-[0_10px_30px_rgba(15,23,42,0.05)]
-
-
-
-      backdrop-blur-sm
-
-
-
-      sm:p-6
-
-
-
-    "
-        >
-          {/* Barre verticale décorative */}
-
-          <div
-            className="
-
-
-
-        absolute
-
-
-
-        bottom-0
-
-
-
-        left-0
-
-
-
-        top-0
-
-
-
-        w-1
-
-
-
-        bg-amber-400
-
-
-
-      "
-          />
-
-          <div className="space-y-4 pl-3 text-sm leading-relaxed text-slate-700 sm:text-base">
-            {/* ===================================================== */}
-
-            {/* ÉCOUTE */}
-
-            {/* ===================================================== */}
-
-            <div className="flex flex-wrap items-center gap-2">
-              <span>Utilise le bouton</span>
-
-              {/* ICÔNE D'ÉCOUTE */}
-
-              <span
-                className="
-
-
-
-            inline-flex
-
-
-
-            h-10
-
-
-
-            w-10
-
-
-
-            shrink-0
-
-
-
-            items-center
-
-
-
-            justify-center
-
-
-
-            rounded-full
-
-
-
-            bg-white
-
-
-
-            text-amber-600
-
-
-
-            shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-
-
-
-          "
-                aria-hidden="true"
-              >
-                <svg
-                  xmlns="http\://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11 5L6 9H3v6h3l5 4V5z"
-                  />
-
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"
-                  />
-                </svg>
-              </span>
-
-              <span>pour écouter Marie décliner la conjugaison.</span>
-            </div>
-
-            {/* ===================================================== */}
-
-            {/* MICRO */}
-
-            {/* ===================================================== */}
-
-            <div className="flex flex-wrap items-center gap-2">
-              <span>Appuie sur le bouton</span>
-
-              {/* ICÔNE MICRO */}
-
-              <button
-                type="button"
-                tabIndex={-1}
-                aria-hidden="true"
-                className="
-
-
-
-            pointer-events-none
-
-
-
-            relative
-
-
-
-            flex
-
-
-
-            h-10
-
-
-
-            w-10
-
-
-
-            shrink-0
-
-
-
-            items-center
-
-
-
-            justify-center
-
-
-
-            rounded-full
-
-
-
-            bg-white
-
-
-
-            text-amber-600
-
-
-
-            shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-
-
-
-          "
-              >
-                <svg
-                  xmlns="http\://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
-                  />
-                </svg>
-              </button>
-
-              <span>avant de prononcer ta phrase.</span>
-            </div>
-          </div>
-        </div>
-      </InstructionBlock>
-
-      {/* =====================================================
-
-
-
-          EXERCICE
-
-
-
-      \====================================================== */}
-
+    <div
+      id="verb-exercise-content"
+      className="mx-auto w-[100%] min-w-0 max-w-full"
+    >
       {exerciseStarted && (
-        <div id="verb-exercise-content" className="scroll-mt-10">
-          {/* =================================================
-
-
-
-              ÉCOUTE DU VERBE
-
-
-
-          \================================================== */}
-
-          <div className="mt-10">
+        <>
+          {/* ÉCOUTE DU VERBE */}
+          <div className="w-full min-w-0 max-w-full">
             <VerbListeningExercise
               key={currentVerb}
               category={{
                 title: currentVerbConfig.title,
-
                 forms: currentVerbConfig.forms,
-
                 timings: currentVerbConfig.timings,
-
                 audioSrc: currentVerbConfig.audioSrc,
               }}
               onFirstListenComplete={handleFirstListenComplete}
             />
           </div>
 
-          {/* =================================================
-
-
-
-              PRONONCIATION
-
-
-
-          \================================================== */}
-
+          {/* TRANSITION VERS LA PRONONCIATION */}
           {hasListenedToCurrentVerb && (
-            <div id="verb-speaking-exercise" className="mt-12 scroll-mt-10">
-              <div className="mx-auto w-full max-w-5xl px-6">
-                <VerbSpeakingExercise
-                  key={currentVerb}
-                  data={currentVerbConfig.speakingData}
-                  verbTitle={currentVerbConfig.title}
-                  onComplete={
-                    isLastVerb ? handleActivityComplete : handleVerbComplete
-                  }
-                  onNextVerb={isLastVerb ? undefined : handleNextVerb}
-                  nextVerbLabel={
-                    isLastVerb
-                      ? undefined
-                      : `Passer au verbe ${
-                          verbOrder[currentVerbIndex + 1] === "avoir"
-                            ? "AVOIR"
-                            : verbOrder[currentVerbIndex + 1] === "faire"
-                            ? "FAIRE"
-                            : "ALLER"
-                        } →`
-                  }
-                />
+            <>
+              <ExerciseTransition number={2} />
+
+              {/* PRONONCIATION : BLOC SÉPARÉ */}
+              <div
+                ref={speakingExerciseRef}
+                id="verb-speaking-exercise"
+                className="w-full min-w-0 max-w-full scroll-mt-6"
+              >
+                <div className="w-full min-w-0 max-w-full">
+                  <VerbSpeakingExercise
+                    key={currentVerb}
+                    data={currentVerbConfig.speakingData}
+                    verbTitle={currentVerbConfig.title}
+                    onComplete={handleActivityComplete}
+                  />
+                </div>
               </div>
-            </div>
+            </>
           )}
-        </div>
+        </>
       )}
-    </ExerciseSection>
+    </div>
   );
 }
