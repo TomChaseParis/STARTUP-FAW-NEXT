@@ -23,19 +23,21 @@ export default function QuestionController({
   navigation,
 }: Props) {
   return (
-    <section className="mx-auto max-w-5xl py-16">
+    <section className="mx-auto  max-w-5xl ">
       <ExerciseProgress
         current={current}
         total={total}
       />
 
-      <ExerciseCard>
-        {header}
+     <div className="rounded-2xl border border-[#E7EAF0] bg-white p-[1px] shadow-[0_8px_28px_rgba(15,23,42,0.045)]">
+  <ExerciseCard>
+    {header}
 
-        {content}
+    {content}
 
-        {navigation}
-      </ExerciseCard>
+    {navigation}
+  </ExerciseCard>
+</div>
     </section>
   );
 }

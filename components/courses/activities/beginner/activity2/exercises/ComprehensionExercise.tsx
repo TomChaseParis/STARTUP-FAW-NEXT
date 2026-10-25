@@ -14,7 +14,7 @@ export default function ComprehensionExercise({
   onComplete,
 }: ComprehensionExerciseProps) {
   return (
-    <section className="mt-12 bg-white pb-20 text-black">
+    <section className="bg-white pb-20 text-black">
       <TableCompletionQuiz
         data={activity2Data}
         onComplete={onComplete}

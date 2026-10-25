@@ -1,63 +1,131 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 
 import ExerciseContainer from "@/components/activity/ExerciseContainer";
-import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
+import ClickOrSpeak from "@/components/courses/layout/ClickOrSpeak";
 
 import ListeningDiscoveryExercise from "./ListeningDiscoveryExercise";
+
+type ExerciseTransitionProps = {
+  number: number;
+};
+
+function ExerciseTransition({
+  number,
+}: ExerciseTransitionProps) {
+  return (
+    <div
+      className="relative z-10 flex h-[120px] items-center justify-center"
+      aria-label={`Étape ${number}`}
+    >
+      {/* Ligne verticale pointillée continue */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#F4B323]"
+      />
+
+      {/* Numéro centré sur la ligne */}
+      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#F2A900] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(224,159,0,0.25)] ring-1 ring-[#FFD875]">
+        {number}
+      </span>
+    </div>
+  );
+}
 
 export default function ListeningDiscoverySection() {
   const [started, setStarted] = useState(false);
 
   /*
-   * Lorsque l'utilisateur clique sur
-   * "Lancer l'exercice", le QCM est monté.
-   *
-   * On attend donc que le DOM soit réellement disponible
-   * avant de déclencher le scroll.
+   * Défilement automatique vers le QCM
+   * après le démarrage de l'exercice.
    */
-  
   useEffect(() => {
     if (!started) return;
 
     let attempts = 0;
-    let timer: number | undefined;
+    let timeoutId: number | undefined;
+    let animationFrameId: number | undefined;
 
     const scrollToQcm = () => {
-      const element = document.getElementById("exercise-1-qcm");
+      const element = document.getElementById(
+        "exercise-1-qcm",
+      );
 
       if (!element) {
         attempts += 1;
 
         if (attempts < 20) {
-          timer = window.setTimeout(scrollToQcm, 100);
+          timeoutId = window.setTimeout(
+            scrollToQcm,
+            100,
+          );
         }
 
         return;
       }
 
-      const elementTop =
-        element.getBoundingClientRect().top + window.scrollY;
+      const startPosition = window.scrollY;
 
-      const offset = 100;
+      const targetPosition = Math.max(
+        0,
+        element.getBoundingClientRect().top +
+          window.scrollY -
+          24,
+      );
 
-      window.scrollTo({
-        top: Math.max(0, elementTop - offset),
-        behavior: "smooth",
-      });
+      const distance = targetPosition - startPosition;
+      const duration = 1100;
+
+      let startTime: number | null = null;
+
+      const animateScroll = (currentTime: number) => {
+        if (startTime === null) {
+          startTime = currentTime;
+        }
+
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(
+          elapsed / duration,
+          1,
+        );
+
+        const easedProgress =
+          progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 -
+              Math.pow(-2 * progress + 2, 3) / 2;
+
+        window.scrollTo(
+          0,
+          startPosition + distance * easedProgress,
+        );
+
+        if (progress < 1) {
+          animationFrameId =
+            window.requestAnimationFrame(
+              animateScroll,
+            );
+        }
+      };
+
+      animationFrameId =
+        window.requestAnimationFrame(animateScroll);
     };
 
-    /*
-     * Petit délai pour laisser React terminer le rendu
-     * du QCM avant de calculer sa position.
-     */
-    timer = window.setTimeout(scrollToQcm, 100);
+    // Laisse le QCM se monter avant le défilement.
+    timeoutId = window.setTimeout(scrollToQcm, 300);
 
     return () => {
-      if (timer) {
-        window.clearTimeout(timer);
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+
+      if (animationFrameId !== undefined) {
+        window.cancelAnimationFrame(
+          animationFrameId,
+        );
       }
     };
   }, [started]);
@@ -65,143 +133,43 @@ export default function ListeningDiscoverySection() {
   return (
     <ExerciseContainer exerciseId="exercise-1">
       {({ onComplete }) => (
-        <div
-          id="exercise-1-instruction"
-          className="scroll-mt-10"
-        >
-          <ExerciseSection>
-            <InstructionBlock
-              level="beginner"
-              stampLabel="EXERCICE 1"
-              typeLabel="COMPRÉHENSION ORALE"
+        <div className="w-full min-w-0">
+          {/* ÉNONCÉ AVEC LE LECTEUR AUDIO INTÉGRÉ */}
+          <div
+            id="exercise-1-instruction"
+            className="w-full min-w-0 scroll-mt-10"
+          >
+            <ClickOrSpeak
+              exerciseNumber={1}
+              category="COMPRÉHENSION ORALE"
               title="Découverte"
-              subtitle="Écoute une première fois le dialogue ci-dessus, puis réponds aux questions."
-              activityType="click-or-speak"
+              description="Écoute une première fois le dialogue ci-dessus, puis réponds aux questions."
+              example="A : ingénieur"
+              dialogueImageSrc="/images/courses/audioBlock/beginner/am.png"
+              dialogueImageAlt="Illustration du dialogue de l’agence matrimoniale"
               audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
-              audioImage="/images/courses/audioBlock/beginner/am.png"
-              audioBadge="Dialogue"
-              description={
-                <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-                  {/* ===================================================== */}
-                  {/* UTILISATION DU LECTEUR AUDIO */}
-                  {/* ===================================================== */}
-
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span>
-                      Utilise le bouton
-                    </span>
-
-                    {/* ICÔNE D'ÉCOUTE */}
-
-                    <span
-                    className="
-                      inline-flex h-10 w-10 shrink-0
-                      items-center justify-center
-                      rounded-full border border-slate-200
-                      bg-white text-amber-500
-                      shadow-[0_3px_10px_rgba(15,23,42,0.06)]
-                    "
-                    aria-hidden="true"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M8 5.5a.75.75 0 0 1 1.14-.64l9.25 6a.75.75 0 0 1 0 1.28l-9.25 6A.75.75 0 0 1 8 17.5v-12Z" />
-                    </svg>
-                  </span>
-                    <span>
-                      pour écouter le professeur présenter la question et les
-                      réponses proposées.
-                    </span>
-                  </div>
-
-                  {/* ===================================================== */}
-                  {/* BOUTON MICRO */}
-                  {/* ===================================================== */}
-
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span>Appuie sur le bouton</span>
-
-                    <button
-                      type="button"
-                      tabIndex={-1}
-                      aria-hidden="true"
-                      className="
-                        pointer-events-none
-                        relative
-                        flex
-                        h-10
-                        w-10
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-white
-                        text-amber-600
-                        shadow-[0_6px_18px_rgba(15,23,42,0.10)]
-                      "
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 18v3m0 0h3m-3 0H9m3-7a4 4 0 004-4V7a4 4 0 10-8 0v3a4 4 0 004 4z"
-                        />
-                      </svg>
-                    </button>
-
-                    <span>
-                      si tu préfères répondre à la question à
-                      l&apos;oral.
-                    </span>
-                  </div>
-
-                  {/* ===================================================== */}
-                  {/* RECONNAISSANCE VOCALE */}
-                  {/* ===================================================== */}
-
-                  <p>
-                    Pour aider l&apos;outil de reconnaissance vocale à
-                    bien identifier ta réponse, pense à dire la lettre
-                    (A, B ou C) qui correspond à ta réponse, suivie de
-                    la réponse en entier. Exemple :
-                    <span className="font-semibold text-slate-900">
-                      {" « A : ingénieur »."}
-                    </span>
-                  </p>
-                </div>
-              }
-              onStart={() => {
-                setStarted(true);
-              }}
+              audioTitle="Dialogue"
+              audioHint="Écoute le professeur présenter la question et les réponses proposées."
+              onStart={() => setStarted(true)}
               started={started}
             />
+          </div>
 
-            {/* ========================================================= */}
-            {/* QCM */}
-            {/* ========================================================= */}
+          {/* TRANSITION ET QCM */}
+          {started && (
+            <>
+              <ExerciseTransition number={1} />
 
-            {started && (
               <div
                 id="exercise-1-qcm"
-                className="scroll-mt-10"
+                className="w-full min-w-0 max-w-full scroll-mt-6"
               >
                 <ListeningDiscoveryExercise
                   onComplete={onComplete}
                 />
               </div>
-            )}
-          </ExerciseSection>
+            </>
+          )}
         </div>
       )}
     </ExerciseContainer>

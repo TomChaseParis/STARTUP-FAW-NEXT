@@ -1,14 +1,14 @@
-
 "use client";
 
 import {
   ReactNode,
   useEffect,
+  useRef,
+  useState,
 } from "react";
 
 import QuestionHeader from "@/components/courses/common/question/QuestionHeader";
 import ExerciseResult from "@/components/courses/common/result/ExerciseResult";
-import ExerciseReport from "@/components/courses/common/result/ExerciseReport";
 import QuestionController from "@/components/courses/common/layouts/QuestionController";
 import QuestionContent from "@/components/courses/common/question/QuestionContent";
 import ExerciseNavigation from "@/components/courses/common/question/ExerciseNavigation";
@@ -30,37 +30,21 @@ type TeacherFeedbackImages = {
 
 type Props = {
   questions: Question[];
-
   mode?: "training" | "exam";
-
   progressConfig?: QuizProgressConfig;
-
-  onComplete?: (
-    result: ExerciseSessionResult,
-  ) => void;
-
+  onComplete?: (result: ExerciseSessionResult) => void;
   resultRenderer?: (
     result: ExerciseSessionResult,
     resetQuiz: () => void,
   ) => ReactNode;
-
-  speechEngine?:
-    | "browser"
-    | "openai";
-
+  speechEngine?: "browser" | "openai";
   onLastQuestion?: () => void;
-
   lastQuestionLabel?: string;
-
-  /**
-   * Images utilisées immédiatement après
-   * la sélection d'une réponse.
-   *
-   * correct = bonne réponse
-   * wrong = mauvaise réponse
-   */
   teacherFeedbackImages?: TeacherFeedbackImages;
 };
+
+// Délai avant l'apparition de la TeacherComicBubble, en millisecondes.
+const SPEECH_PROMPT_DELAY = 1000;
 
 const QuizEngine: React.FC<Props> = ({
   questions,
@@ -83,29 +67,30 @@ const QuizEngine: React.FC<Props> = ({
     totalQuestions,
     processSpeechAnswer,
     session,
-  } = useQuizEngine(
-    questions,
-    progressConfig,
-  );
+  } = useQuizEngine(questions, progressConfig);
+
+  const [audioQuestionStarted, setAudioQuestionStarted] = useState(false);
+  const [audioQuestionFinished, setAudioQuestionFinished] = useState(false);
+
+  // Verrou global : une seule apparition pendant la session du QCM.
+  const speechPromptClaimedRef = useRef(false);
+
+  // Contrôle la visibilité de la bulle.
+  const [speechPromptVisible, setSpeechPromptVisible] = useState(false);
+
+  const wasTalkingRef = useRef(false);
+  const previousQuestionRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!session.isFinished) {
-      return;
-    }
+    if (!session.isFinished) return;
 
     onComplete?.(session.result);
-  }, [
-    session.isFinished,
-    session.result,
-    onComplete,
-  ]);
+  }, [session.isFinished, session.result, onComplete]);
 
-  const teacher =
-    useTeacherController({
-      onSpeech:
-        processSpeechAnswer,
-      speechEngine,
-    });
+  const teacher = useTeacherController({
+    onSpeech: processSpeechAnswer,
+    speechEngine,
+  });
 
   const {
     playQuestion,
@@ -115,62 +100,92 @@ const QuizEngine: React.FC<Props> = ({
     stopListening,
   } = teacher;
 
-  const { handleAnswer } =
-    teacher;
+  const { handleAnswer } = teacher;
+
+  // Réinitialiser le suivi audio au changement de question,
+  // sans réinitialiser le verrou de la bulle.
+  useEffect(() => {
+    if (previousQuestionRef.current === currentIndex) return;
+
+    const isQuestionChange = previousQuestionRef.current !== null;
+
+    previousQuestionRef.current = currentIndex;
+
+    setAudioQuestionStarted(false);
+    setAudioQuestionFinished(false);
+    wasTalkingRef.current = false;
+
+    if (isQuestionChange) {
+      setSpeechPromptVisible(false);
+    }
+  }, [currentIndex]);
+
+  // Détecter la fin effective de la lecture audio.
+  useEffect(() => {
+    if (isTalking) {
+      wasTalkingRef.current = true;
+      return;
+    }
+
+    if (wasTalkingRef.current && audioQuestionStarted) {
+      wasTalkingRef.current = false;
+      setAudioQuestionFinished(true);
+    }
+  }, [isTalking, audioQuestionStarted]);
+
+  // Afficher la TeacherComicBubble une seule fois,
+  // une seconde après la fin de la lecture audio.
+  useEffect(() => {
+    if (!audioQuestionFinished || !currentQuestion) return;
+    if (speechPromptClaimedRef.current) return;
+
+    const hasAnswer =
+      currentQuestion.type === "multiple-choice"
+        ? selectedChoiceIds.length > 0
+        : !!selectedChoiceId;
+
+    if (hasAnswer) return;
+
+    const timeoutId = window.setTimeout(() => {
+      if (speechPromptClaimedRef.current) return;
+
+      speechPromptClaimedRef.current = true;
+      setSpeechPromptVisible(true);
+    }, SPEECH_PROMPT_DELAY);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [
+    audioQuestionFinished,
+    currentQuestion,
+    selectedChoiceId,
+    selectedChoiceIds,
+    currentIndex,
+  ]);
 
   useEffect(() => {
-    if (!currentQuestion) {
-      return;
-    }
+    if (!currentQuestion) return;
+    if (currentQuestion.type === "multiple-choice") return;
+    if (!selectedChoiceId) return;
 
-    if (
-      currentQuestion.type ===
-      "multiple-choice"
-    ) {
-      return;
-    }
+    const choice = currentQuestion.choices.find(
+      (item) => item.id === selectedChoiceId,
+    );
 
-    if (!selectedChoiceId) {
-      return;
-    }
-
-    const choice =
-      currentQuestion.choices.find(
-        (item) =>
-          item.id ===
-          selectedChoiceId,
-      );
-
-    if (!choice) {
-      return;
-    }
+    if (!choice) return;
 
     handleAnswer(
       choice.isCorrect,
       choice.teacherAudioCorrect,
       choice.teacherAudioWrong,
     );
-  }, [
-    currentQuestion,
-    selectedChoiceId,
-    handleAnswer,
-  ]);
+  }, [currentQuestion, selectedChoiceId, handleAnswer]);
 
-  if (
-    !currentQuestion &&
-    !session.isFinished
-  ) {
-    return null;
-  }
+  if (!currentQuestion && !session.isFinished) return null;
 
-  if (
-    session.isFinished &&
-    resultRenderer
-  ) {
-    return resultRenderer(
-      session.result,
-      resetQuiz,
-    );
+  if (session.isFinished && resultRenderer) {
+    return resultRenderer(session.result, resetQuiz);
   }
 
   if (session.isFinished) {
@@ -182,129 +197,82 @@ const QuizEngine: React.FC<Props> = ({
     );
   }
 
-  if (!currentQuestion) {
-    return null;
-  }
+  if (!currentQuestion) return null;
 
-  const question =
-    currentQuestion.question;
+  const question = currentQuestion.question;
+  const choices = currentQuestion.choices;
+  const image = currentQuestion.image;
+  const teacherImage = currentQuestion.teacherImage;
+  const teacherAudioQuestion = currentQuestion.teacherAudioQuestion;
 
-  const choices =
-    currentQuestion.choices;
+  const isMultipleChoice = currentQuestion.type === "multiple-choice";
 
-  const image =
-    currentQuestion.image;
+  const hasSelectedChoice = isMultipleChoice
+    ? selectedChoiceIds.length > 0
+    : !!selectedChoiceId;
 
-  const teacherImage =
-    currentQuestion.teacherImage;
+  const feedbackChoiceId = isMultipleChoice
+    ? selectedChoiceIds[selectedChoiceIds.length - 1]
+    : selectedChoiceId;
 
-  const teacherAudioQuestion =
-    currentQuestion.teacherAudioQuestion;
+  const selectedChoice = feedbackChoiceId
+    ? choices.find((choice) => choice.id === feedbackChoiceId)
+    : undefined;
 
-  const isMultipleChoice =
-    currentQuestion.type ===
-    "multiple-choice";
-
-  const hasSelectedChoice =
-    isMultipleChoice
-      ? selectedChoiceIds.length > 0
-      : !!selectedChoiceId;
-
-  /*
-   * =========================================================
-   * RÉPONSE SÉLECTIONNÉE
-   * =========================================================
-   *
-   * Pour une question classique :
-   * selectedChoiceId contient la réponse.
-   *
-   * Pour une question multiple-choice :
-   * on utilise la dernière réponse sélectionnée
-   * afin d'afficher le feedback correspondant à
-   * l'action que vient de faire l'élève.
-   */
-
-  const feedbackChoiceId =
-    isMultipleChoice
-      ? selectedChoiceIds[
-          selectedChoiceIds.length - 1
-        ]
-      : selectedChoiceId;
-
-  const selectedChoice =
-    feedbackChoiceId
-      ? choices.find(
-          (choice) =>
-            choice.id ===
-            feedbackChoiceId,
-        )
-      : undefined;
-
-  const correctChoice =
-    choices.find(
-      (choice) =>
-        choice.isCorrect,
-    );
+  const correctChoice = choices.find((choice) => choice.isCorrect);
 
   const teacherFeedbackImage =
-    selectedChoice &&
-    teacherFeedbackImages
+    selectedChoice && teacherFeedbackImages
       ? selectedChoice.isCorrect
         ? teacherFeedbackImages.correct
         : teacherFeedbackImages.wrong
       : undefined;
 
-  const playQuestionAudio =
-    () => {
-      playQuestion(
-        teacherAudioQuestion,
-      );
-    };
+  const playQuestionAudio = () => {
+    setAudioQuestionStarted(true);
+    setAudioQuestionFinished(false);
+    wasTalkingRef.current = false;
 
-  const handleSpeechButton =
-    () => {
-      if (isListening) {
-        stopListening();
-        return;
-      }
+    playQuestion(teacherAudioQuestion);
+  };
 
-      startListening();
-    };
+  const handleSpeechButton = () => {
+    if (isListening) {
+      stopListening();
+      return;
+    }
 
-  const isLastQuestion =
-    currentIndex + 1 ===
-    totalQuestions;
+    startListening();
+  };
 
-  const handleNext =
-    () => {
-      if (
-        isLastQuestion &&
-        onLastQuestion
-      ) {
-        onLastQuestion();
-        return;
-      }
+  // Masquer la bulle au clic sur le micro, sans rouvrir le verrou.
+  const handleSpeechPromptUsed = () => {
+    setSpeechPromptVisible(false);
+  };
 
-      nextQuestion();
-    };
+  const showSpeechPrompt =
+    speechPromptVisible && !hasSelectedChoice;
+
+  const isLastQuestion = currentIndex + 1 === totalQuestions;
+
+  const handleNext = () => {
+    if (isLastQuestion && onLastQuestion) {
+      onLastQuestion();
+      return;
+    }
+
+    nextQuestion();
+  };
 
   return (
     <QuestionController
-      current={
-        currentIndex + 1
-      }
+      current={currentIndex + 1}
       total={totalQuestions}
       header={
         <QuestionHeader
-          current={
-            currentIndex + 1
-          }
-          total={
-            totalQuestions
-          }
-          onPlay={
-            playQuestionAudio
-          }
+          current={currentIndex + 1}
+          total={totalQuestions}
+          onPlay={playQuestionAudio}
           disabled={isTalking}
         />
       }
@@ -312,55 +280,29 @@ const QuizEngine: React.FC<Props> = ({
         <QuestionContent
           question={question}
           choices={choices}
-          selectedChoiceId={
-            selectedChoiceId
-          }
-          selectedChoiceIds={
-            selectedChoiceIds
-          }
-          multipleChoice={
-            isMultipleChoice
-          }
-          onSelect={
-            selectChoice
-          }
+          selectedChoiceId={selectedChoiceId}
+          selectedChoiceIds={selectedChoiceIds}
+          multipleChoice={isMultipleChoice}
+          onSelect={selectChoice}
           image={image}
-          teacherImage={
-            teacherImage
-          }
-          teacherTalking={
-            isTalking
-          }
-          isListening={
-            isListening
-          }
-          onSpeech={
-            handleSpeechButton
-          }
+          teacherImage={teacherImage}
+          teacherTalking={isTalking}
+          isListening={isListening}
+          onSpeech={handleSpeechButton}
           disabled={false}
-          selectedChoice={
-            selectedChoice
-          }
-          correctChoice={
-            correctChoice
-          }
-          teacherFeedbackImage={
-            teacherFeedbackImage
-          }
+          selectedChoice={selectedChoice}
+          correctChoice={correctChoice}
+          teacherFeedbackImage={teacherFeedbackImage}
+          showSpeechPrompt={showSpeechPrompt}
+          onSpeechPromptUsed={handleSpeechPromptUsed}
         />
       }
       navigation={
         hasSelectedChoice ? (
           <ExerciseNavigation
-            isLastQuestion={
-              isLastQuestion
-            }
-            onNext={
-              handleNext
-            }
-            lastQuestionLabel={
-              lastQuestionLabel
-            }
+            isLastQuestion={isLastQuestion}
+            onNext={handleNext}
+            lastQuestionLabel={lastQuestionLabel}
           />
         ) : undefined
       }

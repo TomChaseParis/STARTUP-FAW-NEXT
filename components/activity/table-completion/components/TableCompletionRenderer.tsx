@@ -6,7 +6,6 @@ import TableCompletionRow from "./TableCompletionRow";
 
 import { TableCompletionItem } from "../types";
 
-
 type Props = {
   questions: TableCompletionItem[];
   answers: string[];
@@ -25,9 +24,7 @@ export default function TableCompletionRenderer({
   ).length;
 
   const progress =
-    questions.length > 0
-      ? (answeredCount / questions.length) * 100
-      : 0;
+    questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
 
   const activeIndex = questions.findIndex(
     (_, index) => !answers[index]?.trim(),
@@ -70,13 +67,9 @@ export default function TableCompletionRenderer({
           "
         >
           {questions.map((question, index) => {
-            const answered = Boolean(
-              answers[index]?.trim(),
-            );
+            const answered = Boolean(answers[index]?.trim());
 
-            const active =
-              !validated &&
-              index === activeIndex;
+            const active = !validated && index === activeIndex;
 
             return (
               <motion.div
@@ -101,10 +94,10 @@ export default function TableCompletionRenderer({
                     validated
                       ? "bg-slate-200 text-slate-500"
                       : answered
-                        ? "bg-amber-500 text-white"
-                        : active
-                          ? "border-2 border-amber-400 bg-amber-50 text-amber-700"
-                          : "bg-white text-slate-400 ring-1 ring-slate-200"
+                      ? "bg-amber-500 text-white"
+                      : active
+                      ? "border-2 border-amber-400 bg-amber-50 text-amber-700"
+                      : "bg-white text-slate-400 ring-1 ring-slate-200"
                   }
                 `}
               >
@@ -132,12 +125,8 @@ export default function TableCompletionRenderer({
              * =====================================================
              */
 
-            if (
-              question.type === "image" &&
-              question.images
-            ) {
-              const selectedAnswer =
-                answers[index] ?? "";
+            if (question.type === "image" && question.images) {
+              const selectedAnswer = answers[index] ?? "";
 
               return (
                 <div
@@ -180,8 +169,8 @@ export default function TableCompletionRenderer({
 
                     <div className="min-w-0">
                       <p className="text-base font-bold leading-relaxed text-slate-900 sm:text-lg">
-                        Choisissez l&apos;image qui correspond
-                        le mieux à Xavier Plantu.
+                        Choisissez l&apos;image qui correspond le mieux à Xavier
+                        Plantu.
                       </p>
                     </div>
                   </div>
@@ -199,65 +188,53 @@ export default function TableCompletionRenderer({
                       sm:gap-5
                     "
                   >
-                    {question.images.map(
-                      (image) => {
-                        const isSelected =
-                          selectedAnswer ===
-                          image.id;
+                    {question.images.map((image) => {
+                      const isSelected = selectedAnswer === image.id;
 
-                        const isCorrect =
-                          image.id ===
-                          question.answer;
+                      const isCorrect = image.id === question.answer;
 
-                        let imageStateClass =
-                          "border-slate-200 bg-white hover:border-amber-300 hover:shadow-md";
+                      let imageStateClass =
+                        "border-slate-200 bg-white hover:border-amber-300 hover:shadow-md";
 
-                        if (!validated) {
-                          if (isSelected) {
-                            imageStateClass =
-                              "border-amber-500 bg-amber-50 shadow-lg ring-2 ring-amber-400";
-                          }
-                        } else {
-                          if (isCorrect) {
-                            imageStateClass =
-                              "border-green-500 bg-green-50 shadow-md ring-2 ring-green-400";
-                          } else if (
-                            isSelected
-                          ) {
-                            imageStateClass =
-                              "border-red-500 bg-red-50 shadow-md ring-2 ring-red-400";
-                          } else {
-                            imageStateClass =
-                              "border-slate-200 bg-white opacity-70";
-                          }
+                      if (!validated) {
+                        if (isSelected) {
+                          imageStateClass =
+                            "border-amber-500 bg-amber-50 shadow-lg ring-2 ring-amber-400";
                         }
+                      } else {
+                        if (isCorrect) {
+                          imageStateClass =
+                            "border-green-500 bg-green-50 shadow-md ring-2 ring-green-400";
+                        } else if (isSelected) {
+                          imageStateClass =
+                            "border-red-500 bg-red-50 shadow-md ring-2 ring-red-400";
+                        } else {
+                          imageStateClass =
+                            "border-slate-200 bg-white opacity-70";
+                        }
+                      }
 
-                        return (
-                          <motion.button
-                            key={image.id}
-                            type="button"
-                            disabled={validated}
-                            onClick={() =>
-                              onChange(
-                                index,
-                                image.id,
-                              )
-                            }
-                            whileHover={
-                              !validated
-                                ? {
-                                    y: -4,
-                                  }
-                                : undefined
-                            }
-                            whileTap={
-                              !validated
-                                ? {
-                                    scale: 0.98,
-                                  }
-                                : undefined
-                            }
-                            className={`
+                      return (
+                        <motion.button
+                          key={image.id}
+                          type="button"
+                          disabled={validated}
+                          onClick={() => onChange(index, image.id)}
+                          whileHover={
+                            !validated
+                              ? {
+                                  y: -4,
+                                }
+                              : undefined
+                          }
+                          whileTap={
+                            !validated
+                              ? {
+                                  scale: 0.98,
+                                }
+                              : undefined
+                          }
+                          className={`
                               relative
                               overflow-hidden
                               rounded-2xl
@@ -272,11 +249,11 @@ export default function TableCompletionRenderer({
                               focus:ring-offset-2
                               ${imageStateClass}
                             `}
-                          >
-                            {/* IMAGE */}
+                        >
+                          {/* IMAGE */}
 
-                            <div
-  className="
+                          <div
+                            className="
     relative
     aspect-[3/4]
     w-full
@@ -284,26 +261,25 @@ export default function TableCompletionRenderer({
     rounded-xl
     bg-slate-100
   "
->
-  <img
-    src={image.src}
-    alt={image.alt}
-    className="
+                          >
+                            <img
+                              src={image.src}
+                              alt={image.alt}
+                              className="
       h-full
       w-full
       object-contain
       transition-transform
       duration-300
     "
-  />
-</div>
+                            />
+                          </div>
 
-                            {/* ÉTAT */}
+                          {/* ÉTAT */}
 
-                            {validated &&
-                              isCorrect && (
-                                <div
-                                  className="
+                          {validated && isCorrect && (
+                            <div
+                              className="
                                     absolute
                                     right-4
                                     top-4
@@ -319,16 +295,14 @@ export default function TableCompletionRenderer({
                                     text-white
                                     shadow-lg
                                   "
-                                >
-                                  ✓
-                                </div>
-                              )}
+                            >
+                              ✓
+                            </div>
+                          )}
 
-                            {validated &&
-                              isSelected &&
-                              !isCorrect && (
-                                <div
-                                  className="
+                          {validated && isSelected && !isCorrect && (
+                            <div
+                              className="
                                     absolute
                                     right-4
                                     top-4
@@ -344,15 +318,14 @@ export default function TableCompletionRenderer({
                                     text-white
                                     shadow-lg
                                   "
-                                >
-                                  ✕
-                                </div>
-                              )}
+                            >
+                              ✕
+                            </div>
+                          )}
 
-                            {!validated &&
-                              isSelected && (
-                                <div
-                                  className="
+                          {!validated && isSelected && (
+                            <div
+                              className="
                                     absolute
                                     right-4
                                     top-4
@@ -368,14 +341,13 @@ export default function TableCompletionRenderer({
                                     text-white
                                     shadow-lg
                                   "
-                                >
-                                  ✓
-                                </div>
-                              )}
-                          </motion.button>
-                        );
-                      },
-                    )}
+                            >
+                              ✓
+                            </div>
+                          )}
+                        </motion.button>
+                      );
+                    })}
                   </div>
 
                   {/* ================================================= */}
@@ -392,15 +364,13 @@ export default function TableCompletionRenderer({
                         text-sm
                         font-semibold
                         ${
-                          selectedAnswer ===
-                          question.answer
+                          selectedAnswer === question.answer
                             ? "bg-green-50 text-green-700"
                             : "bg-red-50 text-red-700"
                         }
                       `}
                     >
-                      {selectedAnswer ===
-                      question.answer
+                      {selectedAnswer === question.answer
                         ? "✓ Bonne réponse !"
                         : "✕ Ce n'est pas la bonne image. La bonne réponse est indiquée en vert."}
                     </div>
@@ -420,20 +390,10 @@ export default function TableCompletionRenderer({
                 key={question.id}
                 question={question}
                 questionIndex={index}
-                value={
-                  answers[index] ?? ""
-                }
+                value={answers[index] ?? ""}
                 validated={validated}
-                active={
-                  !validated &&
-                  index === activeIndex
-                }
-                onChange={(value) =>
-                  onChange(
-                    index,
-                    value,
-                  )
-                }
+                active={!validated && index === activeIndex}
+                onChange={(value) => onChange(index, value)}
               />
             );
           })}
@@ -444,11 +404,9 @@ export default function TableCompletionRenderer({
       {/* LÉGENDE — RÉPONSES NON TERMINÉES */}
       {/* ========================================================= */}
 
-      {!validated &&
-        answeredCount <
-          questions.length && (
-          <div
-            className="
+      {!validated && answeredCount < questions.length && (
+        <div
+          className="
               mt-4
               flex
               flex-col
@@ -463,14 +421,13 @@ export default function TableCompletionRenderer({
               sm:justify-between
               sm:px-5
             "
-          >
-            <p className="text-sm leading-relaxed text-slate-500">
-              Choisis une réponse pour chaque
-              question.
-            </p>
+        >
+          <p className="text-sm leading-relaxed text-slate-500">
+            Choisis une réponse pour chaque question.
+          </p>
 
-            <span
-              className="
+          <span
+            className="
                 w-fit
                 shrink-0
                 rounded-full
@@ -484,30 +441,27 @@ export default function TableCompletionRenderer({
                 ring-1
                 ring-slate-200
               "
-            >
-              {answeredCount} /{" "}
-              {questions.length}
-            </span>
-          </div>
-        )}
+          >
+            {answeredCount} / {questions.length}
+          </span>
+        </div>
+      )}
 
       {/* ========================================================= */}
       {/* LÉGENDE — TOUTES LES RÉPONSES SONT PRÊTES */}
       {/* ========================================================= */}
 
-      {!validated &&
-        answeredCount ===
-          questions.length && (
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 8,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            className="
+      {!validated && answeredCount === questions.length && (
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 8,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          className="
               mt-4
               flex
               items-center
@@ -522,15 +476,13 @@ export default function TableCompletionRenderer({
               sm:mt-5
               sm:px-5
             "
-          >
-            <p className="text-sm font-semibold leading-relaxed text-amber-800">
-              Toutes tes réponses sont prêtes.
-              <br className="sm:hidden" />
-              {" "}Tu peux maintenant valider le
-              tableau.
-            </p>
-          </motion.div>
-        )}
+        >
+          <p className="text-sm font-semibold leading-relaxed text-amber-800">
+            Toutes tes réponses sont prêtes.
+            <br className="sm:hidden" /> Tu peux maintenant valider le tableau.
+          </p>
+        </motion.div>
+      )}
 
       {/* ========================================================= */}
       {/* LÉGENDE — APRÈS VALIDATION */}
@@ -558,9 +510,7 @@ export default function TableCompletionRenderer({
               ✓
             </span>
 
-            <span>
-              Bonne réponse
-            </span>
+            <span>Bonne réponse</span>
           </div>
 
           <div className="flex items-center gap-2 text-slate-500">
@@ -568,9 +518,7 @@ export default function TableCompletionRenderer({
               ✕
             </span>
 
-            <span>
-              À revoir
-            </span>
+            <span>À revoir</span>
           </div>
         </div>
       )}

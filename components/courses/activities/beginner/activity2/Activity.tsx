@@ -23,13 +23,51 @@ export default function Activity() {
 
   const handleStart = () => {
     setStarted(true);
-
-    // Attend que l'exercice soit affiché avant de scroller.
+  
+    // Attend le rendu de l'activité avant de lancer le scroll.
     setTimeout(() => {
-      document.getElementById("exercise-1-instruction")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      const element = document.getElementById(
+        "exercise-1-instruction",
+      );
+  
+      if (!element) return;
+  
+      const startPosition = window.scrollY;
+      const targetPosition =
+        element.getBoundingClientRect().top +
+        window.scrollY -
+        24;
+  
+      const distance = targetPosition - startPosition;
+      const duration = 1400;
+  
+      let startTime: number | null = null;
+  
+      const animateScroll = (currentTime: number) => {
+        if (startTime === null) {
+          startTime = currentTime;
+        }
+  
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+  
+        // Même courbe d'accélération/décélération que les autres exercices.
+        const easedProgress =
+          progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+  
+        window.scrollTo(
+          0,
+          startPosition + distance * easedProgress,
+        );
+  
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        }
+      };
+  
+      requestAnimationFrame(animateScroll);
     }, 400);
   };
 

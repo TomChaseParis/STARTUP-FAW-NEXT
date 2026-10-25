@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -53,8 +52,7 @@ export default function Activity() {
   const scrollAnimationRef = useRef<number | null>(null);
 
   const [started, setStarted] = useState(false);
-  const [showExercise1, setShowExercise1] = useState(true);
-  const [showExercise1Content, setShowExercise1Content] = useState(false);
+const [showExercise1, setShowExercise1] = useState(false);  const [showExercise1Content, setShowExercise1Content] = useState(false);
   const [showExercise1Results, setShowExercise1Results] = useState(false);
   const [showExercise2, setShowExercise2] = useState(false);
   const [showExercise3, setShowExercise3] = useState(false);
@@ -72,10 +70,7 @@ export default function Activity() {
     }
   };
 
-  const scrollToElement = (
-    element: HTMLElement | null,
-    offset = 0,
-  ) => {
+  const scrollToElement = (element: HTMLElement | null, offset = 0) => {
     if (!element) return;
 
     cancelPendingScroll();
@@ -102,25 +97,20 @@ export default function Activity() {
           return;
         }
 
-        const progress = Math.min(
-          (currentTime - startTime) / duration,
-          1,
-        );
+        const progress = Math.min((currentTime - startTime) / duration, 1);
 
         const easedProgress = progress * progress * (3 - 2 * progress);
 
         window.scrollTo(0, startY + distance * easedProgress);
 
         if (progress < 1) {
-          scrollAnimationRef.current =
-            requestAnimationFrame(animateScroll);
+          scrollAnimationRef.current = requestAnimationFrame(animateScroll);
         } else {
           scrollAnimationRef.current = null;
         }
       };
 
-      scrollAnimationRef.current =
-        requestAnimationFrame(animateScroll);
+      scrollAnimationRef.current = requestAnimationFrame(animateScroll);
     }, 150);
   };
 
@@ -177,8 +167,7 @@ export default function Activity() {
   };
 
   const handleStartExercise1 = () => {
-    const instruction =
-      instructionRef.current?.querySelector("section");
+    const instruction = instructionRef.current?.querySelector("section");
 
     if (instruction) {
       setExerciseWidth(instruction.getBoundingClientRect().width);
@@ -357,15 +346,13 @@ export default function Activity() {
                       ease: [0.22, 1, 1, 1],
                     }}
                   >
-{!showExercise1Results && <ExerciseTransition number={1} />}
+                    {!showExercise1Results && <ExerciseTransition number={1} />}
                     <motion.section
                       ref={exercise1Ref}
                       id="activity-1-exercise-1"
-                      className="mx-auto min-w-0 space-y-6 scroll-mt-4 sm:space-y-8"
+                      className="mx-auto min-w-0 scroll-mt-4 space-y-6 sm:space-y-8"
                       style={{
-                        width: exerciseWidth
-                          ? `${exerciseWidth}px`
-                          : "100%",
+                        width: exerciseWidth ? `${exerciseWidth}px` : "100%",
                         maxWidth: "100%",
                       }}
                     >

@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -29,6 +28,9 @@ export type ExerciseInstructionProps = {
   onStart?: () => void;
   started?: boolean;
   children?: ReactNode;
+
+  /** Contenu affiché dans la consigne, avant le démarrage de l'exercice. */
+  beforeStartContent?: ReactNode;
 
   /** Titre de l'activité parente, affiché dans le cadre de la consigne. */
   activityTitle?: string;
@@ -138,6 +140,7 @@ export default function ExerciseInstruction({
   onStart,
   started = false,
   children,
+  beforeStartContent,
   activityTitle,
 }: ExerciseInstructionProps) {
   return (
@@ -211,6 +214,8 @@ export default function ExerciseInstruction({
               </span>
             </div>
 
+      
+
             {/* Point d'attention */}
             {pointAttention && (
               <aside
@@ -270,6 +275,13 @@ export default function ExerciseInstruction({
                 </article>
               ))}
             </div>
+
+                  {/* Contenu complémentaire : lecteur audio, par exemple */}
+                  {beforeStartContent && (
+              <div className="mb-5 w-full min-w-0">
+                {beforeStartContent}
+              </div>
+            )}
 
             {/* Bouton de démarrage */}
             {!started && (

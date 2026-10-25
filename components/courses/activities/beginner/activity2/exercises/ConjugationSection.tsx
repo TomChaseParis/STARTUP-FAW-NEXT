@@ -3,64 +3,92 @@
 import { useEffect, useState } from "react";
 
 import ExerciseContainer from "@/components/activity/ExerciseContainer";
-import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
+import ListenAndType from "@/components/courses/layout/ListenAndType";
+import FloatingAudioPlayer from "@/components/courses/layout/FloatingAudioPlayer";
 
 import ConjugationExercise from "./ConjugationExercise";
+
+function ExerciseTransition({ number }: { number: number }) {
+  return (
+    <div
+      className="relative z-10 flex h-[120px] items-center justify-center"
+      aria-label={`Étape ${number}`}
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-1/2 -translate-x-1/2 border-l-2 border-dashed border-[#F4B323]"
+      />
+
+      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#F2A900] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(224,159,0,0.25)] ring-1 ring-[#FFD875]">
+        {number}
+      </span>
+    </div>
+  );
+}
 
 export default function ConjugationSection() {
   const [started, setStarted] = useState(false);
 
-  /*
-   * Lorsque l'utilisateur clique sur
-   * "Lancer l'exercice", l'exercice est affiché.
-   *
-   * On attend que le contenu soit réellement présent
-   * dans le DOM avant de lancer le scroll.
-   */
   useEffect(() => {
     if (!started) return;
 
     let attempts = 0;
     let timer: number | undefined;
+    let animationFrame: number | undefined;
 
     const scrollToExercise = () => {
-      const element =
-        document.getElementById("exercise-3-content");
+      const element = document.getElementById("exercise-3-content");
 
       if (!element) {
         attempts += 1;
 
         if (attempts < 20) {
-          timer = window.setTimeout(
-            scrollToExercise,
-            100,
-          );
+          timer = window.setTimeout(scrollToExercise, 100);
         }
 
         return;
       }
 
-      const elementTop =
-        element.getBoundingClientRect().top +
-        window.scrollY;
+      const startY = window.scrollY;
+      const targetY = Math.max(
+        0,
+        element.getBoundingClientRect().top + window.scrollY - 100,
+      );
 
-      const offset = 100;
+      const distance = targetY - startY;
+      const duration = 1000;
+      const startTime = performance.now();
 
-      window.scrollTo({
-        top: Math.max(0, elementTop - offset),
-        behavior: "smooth",
-      });
+      const animateScroll = (currentTime: number) => {
+        const progress = Math.min(
+          (currentTime - startTime) / duration,
+          1,
+        );
+
+        const easedProgress =
+          progress * progress * (3 - 2 * progress);
+
+        window.scrollTo(0, startY + distance * easedProgress);
+
+        if (progress < 1) {
+          animationFrame =
+            window.requestAnimationFrame(animateScroll);
+        }
+      };
+
+      animationFrame =
+        window.requestAnimationFrame(animateScroll);
     };
 
-    timer = window.setTimeout(
-      scrollToExercise,
-      100,
-    );
+    timer = window.setTimeout(scrollToExercise, 200);
 
     return () => {
-      if (timer) {
+      if (timer !== undefined) {
         window.clearTimeout(timer);
+      }
+
+      if (animationFrame !== undefined) {
+        window.cancelAnimationFrame(animationFrame);
       }
     };
   }, [started]);
@@ -68,127 +96,61 @@ export default function ConjugationSection() {
   return (
     <ExerciseContainer exerciseId="exercise-3">
       {({ onComplete }) => (
-        <div
-          id="exercise-3-instruction"
-          className="scroll-mt-10"
-        >
-          <ExerciseSection>
-            <InstructionBlock
-              level="beginner"
-              stampLabel="EXERCICE 3"
-              typeLabel="PHONIE / GRAPHIE"
+        <div className="w-full min-w-0">
+          {/* ÉNONCÉ */}
+          <div
+            id="exercise-3-instruction"
+            className="scroll-mt-10"
+          >
+            <ListenAndType
+              imageSrc="/images/LISTENANDTYPE-PHONIEGRAPHIE.png"
+              imageAlt="Souris écoutant un dialogue et écrivant ses réponses"
+              category="PHONIE / GRAPHIE"
               title="Conjugaison"
-              subtitle='Réécoute une dernière fois le dialogue et complète les phrases avec les bonnes formes des verbes "être" et "avoir" au présent de l’indicatif.'
-              activityType="listen-type"
-              audioImage="/images/courses/audioBlock/beginner/am.png"
-              audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
-              audioBadge="Dialogue"
-              description={
-                <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-                  <p className="font-semibold text-slate-800">
-                    Consigne :
-                  </p>
-
-                  <p>
-                    Écris tes réponses à l’aide du clavier
-                    de ton ordinateur ou de ton téléphone.
-                  </p>
-
-                  <p>
-                    Si tu as du mal à trouver certaines
-                    voyelles accentuées (exemple : « ê »),
-                    copie / colle la voyelle requise à
-                    partir de la liste ci-dessous :
-                  </p>
-
-                  {/* ================================================= */}
-                  {/* VOYELLES ACCENTUÉES */}
-                  {/* ================================================= */}
-
-                  <div
-                    className="
-                      w-full
-                      overflow-hidden
-                      rounded-xl
-                      border
-                      border-slate-200
-                      bg-white/80
-                      px-3
-                      py-3
-                      sm:px-4
-                      sm:py-3
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        w-full
-                        flex-wrap
-                        items-center
-                        justify-center
-                        gap-2
-                        sm:justify-start
-                        sm:gap-3
-                      "
-                    >
-                      {[
-                        "à",
-                        "â",
-                        "ä",
-                        "é",
-                        "è",
-                        "ê",
-                        "ë",
-                        "î",
-                        "ï",
-                        "ô",
-                        "ö",
-                        "ù",
-                        "û",
-                        "ü",
-                      ].map((character) => (
-                        <span
-                          key={character}
-                          className="
-                            flex
-                            h-9
-                            min-w-9
-                            items-center
-                            justify-center
-                            rounded-lg
-                            bg-slate-50
-                            px-2
-                            font-semibold
-                            tracking-wide
-                            text-slate-800
-                            ring-1
-                            ring-slate-200
-                          "
-                        >
-                          {character}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              }
-              onStart={() => {
-                setStarted(true);
-              }}
+              description='Réécoute une dernière fois le dialogue et complète les phrases avec les bonnes formes des verbes "être" et "avoir" au présent de l’indicatif.'
+              example="Écris tes réponses à l’aide du clavier de ton ordinateur ou de ton téléphone."
+              steps={[
+                {
+                  title: "Écoute",
+                  description:
+                    "Réécoute le dialogue pour retrouver les formes des verbes.",
+                  icon: "sound",
+                },
+                {
+                  title: "Écris",
+                  description:
+                    "Saisis les bonnes formes de être et avoir en respectant les accents.",
+                  icon: "keyboard",
+                },
+              ]}
+              onStart={() => setStarted(true)}
               started={started}
             />
+          </div>
 
-            {started && (
-              <div
-                id="exercise-3-content"
-                className="scroll-mt-10"
-              >
-                <ConjugationExercise
-                  onComplete={onComplete}
-                />
-              </div>
-            )}
-          </ExerciseSection>
+          {/* TRANSITION VERS L'EXERCICE */}
+          {started && <ExerciseTransition number={3} />}
+
+          {/* EXERCICE DE CONJUGAISON */}
+          {started && (
+            <div
+              id="exercise-3-content"
+              className="w-full min-w-0 scroll-mt-10"
+            >
+              <ConjugationExercise onComplete={onComplete} />
+            </div>
+          )}
+
+          {/* LECTEUR AUDIO FLOTTANT */}
+          {started && (
+            <FloatingAudioPlayer
+              audioSrc="/audios/courses/beginner/activity2/audio-matrimoniale.mp3"
+              imageSrc="/images/courses/audioBlock/beginner/am.png"
+              imageAlt="Illustration du dialogue à écouter"
+              title="Dialogue"
+              hint="Réécoute le dialogue pour retrouver les formes des verbes."
+            />
+          )}
         </div>
       )}
     </ExerciseContainer>
