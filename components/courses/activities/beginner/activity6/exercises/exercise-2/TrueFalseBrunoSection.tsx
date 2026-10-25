@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import ExerciseContainer from "@/components/activity/ExerciseContainer";
 import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
+import ListenAndSpeak from "@/components/courses/layout/ListenAndClick";
 
 import TrueFalseBrunoExercise from "./TrueFalseBrunoExercise";
 
@@ -30,7 +30,8 @@ export default function TrueFalseBrunoSection() {
         return;
       }
 
-      const elementTop = element.getBoundingClientRect().top + window.scrollY;
+      const elementTop =
+        element.getBoundingClientRect().top + window.scrollY;
 
       const offset = 100;
 
@@ -43,7 +44,7 @@ export default function TrueFalseBrunoSection() {
     timer = window.setTimeout(scrollToExercise, 100);
 
     return () => {
-      if (timer) {
+      if (timer !== undefined) {
         window.clearTimeout(timer);
       }
     };
@@ -52,52 +53,38 @@ export default function TrueFalseBrunoSection() {
   return (
     <ExerciseContainer exerciseId="exercise-2">
       {({ onComplete }) => (
-        <div id="exercise-2-instruction" className="scroll-mt-10">
-          <ExerciseSection>
-            <InstructionBlock
-              level="beginner"
-              stampLabel="EXERCICE 2"
-              typeLabel="COMPRÉHENSION ORALE"
-              title="VRAI OU FAUX ?"
-              subtitle="Écoute une nouvelle fois le dialogue et dis si les phrases proposées sont vraies ou fausses."
-              activityType="listen-click"
-              audioSrc="/audios/courses/beginner/bruno-galopin/bruno-galopin.mp3"
-              audioBadge="Bruno Galopin"
-              audioImage="/images/courses/audioBlock/beginner/bruno-galopin.jpg"
-              description={
-                <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-                  <p className="font-semibold text-slate-800">Consigne :</p>
+        <div className="w-full min-w-0">
+          {/* ÉNONCÉ */}
+          <div
+            id="exercise-2-instruction"
+            className="w-full min-w-0 scroll-mt-10"
+          >
+            <ExerciseSection width="full">
+              <ListenAndSpeak
+                exerciseNumber={2}
+                category="COMPRÉHENSION ORALE"
+                title="VRAI OU FAUX ?"
+                description="Écoute une nouvelle fois le dialogue de Bruno Galopin, puis indique si les phrases proposées sont vraies ou fausses."
+                example="Pour chaque phrase, sélectionne VRAI ou FAUX, puis valide tes réponses."
+                activityTitle="EXERCICE 2"
+                audioSrc="/audios/courses/beginner/bruno-galopin/bruno-galopin.mp3"
+                audioTitle="Bruno Galopin"
+                audioHint="Réécoute le dialogue pour vérifier les informations."
+                onStart={() => setStarted(true)}
+                started={started}
+              />
+            </ExerciseSection>
+          </div>
 
-                  <div
-                    className="
-                      rounded-2xl
-                      border
-                      border-amber-200
-                      bg-amber-50
-                      px-4
-                      py-3
-                      font-semibold
-                      text-slate-800
-                    "
-                  >
-                    Pour chaque phrase, sélectionne{" "}
-                    <span className="text-amber-700">VRAI</span> ou{" "}
-                    <span className="text-amber-700">FAUX</span>.
-                  </div>
-                </div>
-              }
-              onStart={() => {
-                setStarted(true);
-              }}
-              started={started}
-            />
-
-            {started && (
-              <div id="exercise-2-content" className="scroll-mt-10">
-                <TrueFalseBrunoExercise onComplete={onComplete} />
-              </div>
-            )}
-          </ExerciseSection>
+          {/* EXERCICE — SÉPARÉ DE L'ÉNONCÉ */}
+          {started && (
+            <div
+              id="exercise-2-content"
+              className="mt-8 w-full min-w-0 scroll-mt-10"
+            >
+              <TrueFalseBrunoExercise onComplete={onComplete} />
+            </div>
+          )}
         </div>
       )}
     </ExerciseContainer>

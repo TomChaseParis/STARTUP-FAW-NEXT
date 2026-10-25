@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -28,11 +29,7 @@ export type ExerciseInstructionProps = {
   onStart?: () => void;
   started?: boolean;
   children?: ReactNode;
-
-  /** Contenu affiché dans la consigne, avant le démarrage de l'exercice. */
   beforeStartContent?: ReactNode;
-
-  /** Titre de l'activité parente, affiché dans le cadre de la consigne. */
   activityTitle?: string;
 };
 
@@ -65,14 +62,7 @@ function MicIcon({ size = 24 }: { size?: number }) {
       fill="none"
       aria-hidden="true"
     >
-      <rect
-        x="9"
-        y="3"
-        width="6"
-        height="12"
-        rx="3"
-        fill="currentColor"
-      />
+      <rect x="9" y="3" width="6" height="12" rx="3" fill="currentColor" />
       <path
         d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3m-4 0h8"
         stroke="currentColor"
@@ -128,6 +118,26 @@ function InstructionIcon({
   }
 }
 
+function IdeaIcon({ size = 21 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M9 18h6M10 21h4M8.5 14.5a6 6 0 1 1 7 0c-.8.6-1.2 1.4-1.3 2.5h-4.4c-.1-1.1-.5-1.9-1.3-2.5Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function ExerciseInstruction({
   imageSrc,
   imageAlt,
@@ -148,20 +158,21 @@ export default function ExerciseInstruction({
       <div className="container">
         <section
           aria-labelledby="exercise-instruction-title"
-          className="relative isolate mx-auto grid min-h-0 w-full min-w-0 grid-cols-1 items-start gap-6 overflow-hidden rounded-[28px] border border-[#f3d982] bg-[linear-gradient(135deg,#fffdf7_0%,#fff9e9_48%,#fff3cf_100%)] p-4 shadow-[0_16px_45px_rgba(15,23,42,0.07)] sm:gap-6 sm:p-6 lg:grid-cols-2 lg:gap-8 lg:p-8"
+          className="relative isolate mx-auto grid min-h-0 w-full min-w-0 grid-cols-1 items-start gap-6 overflow-hidden rounded-[28px] border border-[#f5e7bd] bg-[linear-gradient(135deg,#fffefa_0%,#fffdf6_55%,#fff9e9_100%)] p-4 shadow-[0_8px_28px_rgba(15,23,42,0.045)] sm:gap-6 sm:p-6 lg:grid-cols-2 lg:gap-8 lg:p-8"
         >
           {/* Décorations du fond */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -left-[110px] -top-[180px] -z-10 h-[440px] w-[58%] rotate-[-7deg] rounded-b-[55%_45%] bg-[linear-gradient(135deg,rgba(255,221,116,0.24),rgba(255,244,208,0.04))]"
+            className="pointer-events-none absolute -left-[110px] -top-[180px] -z-10 h-[440px] w-[58%] rotate-[-7deg] rounded-b-[55%_45%] bg-[linear-gradient(135deg,rgba(255,255,255,0.75),rgba(255,253,246,0.35))]"
           />
+
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -bottom-[210px] -right-[100px] -z-10 h-[400px] w-[55%] rounded-full bg-[radial-gradient(ellipse,rgba(255,211,89,0.13),rgba(255,247,221,0))]"
           />
 
-          {/* Illustration */}
-          <div className="flex min-w-0 items-start justify-center">
+          {/* Illustration et étapes pédagogiques */}
+          <div className="relative flex min-w-0 flex-col items-center gap-5 self-start lg:row-span-2">
             <Image
               src={imageSrc}
               alt={imageAlt}
@@ -170,22 +181,40 @@ export default function ExerciseInstruction({
               priority
               className="block h-auto w-full max-w-[640px] object-contain"
             />
+
+            {/* Étapes alignées en deux colonnes sous l'image */}
+            <div className="mt-2 grid w-full grid-cols-2 items-stretch gap-2 min-[761px]:gap-3 max-[380px]:grid-cols-1">
+              {steps.map((step, index) => (
+                <article
+                  key={`${step.title}-${index}`}
+                  className="flex min-w-0 flex-col rounded-[14px] border border-[#172a4110] bg-white px-2.5 py-3 shadow-[0_3px_10px_#1a2c400a] min-[761px]:px-3 min-[761px]:py-3"
+                >
+                  {/* Icône, numéro et titre alignés */}
+                  <div className="mb-2 flex min-w-0 items-center gap-1.5 min-[761px]:gap-2">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#ffedbd] text-[#e99100] min-[761px]:h-9 min-[761px]:w-9">
+                      <InstructionIcon type={step.icon} size={18} />
+                    </div>
+
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[#ffb51c] text-[10px] font-bold text-[#ef9900]">
+                      {index + 1}
+                    </span>
+
+                    <h3 className="m-0 min-w-0 font-serif text-sm font-semibold leading-tight text-[#09264a] min-[761px]:text-base">
+                      {step.title}
+                    </h3>
+                  </div>
+
+                  {/* Description sous la ligne de titre */}
+                  <p className="m-0 text-[11px] leading-[1.45] text-[#183352] min-[761px]:text-xs">
+                    {step.description}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
 
           {/* Instructions */}
-          <div className="min-w-0 px-1 py-5 sm:px-2 sm:py-6 lg:py-[34px] lg:pr-2">
-            {/* Titre de l'activité parente */}
-            {activityTitle && (
-              <div className="mb-5 rounded-xl border border-[#f3d982] bg-white/75 px-4 py-3">
-                <p className="m-0 text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#a66b00] sm:text-xs">
-                  Activité en cours
-                </p>
-                <p className="mb-0 mt-1 text-sm font-extrabold leading-snug text-[#09264a] sm:text-base">
-                  {activityTitle}
-                </p>
-              </div>
-            )}
-
+          <div className="min-w-0 px-1 py-5 sm:px-2 sm:py-6 lg:relative lg:py-[34px] lg:pr-2 lg:before:absolute lg:before:bottom-0 lg:before:left-[-17px] lg:before:top-0 lg:before:w-px lg:before:bg-[#f3d982]/70">
             <div className="mb-[22px] flex items-center gap-3 text-[11px] font-extrabold tracking-[0.22em] text-[#748198] sm:gap-[17px] sm:text-[13px]">
               <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#fff0c9] text-[#ef9900] sm:h-[58px] sm:w-[58px]" />
               <span>{category}</span>
@@ -209,12 +238,30 @@ export default function ExerciseInstruction({
               <span className="shrink-0 whitespace-nowrap rounded-[30px] bg-[#ffe9b5] px-4 py-[9px] text-base sm:px-[17px]">
                 Exemple
               </span>
+
               <span className="basis-full text-sm leading-[1.4] sm:basis-auto sm:text-[clamp(14px,1.1vw,18px)]">
                 {`« ${example} »`}
               </span>
             </div>
 
-      
+            {/* Encadré À découvrir */}
+            <div className="mb-5 flex items-start gap-3 rounded-2xl border border-[#f3d982]/70 bg-white/70 p-4">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#fff0c9] text-[#e99100]">
+                <IdeaIcon size={21} />
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <h3 className="mb-1 mt-0 font-serif text-base font-semibold text-[#09264a]">
+                  À découvrir
+                </h3>
+
+                <p className="m-0 text-sm leading-relaxed text-[#183352]">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Vivamus posuere, neque at facilisis tincidunt, nunc sapien
+                  consequat erat, vitae tincidunt lorem justo vel nisl.
+                </p>
+              </div>
+            </div>
 
             {/* Point d'attention */}
             {pointAttention && (
@@ -250,34 +297,8 @@ export default function ExerciseInstruction({
               </aside>
             )}
 
-            {/* Étapes */}
-            <div className="grid grid-cols-2 gap-[10px] min-[761px]:gap-[22px] max-[380px]:grid-cols-1">
-              {steps.map((step, index) => (
-                <article
-                  key={`${step.title}-${index}`}
-                  className="relative min-h-[190px] min-w-0 rounded-[19px] border border-[#172a4110] bg-white px-[11px] py-[13px] shadow-[0_3px_12px_#1a2c4010] min-[761px]:min-h-[215px] min-[761px]:px-5 min-[761px]:pb-[19px] min-[761px]:pt-[18px] max-[380px]:min-h-0"
-                >
-                  <div className="mb-[10px] grid h-12 w-12 place-items-center rounded-full bg-[#ffedbd] text-[#e99100] min-[761px]:h-[67px] min-[761px]:w-[67px]">
-                    <InstructionIcon type={step.icon} size={28} />
-                  </div>
-
-                  <span className="absolute left-[67px] top-[21px] grid h-[30px] w-[30px] place-items-center rounded-full border-[1.5px] border-[#ffb51c] text-[17px] font-bold text-[#ef9900] min-[761px]:left-[100px] min-[761px]:top-[28px] min-[761px]:h-10 min-[761px]:w-10 min-[761px]:text-[23px]">
-                    {index + 1}
-                  </span>
-
-                  <h3 className="mb-[7px] mt-0 font-serif text-xl leading-[1.2] text-[#09264a] min-[761px]:text-[25px]">
-                    {step.title}
-                  </h3>
-
-                  <p className="m-0 text-[13px] leading-[1.55] text-[#183352] min-[761px]:text-[clamp(14px,1.15vw,18px)]">
-                    {step.description}
-                  </p>
-                </article>
-              ))}
-            </div>
-
-                  {/* Contenu complémentaire : lecteur audio, par exemple */}
-                  {beforeStartContent && (
+            {/* Contenu complémentaire avant le démarrage */}
+            {beforeStartContent && (
               <div className="mb-5 w-full min-w-0">
                 {beforeStartContent}
               </div>
@@ -285,23 +306,25 @@ export default function ExerciseInstruction({
 
             {/* Bouton de démarrage */}
             {!started && (
-              <>
-                <div className="mx-2 mb-[17px] mt-[23px] flex items-center gap-[9px] text-[#748198] sm:mt-[27px] sm:gap-5">
+              <div className="mt-6 flex w-full flex-col items-center min-[761px]:mt-[90px]">
+                <div className="mb-[17px] flex w-full max-w-[360px] items-center gap-3 text-[#748198]">
                   <span className="h-px flex-1 bg-[#cfd4dc]" />
-                  <p className="m-0 whitespace-nowrap text-[9px] font-extrabold tracking-[0.12em] sm:text-xs sm:tracking-[0.19em]">
+
+                  <p className="m-0 whitespace-nowrap text-[9px] font-extrabold tracking-[0.12em] sm:text-xs sm:tracking-[0.15em]">
                     PRÊT À COMMENCER ?
                   </p>
+
                   <span className="h-px flex-1 bg-[#cfd4dc]" />
                 </div>
 
                 <button
                   type="button"
                   onClick={onStart}
-                  className="mx-auto flex cursor-pointer items-center justify-center rounded-xl border-0 bg-[#E09F00] px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-[#C98D00] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C98D00]"
+                  className="flex cursor-pointer items-center justify-center rounded-xl border-0 bg-[#E09F00] px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-[#C98D00] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C98D00]"
                 >
                   Commencer l&apos;exercice
                 </button>
-              </>
+              </div>
             )}
           </div>
 

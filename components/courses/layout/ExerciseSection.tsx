@@ -1,4 +1,6 @@
-import { ReactNode } from "react";
+"use client";
+
+import type { ReactNode } from "react";
 
 export type ExerciseWidth =
   | "narrow"
@@ -15,10 +17,7 @@ export default function ExerciseSection({
   children,
   width = "normal",
 }: ExerciseSectionProps) {
-  const widthMap: Record<
-    ExerciseWidth,
-    string
-  > = {
+  const widthMap: Record<ExerciseWidth, string> = {
     narrow: "max-w-3xl",
     normal: "max-w-5xl",
     wide: "max-w-[1280px]",
@@ -26,14 +25,15 @@ export default function ExerciseSection({
   };
 
   return (
-    <section className="border-t border-neutral-200 pt-20">
+    <section className="w-full min-w-0 pt-0">
       <div
         className={`
           mx-auto
           w-full
+          min-w-0
           ${widthMap[width]}
           space-y-12
-          px-6
+          px-0
         `}
       >
         {children}
