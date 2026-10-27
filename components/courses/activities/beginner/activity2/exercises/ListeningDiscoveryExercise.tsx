@@ -1,3 +1,4 @@
+
 "use client";
 
 import QuizEngine from "@/components/courses/engines/QuizEngine";
@@ -17,15 +18,14 @@ export default function ListeningDiscoveryExercise({
 }: ListeningDiscoveryExerciseProps) {
   return (
     <QuizEngine
-      questions={
-        listeningDiscoveryQuizData
-      }
+      teacherLevel="beginner"
+      questions={listeningDiscoveryQuizData}
       speechEngine="openai"
       teacherFeedbackImages={{
         correct:
           "/images/bulles-QCM/beginner/marie-blue/correct.png",
         wrong:
-        "/images/bulles-QCM/beginner/marie-blue/wrong.png",
+          "/images/bulles-QCM/beginner/marie-blue/wrong.png",
       }}
       onComplete={onComplete}
     />

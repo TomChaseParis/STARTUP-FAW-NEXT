@@ -69,7 +69,7 @@ export const quizData: Question[] = [
     ],
   },
 
-  {
+ /*  {
     id: 2,
     question: "En France, quel jour commence l'été ?",
     image:
@@ -705,5 +705,5 @@ export const quizData: Question[] = [
         explanationWrong: "",
       },
     ],
-  },
+  }, */
 ];

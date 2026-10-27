@@ -3,10 +3,22 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
+export type TeacherLevel =
+  | "beginner"
+  | "elementary-1"
+  | "elementary-2";
+
+export const TEACHER_IMAGES: Record<TeacherLevel, string> = {
+  beginner: "/images/MARIETESTBULLE.PNG",
+  "elementary-1": "/images/jean-instruction.png",
+  "elementary-2": "/images/teacher-elementary-2.png",
+};
+
 type TeacherComicBubbleProps = {
   message?: string;
   imageSrc?: string;
   imageAlt?: string;
+  level?: TeacherLevel;
   className?: string;
   showPhoto?: boolean;
   showBubble?: boolean;
@@ -14,13 +26,26 @@ type TeacherComicBubbleProps = {
 
 export default function TeacherComicBubble({
   message = "Clique ici pour écouter la conjugaison",
-  imageSrc = "/images/MARIETESTBULLE.PNG",
-  imageAlt = "Marie, ta professeure de français",
+  imageSrc,
+  imageAlt,
+  level = "beginner",
   className = "",
   showPhoto = true,
   showBubble = true,
 }: TeacherComicBubbleProps) {
   const [displayedMessage, setDisplayedMessage] = useState("");
+
+  // L'image personnalisée est prioritaire.
+  // Sinon, on sélectionne automatiquement le professeur du niveau.
+  const resolvedImageSrc = imageSrc ?? TEACHER_IMAGES[level];
+
+  const resolvedImageAlt =
+    imageAlt ??
+    (level === "elementary-1"
+      ? "Jean, professeur de français"
+      : level === "elementary-2"
+        ? "Professeur de français du niveau Élémentaire 2"
+        : "Marie, professeure de français");
 
   useEffect(() => {
     if (!showBubble) {
@@ -29,6 +54,7 @@ export default function TeacherComicBubble({
     }
 
     let index = 0;
+
     setDisplayedMessage("");
 
     const interval = window.setInterval(() => {
@@ -47,22 +73,22 @@ export default function TeacherComicBubble({
     <div
       className={`relative flex min-h-28 w-full min-w-0 items-end gap-2 sm:min-h-32 ${className}`}
     >
-      {/* EMPLACEMENT RÉSERVÉ POUR MARIE */}
+      {/* PHOTO DU PROFESSEUR */}
       <div className="relative h-24 w-20 shrink-0 sm:h-28 sm:w-24">
         {showPhoto && (
           <div className="absolute inset-0 animate-[teacherAppear_1800ms_ease-out_both]">
             <Image
-              src={imageSrc}
-              alt={imageAlt}
+              src={resolvedImageSrc}
+              alt={resolvedImageAlt}
               fill
-              sizes="96px"
+              sizes="(max-width: 640px) 80px, 96px"
               className="object-contain object-bottom"
             />
           </div>
         )}
       </div>
 
-      {/* EMPLACEMENT RÉSERVÉ POUR LA BULLE */}
+      {/* BULLE DE DIALOGUE */}
       <div className="relative mb-5 h-[76px] min-w-0 flex-1 sm:h-[88px]">
         {showBubble && (
           <div className="absolute inset-x-0 top-0 animate-[bubbleAppear_1450ms_ease-out_both]">

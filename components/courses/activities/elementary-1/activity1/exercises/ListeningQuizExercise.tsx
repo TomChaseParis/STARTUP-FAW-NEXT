@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useMemo } from "react";
@@ -74,35 +75,25 @@ export default function ListeningQuizExercise({
       <ActivityResults
         result={{
           session: result,
-
           bestScore,
-
           attempts,
         }}
-
         teacher="elementary-1"
-
         teacherFeedbackImages={{
           bad:
             "/images/courses/teacher/bulles/bad.png",
-
           middle:
             "/images/courses/teacher/bulles/middle.png",
-
           good:
             "/images/courses/teacher/bulles/good.png",
         }}
-
         teacherFeedbackAudios={
           TEACHER_FEEDBACK_AUDIOS
         }
-
         onRestart={() => {
           resetQuiz();
-
           refresh();
         }}
-
         onNext={() => {
           onCompleted?.(result);
         }}
@@ -114,35 +105,23 @@ export default function ListeningQuizExercise({
     <section className="w-full">
       <QuizEngine
         questions={questions}
-
+        teacherLevel="elementary-1"
         speechEngine="openai"
-
         teacherFeedbackImages={{
           correct:
             "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
-
           wrong:
-          "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
+            "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
         }}
-
         progressConfig={{
           progress,
-
-          activityId:
-            ACTIVITY_ID,
-
-          exerciseId:
-            EXERCISE_ID,
-
-          onScoreSubmitted:
-            () => {
-              refresh();
-            },
+          activityId: ACTIVITY_ID,
+          exerciseId: EXERCISE_ID,
+          onScoreSubmitted: () => {
+            refresh();
+          },
         }}
-
-        resultRenderer={
-          renderResult
-        }
+        resultRenderer={renderResult}
       />
     </section>
   );

@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -28,8 +29,17 @@ type TeacherFeedbackImages = {
   wrong: string;
 };
 
+export const TEACHER_BUBBLE_IMAGES = {
+  beginner: "/images/MARIETESTBULLE.PNG",
+  "elementary-1": "/images/jean-instruction.png",
+  "elementary-2": "/images/teacher-elementary-2.png",
+} as const;
+
+export type TeacherLevel = keyof typeof TEACHER_BUBBLE_IMAGES;
+
 type Props = {
   questions: Question[];
+  teacherLevel: TeacherLevel;
   mode?: "training" | "exam";
   progressConfig?: QuizProgressConfig;
   onComplete?: (result: ExerciseSessionResult) => void;
@@ -41,13 +51,14 @@ type Props = {
   onLastQuestion?: () => void;
   lastQuestionLabel?: string;
   teacherFeedbackImages?: TeacherFeedbackImages;
+  teacherBubbleImage?: string;
 };
 
-// Délai avant l'apparition de la TeacherComicBubble, en millisecondes.
 const SPEECH_PROMPT_DELAY = 1000;
 
 const QuizEngine: React.FC<Props> = ({
   questions,
+  teacherLevel,
   progressConfig,
   onComplete,
   resultRenderer,
@@ -55,6 +66,7 @@ const QuizEngine: React.FC<Props> = ({
   onLastQuestion,
   lastQuestionLabel,
   teacherFeedbackImages,
+  teacherBubbleImage,
 }) => {
   const {
     currentIndex,
@@ -72,10 +84,7 @@ const QuizEngine: React.FC<Props> = ({
   const [audioQuestionStarted, setAudioQuestionStarted] = useState(false);
   const [audioQuestionFinished, setAudioQuestionFinished] = useState(false);
 
-  // Verrou global : une seule apparition pendant la session du QCM.
   const speechPromptClaimedRef = useRef(false);
-
-  // Contrôle la visibilité de la bulle.
   const [speechPromptVisible, setSpeechPromptVisible] = useState(false);
 
   const wasTalkingRef = useRef(false);
@@ -98,29 +107,24 @@ const QuizEngine: React.FC<Props> = ({
     isListening,
     startListening,
     stopListening,
+    handleAnswer,
   } = teacher;
 
-  const { handleAnswer } = teacher;
-
-  // Réinitialiser le suivi audio au changement de question,
-  // sans réinitialiser le verrou de la bulle.
+  // Réinitialise les états au passage à la question suivante.
   useEffect(() => {
     if (previousQuestionRef.current === currentIndex) return;
-
-    const isQuestionChange = previousQuestionRef.current !== null;
 
     previousQuestionRef.current = currentIndex;
 
     setAudioQuestionStarted(false);
     setAudioQuestionFinished(false);
-    wasTalkingRef.current = false;
+    setSpeechPromptVisible(false);
 
-    if (isQuestionChange) {
-      setSpeechPromptVisible(false);
-    }
+    speechPromptClaimedRef.current = false;
+    wasTalkingRef.current = false;
   }, [currentIndex]);
 
-  // Détecter la fin effective de la lecture audio.
+  // Détecte la fin effective de la lecture audio.
   useEffect(() => {
     if (isTalking) {
       wasTalkingRef.current = true;
@@ -133,8 +137,7 @@ const QuizEngine: React.FC<Props> = ({
     }
   }, [isTalking, audioQuestionStarted]);
 
-  // Afficher la TeacherComicBubble une seule fois,
-  // une seconde après la fin de la lecture audio.
+  // Affiche la consigne du micro après la fin de l'audio.
   useEffect(() => {
     if (!audioQuestionFinished || !currentQuestion) return;
     if (speechPromptClaimedRef.current) return;
@@ -153,9 +156,7 @@ const QuizEngine: React.FC<Props> = ({
       setSpeechPromptVisible(true);
     }, SPEECH_PROMPT_DELAY);
 
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
+    return () => window.clearTimeout(timeoutId);
   }, [
     audioQuestionFinished,
     currentQuestion,
@@ -202,7 +203,13 @@ const QuizEngine: React.FC<Props> = ({
   const question = currentQuestion.question;
   const choices = currentQuestion.choices;
   const image = currentQuestion.image;
-  const teacherImage = currentQuestion.teacherImage;
+
+  const resolvedTeacherBubbleImage =
+    teacherBubbleImage ?? TEACHER_BUBBLE_IMAGES[teacherLevel];
+
+  const teacherImage =
+    currentQuestion.teacherImage ?? resolvedTeacherBubbleImage;
+
   const teacherAudioQuestion = currentQuestion.teacherAudioQuestion;
 
   const isMultipleChoice = currentQuestion.type === "multiple-choice";
@@ -231,6 +238,9 @@ const QuizEngine: React.FC<Props> = ({
   const playQuestionAudio = () => {
     setAudioQuestionStarted(true);
     setAudioQuestionFinished(false);
+    setSpeechPromptVisible(false);
+
+    speechPromptClaimedRef.current = false;
     wasTalkingRef.current = false;
 
     playQuestion(teacherAudioQuestion);
@@ -245,7 +255,6 @@ const QuizEngine: React.FC<Props> = ({
     startListening();
   };
 
-  // Masquer la bulle au clic sur le micro, sans rouvrir le verrou.
   const handleSpeechPromptUsed = () => {
     setSpeechPromptVisible(false);
   };
@@ -274,6 +283,9 @@ const QuizEngine: React.FC<Props> = ({
           total={totalQuestions}
           onPlay={playQuestionAudio}
           disabled={isTalking}
+          teacherLevel={teacherLevel}
+          teacherBubbleImage={resolvedTeacherBubbleImage}
+          showBubble={!audioQuestionStarted}
         />
       }
       content={
@@ -286,6 +298,8 @@ const QuizEngine: React.FC<Props> = ({
           onSelect={selectChoice}
           image={image}
           teacherImage={teacherImage}
+          teacherBubbleImage={resolvedTeacherBubbleImage}
+          teacherLevel={teacherLevel}
           teacherTalking={isTalking}
           isListening={isListening}
           onSpeech={handleSpeechButton}

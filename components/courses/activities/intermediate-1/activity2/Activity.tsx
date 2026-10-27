@@ -61,7 +61,7 @@ export default function Activity() {
           }
         />
 
-        <QuizEngine questions={questions} />
+        <QuizEngine teacherLevel="beginner" questions={questions} />
       </ExerciseSection>
     </ActivityLayout>
   );

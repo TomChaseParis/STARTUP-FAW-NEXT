@@ -1,6 +1,6 @@
 "use client";
 
-import type { TeacherQuestionExerciseData } from "../data/teacherQuestionData";
+import type { TeacherQuestionExerciseData } from "../../data/teacherQuestionData";
 
 type Props = {
   question: TeacherQuestionExerciseData;
@@ -36,7 +36,7 @@ export default function TeacherQuestionExerciseHero({
   ];
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_28px_rgba(15,23,42,0.06)]">
+    <div className="box-border w-full min-w-0 max-w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_28px_rgba(15,23,42,0.06)]">
       {/* BARRE DE PROGRESSION */}
       <div
         className="h-2 w-full bg-slate-100"
@@ -53,47 +53,34 @@ export default function TeacherQuestionExerciseHero({
       </div>
 
       {/* NUMÉRO DE QUESTION */}
-      <div className="px-4 pt-2 text-xs font-semibold text-slate-500">
+      <div className="box-border w-full min-w-0 px-4 pt-2 text-xs font-semibold text-slate-500 sm:px-6">
         Question {questionNumber} / {totalQuestions}
       </div>
 
-      <div className="grid min-h-[300px] grid-cols-1 md:grid-cols-2">
+      {/* CONTENU PRINCIPAL */}
+      <div className="grid min-h-[340px] w-full min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         {/* ILLUSTRATION À GAUCHE */}
-        <div className="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-white p-4 md:min-h-[300px]">
+        <div className="relative flex min-h-[240px] min-w-0 items-center justify-center overflow-hidden bg-white p-5 sm:p-7 md:min-h-[380px]">
           <img
             src={question.image}
             alt={`Illustration : ${question.category}`}
-            className="max-h-[280px] w-full object-contain"
+            className="block h-auto max-h-[320px] max-w-full object-contain md:max-h-[360px]"
           />
         </div>
 
         {/* CONSTRUCTION DE LA QUESTION À DROITE */}
-        <div className="flex flex-col bg-slate-50 px-4 pb-6 pt-3 text-center sm:px-7 sm:pb-7">
-          {/* MOTS INTERROGATIFS EN HAUT */}
-          <div className="w-full">
-            <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-500 sm:text-xs">
+        <div className="box-border flex min-w-0 flex-col overflow-hidden bg-slate-50 px-4 pb-7 pt-5 text-center sm:px-7 sm:pb-8 md:px-8 md:py-7">
+          {/* MOTS INTERROGATIFS */}
+          <div className="w-full min-w-0">
+            <p className="mb-4 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-500 sm:text-xs">
               Les mots pour poser une question
             </p>
 
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="flex w-full min-w-0 flex-wrap justify-center gap-2">
               {questionWords.map((word) => (
                 <span
                   key={word}
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    rounded-full
-                    border
-                    border-amber-200
-                    bg-amber-50
-                    px-3
-                    py-1.5
-                    text-xs
-                    font-bold
-                    text-amber-800
-                    sm:text-sm
-                  "
+                  className="inline-flex max-w-full items-center justify-center rounded-full border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-800 sm:text-sm"
                 >
                   {word}
                 </span>
@@ -101,38 +88,24 @@ export default function TeacherQuestionExerciseHero({
             </div>
           </div>
 
-          {/* QUESTION À COMPLÉTER : PLUS CENTRÉE */}
-          <div className="flex flex-1 flex-col items-center justify-center pt-6">
-            <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 text-xl font-black leading-relaxed text-slate-900 sm:text-2xl">
+          {/* QUESTION À COMPLÉTER */}
+          <div className="flex min-w-0 flex-1 flex-col items-center justify-center pt-8">
+            <div className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-3 text-xl font-black leading-relaxed text-slate-900 sm:text-2xl md:text-3xl">
               <span
                 aria-label="Mot interrogatif à trouver"
-                className="
-                  inline-flex
-                  min-w-12
-                  items-center
-                  justify-center
-                  rounded-xl
-                  border-2
-                  border-dashed
-                  border-amber-400
-                  bg-white
-                  px-3
-                  py-1.5
-                  text-amber-600
-                  shadow-sm
-                "
+                className="inline-flex min-h-12 min-w-12 shrink-0 items-center justify-center rounded-xl border-2 border-dashed border-amber-400 bg-white px-4 py-2 text-amber-600 shadow-sm"
               >
                 ?
               </span>
 
-              <span>
+              <span className="min-w-0 max-w-full [overflow-wrap:anywhere]">
                 {questionPrefix}
                 {questionSuffix}
               </span>
             </div>
 
             {/* CONSIGNE ORALE */}
-            <p className="mt-5 max-w-sm text-xs leading-5 text-slate-500 sm:text-sm">
+            <p className="mt-6 w-full min-w-0 max-w-md text-xs leading-6 text-slate-500 sm:text-sm">
               Prononce la question complète pour que Jean puisse te répondre.
             </p>
           </div>

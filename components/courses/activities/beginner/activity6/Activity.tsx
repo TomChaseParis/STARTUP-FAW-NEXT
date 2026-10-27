@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -18,7 +19,6 @@ import { activity6 } from "@/data/courses/activities/beginner/activity6";
 import FillGapsReport from "@/components/courses/common/result/FillGapsReport";
 
 import { brunoGalopinData } from "./data/brunoGalopinData";
-
 import { thirdPersonBrunoData } from "./data/thirdPersonBrunoData";
 
 export default function Activity() {
@@ -27,11 +27,58 @@ export default function Activity() {
   const handleStart = () => {
     setStarted(true);
 
+    // Attend le rendu de l'activité avant de lancer le scroll.
     setTimeout(() => {
-      document.getElementById("exercise-1-instruction")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      const element = document.getElementById(
+        "exercise-1-instruction",
+      );
+
+      if (!element) return;
+
+      const startPosition = window.scrollY;
+
+      const targetPosition = Math.max(
+        0,
+        element.getBoundingClientRect().top +
+          window.scrollY -
+          24,
+      );
+
+      const distance = targetPosition - startPosition;
+      const duration = 1400;
+
+      let startTime: number | null = null;
+
+      const animateScroll = (currentTime: number) => {
+        if (startTime === null) {
+          startTime = currentTime;
+        }
+
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(
+          elapsed / duration,
+          1,
+        );
+
+        // Même courbe d'accélération/décélération
+        // que dans l'activité À l'Agence matrimoniale.
+        const easedProgress =
+          progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 -
+              Math.pow(-2 * progress + 2, 3) / 2;
+
+        window.scrollTo(
+          0,
+          startPosition + distance * easedProgress,
+        );
+
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        }
+      };
+
+      requestAnimationFrame(animateScroll);
     }, 400);
   };
 
@@ -111,11 +158,8 @@ export default function Activity() {
                 finishHref="/courses/beginner/modules/se-presenter"
                 detailedReportRenderer={(result, exerciseIndex) => {
                   /*
-                   * =================================================
                    * EXERCICE 1 — TEXTE À TROUS
-                   * =================================================
                    */
-
                   if (exerciseIndex === 0) {
                     return (
                       <FillGapsReport
@@ -126,32 +170,16 @@ export default function Activity() {
                   }
 
                   /*
-                   * =================================================
                    * EXERCICE 2 — VRAI / FAUX
-                   * =================================================
-                   *
                    * Pas de correction personnalisée.
-                   *
-                   * ActivityResults utilisera donc
-                   * automatiquement AnswerHistory.
                    */
-
                   if (exerciseIndex === 1) {
                     return null;
                   }
 
                   /*
-                   * =================================================
                    * EXERCICE 3 — RÉÉCRITURE
-                   * =================================================
-                   *
-                   * C'est également un FillGaps.
-                   *
-                   * On utilise donc exactement le même
-                   * système de correction que pour
-                   * l'exercice 1.
                    */
-
                   if (exerciseIndex === 2) {
                     return (
                       <FillGapsReport
@@ -160,12 +188,6 @@ export default function Activity() {
                       />
                     );
                   }
-
-                  /*
-                   * =================================================
-                   * SÉCURITÉ
-                   * =================================================
-                   */
 
                   return null;
                 }}

@@ -1,175 +1,96 @@
 import { FillGapsData } from "@/types/fillGapsTypes";
 
 export const frenchLeisureData: FillGapsData = {
-  activityType: "type",
-
   sentences: [
     {
       id: 1,
-      teacherImage:
-        "/images/courses/elementary/activities/activity2/bubble.png",
-
       parts: [
+        { type: "text", value: "Les loisirs des Français " },
+        { type: "input", answer: "sont" },
         {
           type: "text",
-          value: "Les loisirs préférés des Français. Les loisirs des Français ",
+          value: " très variés. Selon leur goût et leurs habitudes, ils ",
         },
-        { type: "input", answer: "sont", hint: "être" },
-        {
-          type: "text",
-          value:
-            " très variés. Selon leur goût et leurs habitudes, ils ",
-        },
-        { type: "input", answer: "pratiquent", hint: "pratiquer" },
+        { type: "input", answer: "pratiquent" },
         {
           type: "text",
           value:
-            " différentes activités pendant leur temps libre. À la maison, beaucoup de Français ",
+            " différentes activités pendant leur temps libre. À la maison ou dans les transports, beaucoup de Français ",
         },
-        { type: "input", answer: "écoutent", hint: "écouter" },
-        { type: "text", value: " de la musique, " },
-        { type: "input", answer: "regardent", hint: "regarder" },
-        { type: "text", value: " des films ou des séries, " },
-        { type: "input", answer: "lisent", hint: "lire" },
-        { type: "text", value: " des livres ou " },
-        { type: "input", answer: "jouent", hint: "jouer" },
+        { type: "input", answer: "écoutent" },
+        { type: "text", value: " de la musique. Les plus jeunes " },
+        { type: "input", answer: "préfèrent" },
+        {
+          type: "text",
+          value: " souvent le rap et l’électro pop, les plus vieux ",
+        },
+        { type: "input", answer: "écoutent" },
         {
           type: "text",
           value:
-            " aux jeux vidéo. Internet et les smartphones ",
+            " encore Serge Gainsbourg, France Gall ou Elvis Presley. Les smartphones ",
         },
-        { type: "input", answer: "occupent", hint: "occuper" },
+        { type: "input", answer: "occupent" },
         {
           type: "text",
           value:
-            " également une place importante dans leur vie quotidienne. Ils ",
+            " évidemment une place importante dans la vie quotidienne des Français. Les adolescents ",
         },
-        { type: "input", answer: "utilisent", hint: "utiliser" },
-        { type: "text", value: " des vidéos, " },
-        { type: "input", answer: "prennent", hint: "prendre" },
-        { type: "text", value: " des photos, " },
-        { type: "input", answer: "communiquent", hint: "communiquer" },
-        { type: "text", value: " avec leurs proches ou " },
-        { type: "input", answer: "découvrent", hint: "découvrir" },
+        { type: "input", answer: "regardent" },
+        { type: "text", value: " des vidéos ou " },
+        { type: "input", answer: "discutent" },
         {
           type: "text",
           value:
-            " de nouveaux contenus. Certaines personnes ",
+            " avec leurs amis, parfois jusque tard dans la nuit. Comme tout le monde, les Français ",
         },
-        { type: "input", answer: "préfèrent", hint: "préférer" },
+        { type: "input", answer: "adorent" },
         {
           type: "text",
           value:
-            " les activités créatives ou pratiques. Elles ",
+            " regarder des séries à la télévision ou sur leur tablette. Certaines activités ont traversé les âges : à la campagne, les gens ",
         },
-        { type: "input", answer: "cuisinent", hint: "cuisiner" },
-        { type: "text", value: ", " },
-        { type: "input", answer: "dessinent", hint: "dessiner" },
-        { type: "text", value: ", " },
-        { type: "input", answer: "jardinent", hint: "jardiner" },
-        { type: "text", value: " ou " },
-        { type: "input", answer: "s'occupent", hint: "s'occuper" },
+        { type: "input", answer: "continuent" },
         {
           type: "text",
           value:
-            " de leur voiture. D'autres ",
+            " à faire du jardinage et à boire l’apéritif les uns chez les autres. En général, les Français ",
         },
-        { type: "input", answer: "lisent", hint: "lire" },
+        { type: "input", answer: "aiment" },
         {
           type: "text",
           value:
-            " des romans, des magazines, des bandes dessinées ou des livres sur leurs sujets préférés. Quand ils ",
+            " bien cuisiner et s’inviter les uns chez les autres. Quand ils ",
         },
-        { type: "input", answer: "sortent", hint: "sortir" },
-        { type: "text", value: ", les Français " },
-        { type: "input", answer: "vont", hint: "aller" },
+        { type: "input", answer: "sont" },
+        { type: "text", value: " invités chez des amis, ils " },
+        { type: "input", answer: "apportent" },
+        { type: "text", value: " du vin qu’ils " },
+        { type: "input", answer: "boivent" },
         {
           type: "text",
           value:
-            " souvent au cinéma, au restaurant ou dans un café. Ils se ",
+            " à table en parlant de l’actualité ou de politique. Les jeunes générations ",
         },
-        { type: "input", answer: "retrouvent", hint: "se retrouver" },
-        { type: "text", value: " également entre amis et " },
-        { type: "input", answer: "apprécient", hint: "apprécier" },
-        { type: "text", value: " les sorties culturelles. Ils " },
-        { type: "input", answer: "visitent", hint: "visiter" },
-        { type: "text", value: " des musées, " },
-        { type: "input", answer: "vont", hint: "aller" },
-        { type: "text", value: " à des expositions ou " },
-        { type: "input", answer: "assistent", hint: "assister" },
+        { type: "input", answer: "fréquentent" },
+        { type: "text", value: " beaucoup les salles de sport et " },
+        { type: "input", answer: "fument" },
         {
           type: "text",
           value:
-            " à des pièces de théâtre. Les jeunes adultes et les étudiants ",
+            " un peu moins que les générations précédentes. Le week-end, les étudiants ",
         },
-        { type: "input", answer: "aiment", hint: "aimer" },
-        { type: "text", value: " également sortir le soir. Ils " },
-        { type: "input", answer: "vont", hint: "aller" },
-        { type: "text", value: " dans des bars, " },
-        { type: "input", answer: "dansent", hint: "danser" },
-        { type: "text", value: " et " },
-        { type: "input", answer: "découvrent", hint: "découvrir" },
+        { type: "input", answer: "sortent" },
+        { type: "text", value: " dans les bars ou " },
+        { type: "input", answer: "vont" },
+        { type: "text", value: " à des concerts. Et le dimanche matin, ils " },
+        { type: "input", answer: "dorment" },
         {
           type: "text",
-          value: " de nouveaux lieux avec leurs amis. Le sport ",
+          value: " jusqu’à midi, pendant que leurs parents ",
         },
-        { type: "input", answer: "occupe", hint: "occuper" },
-        {
-          type: "text",
-          value:
-            " lui aussi une place importante. Beaucoup de Français ",
-        },
-        { type: "input", answer: "pratiquent", hint: "pratiquer" },
-        { type: "text", value: " la natation, la course à pied ou le vélo. D'autres " },
-        { type: "input", answer: "aiment", hint: "aimer" },
-        {
-          type: "text",
-          value: " la danse, l'équitation ou la gymnastique. Enfin, la musique ",
-        },
-        { type: "input", answer: "fait", hint: "faire" },
-        {
-          type: "text",
-          value:
-            " partie des loisirs appréciés en France. Beaucoup de personnes ",
-        },
-        { type: "input", answer: "jouent", hint: "jouer" },
-        {
-          type: "text",
-          value: " d'un instrument, notamment du piano ou de la guitare. Elles ",
-        },
-        { type: "input", answer: "découvrent", hint: "découvrir" },
-        {
-          type: "text",
-          value:
-            " également de nombreux styles musicaux et ",
-        },
-        { type: "input", answer: "assistent", hint: "assister" },
-        {
-          type: "text",
-          value:
-            " à des concerts dans les grandes villes comme dans les petites communes. En France, les loisirs ",
-        },
-        { type: "input", answer: "sont", hint: "être" },
-        {
-          type: "text",
-          value:
-            " donc très variés. Les Français ",
-        },
-        { type: "input", answer: "font", hint: "faire" },
-        { type: "text", value: " du sport, " },
-        { type: "input", answer: "sortent", hint: "sortir" },
-        { type: "text", value: " avec leurs amis, " },
-        { type: "input", answer: "se cultivent", hint: "se cultiver" },
-        { type: "text", value: ", " },
-        { type: "input", answer: "jouent", hint: "jouer" },
-        { type: "text", value: " à des jeux, " },
-        { type: "input", answer: "écoutent", hint: "écouter" },
-        {
-          type: "text",
-          value:
-            " de la musique et profitent simplement de leur temps libre. Il y en a ",
-        },
-        { type: "text", value: " pour tous les goûts." },
+        { type: "input", answer: "font" },
+        { type: "text", value: " les courses au marché." },
       ],
     },
   ],

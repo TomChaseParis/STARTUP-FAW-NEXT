@@ -1,16 +1,18 @@
+
 "use client";
 
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/ActivityBlock";
-
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
+import LessonBlock from "@/components/courses/layout/ActivityBlock";
 
 import QuizGogoFlow from "./exercises/QuizGogoFlow";
 
 import { elementary1Activity1 } from "@/data/courses/activities/elementary-1/activity1/activity1";
+
+import { scrollToElementSmooth } from "@/utils/scrollToElementSmooth";
 
 export default function Activity() {
   const [started, setStarted] = useState(false);
@@ -20,20 +22,18 @@ export default function Activity() {
   const handleStart = () => {
     setStarted(true);
 
-    setTimeout(() => {
-      exercisesRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 150);
+    scrollToElementSmooth("quiz-gogo-exercise-1", {
+      delay: 500,
+      offset: 24,
+      duration: 1100,
+      maxAttempts: 20,
+      retryDelay: 100,
+    });
   };
 
   return (
     <ActivityLayout activity={elementary1Activity1}>
-      {/* =====================================================
-          INTRODUCTION + VIDÉO
-      ===================================================== */}
-
+      {/* INTRODUCTION + VIDÉO */}
       <LessonBlock
         level="elementary-1"
         contentType="activity"
@@ -57,38 +57,32 @@ export default function Activity() {
         }}
       />
 
-      {/* =====================================================
-          BOUTON COMMENCER L'ACTIVITÉ
-      ===================================================== */}
-
+      {/* BOUTON COMMENCER L'ACTIVITÉ */}
       {!started && (
         <div className="container mt-16 flex justify-center">
           <button
             type="button"
             onClick={handleStart}
             className="
-  rounded-xl
-  bg-[rgb(87,204,153)]
-  px-8
-  py-4
-  text-lg
-  font-semibold
-  text-white
-  transition-all
-  duration-300
-  hover:scale-105
-  hover:bg-[rgb(70,185,135)]
-"
+              rounded-xl
+              bg-[rgb(87,204,153)]
+              px-8
+              py-4
+              text-lg
+              font-semibold
+              text-white
+              transition-all
+              duration-300
+              hover:scale-105
+              hover:bg-[rgb(70,185,135)]
+            "
           >
             Commencer l&apos;activité
           </button>
         </div>
       )}
 
-      {/* =====================================================
-          ACTIVITÉ — EXERCICES
-      ===================================================== */}
-
+      {/* ACTIVITÉ — APPARITION ANIMÉE */}
       <AnimatePresence mode="wait">
         {started && (
           <motion.div

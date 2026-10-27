@@ -10,9 +10,45 @@ import FloatingAudioPlayer from "@/components/courses/layout/FloatingAudioPlayer
 
 import FillGapsBrunoExercice from "./FillGapsBrunoExercice";
 
+type ExerciseTransitionProps = {
+  number: number;
+};
+
+function ExerciseTransition({
+  number,
+}: ExerciseTransitionProps) {
+  return (
+    <div
+      className="relative z-10 flex h-[120px] items-center justify-center"
+      aria-label={`Étape ${number}`}
+    >
+      {/* Ligne verticale pointillée */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#F4B323]"
+      />
+
+      {/* Numéro centré sur la ligne */}
+      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#F2A900] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(224,159,0,0.25)] ring-1 ring-[#FFD875]">
+        {number}
+      </span>
+    </div>
+  );
+}
+
 export default function FillGapsBrunoSection() {
   const [started, setStarted] = useState(false);
 
+  /*
+   * Défilement automatique vers l'exercice
+   * après le démarrage.
+   *
+   * Même comportement que ListeningDiscoverySection :
+   * - attente de 300 ms ;
+   * - durée de 1 100 ms ;
+   * - même courbe d'accélération/décélération ;
+   * - même position d'arrivée à 24 px du haut.
+   */
   useEffect(() => {
     if (!started) return;
 
@@ -21,13 +57,18 @@ export default function FillGapsBrunoSection() {
     let animationFrameId: number | undefined;
 
     const scrollToExercise = () => {
-      const element = document.getElementById("exercise-1-content");
+      const element = document.getElementById(
+        "exercise-1-content",
+      );
 
       if (!element) {
         attempts += 1;
 
         if (attempts < 20) {
-          timeoutId = window.setTimeout(scrollToExercise, 100);
+          timeoutId = window.setTimeout(
+            scrollToExercise,
+            100,
+          );
         }
 
         return;
@@ -37,7 +78,9 @@ export default function FillGapsBrunoSection() {
 
       const targetPosition = Math.max(
         0,
-        element.getBoundingClientRect().top + window.scrollY - 24,
+        element.getBoundingClientRect().top +
+          window.scrollY -
+          24,
       );
 
       const distance = targetPosition - startPosition;
@@ -51,12 +94,17 @@ export default function FillGapsBrunoSection() {
         }
 
         const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+
+        const progress = Math.min(
+          elapsed / duration,
+          1,
+        );
 
         const easedProgress =
           progress < 0.5
             ? 4 * progress * progress * progress
-            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+            : 1 -
+              Math.pow(-2 * progress + 2, 3) / 2;
 
         window.scrollTo(
           0,
@@ -65,7 +113,9 @@ export default function FillGapsBrunoSection() {
 
         if (progress < 1) {
           animationFrameId =
-            window.requestAnimationFrame(animateScroll);
+            window.requestAnimationFrame(
+              animateScroll,
+            );
         }
       };
 
@@ -73,7 +123,11 @@ export default function FillGapsBrunoSection() {
         window.requestAnimationFrame(animateScroll);
     };
 
-    timeoutId = window.setTimeout(scrollToExercise, 300);
+    // Attend le montage de l'exercice avant le défilement.
+    timeoutId = window.setTimeout(
+      scrollToExercise,
+      300,
+    );
 
     return () => {
       if (timeoutId !== undefined) {
@@ -81,7 +135,9 @@ export default function FillGapsBrunoSection() {
       }
 
       if (animationFrameId !== undefined) {
-        window.cancelAnimationFrame(animationFrameId);
+        window.cancelAnimationFrame(
+          animationFrameId,
+        );
       }
     };
   }, [started]);
@@ -119,36 +175,7 @@ export default function FillGapsBrunoSection() {
                       icon: "keyboard",
                     },
                   ]}
-                  pointAttention={{
-                    imageSrc:
-                      "/images/courses/beginner/activities/brunogalopin/point.png",
-                    imageAlt: "Point d'attention",
-                    title: (
-                      <div className="space-y-4">
-                        <div>
-                          <p className="font-semibold">
-                            Pense à écrire le pronom sujet + le verbe conjugué
-                            au présent.
-                          </p>
-                          <p className="mt-1">
-                            <span className="font-semibold">Exemple :</span>{" "}
-                            « Je m&apos;appelle » Bruno Galopin
-                          </p>
-                        </div>
-
-                        <div>
-                          <p className="font-semibold">
-                            Pense à l&apos;élision « J&apos; » devant une
-                            voyelle ou un « h ».
-                          </p>
-                          <p className="mt-1">
-                            <span className="font-semibold">Exemple :</span>{" "}
-                            « J&apos;ai » deux enfants
-                          </p>
-                        </div>
-                      </div>
-                    ),
-                  }}
+                  
                   onStart={() => setStarted(true)}
                   started={started}
                 />
@@ -156,14 +183,20 @@ export default function FillGapsBrunoSection() {
             </ExerciseSection>
           </div>
 
-          {/* EXERCICE */}
+          {/* TRANSITION ET EXERCICE 1 */}
           {started && (
-            <div
-              id="exercise-1-content"
-              className="w-full min-w-0 max-w-full scroll-mt-6"
-            >
-              <FillGapsBrunoExercice onComplete={onComplete} />
-            </div>
+            <>
+              <ExerciseTransition number={1} />
+
+              <div
+                id="exercise-1-content"
+                className="w-full min-w-0 max-w-full scroll-mt-6"
+              >
+                <FillGapsBrunoExercice
+                  onComplete={onComplete}
+                />
+              </div>
+            </>
           )}
 
           {/* LECTEUR AUDIO FLOTTANT */}
@@ -178,7 +211,6 @@ export default function FillGapsBrunoSection() {
           )}
         </div>
       )}
-      
     </ExerciseContainer>
   );
 }

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -103,6 +104,7 @@ export default function ConjugationSection() {
             className="scroll-mt-10"
           >
             <ListenAndType
+              level="beginner"
               imageSrc="/images/LISTENANDTYPE-PHONIEGRAPHIE.png"
               imageAlt="Souris écoutant un dialogue et écrivant ses réponses"
               category="PHONIE / GRAPHIE"

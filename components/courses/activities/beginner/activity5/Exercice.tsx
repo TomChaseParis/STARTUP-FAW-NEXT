@@ -8,7 +8,7 @@ export default function Exercice() {
 
   return (
     <div className="mt-8">
-      <QuizEngine questions={questions} />
+      <QuizEngine questions={questions} teacherLevel="beginner" />
     </div>
   );
 }

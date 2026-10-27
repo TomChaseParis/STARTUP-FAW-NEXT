@@ -6,7 +6,9 @@ import { useState } from "react";
 import TeacherAvatar from "./TeacherAvatar";
 import TeacherSpeechBubble from "./TeacherSpeechBubble";
 import AnswerChoices from "./AnswerChoices";
-import TeacherComicBubble from "../teacher/TeacherComicBubble";
+import TeacherComicBubble, {
+  type TeacherLevel,
+} from "../teacher/TeacherComicBubble";
 import QuestionImage from "./QuestionImage";
 import AnswerFeedback from "./AnswerFeedback";
 
@@ -19,6 +21,8 @@ type Choice = {
 type Props = {
   question: string;
   teacherImage?: string;
+  teacherBubbleImage?: string;
+  teacherLevel: TeacherLevel;
   teacherTalking: boolean;
   image?: string;
   choices: Choice[];
@@ -39,6 +43,8 @@ type Props = {
 export default function QuestionContent({
   question,
   teacherImage,
+  teacherBubbleImage,
+  teacherLevel,
   teacherTalking,
   image,
   choices,
@@ -62,13 +68,21 @@ export default function QuestionContent({
   const [hasClickedSpeech, setHasClickedSpeech] = useState(false);
 
   const handleSpeechClick = () => {
-    if (showSpeechPrompt) {
-      onSpeechPromptUsed?.();
-      setHasClickedSpeech(true);
-    }
-
+    onSpeechPromptUsed?.();
+    setHasClickedSpeech(true);
     onSpeech();
   };
+
+  const teacherAlt =
+    teacherLevel === "beginner"
+      ? "Marie, professeure de français"
+      : teacherLevel === "elementary-1"
+        ? "Jean, professeur de français"
+        : "Professeur de français du niveau Élémentaire 2";
+
+  // Image utilisée pendant la lecture audio.
+  // Priorité à l'image spécifique de la question.
+  const resolvedTeacherImage = teacherImage ?? teacherBubbleImage;
 
   return (
     <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-12">
@@ -78,12 +92,20 @@ export default function QuestionContent({
           {question}
         </p>
 
+        {/* PROFESSEUR PENDANT LA LECTURE AUDIO */}
         {teacherTalking && (
           <div className="mb-5 flex items-center gap-4">
-            <TeacherAvatar
-              image={teacherImage || "/images/teachers/default.png"}
-              speaking={teacherTalking}
-            />
+            {resolvedTeacherImage ? (
+              <TeacherAvatar
+                image={resolvedTeacherImage}
+                speaking={true}
+              />
+            ) : (
+              <TeacherAvatar
+                image="/images/teachers/default.png"
+                speaking={true}
+              />
+            )}
 
             <TeacherSpeechBubble text="Le professeur parle..." />
           </div>
@@ -167,17 +189,21 @@ export default function QuestionContent({
               )}
             </div>
 
-            {/* BULLE DE MARIE : UNE SEULE FOIS PAR QCM */}
+            {/* BULLE DU MICRO : APRÈS LA FIN DE L'AUDIO */}
             {showSpeechPrompt && !hasClickedSpeech && (
               <div className="mt-3 max-w-xl">
                 <TeacherComicBubble
                   message="À toi ! Répète ta réponse à voix haute."
+                  level={teacherLevel}
+                  imageSrc={teacherBubbleImage}
+                  imageAlt={teacherAlt}
                 />
               </div>
             )}
           </div>
         )}
 
+        {/* RETOUR SUR LA RÉPONSE */}
         {selectedChoice && correctChoice && (
           <AnswerFeedback
             correct={selectedChoice.isCorrect}
@@ -187,7 +213,7 @@ export default function QuestionContent({
         )}
       </div>
 
-      {/* IMAGE */}
+      {/* IMAGE DE LA QUESTION */}
       <div className="w-full lg:w-[42%] lg:shrink-0">
         <QuestionImage image={image} />
       </div>

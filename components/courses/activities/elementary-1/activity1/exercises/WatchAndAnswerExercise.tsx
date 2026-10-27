@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useMemo } from "react";
@@ -7,7 +8,10 @@ import QuizEngine from "@/components/courses/engines/QuizEngine";
 import { watchAndAnswerQuestions } from "../data/watchAndAnswerData";
 
 export default function WatchAndAnswerExercise() {
-  const questions = useMemo(() => watchAndAnswerQuestions ?? [], []);
+  const questions = useMemo(
+    () => watchAndAnswerQuestions ?? [],
+    [],
+  );
 
   return (
     <>
@@ -19,11 +23,18 @@ export default function WatchAndAnswerExercise() {
             🎬 Regarde la vidéo
           </div>
 
-          <video src="/videos/videoexo2.mp4" controls className="w-full" />
+          <video
+            src="/videos/videoexo2.mp4"
+            controls
+            className="w-full"
+          />
         </div>
       </div>
 
-      <QuizEngine questions={questions} />
+      <QuizEngine
+        questions={questions}
+        teacherLevel="beginner"
+      />
     </>
   );
 }

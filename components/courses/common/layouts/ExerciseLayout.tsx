@@ -1,3 +1,4 @@
+
 "use client";
 
 import { ReactNode } from "react";
@@ -8,13 +9,9 @@ import QuestionHeader from "../question/QuestionHeader";
 
 type Props = {
   current: number;
-
   total: number;
-
   onPlayAudio: () => void;
-
   teacherTalking?: boolean;
-
   children: ReactNode;
 };
 
@@ -35,6 +32,7 @@ export default function ExerciseLayout({
           total={total}
           onPlay={onPlayAudio}
           disabled={teacherTalking}
+          showBubble={false}
         />
 
         {children}

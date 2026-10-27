@@ -30,7 +30,7 @@ const DEFAULT_STEPS: ExerciseInstructionProps["steps"] = [
 ];
 
 export default function ListenSpeakInstruction({
-  imageSrc = "/images/listenspeak.png",
+  imageSrc = "/images/etreavoirfairealler.png",
   imageAlt = "Tableau d’exercice de prononciation avec une souris qui invite l’apprenant à écouter et prononcer la phrase",
   category = "PRONONCIATION",
   title = "Je suis, tu as, elle fait, nous allons...",
@@ -40,6 +40,7 @@ export default function ListenSpeakInstruction({
   onStart,
   started = false,
   activityTitle,
+  level = "beginner",
   children,
 }: ListenSpeakInstructionProps) {
   return (
@@ -54,6 +55,7 @@ export default function ListenSpeakInstruction({
       onStart={onStart}
       started={started}
       activityTitle={activityTitle}
+      level={level}
     >
       {children}
     </ExerciseInstruction>

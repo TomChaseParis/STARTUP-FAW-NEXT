@@ -40,7 +40,7 @@ export const quizData = {
       correctAnswer: "b",
     },
 
-    {
+   /*  {
       id: 2,
 
       type: "single-choice",
@@ -353,6 +353,6 @@ export const quizData = {
       ],
 
       correctAnswer: "b",
-    },
+    }, */
   ],
 };

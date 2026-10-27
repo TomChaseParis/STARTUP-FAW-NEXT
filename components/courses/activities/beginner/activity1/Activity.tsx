@@ -322,7 +322,7 @@ const [showExercise1, setShowExercise1] = useState(false);  const [showExercise1
                     <ListenSpeakInstruction
                       activityTitle={ACTIVITY_TITLE}
                       onStart={handleStartExercise1}
-                      imageSrc="/images/listenspeak.png"
+                      imageSrc="/images/etreavoirfairealler.png"
                       imageAlt="Illustration de l'exercice d'écoute et de prononciation"
                       title="Écoute et prononce"
                       description="Écoute la phrase prononcée par le professeur, puis répète-la à voix haute."

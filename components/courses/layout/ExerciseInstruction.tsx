@@ -1,13 +1,17 @@
-
 "use client";
 
 import Image from "next/image";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+
+export type ExerciseLevel =
+  | "beginner"
+  | "elementary-1"
+  | "elementary-2";
 
 export type ExerciseInstructionStep = {
   title: string;
   description: string;
-  icon: "sound" | "mic" | "keyboard";
+  icon: "sound" | "mic" | "keyboard" | "click";
 };
 
 export type ExercisePointAttention = {
@@ -23,7 +27,8 @@ export type ExerciseInstructionProps = {
   category: string;
   title: string;
   description: string;
-  example: string;
+  example?: string;
+  instruction?: string;
   steps: [ExerciseInstructionStep, ExerciseInstructionStep];
   pointAttention?: ExercisePointAttention;
   onStart?: () => void;
@@ -31,6 +36,51 @@ export type ExerciseInstructionProps = {
   children?: ReactNode;
   beforeStartContent?: ReactNode;
   activityTitle?: string;
+  level?: ExerciseLevel;
+};
+
+type LevelColors = {
+  primary: string;
+  hover: string;
+  border: string;
+  soft: string;
+  softStrong: string;
+  gradient: string;
+  divider: string;
+  ring: string;
+};
+
+const levelColors: Record<ExerciseLevel, LevelColors> = {
+  beginner: {
+    primary: "#E09F00",
+    hover: "#C98D00",
+    border: "#F5E7BD",
+    soft: "#FFF0C9",
+    softStrong: "#FFE9B5",
+    gradient: "rgba(255, 211, 89, 0.13)",
+    divider: "#F3D982",
+    ring: "#FFD875",
+  },
+  "elementary-1": {
+    primary: "#57CC99",
+    hover: "#46B987",
+    border: "#B9EAD2",
+    soft: "#E0F5E9",
+    softStrong: "#C9EEDB",
+    gradient: "rgba(87, 204, 153, 0.13)",
+    divider: "#A7E2C5",
+    ring: "#B9EAD2",
+  },
+  "elementary-2": {
+    primary: "#6C8FE5",
+    hover: "#5276CD",
+    border: "#CFDAF8",
+    soft: "#EAF0FF",
+    softStrong: "#DCE6FF",
+    gradient: "rgba(108, 143, 229, 0.13)",
+    divider: "#C2D0F5",
+    ring: "#CFDAF8",
+  },
 };
 
 function SoundIcon({ size = 24 }: { size?: number }) {
@@ -101,6 +151,26 @@ function KeyboardIcon({ size = 24 }: { size?: number }) {
   );
 }
 
+function ClickIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="m6 3 12 10-6 .8 3.2 6.2-3.1 1.5-3.1-6.3L5 20 6 3Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function InstructionIcon({
   type,
   size = 24,
@@ -115,6 +185,8 @@ function InstructionIcon({
       return <MicIcon size={size} />;
     case "keyboard":
       return <KeyboardIcon size={size} />;
+    case "click":
+      return <ClickIcon size={size} />;
   }
 }
 
@@ -145,6 +217,7 @@ export default function ExerciseInstruction({
   title,
   description,
   example,
+  instruction,
   steps,
   pointAttention,
   onStart,
@@ -152,13 +225,31 @@ export default function ExerciseInstruction({
   children,
   beforeStartContent,
   activityTitle,
+  level = "beginner",
 }: ExerciseInstructionProps) {
+  const colors = levelColors[level];
+
+  const themeStyle = {
+    "--level-primary": colors.primary,
+    "--level-hover": colors.hover,
+    "--level-border": colors.border,
+    "--level-soft": colors.soft,
+    "--level-soft-strong": colors.softStrong,
+    "--level-gradient": colors.gradient,
+    "--level-divider": colors.divider,
+    "--level-ring": colors.ring,
+  } as CSSProperties;
+
   return (
-    <main className="w-full min-w-0 bg-white p-0 font-[Arial,Helvetica,sans-serif] text-[#09264a]">
+    <main
+      className="w-full min-w-0 bg-white p-0 font-[Arial,Helvetica,sans-serif] text-[#09264a]"
+      style={themeStyle}
+    >
       <div className="container">
         <section
           aria-labelledby="exercise-instruction-title"
-          className="relative isolate mx-auto grid min-h-0 w-full min-w-0 grid-cols-1 items-start gap-6 overflow-hidden rounded-[28px] border border-[#f5e7bd] bg-[linear-gradient(135deg,#fffefa_0%,#fffdf6_55%,#fff9e9_100%)] p-4 shadow-[0_8px_28px_rgba(15,23,42,0.045)] sm:gap-6 sm:p-6 lg:grid-cols-2 lg:gap-8 lg:p-8"
+          className="relative isolate mx-auto grid min-h-0 w-full min-w-0 grid-cols-1 items-start gap-6 overflow-hidden rounded-[28px] border bg-[linear-gradient(135deg,#fffefa_0%,#fffdf6_55%,#fff9e9_100%)] p-4 shadow-[0_8px_28px_rgba(15,23,42,0.045)] sm:gap-6 sm:p-6 lg:grid-cols-2 lg:gap-8 lg:p-8"
+          style={{ borderColor: colors.border }}
         >
           {/* Décorations du fond */}
           <div
@@ -168,44 +259,58 @@ export default function ExerciseInstruction({
 
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-[210px] -right-[100px] -z-10 h-[400px] w-[55%] rounded-full bg-[radial-gradient(ellipse,rgba(255,211,89,0.13),rgba(255,247,221,0))]"
+            className="pointer-events-none absolute -bottom-[210px] -right-[100px] -z-10 h-[400px] w-[55%] rounded-full"
+            style={{
+              background: `radial-gradient(ellipse, ${colors.gradient}, transparent)`,
+            }}
           />
 
-          {/* Illustration et étapes pédagogiques */}
-          <div className="relative flex min-w-0 flex-col items-center gap-5 self-start lg:row-span-2">
-            <Image
-              src={imageSrc}
-              alt={imageAlt}
-              width={640}
-              height={750}
-              priority
-              className="block h-auto w-full max-w-[640px] object-contain"
-            />
+          {/* Colonne gauche : illustration et étapes */}
+          <div className="relative flex min-w-0 flex-col items-center self-start lg:row-span-2">
+            <div className="relative h-[300px] w-full sm:h-[380px] lg:h-[420px]">
+              <Image
+                src={imageSrc}
+                alt={imageAlt}
+                fill
+                priority
+                sizes="(max-width: 1023px) 100vw, 45vw"
+                className="object-contain object-center"
+              />
+            </div>
 
-            {/* Étapes alignées en deux colonnes sous l'image */}
-            <div className="mt-2 grid w-full grid-cols-2 items-stretch gap-2 min-[761px]:gap-3 max-[380px]:grid-cols-1">
+            <div className="mt-1 grid w-full grid-cols-2 items-stretch gap-3 max-[380px]:grid-cols-1">
               {steps.map((step, index) => (
                 <article
                   key={`${step.title}-${index}`}
-                  className="flex min-w-0 flex-col rounded-[14px] border border-[#172a4110] bg-white px-2.5 py-3 shadow-[0_3px_10px_#1a2c400a] min-[761px]:px-3 min-[761px]:py-3"
+                  className="flex min-w-0 flex-col rounded-[14px] border border-[#172a4110] bg-white px-3 py-3 shadow-[0_3px_10px_#1a2c400a]"
                 >
-                  {/* Icône, numéro et titre alignés */}
-                  <div className="mb-2 flex min-w-0 items-center gap-1.5 min-[761px]:gap-2">
-                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#ffedbd] text-[#e99100] min-[761px]:h-9 min-[761px]:w-9">
+                  <div className="mb-2 flex min-w-0 items-center gap-2">
+                    <div
+                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full"
+                      style={{
+                        backgroundColor: colors.soft,
+                        color: colors.primary,
+                      }}
+                    >
                       <InstructionIcon type={step.icon} size={18} />
                     </div>
 
-                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[#ffb51c] text-[10px] font-bold text-[#ef9900]">
+                    <span
+                      className="grid h-5 w-5 shrink-0 place-items-center rounded-full border text-[10px] font-bold"
+                      style={{
+                        borderColor: colors.primary,
+                        color: colors.primary,
+                      }}
+                    >
                       {index + 1}
                     </span>
 
-                    <h3 className="m-0 min-w-0 font-serif text-sm font-semibold leading-tight text-[#09264a] min-[761px]:text-base">
+                    <h3 className="m-0 min-w-0 font-serif text-sm font-semibold leading-tight text-[#09264a] sm:text-base">
                       {step.title}
                     </h3>
                   </div>
 
-                  {/* Description sous la ligne de titre */}
-                  <p className="m-0 text-[11px] leading-[1.45] text-[#183352] min-[761px]:text-xs">
+                  <p className="m-0 text-[11px] leading-[1.45] text-[#183352] sm:text-xs">
                     {step.description}
                   </p>
                 </article>
@@ -213,10 +318,19 @@ export default function ExerciseInstruction({
             </div>
           </div>
 
-          {/* Instructions */}
-          <div className="min-w-0 px-1 py-5 sm:px-2 sm:py-6 lg:relative lg:py-[34px] lg:pr-2 lg:before:absolute lg:before:bottom-0 lg:before:left-[-17px] lg:before:top-0 lg:before:w-px lg:before:bg-[#f3d982]/70">
+          {/* Colonne droite : instructions */}
+          <div
+            className="min-w-0 px-1 py-5 sm:px-2 sm:py-6 lg:relative lg:py-[34px] lg:pr-2 lg:before:absolute lg:before:bottom-0 lg:before:left-[-17px] lg:before:top-0 lg:before:w-px"
+            style={{ "--tw-before-bg": colors.divider } as CSSProperties}
+          >
             <div className="mb-[22px] flex items-center gap-3 text-[11px] font-extrabold tracking-[0.22em] text-[#748198] sm:gap-[17px] sm:text-[13px]">
-              <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#fff0c9] text-[#ef9900] sm:h-[58px] sm:w-[58px]" />
+              <span
+                className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full sm:h-[58px] sm:w-[58px]"
+                style={{
+                  backgroundColor: colors.soft,
+                  color: colors.primary,
+                }}
+              />
               <span>{category}</span>
             </div>
 
@@ -227,47 +341,83 @@ export default function ExerciseInstruction({
               {title}
             </h2>
 
-            <div className="mb-[13px] mt-6 h-[6px] w-[100px] rounded-full bg-[#ffb91f]" />
+            <div
+              className="mb-[13px] mt-6 h-[6px] w-[100px] rounded-full"
+              style={{ backgroundColor: colors.primary }}
+            />
 
             <p className="mb-6 mt-0 text-base leading-[1.55] text-[#152f50] sm:text-[clamp(16px,1.32vw,21px)]">
               {description}
             </p>
 
-            {/* Exemple principal */}
-            <div className="mb-[17px] flex min-h-[78px] flex-wrap items-center gap-[10px] rounded-xl border-l-[6px] border-[#ffb91f] bg-[linear-gradient(90deg,#fff5dd,#fffaf0)] px-[13px] py-[13px] text-[#152f50] sm:flex-nowrap sm:gap-[17px] sm:px-5">
-              <span className="shrink-0 whitespace-nowrap rounded-[30px] bg-[#ffe9b5] px-4 py-[9px] text-base sm:px-[17px]">
-                Exemple
-              </span>
+            {/* Consigne */}
+            {instruction && (
+              <div
+                className="mb-[17px] flex items-start gap-3 rounded-xl border px-4 py-4 sm:px-5"
+                style={{
+                  borderColor: colors.border,
+                  background: `linear-gradient(90deg, ${colors.soft}, #fffaf0)`,
+                }}
+              >
+                <div
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full"
+                  style={{
+                    backgroundColor: colors.softStrong,
+                    color: colors.primary,
+                  }}
+                  aria-hidden="true"
+                >
+                  <IdeaIcon size={19} />
+                </div>
 
-              <span className="basis-full text-sm leading-[1.4] sm:basis-auto sm:text-[clamp(14px,1.1vw,18px)]">
-                {`« ${example} »`}
-              </span>
-            </div>
+                <div className="min-w-0">
+                  <h3
+                    className="mb-1 mt-0 text-xs font-extrabold uppercase tracking-[0.12em]"
+                    style={{ color: colors.primary }}
+                  >
+                    Consigne
+                  </h3>
 
-            {/* Encadré À découvrir */}
-            <div className="mb-5 flex items-start gap-3 rounded-2xl border border-[#f3d982]/70 bg-white/70 p-4">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#fff0c9] text-[#e99100]">
-                <IdeaIcon size={21} />
+                  <p className="m-0 text-sm leading-relaxed text-[#152f50] sm:text-base">
+                    {instruction}
+                  </p>
+                </div>
               </div>
+            )}
 
-              <div className="min-w-0 flex-1">
-                <h3 className="mb-1 mt-0 font-serif text-base font-semibold text-[#09264a]">
-                  À découvrir
-                </h3>
+            {/* Exemple principal : affiché uniquement si fourni */}
+            {example && (
+              <div
+                className="mb-[17px] flex min-h-[78px] flex-wrap items-center gap-[10px] rounded-xl border-l-[6px] px-[13px] py-[13px] text-[#152f50] sm:flex-nowrap sm:gap-[17px] sm:px-5"
+                style={{
+                  borderLeftColor: colors.primary,
+                  background: `linear-gradient(90deg, ${colors.soft}, #fffaf0)`,
+                }}
+              >
+                <span
+                  className="shrink-0 whitespace-nowrap rounded-[30px] px-4 py-[9px] text-base sm:px-[17px]"
+                  style={{
+                    backgroundColor: colors.softStrong,
+                    color: colors.primary,
+                  }}
+                >
+                  Exemple
+                </span>
 
-                <p className="m-0 text-sm leading-relaxed text-[#183352]">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vivamus posuere, neque at facilisis tincidunt, nunc sapien
-                  consequat erat, vitae tincidunt lorem justo vel nisl.
-                </p>
+                <span className="basis-full text-sm leading-[1.4] sm:basis-auto sm:text-[clamp(14px,1.1vw,18px)]">
+                  {`« ${example} »`}
+                </span>
               </div>
-            </div>
+            )}
 
-            {/* Point d'attention */}
+         
+
+            {/* Point d’attention */}
             {pointAttention && (
               <aside
                 aria-label="Point d’attention"
-                className="mb-5 flex min-w-0 flex-col gap-3 rounded-2xl border border-[#f3d982] bg-white/90 p-4 shadow-[0_3px_12px_rgba(26,44,64,0.06)] sm:flex-row sm:items-start sm:gap-4 sm:p-5"
+                className="mb-5 flex min-w-0 flex-col gap-3 rounded-2xl border bg-white/90 p-4 shadow-[0_3px_12px_rgba(26,44,64,0.06)] sm:flex-row sm:items-start sm:gap-4 sm:p-5"
+                style={{ borderColor: colors.border }}
               >
                 <div className="w-[76px] shrink-0 self-center sm:w-[88px]">
                   <Image
@@ -289,7 +439,10 @@ export default function ExerciseInstruction({
                   </div>
 
                   {pointAttention.example && (
-                    <div className="mt-2 rounded-lg bg-[#fff5dd] px-3 py-2 text-sm leading-relaxed text-[#183352] sm:text-base">
+                    <div
+                      className="mt-2 rounded-lg px-3 py-2 text-sm leading-relaxed text-[#183352] sm:text-base"
+                      style={{ backgroundColor: colors.soft }}
+                    >
                       {pointAttention.example}
                     </div>
                   )}
@@ -320,7 +473,17 @@ export default function ExerciseInstruction({
                 <button
                   type="button"
                   onClick={onStart}
-                  className="flex cursor-pointer items-center justify-center rounded-xl border-0 bg-[#E09F00] px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-[#C98D00] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C98D00]"
+                  style={{
+                    backgroundColor: colors.primary,
+                    outlineColor: colors.hover,
+                  }}
+                  className="flex cursor-pointer items-center justify-center rounded-xl border-0 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+                  onMouseEnter={(event) => {
+                    event.currentTarget.style.backgroundColor = colors.hover;
+                  }}
+                  onMouseLeave={(event) => {
+                    event.currentTarget.style.backgroundColor = colors.primary;
+                  }}
                 >
                   Commencer l&apos;exercice
                 </button>
@@ -330,7 +493,10 @@ export default function ExerciseInstruction({
 
           {/* L'exercice partage le cadre extérieur de l'énoncé */}
           {started && children && (
-            <div className="col-span-full w-full min-w-0 border-t border-[#F3D982] pt-6 sm:pt-8">
+            <div
+              className="col-span-full w-full min-w-0 border-t pt-6 sm:pt-8"
+              style={{ borderColor: colors.divider }}
+            >
               {children}
             </div>
           )}

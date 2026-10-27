@@ -46,7 +46,7 @@ export default function QuizSection() {
         }
       />
 
-      <QuizEngine questions={pronounQuizQuestions} />
+      <QuizEngine teacherLevel="beginner" questions={pronounQuizQuestions} />
     </ExerciseSection>
   );
 }

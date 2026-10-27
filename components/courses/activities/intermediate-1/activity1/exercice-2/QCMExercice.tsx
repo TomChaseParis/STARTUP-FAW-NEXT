@@ -19,6 +19,7 @@ export default function QCMExercise({
 
   return (
     <QuizEngine
+    teacherLevel="beginner"
       questions={questions}
       onComplete={onComplete}
       speechEngine="openai"

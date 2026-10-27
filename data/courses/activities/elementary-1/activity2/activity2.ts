@@ -14,5 +14,9 @@ export const elementary1Activity2: ActivityDefinition = {
       id: "exercise-2",
       title: "Quiz sur les loisirs",
     },
+    {
+      id: "exercise-3",
+      title: "Les loisirs des Français",
+    }
   ],
 };

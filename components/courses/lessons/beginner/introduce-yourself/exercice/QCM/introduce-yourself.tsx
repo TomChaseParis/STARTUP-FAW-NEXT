@@ -153,6 +153,7 @@ export default function IntroduceYourselfQuiz() {
 
         <div className="mt-8">
           <QuizEngine
+          teacherLevel="beginner"
             questions={questions}
             speechEngine="openai"
             teacherFeedbackImages={{

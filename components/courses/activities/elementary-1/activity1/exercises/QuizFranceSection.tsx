@@ -1,3 +1,4 @@
+
 "use client";
 
 import QuizEngine from "@/components/courses/engines/QuizEngine";
@@ -143,12 +144,13 @@ export default function QuizFranceSection({
     <section className="w-full">
       <QuizEngine
         questions={questions}
+        teacherLevel="elementary-1"
         speechEngine="openai"
         teacherFeedbackImages={{
           correct:
-          "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
+            "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
           wrong:
-          "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
+            "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
         }}
         progressConfig={{
           progress,
@@ -156,14 +158,11 @@ export default function QuizFranceSection({
             ACTIVITY_ID,
           exerciseId:
             EXERCISE_ID,
-          onScoreSubmitted:
-            () => {
-              refresh();
-            },
+          onScoreSubmitted: () => {
+            refresh();
+          },
         }}
-        resultRenderer={
-          renderResult
-        }
+        resultRenderer={renderResult}
       />
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
@@ -9,28 +9,67 @@ import LessonBlock from "@/components/courses/layout/ActivityBlock";
 import ActivityFlow from "@/core/navigation/ActivityFlow";
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 
-import FillInTheBlankSection from "./exercises/FillInTheBlankSection";
 import FillGapsReport from "@/components/courses/common/result/FillGapsReport";
-import QuizChoiceSection from "./exercises/QuizChoiceSection";
-
 import { frenchLeisureData } from "./data/frenchLeisureData";
 
 import { elementary1Activity2 } from "@/data/courses/activities/elementary-1/activity2/activity2";
 
+import FillInTheBlankSection from "./exercises/exercise-1/FillInTheBlankSection";
+import QuizChoiceSection from "./exercises/exercise-2/QuizChoiceSection";
+import MemorySection from "./exercises/exercise-3/MemorySection";
+
 export default function Activity() {
   const [started, setStarted] = useState(false);
-
-  const exercisesRef = useRef<HTMLDivElement>(null);
 
   const handleStart = () => {
     setStarted(true);
 
-    setTimeout(() => {
-      exercisesRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 150);
+    window.setTimeout(() => {
+      const element = document.getElementById(
+        "exercise-1-instruction",
+      );
+
+      if (!element) return;
+
+      const startPosition = window.scrollY;
+
+      const targetPosition = Math.max(
+        0,
+        element.getBoundingClientRect().top +
+          window.scrollY -
+          24,
+      );
+
+      const distance = targetPosition - startPosition;
+      const duration = 1400;
+
+      let startTime: number | null = null;
+
+      const animateScroll = (currentTime: number) => {
+        if (startTime === null) {
+          startTime = currentTime;
+        }
+
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const easedProgress =
+          progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+        window.scrollTo(
+          0,
+          startPosition + distance * easedProgress,
+        );
+
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        }
+      };
+
+      requestAnimationFrame(animateScroll);
+    }, 400);
   };
 
   return (
@@ -43,18 +82,20 @@ export default function Activity() {
         videoSrc="/videos/courses/elementary-1/activities/activity2/presentation.mp4"
         poster="/images/courses/elementary/activities/activity2/poster.png"
         info={{
-          objectifs: ["Parler de ses hobbies"],
+          objectifs: [
+            "Parler de ses hobbies",
+            "Découvrir les loisirs des Français",
+          ],
           competences: [
             "Compréhension orale",
             "Phonie / graphie",
             "Prononciation",
-            "Expression orale",
           ],
           prerequis: [
             "Conjugaison au présent : 3ème personne du pluriel (ils/elles)",
             "Questions et mots interrogatifs",
           ],
-          duree: "20 minutes",
+          duree: "30 minutes",
         }}
       />
 
@@ -85,7 +126,6 @@ export default function Activity() {
       <AnimatePresence mode="wait">
         {started && (
           <motion.div
-            ref={exercisesRef}
             initial={{
               opacity: 0,
               y: 40,
@@ -109,21 +149,24 @@ export default function Activity() {
                 teacher="elementary-1"
                 finishHref="/courses/elementary-1/modules/gouts-loisirs"
                 detailedReportRenderer={(result, exerciseIndex) => {
-                  if (exerciseIndex !== 0) {
-                    return undefined;
+                  // EXERCICE 1 — TEXTE À TROUS
+                  if (exerciseIndex === 0) {
+                    return (
+                      <FillGapsReport
+                        data={frenchLeisureData}
+                        history={result.session.history}
+                      />
+                    );
                   }
 
-                  return (
-                    <FillGapsReport
-                      data={frenchLeisureData}
-                      history={result.session.history}
-                    />
-                  );
+                  // Les autres exercices conservent
+                  // leur comportement actuel.
+                  return null;
                 }}
               >
                 <FillInTheBlankSection />
-
                 <QuizChoiceSection />
+                <MemorySection />
               </ActivityFlow>
             </ActivityNavigationProvider>
           </motion.div>

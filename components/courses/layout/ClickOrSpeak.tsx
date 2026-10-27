@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import ExerciseInstruction, {
   type ExerciseInstructionProps,
+  type ExerciseLevel,
 } from "./ExerciseInstruction";
 import FloatingAudioPlayer from "./FloatingAudioPlayer";
 
@@ -23,11 +24,13 @@ type ClickOrSpeakProps = Omit<
   title?: string;
   description?: string;
   example?: string;
+  instructionImageSrc?: string;
   dialogueImageSrc?: string;
   dialogueImageAlt?: string;
-  audioSrc: string;
+  audioSrc?: string;
   audioTitle?: string;
   audioHint?: string;
+  level?: ExerciseLevel;
   children?: ReactNode;
 };
 
@@ -37,6 +40,7 @@ export default function ClickOrSpeak({
   title = "Découverte",
   description = "Écoute une première fois le dialogue ci-dessus, puis réponds aux questions.",
   example = "Écoute attentivement, puis réponds aux questions.",
+  instructionImageSrc = "/images/exo2jean.png",
   dialogueImageSrc = "/images/courses/audioBlock/beginner/am.png",
   dialogueImageAlt = "Illustration du dialogue à écouter",
   audioSrc,
@@ -45,40 +49,61 @@ export default function ClickOrSpeak({
   onStart,
   started = false,
   activityTitle,
+  level = "beginner",
   children,
 }: ClickOrSpeakProps) {
+  const hasAudio = Boolean(audioSrc);
+
   return (
     <>
       <ExerciseInstruction
-        imageSrc="/images/clickorspeak.png"
-        imageAlt={`Illustration de l’exercice ${exerciseNumber} Click or Speak`}
+        imageSrc={instructionImageSrc}
+        imageAlt={`Illustration de l’exercice ${exerciseNumber}`}
         category={category}
         title={title}
         description={description}
         example={example}
         activityTitle={activityTitle}
-        steps={[
-          {
-            title: "Écoute",
-            description:
-              "Utilise le bouton audio pour écouter le dialogue et les réponses proposées.",
-            icon: "sound",
-          },
-          {
-            title: "Réponds",
-            description:
-              "Choisis ta réponse ou utilise le microphone pour répondre à l’oral.",
-            icon: "mic",
-          },
-        ]}
+        level={level}
+        steps={
+          hasAudio
+            ? [
+                {
+                  title: "Écoute",
+                  description:
+                    "Utilise le bouton audio pour écouter le dialogue et les réponses proposées.",
+                  icon: "sound",
+                },
+                {
+                  title: "Réponds",
+                  description:
+                    "Choisis ta réponse ou utilise le microphone pour répondre à l’oral.",
+                  icon: "mic",
+                },
+              ]
+            : [
+                {
+                  title: "Lis",
+                  description:
+                    "Lis attentivement chaque question et les réponses proposées.",
+                  icon: "sound",
+                },
+                {
+                  title: "Choisis",
+                  description:
+                    "Sélectionne la réponse qui te semble correcte.",
+                  icon: "mic",
+                },
+              ]
+        }
         onStart={onStart}
         started={started}
       >
         {children}
       </ExerciseInstruction>
 
-      {/* Le lecteur flottant apparaît après le démarrage */}
-      {started && (
+      {/* Le lecteur flottant apparaît uniquement si un audio est fourni. */}
+      {started && audioSrc && (
         <FloatingAudioPlayer
           audioSrc={audioSrc}
           imageSrc={dialogueImageSrc}

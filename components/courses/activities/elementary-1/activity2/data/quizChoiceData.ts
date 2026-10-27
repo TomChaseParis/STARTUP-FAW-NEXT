@@ -89,7 +89,7 @@ export const quizChoiceQuestions: Question[] = [
     ],
   },
 
-  {
+ /*  {
     id: 2,
 
     question: "Où est-ce qu’ils dînent ?",
@@ -672,5 +672,5 @@ export const quizChoiceQuestions: Question[] = [
           "Non, ils ne jouent pas au Duplo.",
       },
     ],
-  },
+  }, */
 ];

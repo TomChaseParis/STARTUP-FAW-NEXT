@@ -29,6 +29,7 @@ export type FillGapsData = {
   instruction?: string;
   activityType?: string;
   verbs?: string[];
+  keyboardCharacters?: string[];
   sentences: Sentence[];
 };
 
