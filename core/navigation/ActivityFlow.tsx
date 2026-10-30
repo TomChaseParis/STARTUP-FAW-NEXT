@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Children, ReactNode } from "react";
@@ -23,7 +24,11 @@ type TeacherFeedbackAudios = {
 
 type Props = {
   children: ReactNode;
-  teacher?: "beginner" | "elementary-1" | "intermediate-1";
+  teacher?:
+    | "beginner"
+    | "elementary-1"
+    | "intermediate-1"
+    | "intermediate-2";
   teacherFeedbackImages?: TeacherFeedbackImages;
   teacherFeedbackAudios?: TeacherFeedbackAudios;
 

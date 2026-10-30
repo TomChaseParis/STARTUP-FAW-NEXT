@@ -222,6 +222,19 @@ const activityMap: Record<string, ActivityComponent> = {
       ),
     { ssr: false },
   ),
+
+  /*
+   * INTERMÉDIAIRE 2
+   */
+
+  "intermediate-2/il-faut-que-je-parte": dynamic(
+    () =>
+      import(
+        "@/components/courses/activities/intermediate-2/activity1/Activity"
+      ),
+    { ssr: false },
+  ),
+
 };
 
 export default function Page({

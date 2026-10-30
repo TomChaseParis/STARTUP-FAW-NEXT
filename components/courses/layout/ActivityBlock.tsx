@@ -46,7 +46,7 @@ const LEVEL_CONFIG: Record<
   },
   "intermediate-2": {
     label: "Intermédiaire 2",
-    color: "#00296B",
+    color: "#B9A0F8",
   },
   advanced: {
     label: "Avancé",

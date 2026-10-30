@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -38,12 +39,6 @@ export default function ModuleCard({
     normalizedHref.includes("debutant") ||
     normalizedHref.includes("débutant");
 
-  const isIntermediate1 =
-    normalizedHref.includes("intermediate-1") ||
-    normalizedHref.includes("intermediate1") ||
-    normalizedHref.includes("intermediaire-1") ||
-    normalizedHref.includes("intermediaire1");
-
   const isElementary1 =
     normalizedHref.includes("elementary-1") ||
     normalizedHref.includes("elementary1") ||
@@ -56,15 +51,29 @@ export default function ModuleCard({
     normalizedHref.includes("elementaire-2") ||
     normalizedHref.includes("elementaire2");
 
-  const startButtonClass = isIntermediate1
-    ? "bg-[rgb(56,189,248)] hover:bg-[rgb(14,165,233)] shadow-sky-300/50 hover:shadow-sky-400/60 text-white"
-    : isElementary1
-      ? "bg-[rgb(87,204,153)] hover:bg-[rgb(70,185,135)] shadow-emerald-300/50 hover:shadow-emerald-400/60 text-white"
-      : isElementary2
-        ? "bg-[rgb(49,87,44)] hover:bg-[rgb(39,70,35)] shadow-green-900/20 hover:shadow-green-900/40 text-white"
-        : isBeginner
-          ? "bg-[rgb(224,159,0)] hover:bg-[rgb(204,143,0)] shadow-amber-300/50 hover:shadow-amber-400/60 text-white"
-          : "bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 group-hover:from-amber-400 group-hover:via-amber-500 group-hover:to-yellow-400 shadow-amber-300/50 group-hover:shadow-amber-400/60 text-slate-900";
+  const isIntermediate1 =
+    normalizedHref.includes("intermediate-1") ||
+    normalizedHref.includes("intermediate1") ||
+    normalizedHref.includes("intermediaire-1") ||
+    normalizedHref.includes("intermediaire1");
+
+  const isIntermediate2 =
+    normalizedHref.includes("intermediate-2") ||
+    normalizedHref.includes("intermediate2") ||
+    normalizedHref.includes("intermediaire-2") ||
+    normalizedHref.includes("intermediaire2");  
+
+  const startButtonClass = isIntermediate2
+    ? "bg-[#B9A0F8] hover:bg-[#A78BFA] shadow-violet-300/50 hover:shadow-violet-400/60 text-[#241344]"
+    : isIntermediate1
+      ? "bg-[rgb(56,189,248)] hover:bg-[rgb(14,165,233)] shadow-sky-300/50 hover:shadow-sky-400/60 text-white"
+      : isElementary1
+        ? "bg-[rgb(87,204,153)] hover:bg-[rgb(70,185,135)] shadow-emerald-300/50 hover:shadow-emerald-400/60 text-white"
+        : isElementary2
+          ? "bg-[rgb(49,87,44)] hover:bg-[rgb(39,70,35)] shadow-green-900/20 hover:shadow-green-900/40 text-white"
+          : isBeginner
+            ? "bg-[rgb(224,159,0)] hover:bg-[rgb(204,143,0)] shadow-amber-300/50 hover:shadow-amber-400/60 text-white"
+            : "bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 group-hover:from-amber-400 group-hover:via-amber-500 group-hover:to-yellow-400 shadow-amber-300/50 group-hover:shadow-amber-400/60 text-slate-900";
 
   return (
     <Link href={href} className="group block w-full">

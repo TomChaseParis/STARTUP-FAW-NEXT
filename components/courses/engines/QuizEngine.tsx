@@ -33,6 +33,8 @@ export const TEACHER_BUBBLE_IMAGES = {
   beginner: "/images/MARIETESTBULLE.PNG",
   "elementary-1": "/images/jean-instruction.png",
   "elementary-2": "/images/teacher-elementary-2.png",
+  "intermediate-2":
+    "/images/bulles-QCM/intermediate-2/bulle-conseil/henribulleqcm.png",
 } as const;
 
 export type TeacherLevel = keyof typeof TEACHER_BUBBLE_IMAGES;
@@ -120,7 +122,9 @@ const QuizEngine: React.FC<Props> = ({
     setAudioQuestionFinished(false);
     setSpeechPromptVisible(false);
 
-    speechPromptClaimedRef.current = false;
+    // Les bulles d'aide ne sont proposées que sur la première question.
+    speechPromptClaimedRef.current = currentIndex !== 0;
+
     wasTalkingRef.current = false;
   }, [currentIndex]);
 
@@ -140,6 +144,10 @@ const QuizEngine: React.FC<Props> = ({
   // Affiche la consigne du micro après la fin de l'audio.
   useEffect(() => {
     if (!audioQuestionFinished || !currentQuestion) return;
+
+    // Pas de bulle micro sur les questions suivantes.
+    if (currentIndex !== 0) return;
+
     if (speechPromptClaimedRef.current) return;
 
     const hasAnswer =
@@ -204,6 +212,8 @@ const QuizEngine: React.FC<Props> = ({
   const choices = currentQuestion.choices;
   const image = currentQuestion.image;
 
+  const isFirstQuestion = currentIndex === 0;
+
   const resolvedTeacherBubbleImage =
     teacherBubbleImage ?? TEACHER_BUBBLE_IMAGES[teacherLevel];
 
@@ -240,7 +250,7 @@ const QuizEngine: React.FC<Props> = ({
     setAudioQuestionFinished(false);
     setSpeechPromptVisible(false);
 
-    speechPromptClaimedRef.current = false;
+    speechPromptClaimedRef.current = !isFirstQuestion;
     wasTalkingRef.current = false;
 
     playQuestion(teacherAudioQuestion);
@@ -260,7 +270,9 @@ const QuizEngine: React.FC<Props> = ({
   };
 
   const showSpeechPrompt =
-    speechPromptVisible && !hasSelectedChoice;
+    isFirstQuestion &&
+    speechPromptVisible &&
+    !hasSelectedChoice;
 
   const isLastQuestion = currentIndex + 1 === totalQuestions;
 
@@ -285,7 +297,7 @@ const QuizEngine: React.FC<Props> = ({
           disabled={isTalking}
           teacherLevel={teacherLevel}
           teacherBubbleImage={resolvedTeacherBubbleImage}
-          showBubble={!audioQuestionStarted}
+          showBubble={isFirstQuestion && !audioQuestionStarted}
         />
       }
       content={

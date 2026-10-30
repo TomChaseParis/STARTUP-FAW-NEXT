@@ -41,8 +41,9 @@ const LessonCard: React.FC<LessonCardProps> = ({
     "intermediate-1":
       "bg-gradient-to-br from-sky-100 via-sky-300 to-blue-500",
   
-    "intermediate-2":
-      "bg-gradient-to-br from-sky-100 via-sky-300 to-blue-500",
+
+      "intermediate-2":
+      "bg-gradient-to-br from-[#F5F0FF] via-[#D8C8FF] to-[#B9A0F8]",
   
     advanced:
       "bg-gradient-to-br from-sky-100 via-sky-300 to-blue-500",

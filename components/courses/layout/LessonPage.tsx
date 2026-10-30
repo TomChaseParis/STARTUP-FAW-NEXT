@@ -4,7 +4,6 @@ import { ReactNode, useState } from "react";
 
 import InfoBlock from "./InfoBlock";
 
-
 type LessonPageProps = {
   level?: string;
   title: string;
@@ -280,14 +279,14 @@ export default function LessonPage({
             <div className="min-w-0">
               <div className="relative aspect-video overflow-hidden rounded-[20px] border border-black/10 bg-black shadow-md">
                 <video
-                  src={videoSrc}
-                  poster={poster}
                   className="h-full w-full object-cover"
                   controls
                   playsInline
                   preload="metadata"
+                  poster={poster}
                   onEnded={handleVideoEnded}
                 >
+                  <source src={videoSrc} />
                   Ton navigateur ne supporte pas la lecture vidéo.
                 </video>
               </div>

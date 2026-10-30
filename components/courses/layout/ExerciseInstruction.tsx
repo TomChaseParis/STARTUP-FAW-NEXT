@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -6,7 +7,10 @@ import type { CSSProperties, ReactNode } from "react";
 export type ExerciseLevel =
   | "beginner"
   | "elementary-1"
-  | "elementary-2";
+  | "elementary-2"
+  | "intermediate-1"
+  | "intermediate-2"
+  | "advanced";
 
 export type ExerciseInstructionStep = {
   title: string;
@@ -80,6 +84,36 @@ const levelColors: Record<ExerciseLevel, LevelColors> = {
     gradient: "rgba(108, 143, 229, 0.13)",
     divider: "#C2D0F5",
     ring: "#CFDAF8",
+  },
+  "intermediate-1": {
+    primary: "#38BDF8",
+    hover: "#0EA5E9",
+    border: "#BAE6FD",
+    soft: "#E0F2FE",
+    softStrong: "#BAE6FD",
+    gradient: "rgba(56, 189, 248, 0.13)",
+    divider: "#BAE6FD",
+    ring: "#7DD3FC",
+  },
+  "intermediate-2": {
+    primary: "#7C3AED",
+    hover: "#6D28D9",
+    border: "#DDD6FE",
+    soft: "#F3E8FF",
+    softStrong: "#E9D5FF",
+    gradient: "rgba(124, 58, 237, 0.13)",
+    divider: "#DDD6FE",
+    ring: "#C4B5FD",
+  },
+  advanced: {
+    primary: "#C7443E",
+    hover: "#A93632",
+    border: "#F0C7C4",
+    soft: "#FCEBE9",
+    softStrong: "#F6D5D2",
+    gradient: "rgba(199, 68, 62, 0.10)",
+    divider: "#F0C7C4",
+    ring: "#E8AAA6",
   },
 };
 
@@ -251,7 +285,6 @@ export default function ExerciseInstruction({
           className="relative isolate mx-auto grid min-h-0 w-full min-w-0 grid-cols-1 items-start gap-6 overflow-hidden rounded-[28px] border bg-[linear-gradient(135deg,#fffefa_0%,#fffdf6_55%,#fff9e9_100%)] p-4 shadow-[0_8px_28px_rgba(15,23,42,0.045)] sm:gap-6 sm:p-6 lg:grid-cols-2 lg:gap-8 lg:p-8"
           style={{ borderColor: colors.border }}
         >
-          {/* Décorations du fond */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -left-[110px] -top-[180px] -z-10 h-[440px] w-[58%] rotate-[-7deg] rounded-b-[55%_45%] bg-[linear-gradient(135deg,rgba(255,255,255,0.75),rgba(255,253,246,0.35))]"
@@ -265,7 +298,6 @@ export default function ExerciseInstruction({
             }}
           />
 
-          {/* Colonne gauche : illustration et étapes */}
           <div className="relative flex min-w-0 flex-col items-center self-start lg:row-span-2">
             <div className="relative h-[300px] w-full sm:h-[380px] lg:h-[420px]">
               <Image
@@ -318,11 +350,7 @@ export default function ExerciseInstruction({
             </div>
           </div>
 
-          {/* Colonne droite : instructions */}
-          <div
-            className="min-w-0 px-1 py-5 sm:px-2 sm:py-6 lg:relative lg:py-[34px] lg:pr-2 lg:before:absolute lg:before:bottom-0 lg:before:left-[-17px] lg:before:top-0 lg:before:w-px"
-            style={{ "--tw-before-bg": colors.divider } as CSSProperties}
-          >
+          <div className="min-w-0 px-1 py-5 sm:px-2 sm:py-6 lg:relative lg:py-[34px] lg:pr-2 lg:before:absolute lg:before:bottom-0 lg:before:left-[-17px] lg:before:top-0 lg:before:w-px">
             <div className="mb-[22px] flex items-center gap-3 text-[11px] font-extrabold tracking-[0.22em] text-[#748198] sm:gap-[17px] sm:text-[13px]">
               <span
                 className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full sm:h-[58px] sm:w-[58px]"
@@ -350,7 +378,6 @@ export default function ExerciseInstruction({
               {description}
             </p>
 
-            {/* Consigne */}
             {instruction && (
               <div
                 className="mb-[17px] flex items-start gap-3 rounded-xl border px-4 py-4 sm:px-5"
@@ -385,7 +412,6 @@ export default function ExerciseInstruction({
               </div>
             )}
 
-            {/* Exemple principal : affiché uniquement si fourni */}
             {example && (
               <div
                 className="mb-[17px] flex min-h-[78px] flex-wrap items-center gap-[10px] rounded-xl border-l-[6px] px-[13px] py-[13px] text-[#152f50] sm:flex-nowrap sm:gap-[17px] sm:px-5"
@@ -410,9 +436,6 @@ export default function ExerciseInstruction({
               </div>
             )}
 
-         
-
-            {/* Point d’attention */}
             {pointAttention && (
               <aside
                 aria-label="Point d’attention"
@@ -450,14 +473,12 @@ export default function ExerciseInstruction({
               </aside>
             )}
 
-            {/* Contenu complémentaire avant le démarrage */}
             {beforeStartContent && (
               <div className="mb-5 w-full min-w-0">
                 {beforeStartContent}
               </div>
             )}
 
-            {/* Bouton de démarrage */}
             {!started && (
               <div className="mt-6 flex w-full flex-col items-center min-[761px]:mt-[90px]">
                 <div className="mb-[17px] flex w-full max-w-[360px] items-center gap-3 text-[#748198]">
@@ -491,7 +512,6 @@ export default function ExerciseInstruction({
             )}
           </div>
 
-          {/* L'exercice partage le cadre extérieur de l'énoncé */}
           {started && children && (
             <div
               className="col-span-full w-full min-w-0 border-t pt-6 sm:pt-8"

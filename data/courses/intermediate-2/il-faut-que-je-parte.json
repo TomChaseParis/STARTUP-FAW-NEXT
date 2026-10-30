@@ -1,0 +1,23 @@
+
+{
+  "title": "Le mode subjonctif",
+  "category": "Grammaire",
+  "description": "Subjonctif présent et subjonctif passé.",
+  "lesson": {
+    "slug": "mode-subjonctif",
+    "title": "Le mode subjonctif",
+    "description": "Comprendre et utiliser le subjonctif présent et passé.",
+    "image": "/images/courses/modules/mode-subjonctif.jpg",
+    "locked": false
+  },
+  "activities": [
+    {
+      "slug": "il-faut-que-je-parte",
+      "title": "Il faut que je parte…",
+      "subtitle": "Le subjonctif après « falloir »",
+      "description": "Exprimer la nécessité avec « il faut que » et utiliser le subjonctif.",
+      "locked": false,
+      "image": "/images/courses/intermediate-2/activities/il-faut-que-je-parte.jpg"
+    }
+  ]
+}

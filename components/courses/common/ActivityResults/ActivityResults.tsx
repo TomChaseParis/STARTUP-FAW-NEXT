@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -9,9 +10,12 @@ import {
 
 import { ActivityResult } from "@/core/activity/models/ActivityResult";
 
+import type { ExerciseHistoryItem } from "@/components/courses/common/types/exerciseSessionTypes";
+
 import BeginnerTeacherFeedback from "@/components/activity/results/TeacherFeedback";
 import Elementary1TeacherFeedback from "@/components/activity/results/elementary-1/TeacherFeedback";
 import TeacherFeedbackIntermediate1 from "@/components/activity/results/intermediate-1/TeacherFeedback";
+import TeacherFeedbackIntermediate2 from "@/components/activity/results/intermediate-2/TeacherFeedback";
 
 import AnswerHistory from "./AnswerHistory";
 import ResultCard from "./ResultCard";
@@ -42,7 +46,8 @@ type Teacher =
   | "beginner"
   | "elementary-1"
   | "elementary-1-activity-2"
-  | "intermediate-1";
+  | "intermediate-1"
+  | "intermediate-2";
 
 type Props = {
   result: ActivityResult;
@@ -56,13 +61,110 @@ type Props = {
   teacher?: Teacher;
   feedbackVariant?: "activity" | "lesson";
   detailedReport?: ReactNode;
-
-  /**
-   * Affiche l'historique des réponses question par question.
-   * Activé par défaut pour préserver les autres exercices.
-   */
   showAnswerHistory?: boolean;
 };
+
+/* ========================================================= */
+/* CORRECTION DU DIALOGUE                                    */
+/* ========================================================= */
+
+function DialogueCorrection({
+  history,
+}: {
+  history: ExerciseHistoryItem[];
+}) {
+  const dialogueRows = history.filter((item) =>
+    item.question.startsWith("[[DIALOGUE]]"),
+  );
+
+  if (dialogueRows.length === 0) return null;
+
+  const answerRows = new Map(
+    history
+      .filter((item) => item.questionId > 0)
+      .map((item) => [item.questionId, item]),
+  );
+
+  return (
+    <div className="space-y-4">
+      {dialogueRows.map((item, index) => {
+        const text = item.question.replace("[[DIALOGUE]]", "");
+
+        const speakerSeparator = text.indexOf(":");
+
+        const speaker =
+          speakerSeparator >= 0
+            ? text.slice(0, speakerSeparator).trim()
+            : "";
+
+        const dialogueText =
+          speakerSeparator >= 0
+            ? text.slice(speakerSeparator + 1)
+            : text;
+
+        const parts = dialogueText.split(
+          /\[\[ANSWER:(\d+)\]\]/g,
+        );
+
+        return (
+          <div
+            key={`${speaker}-${index}`}
+            className="rounded-xl border border-slate-200 bg-[#fcfcfd] p-4 sm:p-5"
+          >
+            <p className="break-words leading-8 text-slate-800">
+              <span className="font-bold text-[#102744]">
+                {speaker} :
+              </span>
+
+              {parts.map((part, partIndex) => {
+                // Texte normal du dialogue.
+                if (partIndex % 2 === 0) {
+                  return (
+                    <span key={partIndex}>
+                      {part}
+                    </span>
+                  );
+                }
+
+                // Réponse correspondant au champ à compléter.
+                const answer = answerRows.get(Number(part));
+
+                if (!answer) return null;
+
+                return (
+                  <span
+                    key={partIndex}
+                    className="mx-1 inline-flex flex-wrap items-center gap-1"
+                  >
+                    {answer.isCorrect ? (
+                      <span className="rounded-md border border-emerald-200 bg-emerald-100 px-2 py-0.5 font-bold text-emerald-800">
+                        {answer.selectedAnswer}
+                      </span>
+                    ) : (
+                      <>
+                        <span className="rounded-md border border-red-200 bg-red-100 px-2 py-0.5 font-semibold text-red-800 line-through decoration-2">
+                          {answer.selectedAnswer || "Aucune réponse"}
+                        </span>
+
+                        <span className="rounded-md border border-emerald-200 bg-emerald-100 px-2 py-0.5 font-bold text-emerald-800">
+                          {answer.correctAnswer}
+                        </span>
+                      </>
+                    )}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ========================================================= */
+/* COMPOSANT PRINCIPAL                                       */
+/* ========================================================= */
 
 export default function ActivityResults({
   result,
@@ -89,9 +191,7 @@ export default function ActivityResults({
 
   useEffect(() => {
     requestAnimationFrame(() => {
-      if (!sectionRef.current) {
-        return;
-      }
+      if (!sectionRef.current) return;
 
       const y =
         sectionRef.current.getBoundingClientRect().top +
@@ -118,16 +218,26 @@ export default function ActivityResults({
   );
 
   /* ========================================================= */
-  /* FEEDBACK PROFESSEUR                                       */
+  /* DÉTECTION DU DIALOGUE                                     */
+  /* ========================================================= */
+
+  const isDialogueExercise = result.session.history.some(
+    (item) => item.question.startsWith("[[DIALOGUE]]"),
+  );
+
+  /* ========================================================= */
+  /* SÉLECTION DU PROFESSEUR                                   */
   /* ========================================================= */
 
   const TeacherFeedback =
-    teacher === "intermediate-1"
-      ? TeacherFeedbackIntermediate1
-      : teacher === "elementary-1" ||
-          teacher === "elementary-1-activity-2"
-        ? Elementary1TeacherFeedback
-        : BeginnerTeacherFeedback;
+    teacher === "intermediate-2"
+      ? TeacherFeedbackIntermediate2
+      : teacher === "intermediate-1"
+        ? TeacherFeedbackIntermediate1
+        : teacher === "elementary-1" ||
+            teacher === "elementary-1-activity-2"
+          ? Elementary1TeacherFeedback
+          : BeginnerTeacherFeedback;
 
   const teacherFeedbackProps =
     teacher === "elementary-1" ||
@@ -148,12 +258,14 @@ export default function ActivityResults({
   /* ========================================================= */
 
   const nextButtonColor =
-    teacher === "intermediate-1"
-      ? "bg-[rgb(56,189,248)] hover:bg-[rgb(14,165,233)]"
-      : teacher === "elementary-1" ||
-          teacher === "elementary-1-activity-2"
-        ? "bg-[rgb(87,204,153)] hover:bg-[rgb(70,185,135)]"
-        : "bg-amber-500 hover:bg-amber-600";
+    teacher === "intermediate-2"
+      ? "bg-[#7C3AED] hover:bg-[#6D28D9]"
+      : teacher === "intermediate-1"
+        ? "bg-[rgb(56,189,248)] hover:bg-[rgb(14,165,233)]"
+        : teacher === "elementary-1" ||
+            teacher === "elementary-1-activity-2"
+          ? "bg-[rgb(87,204,153)] hover:bg-[rgb(70,185,135)]"
+          : "bg-amber-500 hover:bg-amber-600";
 
   return (
     <section
@@ -247,9 +359,11 @@ export default function ActivityResults({
         </div>
       )}
 
-      {/* CORRECTION DÉTAILLÉE PERSONNALISÉE */}
+      {/* ===================================================== */}
+      {/* CORRECTION DÉTAILLÉE                                  */}
+      {/* ===================================================== */}
 
-      {detailedReport && (
+      {(detailedReport || isDialogueExercise) && (
         <div
           className="
             mt-8
@@ -261,6 +375,8 @@ export default function ActivityResults({
             sm:mt-10
           "
         >
+          {/* BOUTON D'OUVERTURE */}
+
           <button
             type="button"
             onClick={() => {
@@ -330,21 +446,64 @@ export default function ActivityResults({
             </span>
           </button>
 
+          {/* CONTENU AFFICHÉ AU CLIC */}
+
           {showDetailedReport && (
-            <div className="border-t border-slate-200 bg-white p-4 sm:p-6 md:p-8">
-              {detailedReport}
+            <div className="space-y-8 border-t border-slate-200 bg-white p-4 sm:p-6 md:p-8">
+
+              {/* ANCIENNE CORRECTION PERSONNALISÉE */}
+
+              {detailedReport && (
+                <div>
+                  {detailedReport}
+                </div>
+              )}
+
+              {/* CORRECTION DU DIALOGUE */}
+
+              {isDialogueExercise && (
+                <div>
+                  <div className="mb-5 border-b border-slate-200 pb-4">
+                    <h4 className="text-lg font-extrabold text-[#102744]">
+                      Correction du dialogue
+                    </h4>
+
+                    <p className="mt-1 text-sm leading-relaxed text-slate-500">
+                      Voici le dialogue complet avec tes réponses et les corrections.
+                    </p>
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        ✓ Bonne réponse
+                      </span>
+
+                      <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+                        ✕ Ta réponse
+                      </span>
+                    </div>
+                  </div>
+
+                  <DialogueCorrection
+                    history={result.session.history}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
       )}
 
-      {/* HISTORIQUE QUESTION PAR QUESTION */}
+      {/* HISTORIQUE CLASSIQUE POUR LES AUTRES EXERCICES */}
 
-      {!detailedReport && showAnswerHistory && (
-        <AnswerHistory history={result.session.history} />
-      )}
+      {!detailedReport &&
+        !isDialogueExercise &&
+        showAnswerHistory && (
+          <AnswerHistory history={result.session.history} />
+        )}
 
-      {/* BOUTONS PRINCIPAUX */}
+      {/* ===================================================== */}
+      {/* BOUTONS PRINCIPAUX                                    */}
+      {/* ===================================================== */}
 
       <div
         className="

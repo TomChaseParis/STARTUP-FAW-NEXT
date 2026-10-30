@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -6,12 +7,14 @@ import Image from "next/image";
 export type TeacherLevel =
   | "beginner"
   | "elementary-1"
-  | "elementary-2";
+  | "elementary-2"
+  | "intermediate-2";
 
 export const TEACHER_IMAGES: Record<TeacherLevel, string> = {
   beginner: "/images/MARIETESTBULLE.PNG",
   "elementary-1": "/images/jean-instruction.png",
   "elementary-2": "/images/teacher-elementary-2.png",
+  "intermediate-2": "/images/henri-instruction.png",
 };
 
 type TeacherComicBubbleProps = {
@@ -45,7 +48,9 @@ export default function TeacherComicBubble({
       ? "Jean, professeur de français"
       : level === "elementary-2"
         ? "Professeur de français du niveau Élémentaire 2"
-        : "Marie, professeure de français");
+        : level === "intermediate-2"
+          ? "Henri, professeur de français"
+          : "Marie, professeure de français");
 
   useEffect(() => {
     if (!showBubble) {

@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { ReactNode } from "react";
@@ -6,6 +7,7 @@ import ExerciseInstruction, {
   type ExerciseInstructionProps,
   type ExerciseLevel,
 } from "./ExerciseInstruction";
+
 import FloatingAudioPlayer from "./FloatingAudioPlayer";
 
 type ClickOrSpeakProps = Omit<
@@ -40,7 +42,7 @@ export default function ClickOrSpeak({
   title = "Découverte",
   description = "Écoute une première fois le dialogue ci-dessus, puis réponds aux questions.",
   example = "Écoute attentivement, puis réponds aux questions.",
-  instructionImageSrc = "/images/exo2jean.png",
+  instructionImageSrc = "/images/EXO3QCM.png",
   dialogueImageSrc = "/images/courses/audioBlock/beginner/am.png",
   dialogueImageAlt = "Illustration du dialogue à écouter",
   audioSrc,
@@ -56,6 +58,7 @@ export default function ClickOrSpeak({
 
   return (
     <>
+      {/* CARTE DE CONSIGNE */}
       <ExerciseInstruction
         imageSrc={instructionImageSrc}
         imageAlt={`Illustration de l’exercice ${exerciseNumber}`}
@@ -98,11 +101,16 @@ export default function ClickOrSpeak({
         }
         onStart={onStart}
         started={started}
-      >
-        {children}
-      </ExerciseInstruction>
+      />
 
-      {/* Le lecteur flottant apparaît uniquement si un audio est fourni. */}
+      {/* QCM INDÉPENDANT, SOUS LA CARTE DE CONSIGNE */}
+      {started && children && (
+        <div className="container mt-8 w-full min-w-0">
+          {children}
+        </div>
+      )}
+
+      {/* LECTEUR AUDIO */}
       {started && audioSrc && (
         <FloatingAudioPlayer
           audioSrc={audioSrc}

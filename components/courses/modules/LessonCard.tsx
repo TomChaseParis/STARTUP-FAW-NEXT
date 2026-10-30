@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 
@@ -20,24 +19,18 @@ const LESSON_COLORS: Record<string, string> = {
   "elementary-1": "#57CC99",
   "elementary-2": "#31572C",
   "intermediate-1": "#38BDF8",
-  "intermediate-2": "#00296B",
+  "intermediate-2": "#B9A0F8",
   advanced: "#C7443E",
 };
 
-export default function LessonCard({
-  level,
-  lesson,
-}: LessonCardProps) {
-  const lessonColor =
-    LESSON_COLORS[level] ?? "#FFD166";
+export default function LessonCard({ level, lesson }: LessonCardProps) {
+  const lessonColor = LESSON_COLORS[level] ?? "#FFD166";
 
   return (
     <Link
       href={`/courses/${level}/lessons/${lesson.slug}`}
       className={
-        lesson.locked
-          ? "pointer-events-none opacity-60"
-          : "group block w-fit"
+        lesson.locked ? "pointer-events-none opacity-60" : "group block w-fit"
       }
     >
       <article
@@ -57,13 +50,13 @@ export default function LessonCard({
           via-white
           to-slate-50
           p-4
-          sm:p-5
-          md:p-6
           shadow-[0_3px_6px_rgba(0,0,0,0.05),0_12px_24px_rgba(15,23,42,0.08),0_28px_60px_rgba(15,23,42,0.10)]
           transition-all
           duration-300
           hover:-translate-y-1
           hover:shadow-[0_5px_10px_rgba(0,0,0,0.06),0_18px_36px_rgba(15,23,42,0.12),0_40px_80px_rgba(15,23,42,0.14)]
+          sm:p-5
+          md:p-6
         "
       >
         {/* Badge */}

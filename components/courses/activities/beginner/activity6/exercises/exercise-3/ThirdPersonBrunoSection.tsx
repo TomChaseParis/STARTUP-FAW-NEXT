@@ -71,6 +71,7 @@ export default function ThirdPersonBrunoSection() {
           >
             <ExerciseSection width="full">
               <TypeInstruction
+              level="beginner"
                 imageSrc="/images/reecriture.png"
                 imageAlt="Souris devant un tableau pour l’exercice de réécriture"
                 category="RÉÉCRITURE"

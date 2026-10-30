@@ -13,7 +13,6 @@ type PageProps = {
 };
 
 const LEGACY_LEVELS = new Set([
-  "intermediate-2",
   "advanced",
 ]);
 
@@ -31,7 +30,7 @@ const LEVEL_TITLE_COLORS: Record<string, string> = {
   "elementary-1": "#57CC99",
   "elementary-2": "#31572C",
   "intermediate-1": "#38BDF8",
-  "intermediate-2": "#00296B",
+  "intermediate-2": "#8B5CF6",
   advanced: "#C7443E",
 };
 
@@ -51,25 +50,13 @@ export default async function LevelPage({
 
   /*
    * Les niveaux migrés utilisent
-   * maintenant le système de modules.
+   * le système de modules.
    */
   const modules = await getModules(level);
 
-  /*
-   * Nom français du niveau affiché à l'utilisateur.
-   *
-   * Exemple :
-   *
-   * elementary-1 → Élémentaire 1
-   * elementary-2 → Élémentaire 2
-   * intermediate-1 → Intermédiaire 1
-   */
   const formattedLevel =
     LEVEL_LABELS[level] ?? level;
 
-  /*
-   * Couleur du niveau affiché dans le titre.
-   */
   const levelTitleColor =
     LEVEL_TITLE_COLORS[level] ?? "#E09F00";
 

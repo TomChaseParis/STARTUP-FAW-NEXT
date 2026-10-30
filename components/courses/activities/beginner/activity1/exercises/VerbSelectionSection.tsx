@@ -161,6 +161,7 @@ export default function VerbSelectionSection({
             {/* ÉNONCÉ */}
             <div id="exercise-2-instruction" className="scroll-mt-10">
               <TypeInstruction
+              level="beginner"
                 imageSrc="/images/type.png"
                 imageAlt="Souris utilisant un clavier pour un exercice écrit"
                 category="CONJUGAISON"

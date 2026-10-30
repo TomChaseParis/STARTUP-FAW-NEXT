@@ -21,8 +21,7 @@ const ACTIVITY_COLORS: Record<string, string> = {
   "elementary-1": "#57CC99",
   "elementary-2": "#31572C",
   "intermediate-1": "#38BDF8",
-  "intermediate-2": "#00296B",
-  advanced: "#C7443E",
+  "intermediate-2": "#B9A0F8",  advanced: "#C7443E",
 };
 
 export default function ActivityCard({
