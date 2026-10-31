@@ -15,7 +15,7 @@ export type ExerciseLevel =
 export type ExerciseInstructionStep = {
   title: string;
   description: string;
-  icon: "sound" | "mic" | "keyboard" | "click";
+  icon: "sound" | "mic" | "keyboard" | "click" | "eye" | "drag";
 };
 
 export type ExercisePointAttention = {
@@ -33,6 +33,7 @@ export type ExerciseInstructionProps = {
   description: string;
   example?: string;
   instruction?: string;
+  rappel?: ReactNode;
   steps: [ExerciseInstructionStep, ExerciseInstructionStep];
   pointAttention?: ExercisePointAttention;
   onStart?: () => void;
@@ -205,6 +206,59 @@ function ClickIcon({ size = 24 }: { size?: number }) {
   );
 }
 
+function EyeIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="12"
+        cy="12"
+        r="3"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+function DragIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M8 12V6.5a1.5 1.5 0 0 1 3 0V11 5.5a1.5 1.5 0 0 1 3 0V11 7a1.5 1.5 0 0 1 3 0v5.5l1-1a1.7 1.7 0 0 1 2.4 2.4l-4.1 5.1a3 3 0 0 1-2.3 1H11a4 4 0 0 1-3.3-1.8L5 14.5a1.7 1.7 0 0 1 3-1.7L8 14"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 4 3.5 2.5M19 4l1.5-1.5M12 2V1"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function InstructionIcon({
   type,
   size = 24,
@@ -215,12 +269,24 @@ function InstructionIcon({
   switch (type) {
     case "sound":
       return <SoundIcon size={size} />;
+
     case "mic":
       return <MicIcon size={size} />;
+
     case "keyboard":
       return <KeyboardIcon size={size} />;
+
     case "click":
       return <ClickIcon size={size} />;
+
+    case "eye":
+      return <EyeIcon size={size} />;
+
+    case "drag":
+      return <DragIcon size={size} />;
+
+    default:
+      return null;
   }
 }
 
@@ -252,6 +318,7 @@ export default function ExerciseInstruction({
   description,
   example,
   instruction,
+  rappel,
   steps,
   pointAttention,
   onStart,
@@ -377,6 +444,12 @@ export default function ExerciseInstruction({
             <p className="mb-6 mt-0 text-base leading-[1.55] text-[#152f50] sm:text-[clamp(16px,1.32vw,21px)]">
               {description}
             </p>
+
+            {rappel && (
+              <div className="mb-[17px] w-full border border-black bg-white px-3 py-2 text-[12px] leading-[1.45] text-black">
+                {rappel}
+              </div>
+            )}
 
             {instruction && (
               <div

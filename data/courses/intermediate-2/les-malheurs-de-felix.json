@@ -1,0 +1,24 @@
+{
+  "title": "Les malheurs de Félix",
+  "category": "Grammaire",
+  "description": "Passer du style direct au style indirect et transformer les phrases.",
+  "lesson": {
+    "slug": "les-malheurs-de-felix",
+    "title": "Les malheurs de Félix",
+    "description": "Comprendre et maîtriser le passage du style direct au style indirect.",
+    "image": "/images/courses/modules/les-malheurs-de-felix.jpg",
+    "locked": false
+  },
+  "activities": [
+    {
+      "slug": "les-malheurs-de-felix",
+      "title": "LES MALHEURS DE FÉLIX",
+      "subtitle": "Du style direct au style indirect",
+      "description": "Rapporter les paroles et les questions au style indirect.",
+      "additionalDescription": "Elle me demandait de… / ce que… → De l'impératif à l'infinitif.",
+      "bulletList": true,
+      "locked": false,
+      "image": "/images/courses/intermediate-2/modules/le-discours-rapporte/les-malheurs-de-felix.jpg"
+    }
+  ]
+}

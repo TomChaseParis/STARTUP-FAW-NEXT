@@ -8,6 +8,9 @@ import { useNavigation } from "./ActivityNavigationProvider";
 import ActivityResults from "@/components/courses/common/ActivityResults";
 import { ActivityResult } from "@/core/activity/models/ActivityResult";
 
+import type { SemanticCoherenceCategory } from "@/components/courses/common/ActivityResults/SemanticCoherenceResults";
+
+
 type TeacherFeedbackImages = {
   bad: string;
   middle: string;
@@ -45,6 +48,12 @@ type Props = {
     exerciseIndex: number,
   ) => ReactNode;
 
+  /**
+   * Catégories et images utilisées pour la correction
+   * de l'exercice de cohérence sémantique.
+   */
+  semanticCoherenceCategories?: SemanticCoherenceCategory[];
+
   finishHref?: string;
 };
 
@@ -55,6 +64,7 @@ export default function ActivityFlow({
   teacherFeedbackAudios,
   hideAnswerHistoryForExercises = [],
   detailedReportRenderer,
+  semanticCoherenceCategories,
   finishHref,
 }: Props) {
   const router = useRouter();
@@ -109,6 +119,7 @@ export default function ActivityFlow({
         teacherFeedbackImages={teacherFeedbackImages}
         teacherFeedbackAudios={teacherFeedbackAudios}
         showAnswerHistory={showAnswerHistory}
+        semanticCoherenceCategories={semanticCoherenceCategories}
         detailedReport={
           detailedReportRenderer
             ? detailedReportRenderer(

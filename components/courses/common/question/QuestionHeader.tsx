@@ -34,14 +34,16 @@ export default function QuestionHeader({
   return (
     <div className="mb-6 flex flex-col gap-4">
       {showBubble && (
-        <div className="w-full max-w-xl">
-          <TeacherComicBubble
-            message="Clique sur ce bouton pour écouter la question à l'oral !"
-            level={teacherLevel}
-            imageSrc={teacherBubbleImage}
-            imageAlt={teacherAlt}
-          />
-        </div>
+      <div className="w-full max-w-xl">
+      <TeacherComicBubble
+        message="Écoutez bien ma réponse."
+        level="intermediate-2"
+        imageSrc="/images/henri-instruction.png"
+        imageAlt="Henri, professeur de français"
+        showPhoto
+        showBubble
+      />
+    </div>
       )}
 
       <div className="flex items-center gap-4">

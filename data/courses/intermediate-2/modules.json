@@ -1,4 +1,3 @@
-
 [
   {
     "slug": "mode-subjonctif",
@@ -7,5 +6,13 @@
     "categoryColor": "grammar",
     "description": "Subjonctif présent et subjonctif passé.",
     "image": "/images/courses/intermediate-2/modules/le-mode-subjonctif/le-mode-subjonctif.jpg"
+  },
+  {
+    "slug": "le-discours-rapporte",
+    "title": "Le discours rapporté",
+    "category": "Communication",
+    "categoryColor": "communication",
+    "description": "Discours indirect et concordance des temps.",
+    "image": "/images/courses/intermediate-2/modules/le-discours-rapporte/le-discours-rapporte.jpg"
   }
 ]

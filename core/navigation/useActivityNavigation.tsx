@@ -1,53 +1,67 @@
-import { useState } from "react";
-import { ActivityFlowState } from "./types";
-import { ActivityResult } from "../activity/models/ActivityResult";
+"use client";
 
+import { useCallback, useState } from "react";
 
-export function useActivityNavigation(totalExercises: number) {
+import type { ActivityResult } from "@/core/activity/models/ActivityResult";
+import type {
+  ActivityFlowState,
+  ActivityNavigationContextType,
+} from "./types";
+
+export function useActivityNavigation(
+  totalExercises: number,
+): ActivityNavigationContextType {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+  const [flowState, setFlowState] =
+    useState<ActivityFlowState>("exercise");
+  const [lastResult, setLastResult] = useState<ActivityResult | null>(
+    null,
+  );
 
-  const [flowState, setFlowState] = useState<ActivityFlowState>("exercise");
+  const completeExercise = useCallback(
+    (result: ActivityResult) => {
+      setLastResult(result);
+      setFlowState("results");
+    },
+    [],
+  );
 
-  const [lastResult, setLastResult] =
-  useState<ActivityResult | null>(null);
-
-  function completeExercise(result: ActivityResult) {
-    console.log("completeExercise appelé", result);
-  
-    setLastResult(result);
-  
-    console.log("lastResult enregistré");
-  
-    setFlowState("results");
-  
-    console.log("flowState = results");
-  }
-  function restartExercise() {
+  const restartExercise = useCallback(() => {
+    setLastResult(null);
     setFlowState("exercise");
-  }
+  }, []);
 
-  function nextExercise() {
-    if (currentExerciseIndex >= totalExercises - 1) {
-      setFlowState("finished");
-      return;
-    }
+  const nextExercise = useCallback(() => {
+    setLastResult(null);
 
-    setFlowState("transition");
-  }
+    setCurrentExerciseIndex((previousIndex) => {
+      const nextIndex = previousIndex + 1;
 
-  function transitionFinished() {
-    setCurrentExerciseIndex((prev) => prev + 1);
-    setFlowState("exercise");
-  }
+      if (nextIndex >= totalExercises) {
+        setFlowState("finished");
+        return previousIndex;
+      }
+
+      setFlowState("transition");
+      return nextIndex;
+    });
+  }, [totalExercises]);
+
+  const transitionFinished = useCallback(() => {
+    setFlowState((currentState) =>
+      currentState === "transition" ? "exercise" : currentState,
+    );
+  }, []);
 
   return {
     currentExerciseIndex,
     flowState,
     lastResult,
-
     completeExercise,
     restartExercise,
     nextExercise,
     transitionFinished,
   };
 }
+
+export default useActivityNavigation;

@@ -1,3 +1,4 @@
+
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 
@@ -43,6 +44,7 @@ const activityMap: Record<string, ActivityComponent> = {
       ),
     { ssr: false },
   ),
+
   "beginner/meeting-bruno-galopin": dynamic(
     () =>
       import(
@@ -235,6 +237,13 @@ const activityMap: Record<string, ActivityComponent> = {
     { ssr: false },
   ),
 
+  "intermediate-2/les-malheurs-de-felix": dynamic(
+    () =>
+      import(
+        "@/components/courses/activities/intermediate-2/activity2/Activity"
+      ),
+    { ssr: false },
+  ),
 };
 
 export default function Page({

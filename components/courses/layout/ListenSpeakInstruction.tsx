@@ -2,6 +2,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+
 import ExerciseInstruction, {
   type ExerciseInstructionProps,
 } from "./ExerciseInstruction";
@@ -35,7 +36,9 @@ export default function ListenSpeakInstruction({
   category = "PRONONCIATION",
   title = "Je suis, tu as, elle fait, nous allons...",
   description = "Pour chaque verbe, écoute la conjugaison au présent, puis choisis la bonne forme verbale du verbe pour chaque phrase qui t’est proposée.",
-  example = "Qui est étudiant ? Qui travaille ?",
+  example,
+  instruction,
+  rappel,
   steps = DEFAULT_STEPS,
   onStart,
   started = false,
@@ -51,6 +54,8 @@ export default function ListenSpeakInstruction({
       title={title}
       description={description}
       example={example}
+      instruction={instruction}
+      rappel={rappel}
       steps={steps}
       onStart={onStart}
       started={started}

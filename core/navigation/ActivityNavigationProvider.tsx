@@ -1,6 +1,13 @@
-import { createContext, useContext, ReactNode } from "react";
+"use client";
+
+import {
+  createContext,
+  useContext,
+  type ReactNode,
+} from "react";
+
 import { useActivityNavigation } from "./useActivityNavigation";
-import { ActivityNavigationContextType } from "./types";
+import type { ActivityNavigationContextType } from "./types";
 
 const ActivityNavigationContext =
   createContext<ActivityNavigationContextType | null>(null);
@@ -23,12 +30,12 @@ export function ActivityNavigationProvider({
   );
 }
 
-export function useNavigation() {
+export function useNavigation(): ActivityNavigationContextType {
   const context = useContext(ActivityNavigationContext);
 
   if (!context) {
     throw new Error(
-      "useNavigation must be used inside ActivityNavigationProvider"
+      "useNavigation must be used inside ActivityNavigationProvider.",
     );
   }
 

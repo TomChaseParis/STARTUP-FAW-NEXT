@@ -41,6 +41,8 @@ export default function TypeInstruction({
   title,
   description,
   example,
+  instruction,
+  rappel,
   steps = DEFAULT_STEPS,
   onStart,
   started = false,
@@ -56,6 +58,8 @@ export default function TypeInstruction({
       title={title}
       description={description}
       example={example}
+      instruction={instruction}
+      rappel={rappel}
       steps={steps}
       onStart={onStart}
       started={started}

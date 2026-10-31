@@ -8,15 +8,15 @@ export const activity2: ActivityDefinition = {
   exercises: [
     {
       id: "exercise-1",
-      title: "Découverte",
+      title: "",
     },
     {
       id: "exercise-2",
-      title: "Compréhension",
+      title: "",
     },
     {
       id: "exercise-3",
-      title: "Conjugaison",
+      title: "",
     },
   ],
 };

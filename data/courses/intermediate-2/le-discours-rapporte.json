@@ -1,0 +1,24 @@
+{
+  "title": "Le discours rapporté",
+  "category": "Communication",
+  "description": "Discours indirect et concordance des temps.",
+  "lesson": {
+    "slug": "le-discours-rapporte",
+    "title": "Le discours rapporté",
+    "description": "Comprendre et maîtriser le discours indirect et la concordance des temps.",
+    "image": "/images/courses/intermediate-2/modules/le-discours-rapporte/le-discours-rapporte.jpg",
+    "locked": false
+  },
+  "activities": [
+    {
+      "slug": "les-malheurs-de-felix",
+      "title": "LES MALHEURS DE FÉLIX",
+      "subtitle": "Du style direct au style indirect",
+      "description": "Elle me demandait de/si/ce que....",
+      "additionalDescription": "De l'impératif à l'infinitif.",
+      "bulletList": true,
+      "locked": false,
+      "image": "/images/courses/intermediate-2/modules/le-discours-rapporte/les-malheurs-de-felix.jpg"
+    }
+  ]
+}

@@ -21,6 +21,8 @@ import AnswerHistory from "./AnswerHistory";
 import ResultCard from "./ResultCard";
 import ScoreBadge from "./ScoreBadge";
 
+import SemanticCoherenceResults, {SemanticCoherenceCategory} from "./SemanticCoherenceResults";
+
 type TeacherFeedbackImages = {
   bad: string;
   middle: string;
@@ -62,6 +64,7 @@ type Props = {
   feedbackVariant?: "activity" | "lesson";
   detailedReport?: ReactNode;
   showAnswerHistory?: boolean;
+  semanticCoherenceCategories?: SemanticCoherenceCategory[];
 };
 
 /* ========================================================= */
@@ -117,7 +120,6 @@ function DialogueCorrection({
               </span>
 
               {parts.map((part, partIndex) => {
-                // Texte normal du dialogue.
                 if (partIndex % 2 === 0) {
                   return (
                     <span key={partIndex}>
@@ -126,7 +128,6 @@ function DialogueCorrection({
                   );
                 }
 
-                // Réponse correspondant au champ à compléter.
                 const answer = answerRows.get(Number(part));
 
                 if (!answer) return null;
@@ -179,6 +180,7 @@ export default function ActivityResults({
   feedbackVariant = "activity",
   detailedReport,
   showAnswerHistory = true,
+  semanticCoherenceCategories,
 }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -224,6 +226,9 @@ export default function ActivityResults({
   const isDialogueExercise = result.session.history.some(
     (item) => item.question.startsWith("[[DIALOGUE]]"),
   );
+
+  const hasSemanticCoherenceResults =
+    Boolean(semanticCoherenceCategories?.length);
 
   /* ========================================================= */
   /* SÉLECTION DU PROFESSEUR                                   */
@@ -363,7 +368,9 @@ export default function ActivityResults({
       {/* CORRECTION DÉTAILLÉE                                  */}
       {/* ===================================================== */}
 
-      {(detailedReport || isDialogueExercise) && (
+      {(detailedReport ||
+        isDialogueExercise ||
+        hasSemanticCoherenceResults) && (
         <div
           className="
             mt-8
@@ -451,12 +458,21 @@ export default function ActivityResults({
           {showDetailedReport && (
             <div className="space-y-8 border-t border-slate-200 bg-white p-4 sm:p-6 md:p-8">
 
-              {/* ANCIENNE CORRECTION PERSONNALISÉE */}
+              {/* CORRECTION PERSONNALISÉE */}
 
               {detailedReport && (
                 <div>
                   {detailedReport}
                 </div>
+              )}
+
+              {/* CORRECTION DU GLISSER-DÉPOSER */}
+
+              {hasSemanticCoherenceResults && (
+                <SemanticCoherenceResults
+                  history={result.session.history}
+                  categories={semanticCoherenceCategories}
+                />
               )}
 
               {/* CORRECTION DU DIALOGUE */}
@@ -497,6 +513,7 @@ export default function ActivityResults({
 
       {!detailedReport &&
         !isDialogueExercise &&
+        !hasSemanticCoherenceResults &&
         showAnswerHistory && (
           <AnswerHistory history={result.session.history} />
         )}

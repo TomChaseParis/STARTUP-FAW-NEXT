@@ -13,14 +13,14 @@ import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigation
 import { activity1 } from "@/data/courses/activities/intermediate-2/activity1/activity1";
 
 // EXERCICE 1
-import SubjunctiveFillGapsSection from "../exercises/exercise-1/SubjunctiveFillGapsSection";
+import SubjunctiveFillGapsSection from "./exercises/exercise-1/SubjunctiveFillGapsSection";
 
 // EXERCICE 2
-import IllustratedTransformationSection from "../exercises/exercise-2/IllustratedTransformationSection";
+import IllustratedTransformationSection from "./exercises/exercise-2/IllustratedTransformationSection";
 
 // EXERCICE 3
-import QCMSection from "../exercises/exercise-3/QCMSection";
-import QCMExercise from "../exercises/exercise-3/QCMExercise";
+import QCMSection from "./exercises/exercise-3/QCMSection";
+import QCMExercise from "./exercises/exercise-3/QCMExercise";
 
 export default function Activity() {
   const [started, setStarted] = useState(false);
