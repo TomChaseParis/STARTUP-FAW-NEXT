@@ -138,7 +138,8 @@ export default function FloatingVideoPlayer({
                 strokeLinejoin="round"
               />
             </svg>
-            Disponible pendant toute l'activité
+
+            Disponible pendant toute l&apos;activité
           </div>
         </div>
       </section>
