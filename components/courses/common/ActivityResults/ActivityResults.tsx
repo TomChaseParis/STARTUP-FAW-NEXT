@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -14,6 +13,7 @@ import type { ExerciseHistoryItem } from "@/components/courses/common/types/exer
 
 import BeginnerTeacherFeedback from "@/components/activity/results/TeacherFeedback";
 import Elementary1TeacherFeedback from "@/components/activity/results/elementary-1/TeacherFeedback";
+import Elementary2TeacherFeedback from "@/components/activity/results/elementary-2/TeacherFeedback";
 import TeacherFeedbackIntermediate1 from "@/components/activity/results/intermediate-1/TeacherFeedback";
 import TeacherFeedbackIntermediate2 from "@/components/activity/results/intermediate-2/TeacherFeedback";
 
@@ -21,7 +21,9 @@ import AnswerHistory from "./AnswerHistory";
 import ResultCard from "./ResultCard";
 import ScoreBadge from "./ScoreBadge";
 
-import SemanticCoherenceResults, {SemanticCoherenceCategory} from "./SemanticCoherenceResults";
+import SemanticCoherenceResults, {
+  SemanticCoherenceCategory,
+} from "./SemanticCoherenceResults";
 
 type TeacherFeedbackImages = {
   bad: string;
@@ -48,6 +50,7 @@ type Teacher =
   | "beginner"
   | "elementary-1"
   | "elementary-1-activity-2"
+  | "elementary-2"
   | "intermediate-1"
   | "intermediate-2";
 
@@ -239,10 +242,12 @@ export default function ActivityResults({
       ? TeacherFeedbackIntermediate2
       : teacher === "intermediate-1"
         ? TeacherFeedbackIntermediate1
-        : teacher === "elementary-1" ||
-            teacher === "elementary-1-activity-2"
-          ? Elementary1TeacherFeedback
-          : BeginnerTeacherFeedback;
+        : teacher === "elementary-2"
+          ? Elementary2TeacherFeedback
+          : teacher === "elementary-1" ||
+              teacher === "elementary-1-activity-2"
+            ? Elementary1TeacherFeedback
+            : BeginnerTeacherFeedback;
 
   const teacherFeedbackProps =
     teacher === "elementary-1" ||
@@ -268,7 +273,8 @@ export default function ActivityResults({
       : teacher === "intermediate-1"
         ? "bg-[rgb(56,189,248)] hover:bg-[rgb(14,165,233)]"
         : teacher === "elementary-1" ||
-            teacher === "elementary-1-activity-2"
+            teacher === "elementary-1-activity-2" ||
+            teacher === "elementary-2"
           ? "bg-[rgb(87,204,153)] hover:bg-[rgb(70,185,135)]"
           : "bg-amber-500 hover:bg-amber-600";
 

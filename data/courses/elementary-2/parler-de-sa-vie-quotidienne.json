@@ -1,22 +1,25 @@
+
 {
   "title": "Parler de sa vie quotidienne",
   "category": "Communication",
   "description": "Apprends à parler de ta routine et de tes activités quotidiennes.",
-
   "lesson": {
     "slug": "vie-quotidienne",
     "title": "",
-    "image": "/images/courses/modules/viequotidienne.png",
-    "locked": false
+    "image": "/images/courses/modules/vie-quotidienne.jpg",
+        "locked": false
   },
-
   "activities": [
     {
       "slug": "emploi-du-temps-clara",
       "title": "L'EMPLOI DU TEMPS MOUVEMENTÉ DE CLARA",
-      "subtitle": "",
+      "subtitle": "Matin, midi et soir",
+      "description": "Repérer les éléments clés d'une journée",
+      "additionalDescription": "Questions / réponses",
+      "thirdDescription": "Passer de « je » à « elle »",
+      "image": "/images/courses/modules/emploi-du-temps.png",
       "locked": false,
-      "image": "/images/courses/modules/emploi-du-temps-clara.png"
+      "bulletList": true
     }
   ]
 }

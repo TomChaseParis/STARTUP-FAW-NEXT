@@ -1,22 +1,155 @@
+
 "use client";
 
-import ActivityLayout from "@/components/courses/layout/ActivityLayout";
-import LessonBlock from "@/components/courses/layout/ActivityBlock";
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
-import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-import VideoExerciseBlock from "@/components/courses/blocks/VideoExerciseBlock";
+import {
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 
-import Exercice from "./Exercice";
-import Exercice2 from "./Exercice2";
+import { AnimatePresence, motion } from "framer-motion";
+
+import ActivityLayout from "@/components/courses/layout/ActivityLayout";
+import LessonBlock from "@/components/courses/layout/LessonBlock";
+
+import ActivityFlow from "@/core/navigation/ActivityFlow";
+import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 
 import { elementary2Activity1 } from "@/data/courses/activities/elementary-2/activity1/activity1";
 
+import FillGapsReport from "@/components/courses/common/result/FillGapsReport";
+
+import QCMSection from "./exercise-1/QCMSection";
+import QuestionMatchingSection from "./exercise-2/QuestionMatchingSection";
+import TransformationTypeSection from "./exercise-3/TransformationTypeSection";
+
+import { transformationTypeData } from "./exercise-3/data/TransformationTypeData";
+
 export default function Activity() {
+  // Démarrage global de l'activité.
+  const [activityStarted, setActivityStarted] = useState(false);
+
+  // Démarrage indépendant de l'exercice 2.
+  const [questionMatchingStarted, setQuestionMatchingStarted] =
+    useState(false);
+
+  /* ========================================================= */
+  /* DÉMARRAGE DE L'ACTIVITÉ                                   */
+  /* ========================================================= */
+
+  const handleStart = useCallback(() => {
+    setActivityStarted(true);
+  }, []);
+
+  /* ========================================================= */
+  /* DÉMARRAGE DE L'EXERCICE 2                                 */
+  /* ========================================================= */
+
+  const handleQuestionMatchingStart = useCallback(() => {
+    setQuestionMatchingStarted(true);
+  }, []);
+
+  /* ========================================================= */
+  /* SCROLL VERS LE PREMIER EXERCICE                           */
+  /* ========================================================= */
+
+  useEffect(() => {
+    if (!activityStarted) return;
+
+    let attempts = 0;
+    let timeoutId: number | undefined;
+    let animationFrameId: number | undefined;
+
+    const scrollToFirstExercise = () => {
+      const element = document.getElementById(
+        "qcm-instruction",
+      );
+
+      if (!element) {
+        attempts += 1;
+
+        if (attempts < 20) {
+          timeoutId = window.setTimeout(
+            scrollToFirstExercise,
+            100,
+          );
+        }
+
+        return;
+      }
+
+      const startPosition = window.scrollY;
+
+      const targetPosition = Math.max(
+        0,
+        element.getBoundingClientRect().top +
+          window.scrollY -
+          24,
+      );
+
+      const distance = targetPosition - startPosition;
+      const duration = 1400;
+
+      let startTime: number | null = null;
+
+      const animateScroll = (currentTime: number) => {
+        if (startTime === null) {
+          startTime = currentTime;
+        }
+
+        const elapsed = currentTime - startTime;
+
+        const progress = Math.min(
+          elapsed / duration,
+          1,
+        );
+
+        const easedProgress =
+          progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 -
+              Math.pow(-2 * progress + 2, 3) / 2;
+
+        window.scrollTo(
+          0,
+          startPosition + distance * easedProgress,
+        );
+
+        if (progress < 1) {
+          animationFrameId =
+            window.requestAnimationFrame(animateScroll);
+        }
+      };
+
+      animationFrameId =
+        window.requestAnimationFrame(animateScroll);
+    };
+
+    // Attend le montage complet des sections.
+    timeoutId = window.setTimeout(
+      scrollToFirstExercise,
+      400,
+    );
+
+    return () => {
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+
+      if (animationFrameId !== undefined) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [activityStarted]);
+
+  /* ========================================================= */
+  /* RENDU                                                     */
+  /* ========================================================= */
+
   return (
     <ActivityLayout activity={elementary2Activity1}>
-      {/* ================= PRÉSENTATION COURS ================= */}
+      {/* PRÉSENTATION DE L'ACTIVITÉ */}
       <LessonBlock
-        contentType="activity"
         level="elementary-2"
         title="L’emploi du temps mouvementé de Clara"
         description="Dans cette activité, vous allez découvrir la journée quotidienne de Clara. Vous réviserez les heures, les moments de la journée, les verbes pronominaux et la conjugaison au présent."
@@ -42,97 +175,102 @@ export default function Activity() {
         }}
       />
 
-      {/* ================= EXERCICE 1 ================= */}
-      <ExerciseSection>
-        <InstructionBlock
-          level="elementary2"
-          stampLabel="EXERCICE 1"
-          title="Trouvez la question qui correspond à la réponse de Clara"
-          activityType="listen"
-          description={
-            <div
-              className="
-                flex flex-col items-center gap-4
-                rounded-xl border border-slate-300 bg-white
-                px-4 py-4
-                sm:flex-row sm:items-center sm:gap-5 sm:px-5 sm:py-4
-              "
-            >
-              <div className="flex shrink-0 items-center justify-center">
-                <img
-                  src="/images/courses/beginner/activities/brunogalopin/point.png"
-                  alt="Point d'attention"
-                  className="h-20 w-20 object-contain sm:h-28 sm:w-24"
+      {/* BOUTON DE DÉMARRAGE */}
+      {!activityStarted && (
+        <div className="container flex justify-center py-8">
+          <button
+            type="button"
+            onClick={handleStart}
+            className="
+              rounded-xl
+              border-2
+              border-[rgb(38,69,34)]
+              bg-[rgb(49,87,44)]
+              px-8
+              py-4
+              text-lg
+              font-semibold
+              text-white
+              transition-all
+              duration-300
+              hover:scale-105
+              hover:bg-[rgb(38,69,34)]
+            "
+          >
+Commencer l&apos;activité          </button>
+        </div>
+      )}
+
+      {/* AFFICHAGE DES TROIS EXERCICES */}
+      <AnimatePresence mode="wait">
+        {activityStarted && (
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 40,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+          >
+            <ActivityNavigationProvider totalExercises={3}>
+              <ActivityFlow
+                teacher="elementary-2"
+                finishHref="/courses/elementary-2"
+                detailedReportRenderer={(result, exerciseIndex) => {
+                  /*
+                   * EXERCICE 1 — QCM
+                   */
+                  if (exerciseIndex === 0) {
+                    return null;
+                  }
+
+                  /*
+                   * EXERCICE 2 — ASSOCIATION
+                   */
+                  if (exerciseIndex === 1) {
+                    return null;
+                  }
+
+                  /*
+                   * EXERCICE 3 — TRANSFORMATION SYNTAXIQUE
+                   */
+                  if (exerciseIndex === 2) {
+                    return (
+                      <FillGapsReport
+                        data={transformationTypeData}
+                        history={result.session.history}
+                      />
+                    );
+                  }
+
+                  return null;
+                }}
+              >
+                {/* EXERCICE 1 */}
+                <QCMSection />
+
+                {/* EXERCICE 2 */}
+                <QuestionMatchingSection
+                  started={questionMatchingStarted}
+                  onStart={handleQuestionMatchingStart}
                 />
-              </div>
 
-              <div className="w-full min-w-0 text-sm leading-relaxed text-slate-800 sm:text-left sm:text-base">
-                <p className="mb-2 font-semibold">
-                  Rappel : il existe trois façons de poser la même question en
-                  français :
-                </p>
-
-                <ul className="list-disc space-y-1 pl-5">
-                  <li>
-                    <strong>Tournure formelle (écrit) :</strong> Où habites-tu ?
-                  </li>
-                  <li>
-                    <strong>Tournure classique (écrit + oral) :</strong> Où
-                    est-ce que tu habites ?
-                  </li>
-                  <li>
-                    <strong>Tournure familière (oral) :</strong> Tu habites où ?
-                  </li>
-                </ul>
-              </div>
-            </div>
-          }
-        />
-
-        <VideoExerciseBlock
-          videoSrc="/videos/clara-video.mp4"
-          poster="/images/courses/clarapic.png"
-        />
-
-        <Exercice />
-      </ExerciseSection>
-
-      {/* ================= EXERCICE 2 ================= */}
-      <ExerciseSection>
-        <InstructionBlock
-          level="elementary2"
-          stampLabel="EXERCICE 2"
-          title="Pose des questions à Clara"
-          activityType="click-or-speak"
-          description={
-            <p className="text-base leading-relaxed text-slate-800">
-              Trouve la question correspondante à chaque réponse pour dialoguer
-              avec Clara. Tu peux répondre à l’oral (micro) ou à l’écrit.
-            </p>
-          }
-        />
-
-        <Exercice />
-      </ExerciseSection>
-
-      {/* ================= EXERCICE 3 ================= */}
-      <ExerciseSection>
-        <InstructionBlock
-          level="elementary2"
-          stampLabel="EXERCICE 3"
-          title="Transformation JE → ELLE"
-          activityType="type"
-          description={
-            <p className="text-base leading-relaxed text-slate-800">
-              Transforme l’intégralité du texte en passant de « je » à « elle »
-              en modifiant correctement les pronoms, accords, possessifs et
-              verbes pronominaux.
-            </p>
-          }
-        />
-
-        <Exercice2 />
-      </ExerciseSection>
+                {/* EXERCICE 3 */}
+                <TransformationTypeSection />
+              </ActivityFlow>
+            </ActivityNavigationProvider>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </ActivityLayout>
   );
 }

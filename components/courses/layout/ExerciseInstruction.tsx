@@ -77,14 +77,14 @@ const levelColors: Record<ExerciseLevel, LevelColors> = {
     ring: "#B9EAD2",
   },
   "elementary-2": {
-    primary: "#6C8FE5",
-    hover: "#5276CD",
-    border: "#CFDAF8",
-    soft: "#EAF0FF",
-    softStrong: "#DCE6FF",
-    gradient: "rgba(108, 143, 229, 0.13)",
-    divider: "#C2D0F5",
-    ring: "#CFDAF8",
+    primary: "#31572C",
+    hover: "#264522",
+    border: "#C8D6C3",
+    soft: "#EAF0E7",
+    softStrong: "#DCE8D7",
+    gradient: "rgba(49, 87, 44, 0.13)",
+    divider: "#C8D6C3",
+    ring: "#C8D6C3",
   },
   "intermediate-1": {
     primary: "#38BDF8",
@@ -526,10 +526,7 @@ export default function ExerciseInstruction({
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <h3 className="mb-2 mt-0 font-serif text-xl font-bold text-[#09264a] sm:text-2xl">
-                    Point d’attention
-                  </h3>
-
+                
                   <div className="text-sm leading-relaxed text-[#183352] sm:text-base">
                     {pointAttention.title}
                   </div>

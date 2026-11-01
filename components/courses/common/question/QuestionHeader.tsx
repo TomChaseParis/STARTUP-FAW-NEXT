@@ -1,4 +1,3 @@
-
 "use client";
 
 import TeacherComicBubble, {
@@ -29,21 +28,23 @@ export default function QuestionHeader({
       ? "Marie, professeure de français"
       : teacherLevel === "elementary-1"
         ? "Jean, professeur de français"
-        : "Professeur de français du niveau Élémentaire 2";
+        : teacherLevel === "elementary-2"
+          ? "Irène, professeure de français"
+          : "Henri, professeur de français";
 
   return (
     <div className="mb-6 flex flex-col gap-4">
       {showBubble && (
-      <div className="w-full max-w-xl">
-      <TeacherComicBubble
-        message="Écoutez bien ma réponse."
-        level="intermediate-2"
-        imageSrc="/images/henri-instruction.png"
-        imageAlt="Henri, professeur de français"
-        showPhoto
-        showBubble
-      />
-    </div>
+        <div className="w-full max-w-xl">
+          <TeacherComicBubble
+            message="Clique ici pour écouter la question."
+            level={teacherLevel}
+            imageSrc={teacherBubbleImage}
+            imageAlt={teacherAlt}
+            showPhoto
+            showBubble
+          />
+        </div>
       )}
 
       <div className="flex items-center gap-4">

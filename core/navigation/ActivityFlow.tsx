@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Children, ReactNode } from "react";
@@ -9,7 +8,6 @@ import ActivityResults from "@/components/courses/common/ActivityResults";
 import { ActivityResult } from "@/core/activity/models/ActivityResult";
 
 import type { SemanticCoherenceCategory } from "@/components/courses/common/ActivityResults/SemanticCoherenceResults";
-
 
 type TeacherFeedbackImages = {
   bad: string;
@@ -30,6 +28,7 @@ type Props = {
   teacher?:
     | "beginner"
     | "elementary-1"
+    | "elementary-2"
     | "intermediate-1"
     | "intermediate-2";
   teacherFeedbackImages?: TeacherFeedbackImages;

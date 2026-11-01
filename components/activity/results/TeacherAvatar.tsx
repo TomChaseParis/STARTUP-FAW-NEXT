@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -9,7 +10,7 @@ type TeacherAvatarProps = {
 
 export default function TeacherAvatar({
   image,
-  alt = "Professeur",
+  alt = "Professeur de français",
 }: TeacherAvatarProps) {
   return (
     <div className="relative flex-shrink-0">
@@ -30,6 +31,7 @@ export default function TeacherAvatar({
           src={image}
           alt={alt}
           fill
+          sizes="224px"
           className="object-cover"
           priority
         />

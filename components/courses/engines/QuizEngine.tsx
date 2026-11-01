@@ -32,7 +32,7 @@ type TeacherFeedbackImages = {
 export const TEACHER_BUBBLE_IMAGES = {
   beginner: "/images/MARIETESTBULLE.PNG",
   "elementary-1": "/images/jean-instruction.png",
-  "elementary-2": "/images/teacher-elementary-2.png",
+  "elementary-2": "/images/bulles-QCM/elementary-2/bulle-conseil/irene.png",
   "intermediate-2":
     "/images/bulles-QCM/intermediate-2/bulle-conseil/henribulleqcm.png",
 } as const;

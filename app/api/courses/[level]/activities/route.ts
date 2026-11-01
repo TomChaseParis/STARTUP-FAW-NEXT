@@ -1,14 +1,21 @@
+
 import { NextResponse } from "next/server";
 import path from "path";
 import { promises as fs } from "fs";
 
+type RouteContext = {
+  params: Promise<{
+    level: string;
+  }>;
+};
+
 export async function GET(
   request: Request,
-  { params }: { params: { level: string } }
+  { params }: RouteContext
 ) {
-  const { level } = params;
-
   try {
+    const { level } = await params;
+
     const filePath = path.join(
       process.cwd(),
       "data",
@@ -18,10 +25,25 @@ export async function GET(
     );
 
     const json = await fs.readFile(filePath, "utf8");
-    const activities = JSON.parse(json);
+    const parsedData = JSON.parse(json);
+
+    const activities = Array.isArray(parsedData)
+      ? parsedData
+      : parsedData.activities ?? [];
 
     return NextResponse.json(activities);
-  } catch (err) {
-    return NextResponse.json([], { status: 200 });
+  } catch (error) {
+    console.error("ERREUR API ACTIVITIES :", error);
+
+    return NextResponse.json(
+      {
+        error: "Impossible de charger les activités.",
+        details:
+          error instanceof Error
+            ? error.message
+            : "Erreur inconnue",
+      },
+      { status: 500 }
+    );
   }
 }

@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { ReactNode } from "react";
@@ -39,6 +38,7 @@ export default function ListenSpeakInstruction({
   example,
   instruction,
   rappel,
+  pointAttention,
   steps = DEFAULT_STEPS,
   onStart,
   started = false,
@@ -56,6 +56,7 @@ export default function ListenSpeakInstruction({
       example={example}
       instruction={instruction}
       rappel={rappel}
+      pointAttention={pointAttention}
       steps={steps}
       onStart={onStart}
       started={started}

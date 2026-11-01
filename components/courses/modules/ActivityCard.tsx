@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import { Lock } from "lucide-react";
@@ -10,6 +11,7 @@ type ActivityCardProps = {
     subtitle: string;
     description: string;
     additionalDescription?: string;
+    thirdDescription?: string;
     image?: string;
     locked: boolean;
     bulletList?: boolean;
@@ -21,7 +23,8 @@ const ACTIVITY_COLORS: Record<string, string> = {
   "elementary-1": "#57CC99",
   "elementary-2": "#31572C",
   "intermediate-1": "#38BDF8",
-  "intermediate-2": "#B9A0F8",  advanced: "#C7443E",
+  "intermediate-2": "#B9A0F8",
+  advanced: "#C7443E",
 };
 
 export default function ActivityCard({
@@ -33,6 +36,7 @@ export default function ActivityCard({
   const descriptions = [
     activity.description,
     activity.additionalDescription,
+    activity.thirdDescription,
   ].filter((description): description is string => Boolean(description));
 
   return (

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -13,7 +12,8 @@ export type TeacherLevel =
 export const TEACHER_IMAGES: Record<TeacherLevel, string> = {
   beginner: "/images/MARIETESTBULLE.PNG",
   "elementary-1": "/images/jean-instruction.png",
-  "elementary-2": "/images/teacher-elementary-2.png",
+  "elementary-2":
+    "/images/bulles-QCM/elementary-2/bulle-conseil/irene.png",
   "intermediate-2": "/images/henri-instruction.png",
 };
 
@@ -38,16 +38,16 @@ export default function TeacherComicBubble({
 }: TeacherComicBubbleProps) {
   const [displayedMessage, setDisplayedMessage] = useState("");
 
-  // L'image personnalisée est prioritaire.
-  // Sinon, on sélectionne automatiquement le professeur du niveau.
-  const resolvedImageSrc = imageSrc ?? TEACHER_IMAGES[level];
+  // Utilise l'image personnalisée si elle existe.
+  // Sinon, sélectionne automatiquement celle du niveau.
+  const resolvedImageSrc = imageSrc || TEACHER_IMAGES[level];
 
   const resolvedImageAlt =
-    imageAlt ??
+    imageAlt ||
     (level === "elementary-1"
       ? "Jean, professeur de français"
       : level === "elementary-2"
-        ? "Professeur de français du niveau Élémentaire 2"
+        ? "Irène, professeure de français"
         : level === "intermediate-2"
           ? "Henri, professeur de français"
           : "Marie, professeure de français");

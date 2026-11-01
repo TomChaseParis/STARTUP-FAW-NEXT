@@ -78,11 +78,19 @@ export default function QuestionContent({
       ? "Marie, professeure de français"
       : teacherLevel === "elementary-1"
         ? "Jean, professeur de français"
-        : "Professeur de français du niveau Élémentaire 2";
+        : teacherLevel === "elementary-2"
+          ? "Irène, professeure de français"
+          : "Henri, professeur de français";
 
-  // Image utilisée pendant la lecture audio.
-  // Priorité à l'image spécifique de la question.
-  const resolvedTeacherImage = teacherImage ?? teacherBubbleImage;
+  // Même image pour la lecture audio et l'enregistrement vocal.
+  const resolvedTeacherImage = teacherImage || teacherBubbleImage;
+
+  // Le professeur apparaît pendant la lecture OU pendant l'écoute.
+  const showActiveTeacher = teacherTalking || isListening;
+
+  const teacherMessage = isListening
+    ? "Je t'écoute ! À toi de parler..."
+    : "Le professeur parle...";
 
   return (
     <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-12">
@@ -92,22 +100,14 @@ export default function QuestionContent({
           {question}
         </p>
 
-        {/* PROFESSEUR PENDANT LA LECTURE AUDIO */}
-        {teacherTalking && (
+        {/* PROFESSEUR PENDANT LA LECTURE AUDIO OU LE MICRO */}
+        {showActiveTeacher && resolvedTeacherImage && (
           <div className="mb-5 flex items-center gap-4">
-            {resolvedTeacherImage ? (
-              <TeacherAvatar
-                image={resolvedTeacherImage}
-                speaking={true}
-              />
-            ) : (
-              <TeacherAvatar
-                image="/images/teachers/default.png"
-                speaking={true}
-              />
-            )}
+            <TeacherAvatar
+              image={resolvedTeacherImage}
+            />
 
-            <TeacherSpeechBubble text="Le professeur parle..." />
+            <TeacherSpeechBubble text={teacherMessage} />
           </div>
         )}
 
@@ -189,11 +189,11 @@ export default function QuestionContent({
               )}
             </div>
 
-            {/* BULLE DU MICRO : APRÈS LA FIN DE L'AUDIO */}
+            {/* BULLE DU MICRO */}
             {showSpeechPrompt && !hasClickedSpeech && (
               <div className="mt-3 max-w-xl">
                 <TeacherComicBubble
-                  message="À toi ! Répète ta réponse à voix haute."
+                  message="Clique ici pour donner ta réponse à l'oral."
                   level={teacherLevel}
                   imageSrc={teacherBubbleImage}
                   imageAlt={teacherAlt}

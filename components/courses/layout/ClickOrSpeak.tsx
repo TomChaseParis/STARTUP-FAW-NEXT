@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { ReactNode } from "react";
@@ -33,6 +32,7 @@ type ClickOrSpeakProps = Omit<
   audioTitle?: string;
   audioHint?: string;
   level?: ExerciseLevel;
+  steps?: ExerciseInstructionProps["steps"];
   children?: ReactNode;
 };
 
@@ -52,9 +52,42 @@ export default function ClickOrSpeak({
   started = false,
   activityTitle,
   level = "beginner",
+  steps,
   children,
 }: ClickOrSpeakProps) {
   const hasAudio = Boolean(audioSrc);
+
+  const instructionSteps =
+    steps ??
+    (hasAudio
+      ? [
+          {
+            title: "Écoute",
+            description:
+              "Utilise le bouton audio pour écouter le dialogue et les réponses proposées.",
+            icon: "sound" as const,
+          },
+          {
+            title: "Réponds",
+            description:
+              "Choisis ta réponse ou utilise le microphone pour répondre à l’oral.",
+            icon: "mic" as const,
+          },
+        ]
+      : [
+          {
+            title: "Lis",
+            description:
+              "Lis attentivement chaque question et les réponses proposées.",
+            icon: "sound" as const,
+          },
+          {
+            title: "Choisis",
+            description:
+              "Sélectionne la réponse qui te semble correcte.",
+            icon: "mic" as const,
+          },
+        ]);
 
   return (
     <>
@@ -68,37 +101,7 @@ export default function ClickOrSpeak({
         example={example}
         activityTitle={activityTitle}
         level={level}
-        steps={
-          hasAudio
-            ? [
-                {
-                  title: "Écoute",
-                  description:
-                    "Utilise le bouton audio pour écouter le dialogue et les réponses proposées.",
-                  icon: "sound",
-                },
-                {
-                  title: "Réponds",
-                  description:
-                    "Choisis ta réponse ou utilise le microphone pour répondre à l’oral.",
-                  icon: "mic",
-                },
-              ]
-            : [
-                {
-                  title: "Lis",
-                  description:
-                    "Lis attentivement chaque question et les réponses proposées.",
-                  icon: "sound",
-                },
-                {
-                  title: "Choisis",
-                  description:
-                    "Sélectionne la réponse qui te semble correcte.",
-                  icon: "mic",
-                },
-              ]
-        }
+        steps={instructionSteps}
         onStart={onStart}
         started={started}
       />
