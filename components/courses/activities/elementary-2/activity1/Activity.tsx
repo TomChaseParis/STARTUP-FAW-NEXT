@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import ActivityLayout from "@/components/courses/layout/ActivityLayout";
 import LessonBlock from "@/components/courses/layout/LessonBlock";
 
+import FloatingVideoPlayer from "@/components/courses/layout/FloatingVideoPlayer";
 import ActivityFlow from "@/core/navigation/ActivityFlow";
 import { ActivityNavigationProvider } from "@/core/navigation/ActivityNavigationProvider";
 
@@ -197,7 +198,8 @@ export default function Activity() {
               hover:bg-[rgb(38,69,34)]
             "
           >
-Commencer l&apos;activité          </button>
+            Commencer l&apos;activité
+          </button>
         </div>
       )}
 
@@ -271,6 +273,16 @@ Commencer l&apos;activité          </button>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* LECTEUR VIDÉO FLOTTANT DE CLARA */}
+      {activityStarted && (
+        <FloatingVideoPlayer
+          videoSrc="/videos/courses/elementary-2/activity1/clara.mp4"
+          poster="/videos/courses/elementary-2/activity1/clara.mp"
+          title="La journée de Clara"
+          hint="Tu peux revoir la vidéo à tout moment pour retrouver les informations utiles aux exercices."
+        />
+      )}
     </ActivityLayout>
   );
 }
