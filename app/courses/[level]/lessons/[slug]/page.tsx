@@ -6,8 +6,14 @@ type LessonComponent = ReturnType<typeof dynamic>;
 const lessonMap: Record<string, LessonComponent> = {
   "beginner/introduce-yourself": dynamic(
     () =>
+      import("@/components/courses/lessons/beginner/introduce-yourself/Lesson"),
+    { ssr: false },
+  ),
+
+  "elementary-1/les-tournures-interrogatives": dynamic(
+    () =>
       import(
-        "@/components/courses/lessons/beginner/introduce-yourself/Lesson"
+        "@/components/courses/lessons/elementary-1/les-tournures-interrogatives/Lesson"
       ),
     { ssr: false },
   ),

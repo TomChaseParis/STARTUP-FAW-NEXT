@@ -1,5 +1,7 @@
+
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import QuizEngine from "@/components/courses/engines/QuizEngine";
@@ -9,8 +11,7 @@ import { useProgress } from "@/components/courses/engines/ProgressEngine/useProg
 
 import ActivityResults from "@/components/courses/common/ActivityResults/ActivityResults";
 
-import ExerciseSection from "@/components/courses/layout/ExerciseSection";
-import InstructionBlock from "@/components/courses/layout/InstructionBlock";
+import ClickOrSpeak from "@/components/courses/layout/ClickOrSpeak";
 
 import { LessonQuizData } from "@/components/courses/lessons/beginner/introduce-yourself/data/QuizData";
 
@@ -65,10 +66,63 @@ const ACTIVITY_ID = "beginner-introduce-yourself";
 
 const EXERCISE_ID = "lesson-quiz";
 
+const smoothScrollToElement = (elementId: string) => {
+  const element = document.getElementById(elementId);
+
+  if (!element) return;
+
+  const startPosition = window.scrollY;
+  const targetPosition =
+    element.getBoundingClientRect().top + window.scrollY - 100;
+
+  const distance = targetPosition - startPosition;
+  const duration = 1100;
+
+  let startTime: number | null = null;
+
+  const animateScroll = (currentTime: number) => {
+    if (startTime === null) startTime = currentTime;
+
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    const easeInOut =
+      progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+    window.scrollTo(0, startPosition + distance * easeInOut);
+
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
+  };
+
+  requestAnimationFrame(animateScroll);
+};
+
 export default function IntroduceYourselfQuiz() {
   const router = useRouter();
 
+  const [exerciseStarted, setExerciseStarted] = useState(false);
+
   const { progress, refresh } = useProgress();
+
+  useEffect(() => {
+    if (!exerciseStarted) return;
+
+    const timeout = window.setTimeout(() => {
+      smoothScrollToElement("quiz-content");
+    }, 300);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [exerciseStarted]);
+
+  const handleStartExercise = () => {
+    setExerciseStarted(true);
+  };
 
   const renderResult = (
     result: ExerciseSessionResult,
@@ -104,56 +158,23 @@ export default function IntroduceYourselfQuiz() {
   };
 
   return (
-    <div className="w-full">
-      <ExerciseSection>
-        {/* ================================================================ */}
-        {/* BLOC D'INSTRUCTION                                               */}
-        {/* ================================================================ */}
-
-        <InstructionBlock
-          level="beginner"
-          stampLabel="EXERCICE 1"
-          typeLabel="QUIZ DE COMPRÉHENSION"
-          title="PRÉSENTATIONS"
-          subtitle="Vérifie tes connaissances après avoir regardé la leçon."
-          activityType="listen"
-          description={
-            <div className="space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-              <div>
-                <p className="mb-2 font-semibold text-slate-800">Consigne :</p>
-
-                <p>Écoute chaque question puis choisis la bonne réponse.</p>
-              </div>
-
-              <div
-                className="
-                  rounded-xl
-                  border
-                  border-slate-300
-                  bg-white
-                  px-4
-                  py-4
-                  shadow-sm
-                  sm:px-5
-                  sm:py-4
-                "
-              >
-                <p className="font-semibold text-slate-800">
-                  Pour chaque question, choisis la réponse qui correspond à la
-                  situation proposée.
-                </p>
-              </div>
-            </div>
-          }
-        />
-
-        {/* ================================================================ */}
-        {/* QCM                                                               */}
-        {/* ================================================================ */}
-
-        <div className="mt-8">
+    <div className="w-full min-w-0">
+      <ClickOrSpeak
+        exerciseNumber={1}
+        category="QUIZ DE COMPRÉHENSION"
+        title="Présentations"
+        description="Vérifie tes connaissances après avoir regardé la leçon."
+        example="Écoute chaque question puis choisis la bonne réponse."
+        level="beginner"
+        started={exerciseStarted}
+        onStart={handleStartExercise}
+      >
+        <div
+          id="quiz-content"
+          className="w-full min-w-0 scroll-mt-8"
+        >
           <QuizEngine
-          teacherLevel="beginner"
+            teacherLevel="beginner"
             questions={questions}
             speechEngine="openai"
             teacherFeedbackImages={{
@@ -171,7 +192,7 @@ export default function IntroduceYourselfQuiz() {
             resultRenderer={renderResult}
           />
         </div>
-      </ExerciseSection>
+      </ClickOrSpeak>
     </div>
   );
 }

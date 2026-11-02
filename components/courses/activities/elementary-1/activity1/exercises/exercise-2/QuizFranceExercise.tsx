@@ -1,20 +1,15 @@
-
 "use client";
 
 import QuizEngine from "@/components/courses/engines/QuizEngine";
 import type { Question } from "@/hooks/useQuizEngine";
 
-import {
-  useProgress,
-} from "@/components/courses/engines/ProgressEngine/useProgress";
+import { useProgress } from "@/components/courses/engines/ProgressEngine/useProgress";
 
 import ActivityResults from "@/components/courses/common/ActivityResults/ActivityResults";
 
-import type {
-  ExerciseSessionResult,
-} from "@/components/courses/common/types/exerciseSessionTypes";
+import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
 
-import { quizData } from "@/components/courses/lessons/elementary-1/data/questionsFrancais";
+import { quizData } from "@/components/courses/lessons/elementary-1/les-tournures-interrogatives/data/questionsFrancais";
 
 type QuizOption = {
   id: string;
@@ -45,28 +40,24 @@ type QuizFranceExerciseProps = {
 
 const data = quizData as QuizData;
 
-const questions: Question[] = data.questions.map(
-  (question): Question => {
-    const correctAnswers =
-      question.correctAnswers ??
-      (question.correctAnswer
-        ? [question.correctAnswer]
-        : []);
+const questions: Question[] = data.questions.map((question): Question => {
+  const correctAnswers =
+    question.correctAnswers ??
+    (question.correctAnswer ? [question.correctAnswer] : []);
 
-    return {
-      id: question.id,
-      question: question.question,
-      image: question.image,
-      teacherImage: question.teacherImage,
-      teacherAudioQuestion: question.teacherAudioQuestion,
-      choices: question.options.map((option) => ({
-        id: option.id.toUpperCase(),
-        label: option.text,
-        isCorrect: correctAnswers.includes(option.id),
-      })),
-    };
-  },
-);
+  return {
+    id: question.id,
+    question: question.question,
+    image: question.image,
+    teacherImage: question.teacherImage,
+    teacherAudioQuestion: question.teacherAudioQuestion,
+    choices: question.options.map((option) => ({
+      id: option.id.toUpperCase(),
+      label: option.text,
+      isCorrect: correctAnswers.includes(option.id),
+    })),
+  };
+});
 
 const ACTIVITY_ID = "elementary-1-questions-francais";
 const EXERCISE_ID = "quiz-france";
@@ -86,10 +77,7 @@ export default function QuizFranceExercise({
     result: ExerciseSessionResult,
     resetQuiz: () => void,
   ) => {
-    const exercise = progress.getExercise(
-      ACTIVITY_ID,
-      EXERCISE_ID,
-    );
+    const exercise = progress.getExercise(ACTIVITY_ID, EXERCISE_ID);
 
     const bestScore = exercise?.bestScore ?? result.score;
     const attempts = exercise?.attempts ?? 1;
@@ -127,10 +115,8 @@ export default function QuizFranceExercise({
         teacherLevel="elementary-1"
         teacherBubbleImage="/images/jean-instruction.png"
         teacherFeedbackImages={{
-          correct:
-            "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
-          wrong:
-            "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
+          correct: "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
+          wrong: "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
         }}
         progressConfig={{
           progress,

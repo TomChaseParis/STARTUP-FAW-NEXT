@@ -1,20 +1,15 @@
-
 "use client";
 
 import QuizEngine from "@/components/courses/engines/QuizEngine";
 import type { Question } from "@/hooks/useQuizEngine";
 
-import {
-  useProgress,
-} from "@/components/courses/engines/ProgressEngine/useProgress";
+import { useProgress } from "@/components/courses/engines/ProgressEngine/useProgress";
 
 import ActivityResults from "@/components/courses/common/ActivityResults/ActivityResults";
 
-import {
-  ExerciseSessionResult,
-} from "@/components/courses/common/types/exerciseSessionTypes";
+import { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
 
-import { quizData } from "@/components/courses/lessons/elementary-1/data/questionsFrancais";
+import { quizData } from "@/components/courses/lessons/elementary-1/les-tournures-interrogatives/data/questionsFrancais";
 
 type QuizOption = {
   id: string;
@@ -23,9 +18,7 @@ type QuizOption = {
 
 type QuizQuestion = {
   id: number;
-  type:
-    | "single-choice"
-    | "multiple-choice";
+  type: "single-choice" | "multiple-choice";
   image?: string;
   teacherImage?: string;
   question: string;
@@ -42,84 +35,50 @@ type QuizData = {
 };
 
 type QuizFranceSectionProps = {
-  onCompleted?: (
-    result: ExerciseSessionResult,
-  ) => void;
+  onCompleted?: (result: ExerciseSessionResult) => void;
 };
 
-const data =
-  quizData as QuizData;
+const data = quizData as QuizData;
 
-const questions: Question[] =
-  data.questions.map(
-    (question): Question => {
-      const correctAnswers =
-        question.correctAnswers ??
-        (question.correctAnswer
-          ? [question.correctAnswer]
-          : []);
+const questions: Question[] = data.questions.map((question): Question => {
+  const correctAnswers =
+    question.correctAnswers ??
+    (question.correctAnswer ? [question.correctAnswer] : []);
 
-      return {
-        id: question.id,
-        question:
-          question.question,
-        image:
-          question.image,
-        teacherImage:
-          question.teacherImage,
-        teacherAudioQuestion:
-          question.teacherAudioQuestion,
-        choices:
-          question.options.map(
-            (option) => ({
-              id:
-                option.id.toUpperCase(),
-              label:
-                option.text,
-              isCorrect:
-                correctAnswers.includes(
-                  option.id,
-                ),
-            }),
-          ),
-      };
-    },
-  );
+  return {
+    id: question.id,
+    question: question.question,
+    image: question.image,
+    teacherImage: question.teacherImage,
+    teacherAudioQuestion: question.teacherAudioQuestion,
+    choices: question.options.map((option) => ({
+      id: option.id.toUpperCase(),
+      label: option.text,
+      isCorrect: correctAnswers.includes(option.id),
+    })),
+  };
+});
 
-const ACTIVITY_ID =
-  "elementary-1-questions-francais";
+const ACTIVITY_ID = "elementary-1-questions-francais";
 
-const EXERCISE_ID =
-  "quiz-france";
+const EXERCISE_ID = "quiz-france";
 
 export default function QuizFranceSection({
   onCompleted,
 }: QuizFranceSectionProps) {
-  const {
-    progress,
-    refresh,
-  } = useProgress();
+  const { progress, refresh } = useProgress();
 
   const renderResult = (
     result: ExerciseSessionResult,
     resetQuiz: () => void,
   ) => {
-    const exercise =
-      progress.getExercise(
-        ACTIVITY_ID,
-        EXERCISE_ID,
-      );
+    const exercise = progress.getExercise(ACTIVITY_ID, EXERCISE_ID);
 
-    const score =
-      result.score;
+    const score = result.score;
 
-    const bestScore =
-      exercise?.bestScore ??
-      score;
+    const bestScore = exercise?.bestScore ?? score;
 
-    const attempts =
-      exercise?.attempts ??
-      1;
+    const attempts = exercise?.attempts ?? 1;
 
     return (
       <ActivityResults
@@ -147,17 +106,13 @@ export default function QuizFranceSection({
         teacherLevel="elementary-1"
         speechEngine="openai"
         teacherFeedbackImages={{
-          correct:
-            "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
-          wrong:
-            "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
+          correct: "/images/bulles-QCM/elementary-1/jean-hawai/correct.png",
+          wrong: "/images/bulles-QCM/elementary-1/jean-hawai/wrong.png",
         }}
         progressConfig={{
           progress,
-          activityId:
-            ACTIVITY_ID,
-          exerciseId:
-            EXERCISE_ID,
+          activityId: ACTIVITY_ID,
+          exerciseId: EXERCISE_ID,
           onScoreSubmitted: () => {
             refresh();
           },
