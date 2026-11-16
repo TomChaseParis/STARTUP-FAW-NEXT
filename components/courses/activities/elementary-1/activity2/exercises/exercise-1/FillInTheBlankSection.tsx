@@ -20,8 +20,8 @@ function ExerciseTransition({ number }: ExerciseTransitionProps) {
       className="relative z-10 flex h-[90px] items-center justify-center"
       aria-label={`Étape ${number}`}
     >
-     {/* Ligne verticale pointillée continue */}
-     <div
+      {/* Ligne verticale pointillée continue */}
+      <div
         aria-hidden="true"
         className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#57CC99]"
       />
@@ -165,7 +165,7 @@ export default function FillInTheBlankSection() {
                   title: (
                     <div className="space-y-1.5 text-sm leading-relaxed">
                       <p className="font-bold text-slate-800">
-                        La marque du pluriel (-ent) ne s'entend pas à l'oral !
+                        La marque du pluriel (-ent) ne s&apos;entend pas à l&apos;oral !
                       </p>
 
                       <p className="text-slate-600">
@@ -187,8 +187,6 @@ export default function FillInTheBlankSection() {
                     </div>
                   ),
                 }}
-               
-                
                 onStart={() => setStarted(true)}
                 started={started}
               />

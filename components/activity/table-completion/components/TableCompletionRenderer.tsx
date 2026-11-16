@@ -1,5 +1,7 @@
+
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 import TableCompletionRow from "./TableCompletionRow";
@@ -94,10 +96,10 @@ export default function TableCompletionRenderer({
                     validated
                       ? "bg-slate-200 text-slate-500"
                       : answered
-                      ? "bg-amber-500 text-white"
-                      : active
-                      ? "border-2 border-amber-400 bg-amber-50 text-amber-700"
-                      : "bg-white text-slate-400 ring-1 ring-slate-200"
+                        ? "bg-amber-500 text-white"
+                        : active
+                          ? "border-2 border-amber-400 bg-amber-50 text-amber-700"
+                          : "bg-white text-slate-400 ring-1 ring-slate-200"
                   }
                 `}
               >
@@ -127,6 +129,8 @@ export default function TableCompletionRenderer({
 
             if (question.type === "image" && question.images) {
               const selectedAnswer = answers[index] ?? "";
+
+              const isCorrect = selectedAnswer === question.answer;
 
               return (
                 <div
@@ -191,7 +195,7 @@ export default function TableCompletionRenderer({
                     {question.images.map((image) => {
                       const isSelected = selectedAnswer === image.id;
 
-                      const isCorrect = image.id === question.answer;
+                      const isImageCorrect = image.id === question.answer;
 
                       let imageStateClass =
                         "border-slate-200 bg-white hover:border-amber-300 hover:shadow-md";
@@ -202,7 +206,7 @@ export default function TableCompletionRenderer({
                             "border-amber-500 bg-amber-50 shadow-lg ring-2 ring-amber-400";
                         }
                       } else {
-                        if (isCorrect) {
+                        if (isImageCorrect) {
                           imageStateClass =
                             "border-green-500 bg-green-50 shadow-md ring-2 ring-green-400";
                         } else if (isSelected) {
@@ -235,89 +239,89 @@ export default function TableCompletionRenderer({
                               : undefined
                           }
                           className={`
-                              relative
-                              overflow-hidden
-                              rounded-2xl
-                              border-2
-                              p-2
-                              text-left
-                              transition-all
-                              duration-200
-                              focus:outline-none
-                              focus:ring-2
-                              focus:ring-amber-400
-                              focus:ring-offset-2
-                              ${imageStateClass}
-                            `}
+                            relative
+                            overflow-hidden
+                            rounded-2xl
+                            border-2
+                            p-2
+                            text-left
+                            transition-all
+                            duration-200
+                            focus:outline-none
+                            focus:ring-2
+                            focus:ring-amber-400
+                            focus:ring-offset-2
+                            ${imageStateClass}
+                          `}
                         >
                           {/* IMAGE */}
 
                           <div
                             className="
-    relative
-    aspect-[3/4]
-    w-full
-    overflow-hidden
-    rounded-xl
-    bg-slate-100
-  "
+                              relative
+                              aspect-[3/4]
+                              w-full
+                              overflow-hidden
+                              rounded-xl
+                              bg-slate-100
+                            "
                           >
-                            <img
+                            <Image
                               src={image.src}
                               alt={image.alt}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 33vw"
                               className="
-      h-full
-      w-full
-      object-contain
-      transition-transform
-      duration-300
-    "
+                                object-contain
+                                transition-transform
+                                duration-300
+                              "
                             />
                           </div>
 
                           {/* ÉTAT */}
 
-                          {validated && isCorrect && (
+                          {validated && isImageCorrect && (
                             <div
                               className="
-                                    absolute
-                                    right-4
-                                    top-4
-                                    flex
-                                    h-9
-                                    w-9
-                                    items-center
-                                    justify-center
-                                    rounded-full
-                                    bg-green-500
-                                    text-lg
-                                    font-bold
-                                    text-white
-                                    shadow-lg
-                                  "
+                                absolute
+                                right-4
+                                top-4
+                                flex
+                                h-9
+                                w-9
+                                items-center
+                                justify-center
+                                rounded-full
+                                bg-green-500
+                                text-lg
+                                font-bold
+                                text-white
+                                shadow-lg
+                              "
                             >
                               ✓
                             </div>
                           )}
 
-                          {validated && isSelected && !isCorrect && (
+                          {validated && isSelected && !isImageCorrect && (
                             <div
                               className="
-                                    absolute
-                                    right-4
-                                    top-4
-                                    flex
-                                    h-9
-                                    w-9
-                                    items-center
-                                    justify-center
-                                    rounded-full
-                                    bg-red-500
-                                    text-lg
-                                    font-bold
-                                    text-white
-                                    shadow-lg
-                                  "
+                                absolute
+                                right-4
+                                top-4
+                                flex
+                                h-9
+                                w-9
+                                items-center
+                                justify-center
+                                rounded-full
+                                bg-red-500
+                                text-lg
+                                font-bold
+                                text-white
+                                shadow-lg
+                              "
                             >
                               ✕
                             </div>
@@ -326,21 +330,21 @@ export default function TableCompletionRenderer({
                           {!validated && isSelected && (
                             <div
                               className="
-                                    absolute
-                                    right-4
-                                    top-4
-                                    flex
-                                    h-9
-                                    w-9
-                                    items-center
-                                    justify-center
-                                    rounded-full
-                                    bg-amber-500
-                                    text-lg
-                                    font-bold
-                                    text-white
-                                    shadow-lg
-                                  "
+                                absolute
+                                right-4
+                                top-4
+                                flex
+                                h-9
+                                w-9
+                                items-center
+                                justify-center
+                                rounded-full
+                                bg-amber-500
+                                text-lg
+                                font-bold
+                                text-white
+                                shadow-lg
+                              "
                             >
                               ✓
                             </div>
@@ -364,13 +368,13 @@ export default function TableCompletionRenderer({
                         text-sm
                         font-semibold
                         ${
-                          selectedAnswer === question.answer
+                          isCorrect
                             ? "bg-green-50 text-green-700"
                             : "bg-red-50 text-red-700"
                         }
                       `}
                     >
-                      {selectedAnswer === question.answer
+                      {isCorrect
                         ? "✓ Bonne réponse !"
                         : "✕ Ce n'est pas la bonne image. La bonne réponse est indiquée en vert."}
                     </div>
@@ -407,20 +411,19 @@ export default function TableCompletionRenderer({
       {!validated && answeredCount < questions.length && (
         <div
           className="
-              mt-4
-              flex
-              flex-col
-              gap-3
-              rounded-2xl
-              bg-slate-50
-              px-4
-              py-4
-              sm:mt-5
-              sm:flex-row
-              sm:items-center
-              sm:justify-between
-              sm:px-5
-            "
+            mt-4
+            flex
+            flex-col
+            gap-3
+            rounded-2xl
+            bg-slate-50
+            px-4
+            py-4
+            sm:mt-5
+            sm:flex-row
+            sm:items-center
+            sm:justify-between
+          "
         >
           <p className="text-sm leading-relaxed text-slate-500">
             Choisis une réponse pour chaque question.
@@ -428,19 +431,19 @@ export default function TableCompletionRenderer({
 
           <span
             className="
-                w-fit
-                shrink-0
-                rounded-full
-                bg-white
-                px-3
-                py-1.5
-                text-sm
-                font-bold
-                text-slate-600
-                shadow-sm
-                ring-1
-                ring-slate-200
-              "
+              w-fit
+              shrink-0
+              rounded-full
+              bg-white
+              px-3
+              py-1.5
+              text-sm
+              font-bold
+              text-slate-600
+              shadow-sm
+              ring-1
+              ring-slate-200
+            "
           >
             {answeredCount} / {questions.length}
           </span>
@@ -462,20 +465,20 @@ export default function TableCompletionRenderer({
             y: 0,
           }}
           className="
-              mt-4
-              flex
-              items-center
-              justify-center
-              rounded-2xl
-              border
-              border-amber-200
-              bg-amber-50
-              px-4
-              py-4
-              text-center
-              sm:mt-5
-              sm:px-5
-            "
+            mt-4
+            flex
+            items-center
+            justify-center
+            rounded-2xl
+            border
+            border-amber-200
+            bg-amber-50
+            px-4
+            py-4
+            text-center
+            sm:mt-5
+            sm:px-5
+          "
         >
           <p className="text-sm font-semibold leading-relaxed text-amber-800">
             Toutes tes réponses sont prêtes.

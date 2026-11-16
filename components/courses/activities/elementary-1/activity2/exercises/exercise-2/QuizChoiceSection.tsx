@@ -25,8 +25,8 @@ function ExerciseTransition({
       className="relative z-10 flex h-[120px] items-center justify-center"
       aria-label={`Étape ${number}`}
     >
-        {/* Ligne verticale pointillée continue */}
-        <div
+      {/* Ligne verticale pointillée continue */}
+      <div
         aria-hidden="true"
         className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#57CC99]"
       />
@@ -152,7 +152,7 @@ export default function QuizChoiceSection() {
                 title: (
                   <div className="space-y-2">
                     <p className="font-semibold">
-                      Attention (1) : si vous utilisez le micro pour répondre à l'oral, vous devez dire toute la phrase.
+                      Attention (1) : si vous utilisez le micro pour répondre à l&apos;oral, vous devez dire toute la phrase.
                     </p>
 
                     <p>
