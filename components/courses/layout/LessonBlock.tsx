@@ -197,7 +197,7 @@ export default function LessonBlock({
                 ref={videoRef}
                 src={videoSrc}
                 poster={poster}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-contain"
                 controls
                 playsInline
                 preload="metadata"
