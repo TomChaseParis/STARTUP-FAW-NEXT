@@ -33,14 +33,14 @@ function ExerciseTransition({
       className="relative z-10 flex h-[120px] items-center justify-center"
       aria-label={`Étape ${number}`}
     >
-      {/* Ligne verticale pointillée continue */}
-      <div
+         {/* Ligne verticale pointillée continue */}
+         <div
         aria-hidden="true"
-        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#F4B323]"
+        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#57CC99]"
       />
 
       {/* Numéro centré sur la ligne */}
-      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#F2A900] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(224,159,0,0.25)] ring-1 ring-[#FFD875]">
+      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#57CC99] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(87,204,153,0.25)] ring-1 ring-[#A8E6CA]">
         {number}
       </span>
     </div>
@@ -121,19 +121,19 @@ export default function TeacherQuestionSection({
         className="w-full min-w-0 scroll-mt-10"
       >
         <ListenSpeakInstruction
-          imageSrc="/images/listenandspeakjean.png"
+          imageSrc="/images/loisirsexo3.png"
           level="elementary-1"
           imageAlt="Illustration pour construire une question et la prononcer correctement"
           category="OUTILS DE LA LANGUE"
           title="Le professeur je-sais-tout"
           description="Observe l'illustration, trouve le mot interrogatif qui manque, puis pose la question complète à Jean à l'oral."
-          example="Où habites-tu ? Pourquoi apprends-tu le français ?"
+          example=""
           steps={[
             {
               title: "Observe",
               description:
                 "Observe l'illustration et aide-toi de la liste des mots interrogatifs proposés.",
-              icon: "sound",
+              icon: "eye",
             },
             {
               title: "Construis ta question",
@@ -142,6 +142,23 @@ export default function TeacherQuestionSection({
               icon: "mic",
             },
           ]}
+          pointAttention={{
+            imageSrc:
+              "/images/courses/beginner/activities/brunogalopin/point.png",
+            imageAlt:
+              "Point d’attention sur la terminaison des verbes",
+            title: (
+              <div className="ml-7">
+                    <ul className="space-y-2 list-disc">
+            <li>Jean ne te répondra que si tu poses la bonne question en choisissant le bon mot
+interrogatif. Tu as droit à 3 essais !</li>
+<li>Aide-toi de la liste des mots interrogatifs qui t’est proposée.</li>
+<li>Attention à ta prononciation ! Sinon, Jean ne te comprendra pas...</li>
+           </ul>
+              </div>
+       
+            ),
+          }}
           onStart={onStart}
           started={started}
         />

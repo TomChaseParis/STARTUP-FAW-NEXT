@@ -36,8 +36,9 @@ export default function Activity() {
       {/* INTRODUCTION + VIDÉO */}
       <LessonBlock
         level="elementary-1"
+        cefrLevel="A2.1"
         contentType="activity"
-        title="QUIZZ A GOGO"
+        title="QUIZ A GOGO"
         description="Découvre les principales questions et réponses utilisées dans une conversation simple, puis entraîne-toi grâce à plusieurs exercices interactifs."
         videoSrc="/videos/courses/elementary-1/activities/activity1/presentation.mp4"
         poster="/images/courses/elementary/activities/activity1/jeanposterquizgogo.png"

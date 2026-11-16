@@ -20,12 +20,14 @@ function ExerciseTransition({ number }: ExerciseTransitionProps) {
       className="relative z-10 flex h-[90px] items-center justify-center"
       aria-label={`Étape ${number}`}
     >
-      <div
+     {/* Ligne verticale pointillée continue */}
+     <div
         aria-hidden="true"
-        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l border-dashed border-[#F4B323]"
+        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#57CC99]"
       />
 
-      <span className="relative z-10 flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-white bg-[#F2A900] text-sm font-bold text-white shadow-[0_1px_4px_rgba(224,159,0,0.25)] ring-1 ring-[#FFD875]">
+      {/* Numéro centré sur la ligne */}
+      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#57CC99] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(87,204,153,0.25)] ring-1 ring-[#A8E6CA]">
         {number}
       </span>
     </div>
@@ -135,7 +137,7 @@ export default function FillInTheBlankSection() {
             <ExerciseSection width="full">
               <ListenAndType
                 level="elementary-1"
-                imageSrc="/images/PHONIEGRAPHIEJEAN.PNG"
+                imageSrc="/images/loisirstest1.png"
                 imageAlt="Les loisirs des Français"
                 activityTitle="Les loisirs des Français"
                 category="PHONIE / GRAPHIE"
@@ -155,6 +157,38 @@ export default function FillInTheBlankSection() {
                     icon: "keyboard",
                   },
                 ]}
+                pointAttention={{
+                  imageSrc:
+                    "/images/courses/beginner/activities/brunogalopin/point.png",
+                  imageAlt:
+                    "Point d'attention sur la terminaison des verbes au pluriel",
+                  title: (
+                    <div className="space-y-1.5 text-sm leading-relaxed">
+                      <p className="font-bold text-slate-800">
+                        La marque du pluriel (-ent) ne s'entend pas à l'oral !
+                      </p>
+
+                      <p className="text-slate-600">
+                        Exemple : Les jeunes ______ (passer) beaucoup de temps sur internet.
+                      </p>
+
+                      <p className="flex items-start gap-2 font-medium text-slate-800">
+                        <span
+                          className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm bg-blue-500 text-[11px] font-bold text-white"
+                          aria-hidden="true"
+                        >
+                          →
+                        </span>
+
+                        <span>
+                          Les jeunes passent beaucoup de temps sur internet.
+                        </span>
+                      </p>
+                    </div>
+                  ),
+                }}
+               
+                
                 onStart={() => setStarted(true)}
                 started={started}
               />
@@ -182,7 +216,7 @@ export default function FillInTheBlankSection() {
           {/* LECTEUR AUDIO FLOTTANT */}
           {started && (
             <FloatingAudioPlayer
-              audioSrc="/audios/courses/elementary/activities/loisirs.mp3"
+              audioSrc="/audios/courses/elementary/activities/loisirs-des-francais.mp3"
               imageSrc="/images/courses/elementary/lesloisirsdesfrancais/loisirs-fr.png"
               imageAlt="Les loisirs des Français"
               title="Les loisirs des Français"

@@ -28,13 +28,14 @@ function ExerciseTransition({
       aria-label={`Étape ${number}`}
     >
       {/* Ligne verticale pointillée continue */}
-      <div
+        {/* Ligne verticale pointillée continue */}
+        <div
         aria-hidden="true"
-        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#F4B323]"
+        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#57CC99]"
       />
 
       {/* Numéro centré sur la ligne */}
-      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#F2A900] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(224,159,0,0.25)] ring-1 ring-[#FFD875]">
+      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#57CC99] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(87,204,153,0.25)] ring-1 ring-[#A8E6CA]">
         {number}
       </span>
     </div>
@@ -72,10 +73,24 @@ export default function QuizFranceSection({
           exerciseNumber={2}
           level="elementary-1"
           category="OUTILS DE LA LANGUE"
+          steps={[
+            {
+              title: "Lis",
+              description:
+                "Lis attentivement chaque question et les réponses proposées.",
+              icon: "sound",
+            },
+            {
+              title: "Choisis",
+              description:
+                "Choisis ta réponse ou utilise le microphone pour répondre à l’oral.",
+              icon: "mic",
+            },
+          ]}
           title="Quiz sur la France et les Français"
           description="Teste tes connaissances sur la France et les Français."
-          example="Écoute Jean présenter la question et les réponses proposées. Choisis la bonne réponse ou utilise le microphone si tu préfères répondre à l'oral."
-          instructionImageSrc="/images/quizpanache.png"
+          example=""
+          instructionImageSrc="/images/loisirsexo2.png"
           onStart={onStart}
           started={started}
         />

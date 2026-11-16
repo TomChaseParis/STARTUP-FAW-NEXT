@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { ReactNode } from "react";
@@ -32,6 +33,7 @@ type ClickOrSpeakProps = Omit<
   audioTitle?: string;
   audioHint?: string;
   level?: ExerciseLevel;
+  cefrLevel?: string;
   steps?: ExerciseInstructionProps["steps"];
   children?: ReactNode;
 };
@@ -52,6 +54,7 @@ export default function ClickOrSpeak({
   started = false,
   activityTitle,
   level = "beginner",
+  cefrLevel,
   steps,
   children,
 }: ClickOrSpeakProps) {
@@ -91,7 +94,6 @@ export default function ClickOrSpeak({
 
   return (
     <>
-      {/* CARTE DE CONSIGNE */}
       <ExerciseInstruction
         imageSrc={instructionImageSrc}
         imageAlt={`Illustration de l’exercice ${exerciseNumber}`}
@@ -101,19 +103,18 @@ export default function ClickOrSpeak({
         example={example}
         activityTitle={activityTitle}
         level={level}
+        cefrLevel={cefrLevel}
         steps={instructionSteps}
         onStart={onStart}
         started={started}
       />
 
-      {/* QCM INDÉPENDANT, SOUS LA CARTE DE CONSIGNE */}
       {started && children && (
         <div className="container mt-8 w-full min-w-0">
           {children}
         </div>
       )}
 
-      {/* LECTEUR AUDIO */}
       {started && audioSrc && (
         <FloatingAudioPlayer
           audioSrc={audioSrc}

@@ -7,6 +7,7 @@ import InfoBlock from "./InfoBlock";
 
 type LessonBlockProps = {
   level: string;
+  cefrLevel?: string;
   title: string;
   description?: string;
   videoSrc: string;
@@ -56,6 +57,7 @@ const LEVEL_CONFIG: Record<
 
 export default function LessonBlock({
   level,
+  cefrLevel = "",
   title,
   description,
   videoSrc,
@@ -75,13 +77,13 @@ export default function LessonBlock({
   };
 
   return (
-    <section className="space-y-12 bg-[#FCFCFC] pb-4 sm:space-y-14">
+    <section className="w-full min-w-0 max-w-full space-y-12 overflow-x-clip bg-[#FCFCFC] pb-4 sm:space-y-14">
       {/* HEADER */}
 
-      <div className="container">
-        <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
+      <div className="container mx-auto w-full min-w-0 max-w-full">
+        <div className="relative mx-auto w-full min-w-0 max-w-5xl px-4 sm:px-6">
           <div
-            className="pointer-events-none absolute left-1/2 top-[-55px] -z-10 h-44 w-72 -translate-x-1/2 rounded-full blur-3xl"
+            className="pointer-events-none absolute left-1/2 top-[-55px] -z-10 h-44 w-72 max-w-full -translate-x-1/2 rounded-full blur-3xl"
             style={{
               backgroundColor: `${levelConfig.color}20`,
             }}
@@ -89,38 +91,34 @@ export default function LessonBlock({
 
           {/* IDENTITÉ DE LA LEÇON + TITRE */}
 
-          <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(260px,0.85fr)_minmax(0,1.5fr)] md:gap-8">
+          <div className="grid w-full min-w-0 grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.5fr)] md:gap-8">
             {/* BLOC GAUCHE — TYPE ET NIVEAU */}
 
-            <div className="flex justify-center md:justify-start">
+            <div className="flex min-w-0 justify-center md:justify-start">
               <div
-                className="relative flex w-fit max-w-full items-center gap-4 overflow-hidden rounded-full py-3 pl-3 pr-6 sm:gap-5 sm:py-4 sm:pr-8"
+                className="relative flex w-fit max-w-full min-w-0 items-center gap-4 overflow-hidden rounded-full py-3 pl-3 pr-6 sm:gap-5 sm:py-4 sm:pr-8"
                 style={{
                   backgroundColor: `${levelConfig.color}20`,
                 }}
               >
-                {/* ICÔNE DU LIVRE */}
+                {/* BADGE CECRL */}
 
                 <div
                   className="relative z-10 flex h-[76px] w-[76px] shrink-0 items-center justify-center rounded-full shadow-sm sm:h-[88px] sm:w-[88px]"
                   style={{
                     backgroundColor: levelConfig.color,
                   }}
+                  aria-label={
+                    cefrLevel
+                      ? `Niveau ${cefrLevel}`
+                      : "Niveau non renseigné"
+                  }
                 >
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="h-10 w-10 sm:h-12 sm:w-12"
-                    stroke="white"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
-                    <path d="M8 7h8M8 11h8M8 15h5" />
-                  </svg>
+                  {cefrLevel && (
+                    <span className="select-none text-2xl font-black tracking-tight text-white sm:text-3xl">
+                      {cefrLevel}
+                    </span>
+                  )}
                 </div>
 
                 {/* LIBELLÉ ET NIVEAU */}
@@ -159,13 +157,13 @@ export default function LessonBlock({
 
             {/* BLOC DROIT — TITRE ET DESCRIPTION */}
 
-            <div className="min-w-0 text-center md:pl-2 md:text-left">
-              <h1 className="text-3xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-4xl">
+            <div className="w-full min-w-0 text-center md:pl-2 md:text-left">
+              <h1 className="break-words text-3xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-4xl">
                 {title}
               </h1>
 
               {description && (
-                <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+                <p className="mt-4 break-words text-sm leading-7 text-slate-600 sm:text-base">
                   {description}
                 </p>
               )}
@@ -183,9 +181,9 @@ export default function LessonBlock({
 
       {/* ENCADRÉ UNIQUE — VIDÉO + INFORMATIONS */}
 
-      <div className="container">
+      <div className="container mx-auto w-full min-w-0 max-w-full">
         <div
-          className="grid grid-cols-1 items-center gap-6 overflow-hidden rounded-[28px] border p-4 shadow-[0_16px_45px_rgba(15,23,42,0.07)] sm:p-6 lg:grid-cols-2 lg:gap-8 lg:p-8"
+          className="grid w-full min-w-0 grid-cols-1 items-center gap-6 overflow-hidden rounded-[28px] border p-4 shadow-[0_16px_45px_rgba(15,23,42,0.07)] sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-8 lg:p-8"
           style={{
             backgroundColor: `${levelConfig.color}12`,
             borderColor: `${levelConfig.color}45`,
@@ -193,13 +191,13 @@ export default function LessonBlock({
         >
           {/* COLONNE GAUCHE — VIDÉO */}
 
-          <div className="min-w-0">
-            <div className="relative aspect-video overflow-hidden rounded-[20px] border border-black/10 bg-black shadow-md">
+          <div className="w-full min-w-0 max-w-full">
+            <div className="relative aspect-video w-full max-w-full overflow-hidden rounded-[20px] border border-black/10 bg-black shadow-md">
               <video
                 ref={videoRef}
                 src={videoSrc}
                 poster={poster}
-                className="h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
                 controls
                 playsInline
                 preload="metadata"
@@ -215,17 +213,17 @@ export default function LessonBlock({
           {/* COLONNE DROITE — INFORMATIONS PÉDAGOGIQUES */}
 
           {info && (
-            <div className="min-w-0 lg:pl-2">
-              <div className="mb-6 flex flex-col items-center">
+            <div className="w-full min-w-0 max-w-full lg:pl-2">
+              <div className="mb-6 flex min-w-0 flex-col items-center">
                 <div
-                  className="mb-4 h-1 w-12 rounded-full"
+                  className="mb-4 h-1 w-12 shrink-0 rounded-full"
                   style={{
                     backgroundColor: levelConfig.color,
                   }}
                 />
 
                 <h2
-                  className="text-center text-xl font-black tracking-tight sm:text-2xl"
+                  className="max-w-full break-words text-center text-xl font-black tracking-tight sm:text-2xl"
                   style={{
                     color: levelConfig.color,
                   }}
@@ -234,7 +232,9 @@ export default function LessonBlock({
                 </h2>
               </div>
 
-              <InfoBlock {...info} accentColor={levelConfig.color} />
+              <div className="w-full min-w-0 max-w-full">
+                <InfoBlock {...info} accentColor={levelConfig.color} />
+              </div>
             </div>
           )}
         </div>
@@ -242,7 +242,11 @@ export default function LessonBlock({
 
       {/* CONTENU PÉDAGOGIQUE */}
 
-      {children && <div className="container">{children}</div>}
+      {children && (
+        <div className="container mx-auto w-full min-w-0 max-w-full">
+          {children}
+        </div>
+      )}
     </section>
   );
 }

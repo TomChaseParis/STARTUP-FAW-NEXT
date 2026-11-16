@@ -42,6 +42,7 @@ export type ExerciseInstructionProps = {
   beforeStartContent?: ReactNode;
   activityTitle?: string;
   level?: ExerciseLevel;
+  cefrLevel?: string;
 };
 
 type LevelColors = {
@@ -327,6 +328,7 @@ export default function ExerciseInstruction({
   beforeStartContent,
   activityTitle,
   level = "beginner",
+  cefrLevel = "",
 }: ExerciseInstructionProps) {
   const colors = levelColors[level];
 
@@ -419,13 +421,16 @@ export default function ExerciseInstruction({
 
           <div className="min-w-0 px-1 py-5 sm:px-2 sm:py-6 lg:relative lg:py-[34px] lg:pr-2 lg:before:absolute lg:before:bottom-0 lg:before:left-[-17px] lg:before:top-0 lg:before:w-px">
             <div className="mb-[22px] flex items-center gap-3 text-[11px] font-extrabold tracking-[0.22em] text-[#748198] sm:gap-[17px] sm:text-[13px]">
-              <span
-                className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full sm:h-[58px] sm:w-[58px]"
-                style={{
-                  backgroundColor: colors.soft,
-                  color: colors.primary,
-                }}
-              />
+            <span
+  className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full text-sm font-black tracking-[-0.06em] text-white sm:h-[58px] sm:w-[58px] sm:text-base"
+  style={{
+    backgroundColor: colors.primary,
+    color: "rgb(255 255 255)",
+  }}
+>
+  {cefrLevel}
+</span>
+
               <span>{category}</span>
             </div>
 
@@ -526,7 +531,6 @@ export default function ExerciseInstruction({
                 </div>
 
                 <div className="min-w-0 flex-1">
-                
                   <div className="text-sm leading-relaxed text-[#183352] sm:text-base">
                     {pointAttention.title}
                   </div>

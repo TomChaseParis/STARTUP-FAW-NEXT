@@ -62,6 +62,7 @@ export default function Lesson() {
     <LessonLayout>
       <LessonBlock
         level="elementary-1"
+        cefrLevel="A1.2"
         title="Les tournures interrogatives"
         description="Apprends à comprendre et à poser des questions en français."
         videoSrc="https://vz-e5c04cc2-bfc.b-cdn.net/b47eb0d9-86fb-4e05-ab02-dff813289086/playlist.m3u8"
@@ -87,13 +88,13 @@ export default function Lesson() {
         <div className="container flex flex-col items-center gap-4">
           {!hasWatchedVideo && (
             <p className="text-center text-sm font-medium text-gray-500">
-              Termine la vidéo pour débloquer la leçon.
+              regarde la vidéo pour débloquer le quiz.
             </p>
           )}
 
           {hasWatchedVideo && (
             <p className="text-center text-sm font-medium text-green-700">
-              Vidéo terminée ! Tu peux commencer la leçon.
+              Leçon terminée ! Tu peux commencer le quiz.
             </p>
           )}
 
@@ -117,7 +118,7 @@ export default function Lesson() {
               }
             `}
           >
-            Commencer la leçon
+            Commencer le quiz
           </button>
         </div>
       )}

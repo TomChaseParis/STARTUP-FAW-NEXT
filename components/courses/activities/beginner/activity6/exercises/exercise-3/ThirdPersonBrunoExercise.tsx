@@ -18,6 +18,7 @@ export default function ThirdPersonBrunoExercise({
   return (
     <section className="mt-8">
       <FillGapsEngine
+      level="beginner"
         data={thirdPersonBrunoData}
         onComplete={(
           result: ExerciseSessionResult,

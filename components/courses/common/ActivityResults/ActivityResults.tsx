@@ -249,20 +249,20 @@ export default function ActivityResults({
             ? Elementary1TeacherFeedback
             : BeginnerTeacherFeedback;
 
-  const teacherFeedbackProps =
-    teacher === "elementary-1" ||
-    teacher === "elementary-1-activity-2"
-      ? {
-          score: result.session.score,
-          completionFeedback,
-          teacherFeedbackAudios,
-        }
-      : {
-          score: result.session.score,
-          teacherFeedbackImages,
-          teacherFeedbackAudios,
-        };
-
+            const teacherFeedbackProps =
+            teacher === "elementary-1" ||
+            teacher === "elementary-1-activity-2"
+              ? {
+                  score: result.session.score,
+                  completionFeedback,
+                  teacherFeedbackAudios,
+                  isLastExercise,
+                }
+              : {
+                  score: result.session.score,
+                  teacherFeedbackImages,
+                  teacherFeedbackAudios,
+                };
   /* ========================================================= */
   /* COULEUR DU BOUTON                                         */
   /* ========================================================= */
@@ -346,29 +346,37 @@ export default function ActivityResults({
 
       {/* MESSAGE DE FIN */}
 
-      {isLastExercise && (
-        <div
-          className="
-            mt-8
-            rounded-2xl
-            border
-            border-emerald-200
-            bg-emerald-50
-            px-5
-            py-4
-            text-center
-            sm:mt-10
-          "
-        >
-          <p className="text-base font-bold text-emerald-800">
-            🎉 Activité terminée !
-          </p>
+   
+{/* MESSAGE DE FIN */}
 
-          <p className="mt-1 text-sm text-emerald-700">
-            Bravo ! Tu as terminé tous les exercices de cette activité.
-          </p>
-        </div>
-      )}
+{isLastExercise && (
+  <div
+    className="
+      mt-8
+      rounded-2xl
+      border
+      border-emerald-200
+      bg-emerald-50
+      px-5
+      py-4
+      text-center
+      sm:mt-10
+    "
+  >
+    <p className="text-base font-bold text-emerald-800">
+      {feedbackVariant === "lesson"
+        ? "🎉 Leçon terminée !"
+        : "🎉 Activité terminée !"}
+    </p>
+
+    <p className="mt-1 text-sm text-emerald-700">
+      {feedbackVariant === "lesson"
+        ? "Bravo ! Tu as terminé tous les exercices de cette leçon."
+        : "Bravo ! Tu as terminé tous les exercices de cette activité."}
+    </p>
+  </div>
+)}
+
 
       {/* ===================================================== */}
       {/* CORRECTION DÉTAILLÉE                                  */}

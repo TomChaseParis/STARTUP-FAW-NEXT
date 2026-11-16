@@ -47,7 +47,7 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
       "/images/courses/elementary/activities/activity1/exercice-3/Q1.png",
   },
 
-  {
+/*   {
     id: "zoologie-1",
 
     category: "ZOOLOGIE",
@@ -275,5 +275,5 @@ export const teacherQuestionData: TeacherQuestionExerciseData[] = [
 
     image:
       "/images/courses/elementary/activities/activity1/exercice-3/Q9.png",
-  },
+  }, */
 ];

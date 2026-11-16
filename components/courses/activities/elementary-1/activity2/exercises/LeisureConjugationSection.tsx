@@ -8,6 +8,33 @@ import InstructionBlock from "@/components/courses/layout/InstructionBlock";
 
 import LeisureConjugationExercise from "./LeisureConjugationExercise";
 
+type ExerciseTransitionProps = {
+  number: number;
+};
+
+function ExerciseTransition({
+  number,
+}: ExerciseTransitionProps) {
+  return (
+    <div
+      className="relative z-10 flex h-[120px] items-center justify-center"
+      aria-label={`Étape ${number}`}
+    >
+        {/* Ligne verticale pointillée continue */}
+        <div
+        aria-hidden="true"
+        className="absolute inset-0 left-1/2 w-0 -translate-x-1/2 border-l-2 border-dashed border-[#57CC99]"
+      />
+
+      {/* Numéro centré sur la ligne */}
+      <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-[#57CC99] text-base font-extrabold text-white shadow-[0_2px_8px_rgba(87,204,153,0.25)] ring-1 ring-[#A8E6CA]">
+        {number}
+      </span>
+    </div>
+  );
+}
+
+
 export default function FillInTheBlankSection() {
   const [started, setStarted] = useState(false);
 

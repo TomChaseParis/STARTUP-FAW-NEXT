@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef, useState } from "react";
@@ -7,6 +8,7 @@ import InfoBlock from "./InfoBlock";
 type ActivityBlockProps = {
   contentType?: "lesson" | "activity";
   level: string;
+  cefrLevel?: string;
   title: string;
   description?: string;
   videoSrc: string;
@@ -57,6 +59,7 @@ const LEVEL_CONFIG: Record<
 export default function ActivityBlock({
   contentType = "lesson",
   level,
+  cefrLevel = "",
   title,
   description,
   videoSrc,
@@ -101,47 +104,18 @@ export default function ActivityBlock({
                   backgroundColor: `${levelConfig.color}20`,
                 }}
               >
-                {/* ICÔNE */}
+                {/* BADGE CECRL */}
 
                 <div
-                  className="relative z-10 flex h-[76px] w-[76px] shrink-0 items-center justify-center rounded-full shadow-sm sm:h-[88px] sm:w-[88px]"
+                  className="relative z-10 flex h-[76px] w-[76px] shrink-0 items-center justify-center rounded-full text-xl font-black tracking-[-0.06em] text-white shadow-sm sm:h-[88px] sm:w-[88px] sm:text-2xl"
                   style={{
                     backgroundColor: levelConfig.color,
                   }}
+                  aria-label={
+                    cefrLevel ? `Niveau ${cefrLevel}` : "Niveau CECRL non renseigné"
+                  }
                 >
-                  {isActivity ? (
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="h-10 w-10 sm:h-12 sm:w-12"
-                      stroke="white"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="5" y="3" width="14" height="18" rx="1.5" />
-                      <path d="M9 7h6M9 11h6M9 15h3" />
-                      <path d="m8 3 1 2 2-2" />
-                      <path d="m8 11 1 1 2-2" />
-                      <path d="m8 15 1 1 2-2" />
-                    </svg>
-                  ) : (
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="h-10 w-10 sm:h-12 sm:w-12"
-                      stroke="white"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
-                      <path d="M8 7h8M8 11h8M8 15h5" />
-                    </svg>
-                  )}
+                  {cefrLevel}
                 </div>
 
                 {/* LIBELLÉ ET NIVEAU */}

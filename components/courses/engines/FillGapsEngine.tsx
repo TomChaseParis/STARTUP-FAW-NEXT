@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { Fragment } from "react";
@@ -17,6 +18,8 @@ type Props = {
   data: FillGapsData;
   teacherImage?: string;
   onComplete?: (result: ExerciseSessionResult) => void;
+  keyboardColor?: string;
+  level?: string;
 };
 
 /* ========================================================= */
@@ -53,12 +56,27 @@ const SPEAKER_LABELS: Record<FillGapsSpeaker, string> = {
 };
 
 /* ========================================================= */
-/* COMPOSANT                                                  */
+/* COULEURS DE PROGRESSION PAR NIVEAU                        */
+/* ========================================================= */
+
+const LEVEL_PROGRESS_COLORS: Record<string, string> = {
+  beginner: "#E09F00",
+  "elementary-1": "#57CC99",
+  "elementary-2": "#31572C",
+  "intermediate-1": "#38BDF8",
+  "intermediate-2": "#B9A0F8",
+  advanced: "#C7443E",
+};
+
+/* ========================================================= */
+/* COMPOSANT                                                 */
 /* ========================================================= */
 
 const FillGapsEngine: React.FC<Props> = ({
   data,
   onComplete,
+  keyboardColor = "#5426A8",
+  level,
 }) => {
   const {
     sentences,
@@ -72,6 +90,15 @@ const FillGapsEngine: React.FC<Props> = ({
     allAnswered,
     session,
   } = useFillGapsEngine(data);
+
+  const progressColor =
+    LEVEL_PROGRESS_COLORS[level ?? ""] ?? keyboardColor;
+
+  const [copiedCharacter, setCopiedCharacter] = React.useState<
+    string | null
+  >(null);
+
+  const [copyError, setCopyError] = React.useState(false);
 
   /* ========================================================= */
   /* FIN DE SESSION                                            */
@@ -106,13 +133,20 @@ const FillGapsEngine: React.FC<Props> = ({
   /* ========================================================= */
 
   const copyCharacter = async (character: string) => {
+    setCopiedCharacter(null);
+    setCopyError(false);
+
     try {
       await navigator.clipboard.writeText(character);
+
+      setCopiedCharacter(character);
     } catch (error) {
       console.error(
         "Impossible de copier le caractère dans le presse-papiers.",
         error,
       );
+
+      setCopyError(true);
     }
   };
 
@@ -139,16 +173,22 @@ const FillGapsEngine: React.FC<Props> = ({
             Progression : {answeredCount} / {totalInputs}
           </span>
 
-          <span className="shrink-0 font-semibold text-amber-600">
+          <span
+            className="shrink-0 font-semibold"
+            style={{
+              color: progressColor,
+            }}
+          >
             {Math.round(progress)}%
           </span>
         </div>
 
         <div className="mb-5 h-2.5 w-full overflow-hidden rounded-full bg-slate-200 sm:mb-6 sm:h-3">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-600 transition-all duration-500"
+            className="h-full rounded-full transition-all duration-500"
             style={{
               width: `${progress}%`,
+              backgroundColor: progressColor,
             }}
           />
         </div>
@@ -157,20 +197,38 @@ const FillGapsEngine: React.FC<Props> = ({
 
         <div className="w-full min-w-0 rounded-2xl bg-white p-4 shadow-xl ring-1 ring-black/5 sm:p-6 md:p-8">
 
-          {/* AIDE AU CLAVIER */}
+          {/* CLAVIER DES ACCENTS */}
 
           {data.keyboardCharacters &&
             data.keyboardCharacters.length > 0 && (
-              <div className="mb-6 rounded-xl border border-[#B9EAD2] bg-white/80 p-4 sm:p-5">
-                <p className="mb-2 font-semibold text-slate-800">
-                  Aide au clavier :
-                </p>
+              <div
+                className="mb-6 rounded-xl border px-4 py-4 sm:px-5 sm:py-4"
+                style={{
+                  borderColor: `color-mix(in srgb, ${keyboardColor} 35%, white)`,
+                  backgroundColor: `color-mix(in srgb, ${keyboardColor} 9%, white)`,
+                }}
+              >
 
-                <p className="mb-4 text-sm leading-relaxed text-slate-600">
-                  Clique sur une lettre pour la copier, puis colle-la dans ta réponse.
-                </p>
+                {/* EN-TÊTE */}
 
-                <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start sm:gap-3">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <p
+                    className="text-[11px] font-bold"
+                    style={{
+                      color: keyboardColor,
+                    }}
+                  >
+                    Copier un accent
+                  </p>
+
+                  <p className="text-[10px] text-slate-500">
+                    Clique sur un caractère pour le copier.
+                  </p>
+                </div>
+
+                {/* TOUCHES */}
+
+                <div className="flex flex-wrap items-center gap-2">
                   {data.keyboardCharacters.map((character, index) => (
                     <button
                       key={`${character}-${index}`}
@@ -179,30 +237,69 @@ const FillGapsEngine: React.FC<Props> = ({
                         void copyCharacter(character);
                       }}
                       title={`Copier ${character}`}
-                      aria-label={`Copier la lettre ${character}`}
+                      aria-label={`Copier le caractère ${character}`}
                       className="
                         flex
-                        h-9
-                        min-w-9
+                        h-[31px]
+                        min-w-[30px]
                         cursor-pointer
                         items-center
                         justify-center
-                        rounded-lg
-                        bg-[#E0F5E9]
-                        px-2
-                        font-semibold
-                        tracking-wide
-                        text-slate-800
-                        ring-1
-                        ring-[#B9EAD2]
-                        transition-colors
-                        hover:bg-[#B9EAD2]
+                        rounded-[7px]
+                        border
+                        bg-white
+                        px-2.5
+                        text-sm
+                        font-bold
+                        shadow-sm
+                        transition-all
+                        duration-150
                         active:scale-95
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-offset-1
                       "
+                      style={{
+                        borderColor: keyboardColor,
+                        color: keyboardColor,
+                        backgroundColor:
+                          copiedCharacter === character
+                            ? `color-mix(in srgb, ${keyboardColor} 18%, white)`
+                            : "white",
+                        outlineColor: keyboardColor,
+                      }}
                     >
-                      {character}
+                      {copiedCharacter === character ? (
+                        <span className="flex items-center gap-1">
+                          <span aria-hidden="true">✓</span>
+                          {character}
+                        </span>
+                      ) : (
+                        character
+                      )}
                     </button>
                   ))}
+                </div>
+
+                {/* MESSAGE D'AIDE ET FEEDBACK */}
+
+                <div
+                  className="mt-2.5 min-h-[14px] text-[10px] leading-relaxed"
+                  aria-live="polite"
+                >
+                  {copyError ? (
+                    <p className="font-medium text-red-600">
+                      Copie impossible : vérifie les autorisations du navigateur.
+                    </p>
+                  ) : copiedCharacter ? (
+                    <p className="font-medium text-green-700">
+                      « {copiedCharacter} » copié ! Tu peux le coller avec Ctrl + V ou ⌘ + V.
+                    </p>
+                  ) : (
+                    <p className="text-slate-500">
+                      Clique sur un accent pour le copier, puis colle-le dans le champ avec Ctrl + V ou ⌘ + V.
+                    </p>
+                  )}
                 </div>
               </div>
             )}

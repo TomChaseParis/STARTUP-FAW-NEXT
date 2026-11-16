@@ -13,7 +13,7 @@ import ActivityResults from "@/components/courses/common/ActivityResults/Activit
 
 import ClickOrSpeak from "@/components/courses/layout/ClickOrSpeak";
 
-import { quizData } from "../../data/questionsFrancais";
+import { quizData } from "../../data/quizData";
 
 import type { ExerciseSessionResult } from "@/components/courses/common/types/exerciseSessionTypes";
 
@@ -33,6 +33,28 @@ type QuizQuestion = {
   correctAnswer?: string;
   correctAnswers?: string[];
 };
+
+type ExerciseTransitionProps = {
+  number: number;
+};
+
+function ExerciseTransition({ number }: ExerciseTransitionProps) {
+  return (
+    <div
+      className="relative z-10 flex h-[90px] items-center justify-center"
+      aria-label={`Étape ${number}`}
+    >
+      <div
+        aria-hidden="true"
+        className="absolute left-1/2 top-0 bottom-0 w-0 -translate-x-1/2 border-l border-dashed border-[#57CC99]"
+      />
+
+      <span className="relative z-10 flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-white bg-[#57CC99] text-sm font-bold text-white shadow-[0_1px_4px_rgba(87,204,153,0.25)] ring-1 ring-[#A8E6CA]">
+        {number}
+      </span>
+    </div>
+  );
+}
 
 const data = quizData as {
   title: string;
@@ -160,16 +182,39 @@ export default function LessonTournuresQcm() {
   return (
     <div className="w-full min-w-0">
       <ClickOrSpeak
-      instructionImageSrc="/images/lesson-tournures.png"
+        cefrLevel="A1.2"
+        instructionImageSrc="/images/quiztournures.png"
         exerciseNumber={1}
         category="QUIZ DE COMPRÉHENSION"
-        title="La valse des questions"
+        title="Les tournures interrogatives"
         description={data.description}
-        example="Lis attentivement la question, puis choisis la bonne réponse."
+        example=""
         level="elementary-1"
         started={exerciseStarted}
         onStart={handleStartExercise}
+        steps={[
+          {
+            title: "Lis",
+            description:
+              "Lis attentivement chaque question et les réponses proposées.",
+            icon: "sound",
+          },
+          {
+            title: "Choisis",
+            description:
+              "Choisis ta réponse ou utilise le microphone pour répondre à l’oral.",
+            icon: "mic",
+          },
+        ]}
       >
+     {/* TRANSITION ET QUIZ */}
+
+{exerciseStarted && (
+  <div className="-mt-7">
+    <ExerciseTransition number={1} />
+  </div>
+)}
+
         <div
           id="quiz-content"
           className="w-full min-w-0 scroll-mt-8"

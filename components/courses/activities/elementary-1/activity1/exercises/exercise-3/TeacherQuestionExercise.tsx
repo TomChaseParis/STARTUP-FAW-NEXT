@@ -277,7 +277,7 @@ export default function TeacherQuestionExercise({
           }}
           teacher="elementary-1"
           isLastExercise={true}
-          finishLabel="Retourner aux modules"
+          finishLabel="Terminer l'activité"
           teacherFeedbackAudios={{
             bad: "/audios/teacher/jean/score/JEAN-0-50.mp3",
             middle: "/audios/teacher/jean/score/JEAN-50-75.mp3",

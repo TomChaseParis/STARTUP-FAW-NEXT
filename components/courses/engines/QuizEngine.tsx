@@ -39,6 +39,19 @@ export const TEACHER_BUBBLE_IMAGES = {
 
 export type TeacherLevel = keyof typeof TEACHER_BUBBLE_IMAGES;
 
+/* ========================================================= */
+/* COULEURS DE PROGRESSION PAR NIVEAU                        */
+/* ========================================================= */
+
+const QUIZ_PROGRESS_COLORS: Record<string, string> = {
+  beginner: "#E09F00",
+  "elementary-1": "#57CC99",
+  "elementary-2": "#31572C",
+  "intermediate-1": "#38BDF8",
+  "intermediate-2": "#B9A0F8",
+  advanced: "#C7443E",
+};
+
 type Props = {
   questions: Question[];
   teacherLevel: TeacherLevel;
@@ -91,6 +104,13 @@ const QuizEngine: React.FC<Props> = ({
 
   const wasTalkingRef = useRef(false);
   const previousQuestionRef = useRef<number | null>(null);
+
+  /* ========================================================= */
+  /* COULEUR DE LA BARRE DE PROGRESSION                        */
+  /* ========================================================= */
+
+  const progressColor =
+    QUIZ_PROGRESS_COLORS[teacherLevel] ?? "#E09F00";
 
   useEffect(() => {
     if (!session.isFinished) return;
@@ -289,6 +309,7 @@ const QuizEngine: React.FC<Props> = ({
     <QuestionController
       current={currentIndex + 1}
       total={totalQuestions}
+      progressColor={progressColor}
       header={
         <QuestionHeader
           current={currentIndex + 1}
@@ -329,6 +350,7 @@ const QuizEngine: React.FC<Props> = ({
             isLastQuestion={isLastQuestion}
             onNext={handleNext}
             lastQuestionLabel={lastQuestionLabel}
+            buttonColor={progressColor}
           />
         ) : undefined
       }

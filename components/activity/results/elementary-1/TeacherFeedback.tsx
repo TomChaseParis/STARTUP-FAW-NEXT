@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -16,6 +17,7 @@ type CompletionFeedback = {
 type TeacherFeedbackProps = {
   score: number;
   variant?: "activity" | "lesson";
+  isLastExercise?: boolean;
   teacherFeedbackImages?: {
     bad: string;
     middle: string;
@@ -34,6 +36,7 @@ type TeacherFeedbackProps = {
 export default function TeacherFeedback({
   score,
   variant = "activity",
+  isLastExercise = false,
   teacherFeedbackImages,
   teacherFeedbackAudios,
   completionFeedback,
@@ -45,55 +48,139 @@ export default function TeacherFeedback({
   let message = "";
   let audio = "";
 
+  /*
+   * FEEDBACK DES LEÇONS
+   *
+   * Cette partie concerne uniquement les leçons.
+   */
   if (variant === "lesson") {
     if (score === 100) {
-      image = teacherFeedbackImages?.perfect ?? "/images/courses/teacher/bulles/good.png";
-      audio = teacherFeedbackAudios?.perfect ?? "/audios/teacher/jean/score/JEAN-100.mp3";
-      message = "Bravo ! Tu sembles avoir très bien assimilé la leçon. Tu peux passer l'esprit tranquille aux activités.";
+      image =
+        teacherFeedbackImages?.perfect ??
+        "/images/courses/teacher/bulles/good.png";
+
+      audio =
+        teacherFeedbackAudios?.perfect ??
+        "/audios/teacher/jean/score-lessons/JEAN-100.mp3";
+
+      message =
+        "Bravo ! Tu sembles avoir très bien assimilé la leçon. Tu peux passer l'esprit tranquille aux activités.";
     } else if (score >= 75) {
-      image = teacherFeedbackImages?.good ?? "/images/courses/teacher/bulles/good.png";
-      audio = teacherFeedbackAudios?.good ?? "/audios/teacher/jean/score/JEAN-100.mp3";
-      message = "Tu as retenu l'essentiel, mais tu as fait quelques erreurs. Regarde bien la correction et passe aux activités.";
+      image =
+        teacherFeedbackImages?.good ??
+        "/images/courses/teacher/bulles/good.png";
+
+      audio =
+        teacherFeedbackAudios?.good ??
+        "/audios/teacher/jean/score-lessons/JEAN-75-100.mp3";
+
+      message =
+        "Tu as retenu l'essentiel, mais tu as fait quelques erreurs. Regarde bien la correction et passe aux activités.";
     } else if (score >= 50) {
-      image = teacherFeedbackImages?.middle ?? "/images/courses/teacher/bulles/middle.png";
-      audio = teacherFeedbackAudios?.middle ?? "/audios/teacher/jean/score/JEAN-MIDDLE.mp3";
-      message = "Il reste des points à revoir, apparemment. Analyse tes erreurs et visualise à nouveau la leçon si tu en sens le besoin.";
+      image =
+        teacherFeedbackImages?.middle ??
+        "/images/courses/teacher/bulles/middle.png";
+
+      audio =
+        teacherFeedbackAudios?.middle ??
+        "/audios/teacher/jean/score-lessons/JEAN-50-75.mp3";
+
+      message =
+        "Il reste des points à revoir, apparemment. Analyse tes erreurs et visualise à nouveau la leçon si tu en sens le besoin.";
     } else {
-      image = teacherFeedbackImages?.bad ?? "/images/courses/teacher/bulles/bad.png";
-      audio = teacherFeedbackAudios?.bad ?? "/audios/teacher/jean/score/JEAN-DOWN.mp3";
-      message = "Tu ne sembles pas encore tout à fait prêt à passer aux activités. Visualise à nouveau attentivement la leçon et refais le test. Ce sera sûrement bien mieux la prochaine fois !";
+      image =
+        teacherFeedbackImages?.bad ??
+        "/images/courses/teacher/bulles/bad.png";
+
+      audio =
+        teacherFeedbackAudios?.bad ??
+        "/audios/teacher/jean/score-lessons/JEAN-50-75.mp3";
+
+      message =
+        "Tu ne sembles pas encore tout à fait prêt à passer aux activités. Visualise à nouveau attentivement la leçon et refais le test. Ce sera sûrement bien mieux la prochaine fois !";
     }
   } else if (score < 50) {
-    image = teacherFeedbackImages?.bad ?? "/images/courses/teacher/bulles/bad.png";
-    audio = teacherFeedbackAudios?.bad ?? "/audios/teacher/jean/score/JEAN-0-50.mp3";
+    /*
+     * FEEDBACK DES ACTIVITÉS
+     */
+    image =
+      teacherFeedbackImages?.bad ??
+      "/images/courses/teacher/bulles/bad.png";
+
+    audio =
+      teacherFeedbackAudios?.bad ??
+      "/audios/teacher/jean/score/JEAN-0-50.mp3";
+
     title = "Pas génial...";
-    message = completionFeedback?.bad ?? "Mon conseil : réécoute attentivement le dialogue, analyse tes erreurs et recommence l’exercice. Ce sera mieux la prochaine fois !";
+
+    message =
+      completionFeedback?.bad ??
+      "Mon conseil : réécoute attentivement le dialogue, analyse tes erreurs et recommence l’exercice. Ce sera mieux la prochaine fois !";
   } else if (score < 75) {
-    image = teacherFeedbackImages?.middle ?? "/images/courses/teacher/bulles/middle.png";
-    audio = teacherFeedbackAudios?.middle ?? "/audios/teacher/jean/score/JEAN-50-75.mp3";
+    image =
+      teacherFeedbackImages?.middle ??
+      "/images/courses/teacher/bulles/middle.png";
+
+    audio =
+      teacherFeedbackAudios?.middle ??
+      "/audios/teacher/jean/score/JEAN-50-75.mp3";
+
     title = "Peut mieux faire...";
-    message = completionFeedback?.middle ?? "Tu as bien répondu à la majorité des questions, mais il te reste une marge de progression. Mon conseil : regarde attentivement les corrections et recommence l’exercice. Tu y es presque !";
+
+    message =
+      completionFeedback?.middle ??
+      "Tu as bien répondu à la majorité des questions, mais il te reste une marge de progression. Mon conseil : regarde attentivement les corrections et recommence l’exercice. Tu y es presque !";
   } else if (score < 100) {
-    image = teacherFeedbackImages?.good ?? "/images/courses/teacher/bulles/good.png";
-    audio = teacherFeedbackAudios?.good ?? "/audios/teacher/jean/score/JEAN-75-100.mp3";
+    image =
+      teacherFeedbackImages?.good ??
+      "/images/courses/teacher/bulles/good.png";
+
+    audio =
+      teacherFeedbackAudios?.good ??
+      "/audios/teacher/jean/score/JEAN-75-100.mp3";
+
     title = "Bon travail !";
-    message = completionFeedback?.good ?? "L’essentiel est compris. Analyse les quelques erreurs que tu as faites et passe à l’exercice suivant !";
+
+    message =
+      completionFeedback?.good ??
+      "L’essentiel est compris. Analyse les quelques erreurs que tu as faites et passe à l’exercice suivant !";
   } else {
-    image = teacherFeedbackImages?.perfect ?? "/images/courses/teacher/bulles/good.png";
-    audio = teacherFeedbackAudios?.perfect ?? "/audios/teacher/jean/score/JEAN-100.mp3";
+    image =
+      teacherFeedbackImages?.perfect ??
+      "/images/courses/teacher/bulles/good.png";
+
+    audio =
+      teacherFeedbackAudios?.perfect ??
+      "/audios/teacher/jean/score/JEAN-100.mp3";
+
     title = "Parfait !";
-    message = completionFeedback?.perfect ?? "Tu as bien répondu à toutes les questions. Tu peux passer à l’exercice suivant !";
+
+    message =
+      completionFeedback?.perfect ??
+      "Tu as bien répondu à toutes les questions. Tu peux passer à l’exercice suivant !";
+  }
+
+  /*
+   * AUDIO SPÉCIFIQUE DE FIN D'ACTIVITÉ
+   *
+   * Cette logique concerne uniquement les activités.
+   * Elle ne modifie jamais les audios des leçons.
+   */
+  if (variant === "activity" && isLastExercise) {
+    audio =
+      "/audios/teacher/jean/score/jean-100-end-activity.mp3";
   }
 
   useEffect(() => {
     if (!audio) return;
-  
+
     const timer = window.setTimeout(() => {
       const audioElement = audioRef.current;
+
       if (!audioElement) return;
-  
+
       audioElement.currentTime = 0;
-  
+
       audioElement.play().catch((error) => {
         console.error("[TeacherFeedback] Échec audio :", {
           audio,
@@ -101,9 +188,10 @@ export default function TeacherFeedback({
         });
       });
     }, 700);
-  
+
     return () => window.clearTimeout(timer);
   }, [audio]);
+
   return (
     <>
       <motion.div
@@ -118,12 +206,19 @@ export default function TeacherFeedback({
         <div className="shrink-0">
           <TeacherAvatar image={image} />
         </div>
+
         <div className="w-full min-w-0">
           <TeacherBubble title={title} message={message} />
         </div>
       </motion.div>
 
-      {audio && <audio ref={audioRef} src={audio} preload="auto" />}
+      {audio && (
+        <audio
+          ref={audioRef}
+          src={audio}
+          preload="auto"
+        />
+      )}
     </>
   );
 }

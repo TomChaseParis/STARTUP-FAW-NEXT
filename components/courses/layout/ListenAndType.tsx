@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { ReactNode } from "react";
@@ -40,6 +41,7 @@ export default function ListenAndType({
   title,
   description,
   example,
+  pointAttention,
   steps = DEFAULT_STEPS,
   onStart,
   started = false,
@@ -55,6 +57,7 @@ export default function ListenAndType({
       title={title}
       description={description}
       example={example}
+      pointAttention={pointAttention}
       steps={steps}
       onStart={onStart}
       started={started}
