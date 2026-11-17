@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { ReactNode } from "react";
@@ -33,6 +34,7 @@ type ClickAndListenProps = Omit<
   audioTitle?: string;
   audioHint?: string;
   level?: ExerciseLevel;
+  cefrLevel?: string;
   children?: ReactNode;
 };
 
@@ -53,6 +55,7 @@ export default function ClickAndListen({
   started = false,
   activityTitle = "EXERCICE 3",
   level = "elementary-1",
+  cefrLevel = "",
   children,
 }: ClickAndListenProps) {
   const hasAudio = Boolean(audioSrc);
@@ -68,6 +71,7 @@ export default function ClickAndListen({
         instruction={instruction}
         activityTitle={activityTitle}
         level={level}
+        cefrLevel={cefrLevel}
         steps={
           hasAudio
             ? [

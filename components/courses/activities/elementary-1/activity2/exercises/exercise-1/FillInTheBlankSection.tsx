@@ -136,6 +136,7 @@ export default function FillInTheBlankSection() {
           >
             <ExerciseSection width="full">
               <ListenAndType
+              cefrLevel="A2.1"
                 level="elementary-1"
                 imageSrc="/images/loisirstest1.png"
                 imageAlt="Les loisirs des Français"

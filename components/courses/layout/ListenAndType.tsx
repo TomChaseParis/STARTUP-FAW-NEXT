@@ -14,6 +14,7 @@ type ListenAndTypeProps = Omit<
   level: ExerciseInstructionProps["level"];
   category?: string;
   steps?: ExerciseInstructionProps["steps"];
+  cefrLevel?: string;
   children?: ReactNode;
 };
 
@@ -34,6 +35,7 @@ const DEFAULT_STEPS: ExerciseInstructionProps["steps"] = [
 
 export default function ListenAndType({
   level,
+  cefrLevel = "",
   imageSrc,
   imageAlt,
   activityTitle,
@@ -50,6 +52,7 @@ export default function ListenAndType({
   return (
     <ExerciseInstruction
       level={level}
+      cefrLevel={cefrLevel}
       imageSrc={imageSrc}
       imageAlt={imageAlt}
       activityTitle={activityTitle}

@@ -58,6 +58,7 @@
         {({ onComplete }) => (
           <ExerciseSection width="full">
             <ClickAndListen
+            cefrLevel="A2.1"
               level="elementary-1"
               exerciseNumber={3}
               category="FIXATION LEXICALE"

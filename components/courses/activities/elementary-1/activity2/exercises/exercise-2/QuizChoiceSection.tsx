@@ -132,6 +132,7 @@ export default function QuizChoiceSection() {
           {/* CONSIGNE */}
           <ExerciseSection width="full">
             <ClickOrSpeak
+            cefrLevel="A2.1"
               level="elementary-1"
               instructionImageSrc="/images/loisirstest2.png"
               exerciseNumber={2}
@@ -139,11 +140,20 @@ export default function QuizChoiceSection() {
               title="QU’EST-CE QU’ILS FONT ?"
               description="Associe chaque image à ce qu’elle représente en choisissant parmi les trois phrases proposées."
               example=""
-              dialogueImageSrc="/images/PHONIEGRAPHIEJEAN.PNG"
-              dialogueImageAlt="Les loisirs des Français"
-              audioSrc="/audios/courses/beginner/bruno-galopin/bruno-galopin.mp3"
-              audioTitle="Les loisirs des Français"
-              audioHint="Écoute le dialogue avant de commencer."
+              steps={[
+                {
+                  title: "Lis",
+                  description:
+                    "Lis ou écoute attentivement chaque question et les réponses proposées.",
+                  icon: "sound",
+                },
+                {
+                  title: "Choisis",
+                  description:
+                    "Choisis ta réponse ou utilise le microphone pour répondre à l’oral.",
+                  icon: "mic",
+                },
+              ]}
               pointAttention={{
                 imageSrc:
                   "/images/courses/beginner/activities/brunogalopin/point.png",

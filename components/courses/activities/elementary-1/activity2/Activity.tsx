@@ -75,6 +75,7 @@ export default function Activity() {
   return (
     <ActivityLayout activity={elementary1Activity2}>
       <LessonBlock
+      cefrLevel="A2.1"
         contentType="activity"
         level="elementary-1"
         title="Les loisirs des Français"
