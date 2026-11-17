@@ -121,6 +121,7 @@ export default function TeacherQuestionSection({
         className="w-full min-w-0 scroll-mt-10"
       >
         <ListenSpeakInstruction
+        cefrLevel="A1.2"
           imageSrc="/images/loisirsexo3.png"
           level="elementary-1"
           imageAlt="Illustration pour construire une question et la prononcer correctement"

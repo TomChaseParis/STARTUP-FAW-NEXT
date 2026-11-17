@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { ReactNode } from "react";
@@ -12,6 +13,7 @@ type ListenSpeakInstructionProps = Omit<
 > & {
   category?: string;
   steps?: ExerciseInstructionProps["steps"];
+  cefrLevel?: string;
   children?: ReactNode;
 };
 
@@ -44,6 +46,7 @@ export default function ListenSpeakInstruction({
   started = false,
   activityTitle,
   level = "beginner",
+  cefrLevel = "",
   children,
 }: ListenSpeakInstructionProps) {
   return (
@@ -62,6 +65,7 @@ export default function ListenSpeakInstruction({
       started={started}
       activityTitle={activityTitle}
       level={level}
+      cefrLevel={cefrLevel}
     >
       {children}
     </ExerciseInstruction>

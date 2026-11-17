@@ -67,6 +67,7 @@ export default function QuizPanacheSection({
         className="w-full min-w-0 scroll-mt-10"
       >
      <ClickOrSpeak
+       cefrLevel="A1.2"
   exerciseNumber={1}
   category="OUTILS DE LA LANGUE"
   title="Quiz panaché"
@@ -80,7 +81,7 @@ export default function QuizPanacheSection({
     {
       title: "Lis",
       description:
-        "Lis attentivement chaque question et les réponses proposées.",
+        "Lis ou écoute attentivement chaque question et les réponses proposées.",
       icon: "sound",
     },
     {
