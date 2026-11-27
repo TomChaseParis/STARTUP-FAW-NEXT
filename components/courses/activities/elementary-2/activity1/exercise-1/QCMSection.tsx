@@ -134,23 +134,24 @@ export default function QCMSection() {
             className="w-full min-w-0 scroll-mt-10"
           >
             <ClickOrSpeak
+            cefrLevel="A2.2"
               exerciseNumber={1}
               activityTitle="1"
               level="elementary-2"
               category="COMPRÉHENSION GLOBALE"
               title="QUESTIONS RÉPONSES"
               description="Découvre le quotidien de Clara et réponds aux questions en choisissant la bonne réponse."
-              example="Lis attentivement chaque question et sélectionne la réponse qui te semble correcte."
+              example=""
               instructionImageSrc="/images/courses/elementary2/activity1/exercise-1/instruction.png"
               steps={[
                 {
-                  title: "Écoute",
+                  title: "Lis",
                   description:
-                    "Utilise le bouton audio pour écouter le dialogue et les réponses proposées.",
+                    "Lis ou écoute attentivement chaque question et les réponses proposées.",
                   icon: "sound",
                 },
                 {
-                  title: "Réponds",
+                  title: "Choisis",
                   description:
                     "Choisis ta réponse ou utilise le microphone pour répondre à l’oral.",
                   icon: "mic",

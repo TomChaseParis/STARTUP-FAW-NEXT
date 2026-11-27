@@ -37,12 +37,34 @@ const normalizeText = (str: string) =>
 /* COULEURS DES LOCUTEURS                                    */
 /* ========================================================= */
 
-const SPEAKER_STYLES: Record<FillGapsSpeaker, { text: string }> = {
+const SPEAKER_STYLES: Record<
+  FillGapsSpeaker,
+  {
+    text: string;
+  }
+> = {
   conseillere: {
     text: "text-pink-700",
   },
+
   xavier: {
     text: "text-blue-700",
+  },
+
+  papa: {
+    text: "text-indigo-700",
+  },
+
+  maman: {
+    text: "text-rose-700",
+  },
+
+  pierre: {
+    text: "text-amber-700",
+  },
+
+  narration: {
+    text: "text-slate-600",
   },
 };
 
@@ -50,9 +72,16 @@ const SPEAKER_STYLES: Record<FillGapsSpeaker, { text: string }> = {
 /* NOM DES LOCUTEURS                                         */
 /* ========================================================= */
 
-const SPEAKER_LABELS: Record<FillGapsSpeaker, string> = {
+const SPEAKER_LABELS: Record<
+  FillGapsSpeaker,
+  string
+> = {
   conseillere: "L’agence matrimoniale",
   xavier: "Xavier",
+  papa: "Papa",
+  maman: "Maman",
+  pierre: "Pierre",
+  narration: "Narration",
 };
 
 /* ========================================================= */
@@ -208,7 +237,6 @@ const FillGapsEngine: React.FC<Props> = ({
                   backgroundColor: `color-mix(in srgb, ${keyboardColor} 9%, white)`,
                 }}
               >
-
                 {/* EN-TÊTE */}
 
                 <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
@@ -383,13 +411,17 @@ const FillGapsEngine: React.FC<Props> = ({
                       );
                     }
 
-                    /* TEXTE NORMAL */
+                    /* TEXTE NORMAL ET NARRATION */
 
-                    if (part.type === "text") {
+                    if (
+                      part.type === "text" ||
+                      part.type === "narration"
+                    ) {
                       return (
                         <span
                           key={partIndex}
                           className="
+                            whitespace-pre-line
                             break-words
                             text-[16px]
                             leading-relaxed
@@ -403,6 +435,10 @@ const FillGapsEngine: React.FC<Props> = ({
                     }
 
                     /* CHAMP DE RÉPONSE */
+
+                    if (part.type !== "input") {
+                      return null;
+                    }
 
                     const globalIndex =
                       inputsBeforeSentence + localInputIndex;

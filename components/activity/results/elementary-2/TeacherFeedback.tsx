@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -107,28 +108,28 @@ export default function TeacherFeedback({
 
       title = "Pas génial...";
       message =
-        "Mon conseil : réécoute attentivement les consignes, prends le temps de réfléchir à tes réponses et recommence l’exercice. Tu vas progresser !";
+        "Mon conseil : réécoute attentivement le dialogue, analyse tes erreurs et recommence l’exercice. Ce sera mieux la prochaine fois !";
     } else if (score < 75) {
       image = teacherFeedbackImages?.middle ?? defaultImages.middle;
       audio = teacherFeedbackAudios?.middle ?? defaultAudios.middle;
 
       title = "Peut mieux faire...";
       message =
-        "Tu as déjà fait de beaux efforts, mais certaines réponses méritent encore un peu d’attention. Regarde attentivement les corrections et recommence l’exercice. Tu y es presque !";
+        "Tu as bien répondu à la majorité des questions, mais il te reste une marge de progression. Mon conseil : regarde attentivement les corrections et recommence l’exercice. Tu y es presque !";
     } else if (score < 100) {
       image = teacherFeedbackImages?.good ?? defaultImages.good;
       audio = teacherFeedbackAudios?.good ?? defaultAudios.good;
 
       title = "Bon travail !";
       message =
-        "Bravo ! Tu as bien compris l’essentiel. Quelques petites erreurs restent à corriger, mais tu es sur la bonne voie. Continue comme ça !";
+        "L’essentiel est compris. Analyse les quelques erreurs que tu as faites et passe à l’exercice suivant !";
     } else {
       image = teacherFeedbackImages?.perfect ?? defaultImages.perfect;
       audio = teacherFeedbackAudios?.perfect ?? defaultAudios.perfect;
 
       title = "Parfait !";
       message =
-        "Félicitations ! Tu as répondu correctement à toutes les questions. Tu as parfaitement réussi cet exercice. Continue comme ça !";
+        "Tu as bien répondu à toutes les questions. Tu peux passer à l’exercice suivant !";
     }
   }
 
@@ -192,17 +193,20 @@ export default function TeacherFeedback({
         "
       >
         {/* AVATAR D'IRÈNE */}
+
         <div className="shrink-0">
           <TeacherAvatar image={image} />
         </div>
 
         {/* BULLE DE FEEDBACK */}
+
         <div className="w-full min-w-0">
           <TeacherBubble title={title} message={message} />
 
           {/* BARRE DE PROGRESSION */}
+
           <div className="mt-4">
-            <div className="h-2 overflow-hidden rounded-full bg-[#F0E7FF]">
+            <div className="h-2 overflow-hidden rounded-full bg-[#E8EFE6]">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{
@@ -212,11 +216,11 @@ export default function TeacherFeedback({
                   duration: 0.8,
                   ease: "easeOut",
                 }}
-                className="h-full rounded-full bg-gradient-to-r from-[#7C3AED] to-[#A78BFA]"
+                className="h-full rounded-full bg-[#31572C]"
               />
             </div>
 
-            <p className="mt-2 text-right text-sm font-bold text-[#6D28D9]">
+            <p className="mt-2 text-right text-sm font-bold text-[#31572C]">
               {Math.round(score)} % de réussite
             </p>
           </div>

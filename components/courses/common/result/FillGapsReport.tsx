@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Fragment } from "react";
@@ -29,6 +30,22 @@ const SPEAKER_STYLES: Record<
   xavier: {
     text: "text-blue-700",
   },
+
+  papa: {
+    text: "text-indigo-700",
+  },
+
+  maman: {
+    text: "text-rose-700",
+  },
+
+  pierre: {
+    text: "text-amber-700",
+  },
+
+  narration: {
+    text: "text-slate-600",
+  },
 };
 
 const SPEAKER_LABELS: Record<
@@ -37,6 +54,10 @@ const SPEAKER_LABELS: Record<
 > = {
   conseillere: "L’agence matrimoniale",
   xavier: "Xavier",
+  papa: "Papa",
+  maman: "Maman",
+  pierre: "Pierre",
+  narration: "Narration",
 };
 
 const normalizeText = (str: string) =>
@@ -54,21 +75,15 @@ export default function FillGapsReport({
 
   return (
     <div className="w-full min-w-0">
-
-      {/* ===================================================== */}
-      {/* TEXTE COMPLET                                        */}
-      {/* ===================================================== */}
+      {/* TEXTE COMPLET */}
 
       <div className="w-full min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 md:p-7">
-
         <div className="break-words text-[16px] leading-8 text-slate-800 sm:text-[17px]">
-
           {data.sentences.map(
             (
               sentence,
               sentenceIndex,
             ) => {
-
               let currentSpeaker:
                 | FillGapsSpeaker
                 | null = null;
@@ -82,32 +97,23 @@ export default function FillGapsReport({
                       : ""
                   }
                 >
-
                   {sentence.parts.map(
                     (
                       part,
                       partIndex,
                     ) => {
-
-                      /* ===================================== */
-                      /* DIALOGUE                               */
-                      /* ===================================== */
+                      /* DIALOGUE */
 
                       if (
-                        part.type ===
-                        "dialogue"
+                        part.type === "dialogue"
                       ) {
                         const speakerChanged =
-                          currentSpeaker !==
-                          part.speaker;
+                          currentSpeaker !== part.speaker;
 
-                        currentSpeaker =
-                          part.speaker;
+                        currentSpeaker = part.speaker;
 
                         const speakerStyle =
-                          SPEAKER_STYLES[
-                            part.speaker
-                          ];
+                          SPEAKER_STYLES[part.speaker];
 
                         const speakerText =
                           part.value.replace(
@@ -116,10 +122,7 @@ export default function FillGapsReport({
                           );
 
                         return (
-                          <Fragment
-                            key={partIndex}
-                          >
-
+                          <Fragment key={partIndex}>
                             {speakerChanged && (
                               <span className="block h-2" />
                             )}
@@ -131,33 +134,24 @@ export default function FillGapsReport({
                                 ${speakerStyle.text}
                               `}
                             >
-
                               {speakerChanged && (
                                 <span className="font-extrabold">
-                                  {
-                                    SPEAKER_LABELS[
-                                      part.speaker
-                                    ]
-                                  }
+                                  {SPEAKER_LABELS[part.speaker]}
                                   {" : "}
                                 </span>
                               )}
 
                               {speakerText}
-
                             </span>
-
                           </Fragment>
                         );
                       }
 
-                      /* ===================================== */
-                      /* TEXTE NORMAL                            */
-                      /* ===================================== */
+                      /* TEXTE NORMAL ET NARRATION */
 
                       if (
-                        part.type ===
-                        "text"
+                        part.type === "text" ||
+                        part.type === "narration"
                       ) {
                         return (
                           <span
@@ -169,32 +163,26 @@ export default function FillGapsReport({
                         );
                       }
 
-                      /* ===================================== */
-                      /* RÉPONSE                                */
-                      /* ===================================== */
+                      /* RÉPONSE */
+
+                      if (part.type !== "input") {
+                        return null;
+                      }
 
                       const result =
-                        history[
-                          globalInputIndex
-                        ];
+                        history[globalInputIndex];
 
                       const userAnswer =
-                        result?.selectedAnswer ??
-                        "";
+                        result?.selectedAnswer ?? "";
 
                       const correctAnswer =
-                        result?.correctAnswer ??
-                        part.answer;
+                        result?.correctAnswer ?? part.answer;
 
                       const answerIsCorrect =
                         result?.isCorrect ??
                         (
-                          normalizeText(
-                            userAnswer,
-                          ) ===
-                          normalizeText(
-                            correctAnswer,
-                          )
+                          normalizeText(userAnswer) ===
+                          normalizeText(correctAnswer)
                         );
 
                       globalInputIndex++;
@@ -210,10 +198,7 @@ export default function FillGapsReport({
                             align-middle
                           "
                         >
-
-                          {/* ================================= */}
-                          {/* RÉPONSE DE L'ÉLÈVE                 */}
-                          {/* ================================= */}
+                          {/* RÉPONSE DE L'ÉLÈVE */}
 
                           <span
                             className={`
@@ -238,9 +223,7 @@ export default function FillGapsReport({
                             {userAnswer || "—"}
                           </span>
 
-                          {/* ================================= */}
-                          {/* BONNE RÉPONSE SI ERREUR            */}
-                          {/* ================================= */}
+                          {/* BONNE RÉPONSE SI ERREUR */}
 
                           {!answerIsCorrect && (
                             <span
@@ -266,9 +249,7 @@ export default function FillGapsReport({
                             </span>
                           )}
 
-                          {/* ================================= */}
-                          {/* HINT                                */}
-                          {/* ================================= */}
+                          {/* INDICE */}
 
                           {part.hint && (
                             <span
@@ -283,27 +264,20 @@ export default function FillGapsReport({
                               ({part.hint})
                             </span>
                           )}
-
                         </span>
                       );
                     },
                   )}
-
                 </div>
               );
             },
           )}
-
         </div>
-
       </div>
 
-      {/* ===================================================== */}
-      {/* LÉGENDE                                              */}
-      {/* ===================================================== */}
+      {/* LÉGENDE */}
 
       <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-xs sm:justify-start">
-
         <div className="flex items-center gap-2">
           <span className="h-3 w-3 rounded bg-emerald-100 ring-1 ring-emerald-300" />
 
@@ -327,9 +301,7 @@ export default function FillGapsReport({
             Bonne réponse
           </span>
         </div>
-
       </div>
-
     </div>
   );
 }

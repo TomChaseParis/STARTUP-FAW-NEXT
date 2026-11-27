@@ -126,6 +126,7 @@ export default function TransformationTypeSection() {
         >
           {/* INSTRUCTIONS */}
           <TypeInstruction
+          cefrLevel="A2.2"
             activityTitle="3"
             level="elementary-2"
             category="TRANSFORMATION SYNTAXIQUE"

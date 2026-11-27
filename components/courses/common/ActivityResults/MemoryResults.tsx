@@ -201,7 +201,7 @@ export default function MemoryResults({
         <button
           type="button"
           onClick={onNext}
-          className="w-full rounded-xl bg-[#57cc99] px-6 py-3 font-semibold text-white transition hover:bg-[#46b987] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#269b68] sm:w-auto sm:px-8"
+          className="w-full rounded-xl bg-[#31572C] px-6 py-3 font-semibold text-white transition hover:bg-[#264522] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#31572C] sm:w-auto sm:px-8"
         >
           {isLastExercise ? finishLabel : "Exercice suivant →"}
         </button>

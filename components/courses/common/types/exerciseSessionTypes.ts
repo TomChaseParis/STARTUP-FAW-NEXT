@@ -1,3 +1,24 @@
+
+export type ExerciseDialogueSegment =
+  | {
+      type: "text";
+      value: string;
+    }
+  | {
+      type: "answer";
+      questionId: number;
+    };
+
+export interface ExerciseDialogueLine {
+  speaker: string;
+  segments: ExerciseDialogueSegment[];
+}
+
+export interface ExerciseHistoryPresentation {
+  kind: "dialogue";
+  lines: ExerciseDialogueLine[];
+}
+
 export interface ExerciseHistoryItem {
   /**
    * Identifiant de la question
@@ -33,6 +54,13 @@ export interface ExerciseHistoryItem {
    * Temps de réponse (en secondes)
    */
   duration?: number;
+
+  /**
+   * Présentation groupée facultative.
+   * Utilisée notamment pour afficher un dialogue complet
+   * dans un seul bloc de correction.
+   */
+  presentation?: ExerciseHistoryPresentation;
 }
 
 export interface ExerciseSessionResult {
@@ -74,15 +102,10 @@ export interface ExerciseSessionResult {
 
 export interface ExerciseSessionState {
   currentIndex: number;
-
   correctAnswers: number;
-
   history: ExerciseHistoryItem[];
-
   isFinished: boolean;
-
   startedAt: Date;
-
   finishedAt: Date | null;
 }
 

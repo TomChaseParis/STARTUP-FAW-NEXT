@@ -10,5 +10,21 @@ export const elementary2Activity2: ActivityDefinition = {
       id: "exercise-1",
       title: "La famille déménage",
     },
+    {
+      id: "exercise-2",
+      title: "La famille déménage",
+    },
+    {
+      id: "exercise-3",
+      title: "La famille déménage",
+    },
+    {
+      id: "exercise-4",
+      title: "La famille déménage",
+    },
+    {
+      id: "exercise-5",
+      title: "La famille déménage",
+    },
   ],
 };

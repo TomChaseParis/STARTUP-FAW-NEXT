@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -167,6 +168,84 @@ function DialogueCorrection({
 }
 
 /* ========================================================= */
+/* CORRECTION DU TEXTE INLINE                                */
+/* ========================================================= */
+
+function InlineTextCorrection({
+  history,
+}: {
+  history: ExerciseHistoryItem[];
+}) {
+  const presentation = history.find((item) =>
+    item.question.startsWith("[[INLINE_TEXT]]"),
+  );
+
+  if (!presentation) return null;
+
+  const formattedText = presentation.question.replace(
+    "[[INLINE_TEXT]]",
+    "",
+  );
+
+  const answerRows = new Map(
+    history
+      .filter((item) => item.questionId > 0)
+      .map((item) => [item.questionId, item]),
+  );
+
+  const parts = formattedText.split(
+    /\[\[ANSWER:(\d+)\]\]/g,
+  );
+
+  return (
+    <div className="rounded-xl border border-slate-200 bg-[#fcfcfd] p-5 sm:p-7">
+      <p className="mb-5 text-sm font-semibold text-[#102744]">
+        Texte corrigé
+      </p>
+
+      <p className="whitespace-pre-wrap break-words text-base leading-[2.4] text-slate-800">
+        {parts.map((part, index) => {
+          if (index % 2 === 0) {
+            return (
+              <span key={index}>
+                {part}
+              </span>
+            );
+          }
+
+          const answer = answerRows.get(Number(part));
+
+          if (!answer) return null;
+
+          return (
+            <span
+              key={index}
+              className="mx-1 inline-flex flex-wrap items-center gap-1"
+            >
+              {answer.isCorrect ? (
+                <span className="rounded-md border border-emerald-200 bg-emerald-100 px-2 py-0.5 font-bold text-emerald-800">
+                  {answer.selectedAnswer}
+                </span>
+              ) : (
+                <>
+                  <span className="rounded-md border border-red-200 bg-red-100 px-2 py-0.5 font-semibold text-red-800 line-through decoration-2">
+                    {answer.selectedAnswer || "Aucune réponse"}
+                  </span>
+
+                  <span className="rounded-md border border-emerald-200 bg-emerald-100 px-2 py-0.5 font-bold text-emerald-800">
+                    {answer.correctAnswer}
+                  </span>
+                </>
+              )}
+            </span>
+          );
+        })}
+      </p>
+    </div>
+  );
+}
+
+/* ========================================================= */
 /* COMPOSANT PRINCIPAL                                       */
 /* ========================================================= */
 
@@ -223,11 +302,15 @@ export default function ActivityResults({
   );
 
   /* ========================================================= */
-  /* DÉTECTION DU DIALOGUE                                     */
+  /* DÉTECTION DES TYPES DE CORRECTION                         */
   /* ========================================================= */
 
   const isDialogueExercise = result.session.history.some(
     (item) => item.question.startsWith("[[DIALOGUE]]"),
+  );
+
+  const isInlineTextExercise = result.session.history.some(
+    (item) => item.question.startsWith("[[INLINE_TEXT]]"),
   );
 
   const hasSemanticCoherenceResults =
@@ -249,20 +332,21 @@ export default function ActivityResults({
             ? Elementary1TeacherFeedback
             : BeginnerTeacherFeedback;
 
-            const teacherFeedbackProps =
-            teacher === "elementary-1" ||
-            teacher === "elementary-1-activity-2"
-              ? {
-                  score: result.session.score,
-                  completionFeedback,
-                  teacherFeedbackAudios,
-                  isLastExercise,
-                }
-              : {
-                  score: result.session.score,
-                  teacherFeedbackImages,
-                  teacherFeedbackAudios,
-                };
+  const teacherFeedbackProps =
+    teacher === "elementary-1" ||
+    teacher === "elementary-1-activity-2"
+      ? {
+          score: result.session.score,
+          completionFeedback,
+          teacherFeedbackAudios,
+          isLastExercise,
+        }
+      : {
+          score: result.session.score,
+          teacherFeedbackImages,
+          teacherFeedbackAudios,
+        };
+
   /* ========================================================= */
   /* COULEUR DU BOUTON                                         */
   /* ========================================================= */
@@ -272,11 +356,12 @@ export default function ActivityResults({
       ? "bg-[#7C3AED] hover:bg-[#6D28D9]"
       : teacher === "intermediate-1"
         ? "bg-[rgb(56,189,248)] hover:bg-[rgb(14,165,233)]"
-        : teacher === "elementary-1" ||
-            teacher === "elementary-1-activity-2" ||
-            teacher === "elementary-2"
-          ? "bg-[rgb(87,204,153)] hover:bg-[rgb(70,185,135)]"
-          : "bg-amber-500 hover:bg-amber-600";
+        : teacher === "elementary-2"
+          ? "bg-[#31572C] hover:bg-[#264522]"
+          : teacher === "elementary-1" ||
+              teacher === "elementary-1-activity-2"
+            ? "bg-[rgb(87,204,153)] hover:bg-[rgb(70,185,135)]"
+            : "bg-amber-500 hover:bg-amber-600";
 
   return (
     <section
@@ -346,37 +431,33 @@ export default function ActivityResults({
 
       {/* MESSAGE DE FIN */}
 
-   
-{/* MESSAGE DE FIN */}
+      {isLastExercise && (
+        <div
+          className="
+            mt-8
+            rounded-2xl
+            border
+            border-emerald-200
+            bg-emerald-50
+            px-5
+            py-4
+            text-center
+            sm:mt-10
+          "
+        >
+          <p className="text-base font-bold text-emerald-800">
+            {feedbackVariant === "lesson"
+              ? "🎉 Leçon terminée !"
+              : "🎉 Activité terminée !"}
+          </p>
 
-{isLastExercise && (
-  <div
-    className="
-      mt-8
-      rounded-2xl
-      border
-      border-emerald-200
-      bg-emerald-50
-      px-5
-      py-4
-      text-center
-      sm:mt-10
-    "
-  >
-    <p className="text-base font-bold text-emerald-800">
-      {feedbackVariant === "lesson"
-        ? "🎉 Leçon terminée !"
-        : "🎉 Activité terminée !"}
-    </p>
-
-    <p className="mt-1 text-sm text-emerald-700">
-      {feedbackVariant === "lesson"
-        ? "Bravo ! Tu as terminé tous les exercices de cette leçon."
-        : "Bravo ! Tu as terminé tous les exercices de cette activité."}
-    </p>
-  </div>
-)}
-
+          <p className="mt-1 text-sm text-emerald-700">
+            {feedbackVariant === "lesson"
+              ? "Bravo ! Tu as terminé tous les exercices de cette leçon."
+              : "Bravo ! Tu as terminé tous les exercices de cette activité."}
+          </p>
+        </div>
+      )}
 
       {/* ===================================================== */}
       {/* CORRECTION DÉTAILLÉE                                  */}
@@ -384,6 +465,7 @@ export default function ActivityResults({
 
       {(detailedReport ||
         isDialogueExercise ||
+        isInlineTextExercise ||
         hasSemanticCoherenceResults) && (
         <div
           className="
@@ -471,7 +553,6 @@ export default function ActivityResults({
 
           {showDetailedReport && (
             <div className="space-y-8 border-t border-slate-200 bg-white p-4 sm:p-6 md:p-8">
-
               {/* CORRECTION PERSONNALISÉE */}
 
               {detailedReport && (
@@ -487,6 +568,36 @@ export default function ActivityResults({
                   history={result.session.history}
                   categories={semanticCoherenceCategories}
                 />
+              )}
+
+              {/* CORRECTION DU TEXTE INLINE */}
+
+              {isInlineTextExercise && (
+                <div>
+                  <div className="mb-5 border-b border-slate-200 pb-4">
+                    <h4 className="text-lg font-extrabold text-[#102744]">
+                      Correction de la phonie-graphie
+                    </h4>
+
+                    <p className="mt-1 text-sm leading-relaxed text-slate-500">
+                      Voici le texte complet avec tes réponses et les corrections.
+                    </p>
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        ✓ Bonne réponse
+                      </span>
+
+                      <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+                        ✕ Ta réponse
+                      </span>
+                    </div>
+                  </div>
+
+                  <InlineTextCorrection
+                    history={result.session.history}
+                  />
+                </div>
               )}
 
               {/* CORRECTION DU DIALOGUE */}
@@ -527,6 +638,7 @@ export default function ActivityResults({
 
       {!detailedReport &&
         !isDialogueExercise &&
+        !isInlineTextExercise &&
         !hasSemanticCoherenceResults &&
         showAnswerHistory && (
           <AnswerHistory history={result.session.history} />

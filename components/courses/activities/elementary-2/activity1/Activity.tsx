@@ -151,6 +151,7 @@ export default function Activity() {
     <ActivityLayout activity={elementary2Activity1}>
       {/* PRÉSENTATION DE L'ACTIVITÉ */}
       <LessonBlock
+      cefrLevel="A2.2"
         level="elementary-2"
         title="L’emploi du temps mouvementé de Clara"
         description="Dans cette activité, vous allez découvrir la journée quotidienne de Clara. Vous réviserez les heures, les moments de la journée, les verbes pronominaux et la conjugaison au présent."

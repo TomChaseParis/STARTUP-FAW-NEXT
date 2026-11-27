@@ -136,10 +136,11 @@ export default function QuestionMatchingSection({
             className="w-full min-w-0 scroll-mt-10"
           >
             <ListenAndSpeak
+            cefrLevel="A2.2"
               activityTitle="2"
               level="elementary-2"
               category="PHRASES INTERROGATIVES"
-              title="POSE LA BONNE QUESTION À CLARA !"
+              title="POSE LA BONNE QUESTION À CLARA"
               description="Pose à Clara la question associée à chaque vignette. Si ta question est la bonne, elle te répondra !"
               imageSrc="/images/courses/elementary2/activity1/exercise-2/listenandspeak.png"
               imageAlt="Illustration de l'exercice sur les questions interrogatives."

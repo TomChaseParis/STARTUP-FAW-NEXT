@@ -1,10 +1,18 @@
 export type FillGapsSpeaker =
   | "conseillere"
-  | "xavier";
+  | "xavier"
+  | "papa"
+  | "maman"
+  | "pierre"
+  | "narration";
 
 export type GapPart =
   | {
       type: "text";
+      value: string;
+    }
+  | {
+      type: "narration";
       value: string;
     }
   | {

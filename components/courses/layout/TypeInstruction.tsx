@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { ReactNode } from "react";
@@ -12,6 +11,7 @@ type TypeInstructionProps = Omit<
   "category" | "steps" | "children"
 > & {
   level: ExerciseInstructionProps["level"];
+  cefrLevel?: string;
   category?: string;
   steps?: ExerciseInstructionProps["steps"];
   children?: ReactNode;
@@ -34,6 +34,7 @@ const DEFAULT_STEPS: ExerciseInstructionProps["steps"] = [
 
 export default function TypeInstruction({
   level,
+  cefrLevel = "",
   imageSrc,
   imageAlt,
   activityTitle,
@@ -51,6 +52,7 @@ export default function TypeInstruction({
   return (
     <ExerciseInstruction
       level={level}
+      cefrLevel={cefrLevel}
       imageSrc={imageSrc}
       imageAlt={imageAlt}
       activityTitle={activityTitle}

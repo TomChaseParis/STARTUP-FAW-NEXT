@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Fragment, useEffect, useRef } from "react";
@@ -67,6 +68,7 @@ export default function SongFillGapsEngine({
   return (
     <section className="relative mt-8 overflow-hidden rounded-[28px] border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-cyan-50 px-4 py-6 shadow-[0_12px_40px_rgba(14,165,233,0.10)] sm:px-6 sm:py-8">
       {/* Décor musical */}
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-4 -top-5 rotate-12 text-sky-100"
@@ -83,6 +85,7 @@ export default function SongFillGapsEngine({
 
       <div className="relative mx-auto max-w-4xl">
         {/* Progression */}
+
         <div className="mb-6 rounded-2xl border border-sky-100 bg-white/80 p-4 shadow-sm">
           <div className="mb-2 flex items-center justify-between gap-3 text-sm">
             <span className="font-medium text-slate-600">
@@ -110,7 +113,8 @@ export default function SongFillGapsEngine({
           </div>
         </div>
 
-        {/* Paroles : un seul bloc pour toutes les phrases */}
+        {/* Paroles */}
+
         <div className="rounded-[24px] border border-sky-100 bg-white/90 p-4 shadow-sm sm:p-6 md:p-8">
           <div className="mb-5 flex items-center gap-2 border-b border-sky-100 pb-4">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
@@ -121,22 +125,31 @@ export default function SongFillGapsEngine({
               <p className="font-bold text-slate-800">
                 Les paroles de la chanson
               </p>
+
               <p className="text-xs text-slate-500">
                 Complète chaque espace avec le bon verbe.
               </p>
             </div>
           </div>
 
-          {/* Une seule carte intérieure, sans carte par phrase */}
+          {/* Bloc unique des paroles */}
+
           <div className="rounded-2xl bg-gradient-to-r from-sky-50/80 to-cyan-50/50 px-3 py-4 leading-[2.7] ring-1 ring-sky-100/80 sm:px-5 sm:py-5">
             {sentences.map((sentence, sentenceIndex) => (
               <Fragment key={sentence.id}>
                 {sentenceIndex > 0 && (
-                  <span className="whitespace-pre-line">{"\n\n"}</span>
+                  <span className="whitespace-pre-line">
+                    {"\n\n"}
+                  </span>
                 )}
 
                 {sentence.parts.map((part, partIndex) => {
-                  if (part.type === "text") {
+                  /* TEXTE NORMAL ET NARRATION */
+
+                  if (
+                    part.type === "text" ||
+                    part.type === "narration"
+                  ) {
                     return (
                       <span
                         key={`${sentence.id}-text-${partIndex}`}
@@ -146,6 +159,8 @@ export default function SongFillGapsEngine({
                       </span>
                     );
                   }
+
+                  /* DIALOGUE */
 
                   if (part.type === "dialogue") {
                     return (
@@ -158,10 +173,19 @@ export default function SongFillGapsEngine({
                     );
                   }
 
+                  /* CHAMP DE RÉPONSE */
+
+                  if (part.type !== "input") {
+                    return null;
+                  }
+
                   const inputIndex = globalInputIndex++;
+
                   const value = answers[inputIndex] || "";
+
                   const isCorrect =
-                    normalizeText(value) === normalizeText(part.answer);
+                    normalizeText(value) ===
+                    normalizeText(part.answer);
 
                   return (
                     <Fragment key={`${sentence.id}-input-${partIndex}`}>
@@ -219,6 +243,7 @@ export default function SongFillGapsEngine({
         </div>
 
         {/* Vérification */}
+
         <div className="mt-7 flex flex-col items-center gap-3">
           <p className="text-center text-sm text-slate-500">
             {allAnswered
